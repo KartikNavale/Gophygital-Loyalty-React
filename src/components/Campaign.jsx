@@ -10,7 +10,7 @@ const Campaign = () => {
     <>
       <Header />
       <Sidebar />
-      <div className="website-content">
+      <div className='website-content'>
         <div className="module-data-section mt-2">
           <p className="pointer">
             <span className="text-secondary">Campaign</span> &gt; Campaign List
