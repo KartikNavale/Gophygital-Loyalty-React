@@ -18,7 +18,7 @@ const Segment = () => {
           <h5 class="mb-3">Segment</h5>
           <div className="d-flex justify-content-between loyalty-header">
             <div>
-                <Link to="/TierSetting">
+                <Link to="/NewSegment">
               <button
                 class="purple-btn1 rounded-3 px-3"
                 fdprocessedid="xn3e6n"
@@ -67,8 +67,8 @@ const Segment = () => {
               </button>
             </div>
           </div>
-          <div class="tbl-container mx-3 mt-4">
-          <table class="w-100">
+          <div className="tbl-container mx-3 mt-4">
+          <table className="w-100">
             <thead>
                 <tr>
                     <th>Segment Name</th>
