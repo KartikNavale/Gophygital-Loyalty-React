@@ -64,8 +64,8 @@ const Members = () => {
               </button>
             </div>
           </div>
-          <div class="tbl-container mx-3 mt-4">
-            <table class="w-100">
+          <div className="tbl-container mx-3 mt-4">
+            <table className="w-100">
               <thead>
                 <tr>
                   <th>Member ID</th>

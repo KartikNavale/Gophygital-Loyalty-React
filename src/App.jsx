@@ -5,6 +5,9 @@ import MemberDetails from './components/MemberDetails';
 import RuleEngine from './components/RuleEngine';
 import TierSetting from './components/TierSetting';
 import Segment from './components/Segment';
+import Campaign from './components/Campaign';
+import NewCampaign from './components/NewCampaign';
+import NewSegment from './components/NewSegment';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -16,6 +19,9 @@ function App() {
           <Route path='/Members' element={<Members />} />
           <Route path='/Tiers' element={<Tiers />} />
           <Route path='/Segment' element={<Segment />} />
+          <Route path='/Campaign' element={<Campaign />} />
+          <Route path='/NewSegment' element={<NewSegment />} />
+          <Route path='/NewCampaign' element={<NewCampaign />} />
           <Route path='/MemberDetails' element={<MemberDetails/>} />
           <Route path='/RuleEngine' element={<RuleEngine />} />
           <Route path='/TierSetting' element={<TierSetting />} />

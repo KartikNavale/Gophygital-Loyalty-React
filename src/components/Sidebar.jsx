@@ -73,10 +73,11 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <a className="ps-4" href="#">
+                <Link className="ps-4" to="/Campaign">
                   Campaign
-                </a>
+                </Link>
               </li>
+              
             </ul>
           </li>
           <li className="nav-item">
@@ -102,7 +103,7 @@ const Sidebar = () => {
               </li>
             </ul>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a
               className="text nav-link d-flex justify-content-between"
               data-bs-toggle="collapse"
@@ -129,37 +130,37 @@ const Sidebar = () => {
                 </a>
               </li>
             </ul>
-          </li>
-          <li className="nav-item">
+          </li> */}
+          {/* <li className="nav-item">
             <a className="nav-link" aria-current="page" href="#">
               <img alt="" src="../images/setting.svg" />
               <span className="text">Update mapping</span>
             </a>
-          </li>
-          <li className="nav-item">
+          </li> */}
+          {/* <li className="nav-item">
             <a className="nav-link" aria-current="page" href="#">
               <img alt="" src="../images/contractor.svg" />
               <span className="text">Contractor</span>
             </a>
-          </li>
-          <li className="nav-item">
+          </li> */}
+          {/* <li className="nav-item">
             <a className="nav-link" aria-current="page" href="#">
               <img alt="" src="../images/import.svg" />
               <span className="text">Import</span>
             </a>
-          </li>
-          <li className="nav-item">
+          </li> */}
+          {/* <li className="nav-item">
             <a className="nav-link" aria-current="page" href="#">
               <img alt="" src="../images/export.svg" />
               <span className="text">Export</span>
             </a>
-          </li>
-          <li className="nav-item">
+          </li> */}
+          {/* <li className="nav-item">
             <a className="nav-link" aria-current="page" href="#">
               <img alt="" src="../images/unit.svg" />
               <span className="text">Export Unit</span>
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
     </>
