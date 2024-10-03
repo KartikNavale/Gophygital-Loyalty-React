@@ -6,7 +6,7 @@ const Footer = () => {
    <>
    <footer className="footer">
   <p className="">
-    Powered by <img src="../images/go-logo.JPG" />
+    Powered by <img alt="logo" class="go-logo mx-3 my-2" src="/GophygitalLogo1.svg" />
   </p>
 </footer>
 
