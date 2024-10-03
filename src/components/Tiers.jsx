@@ -15,12 +15,12 @@ const Tiers = () => {
         <p className="pointer">
             <span className="text-secondary">Tiers</span> &gt; Tier List
           </p>
-          <h5 class="mb-3">Tiers</h5>
+          <h5 className="mb-3">Tiers</h5>
           <div className="d-flex justify-content-between loyalty-header">
             <div>
                 <Link to="/TierSetting">
               <button
-                class="purple-btn1 rounded-3 px-3"
+                className="purple-btn1 rounded-3 px-3"
                 fdprocessedid="xn3e6n"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
@@ -30,7 +30,7 @@ const Tiers = () => {
                   width="19"
                   height="19"
                   fill="currentColor"
-                  class="bi bi-plus mb-1"
+                  className="bi bi-plus mb-1"
                   viewBox="0 0 16 16"
                 >
                   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
@@ -50,7 +50,7 @@ const Tiers = () => {
                 />
               </div>
               <button
-                class="purple-btn1 rounded-3 px-3"
+                className="purple-btn1 rounded-3 px-3"
                 fdprocessedid="xn3e6n"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
@@ -58,7 +58,7 @@ const Tiers = () => {
                 Go!
               </button>
               <button
-                class="purple-btn2 rounded-3 mt-2"
+                className="purple-btn2 rounded-3 mt-2"
                 fdprocessedid="xn3e6n"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"

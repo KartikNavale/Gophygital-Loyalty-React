@@ -61,8 +61,8 @@ const NewCampaign = () => {
           <div className='mt-2'>
             <p className='fw-bold'>Points Criteria <span>*</span></p>
           <p className="">
-                    <input class="align-middle mx-2" type="checkbox" />
-                    <span class="align-middle">Send points to existing members.</span>
+                    <input className="align-middle mx-2" type="checkbox" />
+                    <span className="align-middle">Send points to existing members.</span>
                   </p>
           </div>
           <div className='mt-5'>

@@ -14,7 +14,7 @@ const TierSetting = () => {
     <p className="pointer">
             <span className="text-secondary">Tiers</span> &gt; Tier Setting
           </p>
-          <h5 class="mb-3">Tier Setting</h5>
+          <h5 className="mb-3">Tier Setting</h5>
         </div>
         <Footer />
         </div>
