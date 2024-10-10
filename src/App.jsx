@@ -8,6 +8,10 @@ import Segment from './components/Segment';
 import Campaign from './components/Campaign';
 import NewCampaign from './components/NewCampaign';
 import NewSegment from './components/NewSegment';
+import ViewRuleEngine from './components/ViewRuleEngine';
+import CreateRuleEngine from './components/CreateRuleEngine'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';  
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -24,6 +28,8 @@ function App() {
           <Route path='/NewCampaign' element={<NewCampaign />} />
           <Route path='/MemberDetails' element={<MemberDetails/>} />
           <Route path='/RuleEngine' element={<RuleEngine />} />
+          <Route path='/CreateRuleEngine' element={<CreateRuleEngine />} />
+          <Route path='/ViewRuleEngine' element={<ViewRuleEngine />} />
           <Route path='/TierSetting' element={<TierSetting />} />
         </Routes>
       </div>

@@ -3089,3 +3089,41 @@ section select {
 }
 
 /* above section is for module navigation */
+
+/* kartik css for loyalty */
+.border-btm {
+  border-bottom: 1px solid #00000077;
+}
+.setRuleCard {
+  background-color: #ec6e4143;
+  color: #e95420;
+}
+.setRuleCard2 {
+  background-color: #9ef35954;
+  color: #9CE463;
+  border: 0;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+.setRuleCard2 :hover {
+  background-color: #9ef35954;
+  color: #87ea37;
+  font-size: 14px;
+}
+.And-btn {
+ background-color: #D341A51A;
+ padding: 0 10px;
+}
+.and-or-btn {
+  background-color: #5E27503D;
+  color: #5E2750;
+  border-radius: 5px;
+  padding: 0px 19px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
+/* kartik css for loyalty */
