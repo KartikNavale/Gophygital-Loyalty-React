@@ -67,32 +67,36 @@ const NewTier=()=>{
       </div>
     </form>
 
-    <div className="  justify-content-center align-item-center m-4">
-             <button type="submit" className="btn purple-btn1">
-             Add New Tier
-             </button>
-             
-         </div>
+    
+         <div className="row m-2 justify-content-start">
+                       
+                        <div className="col-md-2">
+                       
+                            <button class="purple-btn1 w-100" fdprocessedid="u33pye">Add New Tier</button>
+                           
+                        </div>
+                        
+                    </div>
 
          
   
   </div>
 
+          
+              <div className="row mt-2 justify-content-center">
+                       
+                       <div className="col-md-2">
+                       
+                           <button class="purple-btn1 w-100" fdprocessedid="u33pye">Submit</button>
+                          
+                       </div>
+                       
+                       <div className="col-md-2">
+                           <button className="purple-btn2 w-100" fdprocessedid="af5l5g">Cancel</button>
+                       </div>
+                   </div>
 
-  <div className="d-flex justify-content-center align-item-center  mt-1">
-
-  <div className="  justify-content-center align-item-center">
-            
-            <button type="submit" className="btn purple-btn1 px-4 ">
-              Submit
-             </button>
-             <button type="button" className="btn purple-btn2 px-2">
-               Cancel
-             </button>
-             
-         </div>
-             
-         </div>
+  
 
           </div>
     </>

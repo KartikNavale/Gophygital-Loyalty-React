@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import '../components/style.css';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import { Link } from 'react-router-dom';
 // import Footer from './Footer'; // Uncomment if needed
 
 const TierSetting = () => {
@@ -32,7 +33,7 @@ const TierSetting = () => {
 
         {/* Buttons */}
 
-        <div className="d-flex justify-content-center align-item-center  mb-5">
+        {/* <div className="d-flex justify-content-center align-item-center  mb-5">
 
            <div className="justify-content-center align-item-center">
             
@@ -45,7 +46,20 @@ const TierSetting = () => {
              
             </div>
              
-         </div>
+         </div> */}
+
+<div className="row mt-2 justify-content-center">
+                       
+                        <div className="col-md-2">
+                        <Link to='/NewTier'>
+                            <button class="purple-btn1 w-100" fdprocessedid="u33pye">Next</button>
+                            </Link>
+                        </div>
+                        
+                        <div className="col-md-2">
+                            <button className="purple-btn2 w-100" fdprocessedid="af5l5g">Cancel</button>
+                        </div>
+                    </div>
 
         {/* <Footer /> */} {/* Uncomment if needed */}
       </div>

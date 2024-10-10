@@ -3141,9 +3141,9 @@ opacity: 0px;
 /* tier setting */
 
 .tier-setting-card {
-  margin-bottom: 20px;
-  background-color: #e954201a;
-  border: none;
+  margin-bottom: 20px !important;
+  background-color: #e954201a !important;
+  border: none !important
 }
 /* .... */
 

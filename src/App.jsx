@@ -13,6 +13,7 @@ import CreateRuleEngine from './components/ViewRuleEngine'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';  
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NewTier from './components/NewTier';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path='/CreateRuleEngine' element={<CreateRuleEngine />} />
           <Route path='/ViewRuleEngine' element={<ViewRuleEngine />} />
           <Route path='/TierSetting' element={<TierSetting />} />
+          <Route path='/NewTier' element={<NewTier />} />
         </Routes>
       </div>
     </Router>
