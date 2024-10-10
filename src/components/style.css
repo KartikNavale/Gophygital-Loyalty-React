@@ -11,7 +11,7 @@ body {
   cursor: pointer;
 }
 .pointer-k:hover {
-  background-color: #5E2750!important;
+  background-color: #5e2750 !important;
   color: #ffff;
 }
 
@@ -234,12 +234,11 @@ position: absolute;
   text-align: left;
   list-style: none;
   background-image: linear-gradient(to bottom right, #77216f, #39102e);
-  border: 1px solid #5E2750;
+  border: 1px solid #5e2750;
   background-clip: padding-box;
   /* border: 1px solid rgba(0, 0, 0, 0.125); */
   border-radius: 0.25rem;
 }
- 
 
 .dropdown-menu.show {
   display: block;
@@ -576,7 +575,7 @@ fieldset {
   background-color: white !important;
   border-color: #dee2e6 #dee2e6 #e95420 #dee2e6 !important;
 }
- 
+
 .nav-tabs button {
   color: #707070 !important;
   background-color: #f8f8f8 !important;
@@ -1380,7 +1379,7 @@ section ul {
   border: 1px solid #b4a6b0;
 }
 .flats-container-margin {
-  margin-left: 75px!important;
+  margin-left: 75px !important;
 }
 
 .flats-container-grid-data a {
@@ -1770,7 +1769,7 @@ section ul {
 
 .flat-type-container input[type="text"],
 .gray-border-input {
-  border: 1px solid lightgray!important;
+  border: 1px solid lightgray !important;
   padding: 3px;
   border-radius: 3px;
 }
@@ -2149,7 +2148,6 @@ input[type="checkbox"].violet-check {
 /* checklist dependent start */
 
 .div-sec1-k {
-  
   overflow: auto;
   max-height: 467px;
 }
@@ -2349,14 +2347,14 @@ input[type="checkbox"].violet-check {
   background-color: pink;
   margin: 7px 20px;
   border-radius: 5px;
-  color: #5E2750;
+  color: #5e2750;
 }
 .accordion-button-bg {
   background-color: #f6eff4;
   padding: 0;
 }
 .accordion-button-bg:focus {
-  background-color: #f6eff4!important;
+  background-color: #f6eff4 !important;
 }
 .padding-input {
   padding-left: 2rem;
@@ -2385,7 +2383,7 @@ input[type="checkbox"].violet-check {
   margin: 7px 0 0 5px;
 }
 .post-activity {
-  font-weight: 600!important;
+  font-weight: 600 !important;
 }
 /* add project css start */
 .addproject-form {
@@ -2563,7 +2561,7 @@ input[type="checkbox"].violet-check {
   border: 1px solid !important;
 }
 .pro-associated {
-  height: 250px!important;
+  height: 250px !important;
 }
 /* USER section start */
 .width83 {
@@ -2595,7 +2593,6 @@ input[type="checkbox"].violet-check {
 }
 .role-td {
   text-align: center;
-  
 }
 /* ROLE section start */
 /* CHECKLIST section start */
@@ -2605,11 +2602,11 @@ input[type="checkbox"].violet-check {
   padding: 1.5px 0px 0px 1.5px;
 }
 .addFocus {
-  border: 1px solid red!important;
+  border: 1px solid red !important;
 }
 .active-dark {
-  background-color: #5E2750!important;
-  color: #fff!important;
+  background-color: #5e2750 !important;
+  color: #fff !important;
 }
 /* CHECKLIST section end */
 .checkbox-edit {
@@ -2620,15 +2617,15 @@ input[type="checkbox"].violet-check {
 
 /* Home snagging start */
 .unit-btn {
-  background-color: #ffff!important;
+  background-color: #ffff !important;
   color: #5e2750;
 }
 .accordion-head {
   color: black;
 }
 .collaps-img {
- display: flex;
-overflow-x: auto;
+  display: flex;
+  overflow-x: auto;
 }
 .cpllaps-img-child {
   padding-right: 10px;
@@ -2639,7 +2636,7 @@ overflow-x: auto;
 /* new sidebar css start */
 .collapse-logo {
   padding-left: 23px;
-     transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 .div-sec1-2-sec {
   overflow-y: auto;
@@ -2800,13 +2797,12 @@ overflow-x: auto;
   padding: 4px 60px 4px 4px;
 }
 
-
 /* Match the column css start */
 .stems,
 .options {
   width: 40%;
-    margin-right: 5%;
-    float: left;
+  margin-right: 5%;
+  float: left;
 }
 
 /* .stems li,
@@ -3090,20 +3086,17 @@ section select {
 
 /* above section is for module navigation */
 
-
 /* section is for select option */
 .custom-select {
   border: none; /* Remove the border */
   height: 30px; /* Adjust height as needed */
-  padding: 0.20rem; /* Adjust padding */
-  font-size: 0.850rem; /* Adjust font size */
+  padding: 0.2rem; /* Adjust padding */
+  font-size: 0.85rem; /* Adjust font size */
 }
-
-
 
 /* modal */
 /* .modal-content { */
-  /* border-radius: 0; Remove rounding from corners */
+/* border-radius: 0; Remove rounding from corners */
 /* } */
 
 /* .modal-btn{
@@ -3119,23 +3112,19 @@ opacity: 0px;
 } */
 /* Above section is for modal */
 
-
-
 /* Member details */
-.member-detail-color{
-  color: #6C757D;
+.member-detail-color {
+  color: #6c757d;
 }
 
-.middle-box-text{
-font-size: 16px;
-line-height: 20px;
- height:20px;
-width:56px;
-text-align: center;
-border: #E1E1E1;
+.middle-box-text {
+  font-size: 16px;
+  line-height: 20px;
+  height: 20px;
+  width: 56px;
+  text-align: center;
+  border: #e1e1e1;
 }
-
-
 
 .no-top-left-shadow {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.16), 0px 0px 0 rgba(255, 255, 255, 0); /* Remove shadow from top and left */
@@ -3143,20 +3132,54 @@ border: #E1E1E1;
   border-left: 0px;
 }
 
-
 .form-check-input:checked {
   background-color: orange; /* Change the background color to orange */
   border-color: orange; /* Change the border color to orange */
 }
 /* Above section is for member details */
 
-
 /* tier setting */
 
-.tier-setting-card{
-   margin-bottom: 20px;
-   background-color: #E954201A;
-   border: none
+.tier-setting-card {
+  margin-bottom: 20px;
+  background-color: #e954201a;
+  border: none;
 }
 /* .... */
 
+/* kartik css for loyalty */
+.border-btm {
+  border-bottom: 1px solid #00000077;
+}
+.setRuleCard {
+  background-color: #ec6e4143;
+  color: #e95420;
+}
+.setRuleCard2 {
+  background-color: #9ef35954;
+  color: #9ce463;
+  border: 0;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 5px;
+}
+.setRuleCard2 :hover {
+  background-color: #9ef35954;
+  color: #87ea37;
+  font-size: 14px;
+}
+.And-btn {
+  background-color: #d341a51a;
+  padding: 0 10px;
+}
+
+.and-or-btn {
+  background-color: #5e27503d;
+  color: #5e2750;
+  border-radius: 5px;
+  padding: 0px 19px;
+  font-size: 16px;
+  font-weight: 700;
+}
+/* kartik css for loyalty */
