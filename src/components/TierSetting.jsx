@@ -1,25 +1,105 @@
-import React from 'react'
-import '../components/style.css'
-import Header from './Header'
-import Sidebar from './Sidebar'
-import Footer from './Footer'
+
+import React, { useState } from 'react';
+import '../components/style.css';
+import Header from './Header';
+import Sidebar from './Sidebar';
+// import Footer from './Footer'; // Uncomment if needed
 
 const TierSetting = () => {
   return (
     <>
-    <Header/>
-    <Sidebar/>
-    <div className="website-content">
-    <div className="module-data-section mt-2">
-    <p className="pointer">
+      <Header />
+      <Sidebar />
+      <div className="website-content d-flex flex-column vh-100">
+        <div className="module-data-section mt-2 flex-grow-1">
+          <p className="pointer">
             <span className="text-secondary">Tiers</span> &gt; Tier Setting
           </p>
-          <h5 className="mb-3">Tier Setting</h5>
-        </div>
-        <Footer />
-        </div>
-    </>
-  )
-}
 
-export default TierSetting
+          {/* Tier setting */}
+          <div className="go-shadow mx-3 no-top-left-shadow">
+            <h5 className="d-flex">
+              <span className="title mt-3">TIER SETTING</span>
+            </h5>
+            <p className='mt-5 ms-4'>Point Accumulation Timeframe</p>
+            <p className='ms-4 text-muted'>Establish how members enter into higher tiers on points earning and time frame.</p>
+          </div>
+
+          {/* Card */}
+          <RoundRadioButtonCard />
+          {/* ... */}
+        </div>
+
+        {/* Buttons */}
+
+        <div className="d-flex justify-content-center align-item-center  mb-5">
+
+           <div className="justify-content-center align-item-center">
+            
+            <button type="button" className="btn purple-btn1 px-4 ">
+              Next
+             </button>
+             <button type="button" className="btn purple-btn2 px-4">
+               Cancel
+             </button>
+             
+            </div>
+             
+         </div>
+
+        {/* <Footer /> */} {/* Uncomment if needed */}
+      </div>
+    </>
+  );
+};
+
+const RoundRadioButtonCard = () => {
+  const [selected, setSelected] = useState(null);
+
+  // Define options with descriptions
+  const options = [
+    {
+      value: 'option1',
+      label: 'Lifetime',
+      description: 'Lifetime points will help members advance to higher tiers.',
+    },
+    {
+      value: 'option2',
+      label: 'Rolling Year',
+      description: 'Tier upgrades by earned points from current month to pretending month the following year.',
+    },
+  ];
+
+  const handleClick = (value) => {
+    setSelected(value);
+  };
+
+  return (
+    <div className="container">
+      {options.map((option) => (
+        <div className="card m-4 tier-setting-card" key={option.value}>
+          <div className="card-body">
+            <div className='d-flex flex-column align-items-start'>
+              <div
+                onClick={() => handleClick(option.value)}
+                className='d-flex align-items-center m-2'
+              >
+                <svg width="30" height="30">
+                  {/* Outer circle (button) */}
+                  <circle cx="15" cy="15" r="10" fill="none" stroke="#e95420" strokeWidth="2" />
+                  {/* Inner circle (selected) */}
+                  {selected === option.value && <circle cx="15" cy="15" r="7" fill="#e95420" />}
+                </svg>
+                <h5 className="card-title mb-0 ps-3">{option.label}</h5>
+              </div>
+              {/* Always display the description for the selected option */}
+              <p className="text-muted ms-3">{option.description}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default TierSetting;
