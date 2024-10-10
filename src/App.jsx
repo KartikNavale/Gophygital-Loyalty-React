@@ -8,8 +8,8 @@ import Segment from './components/Segment';
 import Campaign from './components/Campaign';
 import NewCampaign from './components/NewCampaign';
 import NewSegment from './components/NewSegment';
-import ViewRuleEngine from './components/ViewRuleEngine';
-import CreateRuleEngine from './components/CreateRuleEngine'
+import ViewRuleEngine from './components/CreateRuleEngine';
+import CreateRuleEngine from './components/ViewRuleEngine'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';  
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
