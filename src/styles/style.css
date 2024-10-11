@@ -3186,4 +3186,24 @@ body {
     display: flex;
   }
   /* kartik css for loyalty */
+
+
+
+  /* section is for create rule engine */
+
+
+
+  /* Remove box shadow from the select element */
+.shadow-none {
+  box-shadow: none !important; /* Ensures no shadow */
+}
+
+/* Optional: Style the focus state */
+.form-select:focus {
+  box-shadow: none; /* No shadow on focus */
+  border-color: transparent; /* Optional: makes the border color transparent */
+}
+
+
+  /* create rule engine end */
   
