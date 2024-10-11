@@ -1,4 +1,6 @@
 import './App.css';
+import './styles/style.css';
+
 import Members from './pages/members';
 import Tiers from './pages/tier';
 import MemberDetails from './pages/member-details';

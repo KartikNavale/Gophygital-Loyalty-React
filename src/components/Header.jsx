@@ -10,13 +10,8 @@ const Header = () => {
   const signout = () => {
     console.log('Signing out...');
   
-    // Remove the spree_api_key from sessionStorage
     sessionStorage.removeItem('spree_api_key');
-  
-   
-  
-    // Navigate to the login page
-    navigate('/login');
+      navigate('/login');
   };
   return (
      <>
