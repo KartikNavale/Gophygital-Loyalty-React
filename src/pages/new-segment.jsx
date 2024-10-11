@@ -68,6 +68,7 @@ const NewSegment = () => {
             </option>
             <option value="0">Building1</option>
             <option value="1">Building2</option>
+            <option value="1">Building3</option>
           </select>
         </fieldset>
             </div>
