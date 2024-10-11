@@ -1,8 +1,8 @@
 import React from "react";
-import "../components/style.css";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
+import "../styles/style.css";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 
 const RuleEngine = () => {
@@ -18,7 +18,7 @@ const RuleEngine = () => {
           <h5 class="mb-3">Rule List</h5>
           <div className="d-flex justify-content-between loyalty-header">
             <div>
-            <Link to="/ViewRuleEngine">
+            <Link to="/view-rule-engine">
                 <button
                   class="purple-btn1 rounded-3 px-3"
                   fdprocessedid="xn3e6n"
@@ -109,7 +109,7 @@ const RuleEngine = () => {
                     </span>
                   </td>
                   <td>
-                  <Link to="/CreateRuleEngine">
+                  <Link to="/create-rule-engine">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -142,7 +142,7 @@ const RuleEngine = () => {
                     </span>
                   </td>
                   <td>
-                  <Link to="/ViewRuleEngine">
+                  <Link to="/view-rule-engine">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"

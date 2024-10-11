@@ -1,8 +1,8 @@
 import React from 'react'
-import "../components/style.css";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
+import "../styles/style.css";
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
+import Footer from '../components/Footer';
 import { Link } from "react-router-dom";
 
 const NewCampaign = () => {

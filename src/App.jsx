@@ -1,19 +1,19 @@
 import './App.css';
-import Members from './components/Members';
-import Tiers from './components/Tiers';
-import MemberDetails from './components/MemberDetails';
-import RuleEngine from './components/RuleEngine';
-import TierSetting from './components/TierSetting';
-import Segment from './components/Segment';
-import Campaign from './components/Campaign';
-import NewCampaign from './components/NewCampaign';
-import NewSegment from './components/NewSegment';
-import ViewRuleEngine from './components/CreateRuleEngine';
-import CreateRuleEngine from './components/ViewRuleEngine';
+import Members from './pages/members';
+import Tiers from './pages/tier';
+import MemberDetails from './pages/member-details';
+import RuleEngine from './pages/rule-engine';
+import TierSetting from './pages/tier-setting';
+import Segment from './pages/segment';
+import Campaign from './pages/campaign';
+import NewCampaign from './pages/new-campaign';
+import NewSegment from './pages/new-segment';
+import ViewRuleEngine from './pages/view-rule-engine';
+import CreateRuleEngine from './pages/create-rule-engine';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';  
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NewTier from './components/NewTier';
+import NewTier from './pages/new-tier';
 import SignIn from './login/SignIn';
 import ProtectedRoute from './login/ProtectedRoute'; // Import your ProtectedRoute
 

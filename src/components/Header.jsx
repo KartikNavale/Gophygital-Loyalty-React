@@ -1,5 +1,5 @@
 import React from 'react';
-import '../components/style.css';
+import '../styles/style.css'
 import GophygitalLogo1 from '/GophygitalLogo1.svg'
 import { useNavigate } from 'react-router-dom';
 

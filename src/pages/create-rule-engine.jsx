@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 
 const CreateRuleEngine = () => {
   const [conditions, setConditions] = useState([{ id: 1 }]); // Initial condition

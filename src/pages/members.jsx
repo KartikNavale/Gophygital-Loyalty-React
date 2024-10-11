@@ -1,7 +1,7 @@
 import React from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
-import Footer from "./Footer";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { Link } from 'react-router-dom';
 
 const Members = () => {
@@ -17,6 +17,7 @@ const Members = () => {
           <h5 className="mb-3">Manage Members</h5>
           <div className="d-flex justify-content-between loyalty-header">
             <div>
+              <Link  to="/member-details">
               <button
                 className="purple-btn1 rounded-3 px-3"
                 fdprocessedid="xn3e6n"
@@ -35,6 +36,7 @@ const Members = () => {
                 </svg>
                 <span>New Member</span>
               </button>
+              </Link>
             </div>
             <div className="d-flex flex-wrap justify-content-end">
               <div className="d-flex search-input w-50 p-1 ms-0 me-3">
@@ -86,7 +88,7 @@ const Members = () => {
                   <td>12/02/2024</td>
                   <td>12/02/2024</td>
                   <td>
-                  <Link to='/MemberDetails'>
+                  <Link to=''>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

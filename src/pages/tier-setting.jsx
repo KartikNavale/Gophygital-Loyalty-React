@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import '../components/style.css';
-import Header from './Header';
-import Sidebar from './Sidebar';
+import '../styles/style.css'
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 import { Link } from 'react-router-dom';
 // import Footer from './Footer'; // Uncomment if needed
 
@@ -51,7 +51,7 @@ const TierSetting = () => {
 <div className="row mt-2 justify-content-center">
                        
                         <div className="col-md-2">
-                        <Link to='/NewTier'>
+                        <Link to='/new-tier'>
                             <button class="purple-btn1 w-100" fdprocessedid="u33pye">Next</button>
                             </Link>
                         </div>

@@ -1,8 +1,8 @@
 import React from "react";
-import "../components/style.css";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
+import "../styles/style.css";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 
 const Campaign = () => {
@@ -16,12 +16,12 @@ const Campaign = () => {
             <span className="text-secondary">Campaign</span> &gt; Campaign List
           </p>
           <h5 className="mb-3">Campaign</h5>
-          <div className="d-flex justify-content-between loyalty-header">
+          <div className="d-flex justify-content-between loyalty-header"> 
             <div>
-              <Link to="/NewCampaign">
+              <Link to="/new-campaign">
                 <button
                   className="purple-btn1 rounded-3 px-3"
-                  fdprocessedid="xn3e6n"
+                //   fdprocessedid="xn3e6n"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
                 >
@@ -51,7 +51,7 @@ const Campaign = () => {
               </div>
               <button
                 className="purple-btn1 rounded-3 px-3"
-                fdprocessedid="xn3e6n"
+                // fdprocessedid="xn3e6n"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
               >
@@ -59,7 +59,7 @@ const Campaign = () => {
               </button>
               <button
                 className="purple-btn2 rounded-3 mt-2"
-                fdprocessedid="xn3e6n"
+                // fdprocessedid="xn3e6n"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
               >
