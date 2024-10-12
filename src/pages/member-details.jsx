@@ -84,7 +84,7 @@ const MemberDetails = () => {
 <div className="material-boxes m-5">
   <div className="container-fluid d-flex align-item-center justify-content-center " style={{height:'135px',width:'1000px'}}>
     <div className="row d-flex justify-content-between align-item-center">
-      <div className="col-md-2 d-flex justify-content-center align-item-center">
+      <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
         <div className="content-box text-center tab-button border pt-4" style={{ height: '135px', width: '246px',borderRadius:'20px'}}>
           <p className="content-box-sub fw-light">14.28%</p>
           <h6 className="content-box-title" style={{heigth:'20px',width:'221px'}}>ALL THE POINTS EARNED</h6>
@@ -92,7 +92,7 @@ const MemberDetails = () => {
         </div>
       </div>
 
-      <div className="col-md-2 d-flex justify-content-center align-item-center">
+      <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
         <div className="content-box text-center tab-button border pt-4" style={{ height: '135px', width: '246px' ,borderRadius:'20px'}}>
           <p className="content-box-sub fw-light">12.50%</p>
           <h6 className="content-box-title" style={{heigth:'20px',width:'221px'}}>ALL THE POINTS REDEEMED</h6>
@@ -100,7 +100,7 @@ const MemberDetails = () => {
         </div>
       </div>
 
-      <div className="col-md-2 d-flex justify-content-center align-item-center">
+      <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
         <div className="content-box text-center tab-button border pt-5" style={{ height: '135px', width: '246px' ,borderRadius:'20px'}}>
           <h6 className="content-box-title" style={{heigth:'20px',width:'221px'}}>BALANCED POINTS</h6>
           <h6 className="content-box-title">7000</h6>
@@ -117,7 +117,8 @@ const MemberDetails = () => {
           
               <div class="tbl-container">
               <h5 className="m-3 title ps-2 ">TRANSACTION STATUS</h5>
-                 <table className="container"  style={{width:'1000px'}} >
+              <div className='tbl-container mx-3'>
+              <table className="w-100" >
             <thead >
               <tr> 
                 <td className="text-center"> Date</td>
@@ -158,6 +159,8 @@ const MemberDetails = () => {
               </tr>
             </tbody>
           </table>
+              </div>
+          
         </div>
        
         </div>

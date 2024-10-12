@@ -19,10 +19,10 @@ const NewSegment = () => {
           <div className="go-shadow me-3 pb-4">
           <div className="row ms-1 mt-4">
             <fieldset className="border  col-md-3 m-2 col-sm-11">
-          <legend className="float-none">Target Audience<span>*</span></legend>
+          <legend className="float-none">Segment Name<span>*</span></legend>
           <select required="">
             <option value="" disabled="" selected="" hidden="">
-            Select Target Audience
+            Enter segment name
             </option>
             <option value="0">Building1</option>
             <option value="1">Building2</option>
@@ -30,10 +30,10 @@ const NewSegment = () => {
         </fieldset>
 
         <fieldset className="border   col-md-3 m-2 col-sm-11">
-          <legend className="float-none">Campaign type<span>*</span></legend>
+          <legend className="float-none">Segment tag<span>*</span></legend>
           <select required="">
             <option value="" disabled="" selected="" hidden="">
-            select campaign type
+            select Segment tag
             </option>
             <option value="0">Building1</option>
             <option value="1">Building2</option>
@@ -41,20 +41,20 @@ const NewSegment = () => {
         </fieldset>
 
         <fieldset className="border   col-md-3 m-2 col-sm-11">
-          <legend className="float-none">Tier level<span>*</span></legend>
+          <legend className="float-none">segment Filters<span>*</span></legend>
           <select required="">
             <option value="" disabled="" selected="" hidden="">
-            Tier level
+            select segment filters
             </option>
             <option value="0">Building1</option>
             <option value="1">Building2</option>
           </select>
         </fieldset>
         <fieldset className="border   col-md-3 m-2 col-sm-11">
-          <legend className="float-none">Tier level<span>*</span></legend>
+          <legend className="float-none">segment type<span>*</span></legend>
           <select required="">
             <option value="" disabled="" selected="" hidden="">
-            Tier level
+            select segment type
             </option>
             <option value="0">Building1</option>
             <option value="1">Building2</option>

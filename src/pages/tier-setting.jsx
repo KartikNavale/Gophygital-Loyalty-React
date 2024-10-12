@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import '../styles/style.css'
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 // import Footer from './Footer'; // Uncomment if needed
 
@@ -18,11 +19,11 @@ const TierSetting = () => {
           </p>
 
           {/* Tier setting */}
-          <div className="go-shadow mx-3 no-top-left-shadow">
+          <div className="mx-3 border-bottom">
             <h5 className="d-flex">
               <span className="title mt-3">TIER SETTING</span>
             </h5>
-            <p className='mt-5 ms-4'>Point Accumulation Timeframe</p>
+            <p className='mt-5 ms-4 fw-semibold'>Point Accumulation Timeframe</p>
             <p className='ms-4 text-muted'>Establish how members enter into higher tiers on points earning and time frame.</p>
           </div>
 
@@ -61,7 +62,7 @@ const TierSetting = () => {
                         </div>
                     </div>
 
-        {/* <Footer /> */} {/* Uncomment if needed */}
+        <Footer /> {/* Uncomment if needed */}
       </div>
     </>
   );
@@ -104,7 +105,7 @@ const RoundRadioButtonCard = () => {
                   {/* Inner circle (selected) */}
                   {selected === option.value && <circle cx="15" cy="15" r="7" fill="#e95420" />}
                 </svg>
-                <h5 className="card-title mb-0 ps-3">{option.label}</h5>
+                <h5 className="card-title mb-0 ps-3 fw-bold">{option.label}</h5>
               </div>
               {/* Always display the description for the selected option */}
               <p className="text-muted ms-3">{option.description}</p>

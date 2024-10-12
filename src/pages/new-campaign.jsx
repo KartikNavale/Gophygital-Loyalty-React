@@ -24,7 +24,7 @@ const NewCampaign = () => {
             </div>
             </div>
             <div className="row ms-1 mt-4">
-            <fieldset className="border col-lg-3 col-md-5 col-sm-11">
+            <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
           <legend className="float-none">Target Audience<span>*</span></legend>
           <select required="">
             <option value="" disabled="" selected="" hidden="">
@@ -35,7 +35,7 @@ const NewCampaign = () => {
           </select>
         </fieldset>
 
-        <fieldset className="border col-lg-3 col-md-5 col-sm-11">
+        <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
           <legend className="float-none">Campaign type<span>*</span></legend>
           <select required="">
             <option value="" disabled="" selected="" hidden="">
