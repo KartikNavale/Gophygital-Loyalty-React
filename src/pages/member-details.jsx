@@ -115,10 +115,10 @@ const MemberDetails = () => {
 
           {/* table */}
           
-              <div class="tbl-container">
+              <div>
               <h5 className="m-3 title ps-2 ">TRANSACTION STATUS</h5>
-              <div className='tbl-container mx-3'>
-              <table className="w-100" >
+              <div className='tbl-container mx-5' >
+              <table className="w-100"  >
             <thead >
               <tr> 
                 <td className="text-center"> Date</td>
@@ -164,7 +164,7 @@ const MemberDetails = () => {
         </div>
        
         </div>
-        {/* <Footer /> */}
+        <Footer />
          </div>
    </>
   )

@@ -99,12 +99,12 @@ const ViewRuleEngine = () => {
 
               <div className="mt-3">
                 <h4>
-                  <span className="badge setRuleCard">AND</span>
+                  <span className="badge setRuleCard">Operator</span>
                 </h4>
                 <div className="row ms-1 mt-2">
                   <fieldset className="border  col-md-3 m-2 col-sm-11">
                     <legend className="float-none">
-                      Master Operator<span>*</span>
+                      Operator<span>*</span>
                     </legend>
                     <select required="">
                       <option value="" disabled="" selected="" hidden="">
@@ -114,25 +114,36 @@ const ViewRuleEngine = () => {
                       <option value="1">Building2</option>
                     </select>
                   </fieldset>
-                  <div className="col-md-1 d-flex justify-content-center align-items-center">
-                    <h4>&</h4>
-                  </div>
-                  <fieldset className="border  col-md-3 m-2 col-sm-11">
-                    <legend className="float-none">
-                      Sub Operator<span>*</span>
-                    </legend>
-                    <select required="">
-                      <option value="" disabled="" selected="" hidden="">
-                        After
-                      </option>
-                      <option value="0">Building1</option>
-                      <option value="1">Building2</option>
-                    </select>
-                  </fieldset>
                 </div>
               </div>
 
               <div className="mt-3">
+                <h4>
+                  <span className="badge setRuleCard">Value</span>
+                </h4>
+                <div className="row ms-1 mt-2">
+                  <fieldset className="border col-md-3 m-2 col-sm-11">
+                    <legend className="float-none">
+                      Value<span>*</span>
+                    </legend>
+                    <input type="text" placeholder="10 Points" />
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button className="setRuleCard2 mt-2" style={{color:'black'}} >
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                </svg>
+              </span>
+              Add Additional Condition
+            </button>
+
+            {/* then */}
+            <div className="mt-3">
                 <h4>
                   <span className="badge setRuleCard">THEN</span>
                 </h4>
@@ -175,8 +186,8 @@ const ViewRuleEngine = () => {
                   </fieldset>
                 </div>
               </div>
-            </div>
-          </div>
+            {/* ... */}
+
           <div className="row mt-2 justify-content-center">
             <div className="col-md-2">
               <button className="purple-btn1 w-100" fdprocessedid="u33pye">
@@ -190,6 +201,8 @@ const ViewRuleEngine = () => {
             </div>
           </div>
      </div>
+
+     
      <Footer />
       </div>
     

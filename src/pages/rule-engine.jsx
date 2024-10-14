@@ -18,7 +18,7 @@ const RuleEngine = () => {
           <h5 class="mb-3">Rule List</h5>
           <div className="d-flex justify-content-between loyalty-header">
             <div>
-            <Link to="/view-rule-engine">
+            <Link to="/create-rule-engine">
                 <button
                   class="purple-btn1 rounded-3 px-3"
                   fdprocessedid="xn3e6n"
@@ -109,7 +109,7 @@ const RuleEngine = () => {
                     </span>
                   </td>
                   <td>
-                  <Link to="/create-rule-engine">
+                  <Link to="/view-rule-engine">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
