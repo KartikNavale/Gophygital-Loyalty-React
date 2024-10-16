@@ -196,8 +196,13 @@ const RuleEngine = () => {
                       <option value="" disabled selected hidden>
                         select Master Attribute
                       </option>
-                      <option value="0">Building1</option>
-                      <option value="1">Building2</option>
+                      <option value="0">User Actions</option>
+                      <option value="1">Transaction Events</option>
+                      <option value="1">Time-based Events</option>
+                      <option value="1">User Demographics/Segments</option>
+                      <option value="1">Engagement Behaviour</option>
+                      <option value="1">Milestones</option>
+                      <option value="1">Tier-based</option>
                     </select>
                   </fieldset>
                   <fieldset className="border  col-md-5 m-2 col-sm-11">
@@ -217,14 +222,16 @@ const RuleEngine = () => {
                 <div className="row ms-1 mt-2">
                   <fieldset className="border  col-md-5 m-2 col-sm-11">
                     <legend className="float-none">
-                      Master Attribute<span>*</span>
+                      Master Operator<span>*</span>
                     </legend>
                     <select required="">
                       <option value="" disabled selected hidden>
-                        select Master Attribute
+                        select Master Operator
                       </option>
-                      <option value="0">Building1</option>
-                      <option value="1">Building2</option>
+                      <option value="0">Common Operatives</option>
+                      <option value="1">Logical Operatives</option>
+                      <option value="1">Date/Time Operatives</option>
+                      <option value="1">Tier Operatives</option>
                     </select>
                   </fieldset>
                   <fieldset className="border  col-md-5 m-2 col-sm-11">

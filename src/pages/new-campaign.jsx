@@ -32,8 +32,10 @@ const NewCampaign = () => {
             <option value="" disabled="" selected="" hidden="">
             Select Target Audience
             </option>
-            <option value="0">Building1</option>
-            <option value="1">Building2</option>
+            <option value="0">Recently Joined </option>
+            <option value="1">Suspended </option>
+            <option value="1">1 - purchase</option>
+            <option value="1">No purchase</option>
           </select>
         </fieldset>
 
@@ -43,8 +45,11 @@ const NewCampaign = () => {
             <option value="" disabled="" selected="" hidden="">
             select campaign type
             </option>
-            <option value="0">Building1</option>
-            <option value="1">Building2</option>
+            <option value="0">Point based</option>
+            <option value="1">Discount based </option>
+            <option value="1">Referral Campaign</option>
+            <option value="1">Tier - Up Campaign</option>
+            <option value="1">Custom Campaign</option>
           </select>
         </fieldset>
 
@@ -54,8 +59,9 @@ const NewCampaign = () => {
             <option value="" disabled="" selected="" hidden="">
             Tier level
             </option>
-            <option value="0">Building1</option>
-            <option value="1">Building2</option>
+            <option value="0">Bronze</option>
+            <option value="1">Silver</option>
+            <option value="1">Gold</option>
           </select>
         </fieldset>
             </div>

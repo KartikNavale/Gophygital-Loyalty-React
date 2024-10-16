@@ -37,8 +37,10 @@ const NewSegment = () => {
             <option value="" disabled="" selected="" hidden="">
             select Segment tag
             </option>
-            <option value="0">Building1</option>
-            <option value="1">Building2</option>
+            <option value="0">Recently joined</option>
+            <option value="1">Suspended </option>
+            <option value="1">1-purchase</option>
+            <option value="1">No purchase</option>
           </select>
         </fieldset>
 
@@ -48,8 +50,12 @@ const NewSegment = () => {
             <option value="" disabled="" selected="" hidden="">
             select segment filters
             </option>
-            <option value="0">Building1</option>
-            <option value="1">Building2</option>
+            <option value="0">Enrollment Date</option>
+            <option value="1">Tier</option>
+            <option value="1">Status</option>
+            <option value="1">Age</option>
+            <option value="1">Gender</option>
+            <option value="1">Activated Date</option>
           </select>
         </fieldset>
         <fieldset className="border   col-md-3 m-2 col-sm-11">
@@ -58,8 +64,11 @@ const NewSegment = () => {
             <option value="" disabled="" selected="" hidden="">
             select segment type
             </option>
-            <option value="0">Building1</option>
-            <option value="1">Building2</option>
+            <option value="0">Point based</option>
+            <option value="1">Discount based </option>
+            <option value="1">Referral Campaign</option>
+            <option value="1">Tier - Up Campaign</option>
+            <option value="1">Custom Campaign</option>
           </select>
         </fieldset>
         <fieldset className="border   col-md-3 m-2 col-sm-11">
@@ -68,9 +77,9 @@ const NewSegment = () => {
             <option value="" disabled="" selected="" hidden="">
             Tier level
             </option>
-            <option value="0">Building1</option>
-            <option value="1">Building2</option>
-            <option value="1">Building3</option>
+            <option value="0">Bronze</option>
+            <option value="1">Silver</option>
+            <option value="1">Gold</option>
           </select>
         </fieldset>
             </div>

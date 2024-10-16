@@ -64,16 +64,21 @@ const CreateRuleEngine = () => {
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Master Attribute<span>*</span></legend>
               <select required className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
-                <option value="" disabled selected hidden>Tier-based</option>
-                <option value="0">Building1</option>
-                <option value="1">Building2</option>
+                <option value="" disabled selected hidden>Select Master Attribute </option>
+                <option value="0">User Actions</option>
+                <option value="1">Transaction Events</option>
+                <option value="1">Time-based Events</option>
+                <option value="1">User Demographics/Segments</option>
+                <option value="1">Engagement Behaviour</option>
+                <option value="1">Milestones</option>
+                <option value="1">Tier-based</option>
               </select>
             </fieldset>
             <div className="col-md-1 d-flex justify-content-center align-items-center"><h4>&</h4></div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Sub Attribute<span>*</span></legend>
               <select required className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
-                <option value="" disabled selected hidden>Points required for upgrading tier</option>
+                <option value="" disabled selected hidden>Select Sub Attribute</option>
                 <option value="0">Building1</option>
                 <option value="1">Building2</option>
               </select>
@@ -85,9 +90,20 @@ const CreateRuleEngine = () => {
           <h4><span className="badge setRuleCard">Operator</span></h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">Operator<span>*</span></legend>
+              <legend className="float-none">Master Operator<span>*</span></legend>
               <select required className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
-                <option value="" disabled selected hidden>Tier Operatives</option>
+                <option value="" disabled selected hidden>Select Master Operator </option>
+                <option value="0">Common Operatives</option>
+                <option value="1">Logical Operatives</option>
+                <option value="1">Date/Time Operatives</option>
+                <option value="1">Tier Operatives</option>
+              </select>
+            </fieldset>
+            <div className="col-md-1 d-flex justify-content-center align-items-center"><h4>&</h4></div>
+            <fieldset className="border col-md-3 m-2 col-sm-11">
+              <legend className="float-none">Sub Operator<span>*</span></legend>
+              <select required className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
+                <option value="" disabled selected hidden>Select Sub Operator </option>
                 <option value="0">Building1</option>
                 <option value="1">Building2</option>
               </select>
@@ -100,7 +116,7 @@ const CreateRuleEngine = () => {
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Value<span>*</span></legend>
-              <input type="text" placeholder="10 Points" />
+              <input type="text" placeholder="Enter Point Value" />
             </fieldset>
           </div>
         </div>
@@ -156,10 +172,14 @@ const CreateRuleEngine = () => {
                     </legend>
                     <select required="" className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
                       <option value="" disabled="" selected="" hidden="">
-                        Tier Promotion
+                        Select Master Reward Outcome
                       </option>
-                      <option value="0">Building1</option>
-                      <option value="1">Building2</option>
+                      <option value="0">Points-Based Rewards</option>
+                      <option value="1">Discounts/Coupons</option>
+                      <option value="1">Tier Promotion</option>
+                      <option value="1">Product/Service Offers</option>
+                      <option value="1">Milestone-Based Rewards</option>
+                      <option value="1">Cashback</option>
                     </select>
                   </fieldset>
                   <div className="col-md-1 d-flex justify-content-center align-items-center">
@@ -171,7 +191,7 @@ const CreateRuleEngine = () => {
                     </legend>
                     <select required="" className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
                       <option value="" disabled="" selected="" hidden="">
-                        Tier Upgrade
+                        Select Sub Reward Outcome
                       </option>
                       <option value="0">Building1</option>
                       <option value="1">Building2</option>
@@ -184,7 +204,7 @@ const CreateRuleEngine = () => {
                     <legend className="float-none">
                       Point Value<span>*</span>
                     </legend>
-                    <input type="text" placeholder="10 Points" />
+                    <input type="text" placeholder="Enter Point Value" />
                   </fieldset>
                 </div>
               </div>
