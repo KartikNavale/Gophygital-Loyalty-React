@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import '../styles/style.css'
+import SubHeader from '../components/SubHeader';
 
 const MemberDetails = () => {
   return (
@@ -10,6 +11,7 @@ const MemberDetails = () => {
      <Header/>
     <Sidebar/>
     <div className="website-content">
+      <SubHeader />
         <div className="module-data-section mt-2 mb-2">
         <p className="pointer">
             <span className="text-secondary">Members</span> &gt; Member Details

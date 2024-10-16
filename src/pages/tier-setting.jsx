@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+import SubHeader from '../components/SubHeader';
 // import Footer from './Footer'; // Uncomment if needed
 
 const TierSetting = () => {
@@ -13,6 +14,7 @@ const TierSetting = () => {
       <Header />
       <Sidebar />
       <div className="website-content d-flex flex-column vh-100">
+        <SubHeader />
         <div className="module-data-section mt-2 flex-grow-1">
           <p className="pointer">
             <span className="text-secondary">Tiers</span> &gt; Tier Setting

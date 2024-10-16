@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import SubHeader from "../components/SubHeader";
 
 const NewTier = () => {
   return (
@@ -9,6 +10,7 @@ const NewTier = () => {
       <Header />
       <Sidebar />
       <div className="website-content">
+        <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
             <span className="text-secondary">Tier</span> &gt; New Tier

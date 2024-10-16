@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import { Link } from "react-router-dom";
+import SubHeader from '../components/SubHeader';
 
 const NewCampaign = () => {
   return (
@@ -11,6 +12,7 @@ const NewCampaign = () => {
      <Header/>
      <Sidebar/>
      <div className="website-content">
+      <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
             <span className="text-secondary">Campaign</span> &gt; New Campaign

@@ -3,6 +3,7 @@ import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from 'react-router-dom';
+import SubHeader from "../components/SubHeader";
 
 const Members = () => {
   return (
@@ -10,6 +11,7 @@ const Members = () => {
       <Header />
       <Sidebar />
       <div className="website-content">
+        <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
             <span className="text-secondary">Members</span> &gt; Manage Members

@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
+import SubHeader from '../components/SubHeader';
 
 const ViewRuleEngine = () => {
   return (
@@ -9,6 +10,7 @@ const ViewRuleEngine = () => {
       <Header />
       <Sidebar />
       <div className="website-content">
+        <SubHeader />
       <div className="module-data-section mt-2">
       <p className="pointer">
             <span className="text-secondary">Rule Engine</span> &gt; New Rule
