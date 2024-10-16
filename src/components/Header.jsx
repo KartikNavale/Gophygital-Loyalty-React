@@ -16,7 +16,7 @@ const Header = () => {
   return (
      <>
      <nav className="navbar navbar-expand-lg navbar-light p-0">
-  <div className="container-fluid">
+  <div className="container-fluid py-1">
     <button
       className="navbar-toggler"
       type="button"
@@ -54,7 +54,7 @@ const Header = () => {
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link active" href="./31Dashboard_Daily.html">
+          <a className="nav-link active rounded-2" href="./31Dashboard_Daily.html">
             Setup
           </a>
         </li>
