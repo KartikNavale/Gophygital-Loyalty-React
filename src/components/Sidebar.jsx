@@ -192,7 +192,7 @@ const Sidebar = () => {
 
           <li className="nav-item">
             <Link
-              to=""
+              to="/test"
               className="nav-link d-flex justify-content-between"
               aria-current="page"
             >

@@ -9,7 +9,6 @@ const Members = () => {
   return (
     <>
       <Header />
-    
       <div className="website-content d-flex">
       <Sidebar />
       <div className="w-100">
@@ -197,8 +196,6 @@ const Members = () => {
     </div>
   </div>
       </div>
-     
-
         <Footer />
       </div>
     </>

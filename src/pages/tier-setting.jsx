@@ -12,8 +12,9 @@ const TierSetting = () => {
   return (
     <>
       <Header />
-      <Sidebar />
       <div className="website-content d-flex flex-column vh-100">
+      <Sidebar />
+        <div className="w-100">
         <SubHeader />
         <div className="module-data-section mt-2 flex-grow-1">
           <p className="pointer">
@@ -63,8 +64,8 @@ const TierSetting = () => {
                             <button className="purple-btn2 w-100" fdprocessedid="af5l5g">Cancel</button>
                         </div>
                     </div>
-
-        <Footer /> {/* Uncomment if needed */}
+        </div>
+        <Footer />  
       </div>
     </>
   );

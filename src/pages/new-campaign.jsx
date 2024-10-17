@@ -10,9 +10,11 @@ const NewCampaign = () => {
   return (
      <>
      <Header/>
+    
+     <div className="website-content d-flex">
      <Sidebar/>
-     <div className="website-content">
-      <SubHeader />
+      <div className="w-100">
+ <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
             <span className="text-secondary">Campaign</span> &gt; New Campaign
@@ -78,6 +80,7 @@ const NewCampaign = () => {
           </div>
           </div>
         </div>
+      </div>
         <Footer />
       </div>
      </>

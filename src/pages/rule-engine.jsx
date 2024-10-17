@@ -10,8 +10,9 @@ const RuleEngine = () => {
   return (
     <>
       <Header />
+      <div className="website-content d-flex">
       <Sidebar />
-      <div className="website-content">
+        <div className="w-100">
         <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
@@ -271,6 +272,7 @@ const RuleEngine = () => {
           </div>
         </div>
         {/*Filter Modal end */}
+        </div>
       </div>
       <Footer />
       {/* </div> */}

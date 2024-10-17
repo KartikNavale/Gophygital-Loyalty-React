@@ -9,8 +9,9 @@ const MemberDetails = () => {
   return (
    <>
      <Header/>
+    <div className="website-content d-flex">
     <Sidebar/>
-    <div className="website-content">
+      <div className="w-100">
       <SubHeader />
         <div className="module-data-section mt-2 mb-2">
         <p className="pointer">
@@ -166,6 +167,7 @@ const MemberDetails = () => {
         </div>
        
         </div>
+      </div>
         <Footer />
          </div>
    </>

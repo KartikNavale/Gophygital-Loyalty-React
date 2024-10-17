@@ -10,8 +10,9 @@ const NewSegment = () => {
   return (
      <>
      <Header/>
-    <Sidebar/>
-        <div className='website-content'>
+        <div className='website-content d-flex'>
+        <Sidebar/>
+          <div className="w-100">
           <SubHeader />
         <div className='module-data-section mt-2'>
         <p className="pointer">
@@ -93,6 +94,7 @@ const NewSegment = () => {
                         </div>
                     </div>
         </div>
+          </div>
         <Footer />
         </div>
      </>

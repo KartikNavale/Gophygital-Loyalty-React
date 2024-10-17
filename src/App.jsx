@@ -12,6 +12,7 @@ import NewCampaign from './pages/new-campaign';
 import NewSegment from './pages/new-segment';
 import ViewRuleEngine from './pages/view-rule-engine';
 import CreateRuleEngine from './pages/create-rule-engine';
+import Test from './pages/test';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';  
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -40,6 +41,8 @@ function App() {
           <Route path='/view-rule-engine' element={<ProtectedRoute><ViewRuleEngine /></ProtectedRoute>} />
           <Route path='/tier-setting' element={<ProtectedRoute><TierSetting /></ProtectedRoute>} />
           <Route path='/new-tier' element={<ProtectedRoute><NewTier /></ProtectedRoute>} />
+          <Route path='/test' element={<ProtectedRoute><Test /></ProtectedRoute>} />
+          
         </Routes>
       </div>
     </Router>

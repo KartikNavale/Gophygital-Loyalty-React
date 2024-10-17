@@ -10,10 +10,11 @@ const Campaign = () => {
   return (
     <>
       <Header />
+      <div className='website-content d-flex'>
       <Sidebar />
-      <div className='website-content'>
-        <SubHeader />
-        <div className="module-data-section mt-2">
+      <div className="w-100">
+      <SubHeader />
+      <div className="module-data-section mt-2">
           <p className="pointer">
             <span className="text-secondary">Campaign</span> &gt; Campaign List
           </p>
@@ -103,6 +104,7 @@ const Campaign = () => {
             </table>
           </div>
         </div>
+      </div>
         <Footer />
       </div>
     </>
