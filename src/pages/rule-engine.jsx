@@ -273,8 +273,9 @@ const RuleEngine = () => {
         </div>
         {/*Filter Modal end */}
         </div>
+        <Footer />
       </div>
-      <Footer />
+    
       {/* </div> */}
     </>
   );
