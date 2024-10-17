@@ -63,7 +63,7 @@ const CreateRuleEngine = () => {
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Master Attribute<span>*</span></legend>
-              <select required className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
+              <select required className="p-1">
                 <option value="" disabled selected hidden>Select Master Attribute </option>
                 <option value="0">User Actions</option>
                 <option value="1">Transaction Events</option>
@@ -77,7 +77,7 @@ const CreateRuleEngine = () => {
             <div className="col-md-1 d-flex justify-content-center align-items-center"><h4>&</h4></div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Sub Attribute<span>*</span></legend>
-              <select required className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
+              <select required className="p-1">
                 <option value="" disabled selected hidden>Select Sub Attribute</option>
                 <option value="0">Building1</option>
                 <option value="1">Building2</option>
@@ -91,7 +91,7 @@ const CreateRuleEngine = () => {
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Master Operator<span>*</span></legend>
-              <select required className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
+              <select required className="p-1">
                 <option value="" disabled selected hidden>Select Master Operator </option>
                 <option value="0">Common Operatives</option>
                 <option value="1">Logical Operatives</option>
@@ -102,7 +102,7 @@ const CreateRuleEngine = () => {
             <div className="col-md-1 d-flex justify-content-center align-items-center"><h4>&</h4></div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Sub Operator<span>*</span></legend>
-              <select required className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
+              <select required className="p-1">
                 <option value="" disabled selected hidden>Select Sub Operator </option>
                 <option value="0">Building1</option>
                 <option value="1">Building2</option>
@@ -116,7 +116,7 @@ const CreateRuleEngine = () => {
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Value<span>*</span></legend>
-              <input type="text" placeholder="Enter Point Value" />
+              <input type="text" className="p-1" placeholder="Enter Point Value" />
             </fieldset>
           </div>
         </div>
@@ -171,7 +171,7 @@ const CreateRuleEngine = () => {
                     <legend className="float-none">
                       Master Reward Outcome<span>*</span>
                     </legend>
-                    <select required="" className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
+                    <select required="" className="p-1">
                       <option value="" disabled="" selected="" hidden="">
                         Select Master Reward Outcome
                       </option>
@@ -190,7 +190,7 @@ const CreateRuleEngine = () => {
                     <legend className="float-none">
                       Sub Reward Outcome<span>*</span>
                     </legend>
-                    <select required="" className="form-select border-0 shadow-none" style={{fontSize:'14px'}}>
+                    <select required="" className="p-1">
                       <option value="" disabled="" selected="" hidden="">
                         Select Sub Reward Outcome
                       </option>

@@ -79,6 +79,14 @@ const NewCampaign = () => {
             <p className='fw-bold'>Campaign Rewards <span>*</span></p>
           </div>
           </div>
+          <div className="row mt-2 justify-content-center">
+                        <div className="col-md-2">
+                            <button class="purple-btn1 w-100" fdprocessedid="u33pye">Submit</button>
+                        </div>
+                        <div className="col-md-2">
+                            <button className="purple-btn2 w-100" fdprocessedid="af5l5g">Cancel</button>
+                        </div>
+                    </div>
         </div>
       </div>
         <Footer />
