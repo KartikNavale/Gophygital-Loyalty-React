@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 import "../styles/style.css";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
@@ -10,7 +11,7 @@ import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Tiers = () => {
-  const [tiers, setTiers] = useState([]);
+  const [tiers, setTiers] = useState([]);  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedTier, setSelectedTier] = useState(null);
@@ -21,7 +22,7 @@ const Tiers = () => {
     welcome_bonus: 0,
     point_type: ""
   });
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchTiers = async () => {
@@ -44,65 +45,53 @@ const Tiers = () => {
     setSelectedTier(tier);
     setFormData({
       name: tier?.name,
-      exit_points: Number(tier?.exit_points),
-      multipliers: Number(tier?.multipliers),
-      welcome_bonus: Number(tier?.welcome_bonus),
+      exit_points: tier?.exit_points,
+      multipliers: tier?.multipliers,
+      welcome_bonus: tier?.welcome_bonus,
       point_type: tier?.point_type
     });
-    console.log("form data only" , formData);
-    
-    setShowModal(true); // Open modal
+    setShowModal(true);
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: name === "exit_points" || name === "multipliers" || name === "welcome_bonus" ? Number(value) : value,
     }));
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (selectedTier) {
-      console.log("Submitting form data:", formData); // Check the data here
       try {
-        await axios.put(
+        const response = await axios.put(
           `https://staging.lockated.com/loyalty/tiers/${selectedTier.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-          formData
-        ).then(response => {
-          console.log("succ",response);
-          if(response){
-            setTiers((prevTiers) =>
-              prevTiers.map((tier) =>
-                tier.id === selectedTier.id ? { ...tier, ...formData } : tier
-              )
-            );
-          }
-        })
-        handleCloseModal(); // Close the modal after successful update
-      } catch (error) {
-        console.error("Error updating the tier", error);
-        if (error.response) {
-          console.log(error.response.data);
-          
-          alert(`Error: ${error.response.data.message || "Unknown error"}`);
-        } else {
-          alert(`Error: ${error.message}`);
+          { loyalty_tier: formData }
+        );
+        if (response) {
+          setTiers((prevTiers) =>
+            prevTiers.map((tier) =>
+              tier.id === selectedTier.id ? { ...tier, ...formData } : tier
+            )
+          );
         }
+        handleCloseModal();
+      } catch (error) {
+        alert(`Error: ${error.message}`);
       }
     }
   };
 
   const handleCloseModal = () => {
-    setShowModal(false); // Close modal
-    setSelectedTier(null); // Clear selected tier
+    setShowModal(false);
+    setSelectedTier(null);
     setFormData({
-      // Reset form data
       name: "",
       exit_points: 0,
       multipliers: 0,
       welcome_bonus: 0,
+      point_type: ""
     });
   };
 
@@ -137,7 +126,6 @@ const Tiers = () => {
                 </Link>
               </div>
 
-              {/* Render table */}
               {loading && <p>Loading tiers...</p>}
               {error && <p className="text-danger">{error}</p>}
               {!loading && !error && (
@@ -187,7 +175,6 @@ const Tiers = () => {
                 </div>
               )}
 
-              {/* React Bootstrap Modal for Editing */}
               <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                   <Modal.Title>Edit Tier</Modal.Title>
@@ -250,24 +237,47 @@ const Tiers = () => {
                         required
                       />
                     </div>
-                    <div className="d-flex justify-content-end">
-                      <Button type="submit" variant="primary" className="me-2">
-                        Submit
-                      </Button>
-                      <Button variant="secondary" onClick={handleCloseModal}>
-                        Cancel
-                      </Button>
+                    <div className="mb-3">
+                      <label htmlFor="pointType" className="form-label">
+                        Point Type
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="pointType"
+                        name="point_type"
+                        value={formData.point_type}
+                        onChange={handleInputChange}
+                        required
+                      />
                     </div>
+                    <Button variant="primary" type="submit">
+                      Save Changes
+                    </Button>
                   </form>
                 </Modal.Body>
               </Modal>
             </div>
           </div>
-          <Footer />
         </div>
       </div>
+      <Footer />
     </>
   );
+};
+
+// Add PropTypes for type checking
+Tiers.propTypes = {
+  tiers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      exit_points: PropTypes.number.isRequired,
+      multipliers: PropTypes.number.isRequired,
+      welcome_bonus: PropTypes.number.isRequired,
+      point_type: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default Tiers;
