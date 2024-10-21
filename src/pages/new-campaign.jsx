@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import axios from 'axios'; 
-import { Link } from "react-router-dom";
 
 const NewCampaign = () => {
   // State to manage input values and error/success messages
@@ -36,7 +35,7 @@ const NewCampaign = () => {
     
     console.log(data)
     try {
-      const response = await axios.post('YOUR_API_URL_HERE', data); // Replace with your actual API URL
+      const response = await axios.post('', data); // Replace with your actual API URL
 
       if (response.status === 200) {
         setSuccessMessage("Campaign created successfully!");

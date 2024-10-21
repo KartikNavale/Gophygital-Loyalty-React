@@ -1,72 +1,233 @@
-import React from "react";
+import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
+import RoundedRadioButtonCard from "../components/RoundedRadioButtonCard";
+import { useNavigate } from "react-router-dom";
+
+const validationSchema = Yup.object().shape({
+  tierName: Yup.string().required("Tier name is required"),
+  exitPoints: Yup.number().required("Exit points are required").positive(),
+  setMultipliers: Yup.number().required("Set multipliers are required").positive(),
+  welcomeBonus: Yup.number().required("Welcome bonus is required").positive(),
+});
 
 const NewTier = () => {
+  const [step, setStep] = useState(1);
+  const [timeframe, setTimeframe] = useState("");
+  const [timeframeError, setTimeframeError] = useState(""); 
+
+  const navigate = useNavigate()
+
+  const handleSubmit = async (values, { setSubmitting, resetForm, setStatus }) => {
+    const data = {
+      loyalty_tier: {
+        name: values.tierName,
+        exit_points: values.exitPoints,
+        multipliers: values.setMultipliers,
+        welcome_bonus: values.welcomeBonus,
+        point_type: timeframe, 
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        "https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+        data
+      );
+
+      if (response.statusText === 'Created' ) {
+        setStatus({ success: "Campaign created successfully!" });
+        resetForm();
+        setStep(1); 
+        
+        console.log(data,'Navigating to /tier'); 
+        navigate('/tiers');
+      }
+      console.log(response,data);
+    } catch (error) {
+      setStatus({ error: "Failed to create campaign. Please try again." });
+    } finally {
+      setSubmitting(false);
+    }
+    
+  };
+
+  const handleTimeframeChange = (value) => {
+    setTimeframe(value);
+    setTimeframeError("");
+  };
+
+  const nextStep = () => {
+    if (step === 1) {
+      if (!timeframe) {
+        setTimeframeError("Please select a timeframe."); 
+      } else {
+        setStep(2); 
+      }
+    }
+  };
+
+  const cancelStep = () => {
+    setStep(1);
+    setTimeframe(""); 
+    setTimeframeError(""); 
+  };
+
   return (
     <>
       <Header />
       <div className="website-content d-flex">
-      <Sidebar />
+        <Sidebar />
         <div className="w-100">
-        <SubHeader />
-        <div className="module-data-section mt-2">
-          <p className="pointer">
-            <span className="text-secondary">Tier</span> &gt; New Tier
-          </p>
-          <h5 class="mb-3 title">NEW TIER</h5>
-          <div className="go-shadow me-3">
-            <div className="row ms-3">
-              <fieldset className="border col-md-2 m-2 col-sm-11">
-                <legend className="float-none">
-                  Tier Name<span>*</span>
-                </legend>
-                <input type="text" placeholder="Enter Tier Name" />
-              </fieldset>
+          <SubHeader />
 
-              <fieldset className="border col-md-2 m-2 col-sm-11">
-                <legend className="float-none">
-                  Exit points<span>*</span>
-                </legend>
-                <input type="text" placeholder="Enter Exit points" />
-              </fieldset>
+          {step === 1 && (
+            <div className="module-data-section mt-2 flex-grow-1">
+              <p className="pointer">
+                <span className="text-secondary">Tiers</span> &gt; Tier Setting
+              </p>
 
-              <fieldset className="border col-md-2 m-2 col-sm-11">
-                <legend className="float-none">
-                  Set multipliers<span>*</span>
-                </legend>
-                <input type="text" placeholder="Enter Set multipliers" />
-              </fieldset>
+              <div className="mx-3 border-bottom">
+                <h5 className="d-flex">
+                  <span className="title mt-3">TIER SETTING</span>
+                </h5>
+                <p className="mt-5 ms-4 fw-semibold">Point Accumulation Timeframe</p>
+                <p className="ms-4 text-muted">
+                  Establish how members enter into higher tiers on points earning and time frame.
+                </p>
+              </div>
 
-              <fieldset className="border col-md-2 m-2 col-sm-11">
-                <legend className="float-none">
-                  welcome bonus<span>*</span>
-                </legend>
-                <input type="text" placeholder="Enter welcome bonus" />
-              </fieldset>
+              <RoundedRadioButtonCard onChange={handleTimeframeChange} />
+              {timeframeError && <div className="text-danger ms-4">{timeframeError}</div>} {/* Error message */}
+
+              <div className="row mt-2 justify-content-center">
+                <div className="col-md-2">
+                  <button className="purple-btn1 w-100" onClick={nextStep}>
+                    Next
+                  </button>
+                </div>
+
+                <div className="col-md-2">
+                  <button className="purple-btn2 w-100" onClick={cancelStep}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
-            <div>
-              <button className="purple-btn1 ms-4">Add New Tire</button>
-            </div>
-          </div>
-          <div className="row mt-2 justify-content-center">
-            <div className="col-md-2">
-              <button className="purple-btn1 w-100" fdprocessedid="u33pye">
-                Submit
-              </button>
-            </div>
-            <div className="col-md-2">
-              <button className="purple-btn2 w-100" fdprocessedid="af5l5g">
-                Cancel
-              </button>
-            </div>
-          </div>
+          )}
+
+          {step === 2 && (
+            <Formik
+              initialValues={{
+                tierName: "",
+                exitPoints: "",
+                setMultipliers: "",
+                welcomeBonus: "",
+              }}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ isSubmitting, status }) => (
+                <Form className="go-shadow me-3">
+                  <div className="row ms-3">
+                    <div className="col-md-2 m-2 col-sm-11">
+                      <label>Tier Name<span>*</span></label>
+                      <Field
+                        type="text"
+                        name="tierName"
+                        placeholder="Enter Tier Name"
+                        className="form-control"
+                      />
+                      <ErrorMessage
+                        name="tierName"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
+
+                    <div className="col-md-2 m-2 col-sm-11">
+                      <label>Exit Points<span>*</span></label>
+                      <Field
+                        type="text"
+                        name="exitPoints"
+                        placeholder="Enter Exit Points"
+                        className="form-control"
+                      />
+                      <ErrorMessage
+                        name="exitPoints"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
+
+                    <div className="col-md-2 m-2 col-sm-11">
+                      <label>Set Multipliers<span>*</span></label>
+                      <Field
+                        type="text"
+                        name="setMultipliers"
+                        placeholder="Enter Set Multipliers"
+                        className="form-control"
+                      />
+                      <ErrorMessage
+                        name="setMultipliers"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
+
+                    <div className="col-md-2 m-2 col-sm-11">
+                      <label>Welcome Bonus<span>*</span></label>
+                      <Field
+                        type="text"
+                        name="welcomeBonus"
+                        placeholder="Enter Welcome Bonus"
+                        className="form-control"
+                      />
+                      <ErrorMessage
+                        name="welcomeBonus"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
+                  </div>
+
+                  {status && status.success && (
+                    <div className="text-success">{status.success}</div>
+                  )}
+                  {status && status.error && (
+                    <div className="text-danger">{status.error}</div>
+                  )}
+
+                  <div className="row mt-2 justify-content-center">
+                    <div className="col-md-2">
+                      <button
+                        type="submit"
+                        className="purple-btn1 w-100"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                      </button>
+                    </div>
+                    <div className="col-md-2">
+                      <button
+                        type="reset"
+                        className="purple-btn2 w-100"
+                        onClick={cancelStep} 
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          )}
         </div>
-        </div>
-       
-
         <Footer />
       </div>
     </>
