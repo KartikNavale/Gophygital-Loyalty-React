@@ -521,7 +521,7 @@ body {
     font-size: 14px !important;
     margin-bottom: -5px !important;
     width: auto !important;
-    margin-left: 5px !important;
+    margin-left: 15px !important;
   }
   
   .fieldset-collection label {
@@ -2402,7 +2402,7 @@ body {
   .form-control {
     border: none;
     border-radius: 0;
-    text-align: center;
+    font-size: 14px !important;
     color: #8c8c8c;
   }
   

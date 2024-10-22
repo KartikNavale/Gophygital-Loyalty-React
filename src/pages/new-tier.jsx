@@ -142,8 +142,8 @@ const NewTier = () => {
               {({ isSubmitting, status }) => (
                 <Form className="go-shadow me-3">
                   <div className="row ms-3">
-                    <div className="col-md-2 m-2 col-sm-11">
-                      <fieldset className="border col-md-11 m-2 col-sm-11">
+                    <div className="col-md-3 m-2 col-sm-11">
+                      <fieldset className="border">
                         <legend className="float-none">
                           Tier Name<span>*</span>
                         </legend>
@@ -161,8 +161,8 @@ const NewTier = () => {
                       />
                     </div>
 
-                    <div className="col-md-2 m-2 col-sm-11">
-                      <fieldset className="border col-md-11 m-2 col-sm-11">
+                    <div className="col-md-3 m-2 col-sm-11">
+                      <fieldset className="border">
                         <legend className="float-none">
                           Exit Points<span>*</span>
                         </legend>
@@ -181,8 +181,8 @@ const NewTier = () => {
                       />
                     </div>
 
-                    <div className="col-md-2 m-2 col-sm-11">
-                      <fieldset className="border col-md-11 m-2 col-sm-11">
+                    <div className="col-md-3 m-2 col-sm-11">
+                      <fieldset className="border">
                         <legend className="float-none">
                           Set Multipliers<span>*</span>
                         </legend>
@@ -201,8 +201,8 @@ const NewTier = () => {
                       />
                     </div>
 
-                    <div className="col-md-2 m-2 col-sm-11">
-                      <fieldset className="border col-md-11 m-2 col-sm-11">
+                    <div className="col-md-3 m-2 col-sm-11">
+                      <fieldset className="border">
                         <legend className="float-none">
                           Welcome Bonus<span>*</span>
                         </legend>

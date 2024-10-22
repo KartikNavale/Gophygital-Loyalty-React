@@ -7,12 +7,11 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-// Validation schema using Yup
 const validationSchema = Yup.object({
   name: Yup.string().required("Tier Name is required"),
   exit_points: Yup.number()
@@ -186,7 +185,7 @@ const Tiers = () => {
                           <div className="row">
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none">
+                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
                                   Tier Name<span>*</span>
                                 </legend>
                                 <Field
@@ -205,7 +204,7 @@ const Tiers = () => {
 
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none">
+                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
                                   Exit Points<span>*</span>
                                 </legend>
                                 <Field
@@ -229,7 +228,7 @@ const Tiers = () => {
                           <div className="row">
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none">
+                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
                                   Multipliers
                                   <span>*</span>
                                 </legend>
@@ -252,7 +251,7 @@ const Tiers = () => {
 
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none">
+                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
                                   Welcome Bonus<span>*</span>
                                 </legend>
                                 <Field
@@ -275,7 +274,7 @@ const Tiers = () => {
                           <div className="row">
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none">
+                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
                                   Point Type<span>*</span>
                                 </legend>
                                 <Field
