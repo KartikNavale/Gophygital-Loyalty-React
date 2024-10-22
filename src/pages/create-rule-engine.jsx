@@ -1,11 +1,86 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
+import { fetchMasterAttributes, fetchSubAttributes, fetchMasterRewardOutcomes, fetchSubRewardOutcomes } from "../Confi/ruleEngineApi"
 
 const CreateRuleEngine = () => {
   const [conditions, setConditions] = useState([{ id: 1 }]);
+  const [ruleName, setRuleName] = useState('');
+  const [masterAttributes, setMasterAttributes] = useState([]);
+  const [selectedMasterAttribute, setSelectedMasterAttribute] = useState('');
+  const [subAttributes, setSubAttributes] = useState([]);
+
+  const [masterRewardOutcomes, setMasterRewardOutcomes] = useState([]);
+  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] = useState('');
+  const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
+
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const companyId = 44; // Set this according to your needs
+        const activeStatus = true; // Set this according to your needs
+        const masterAttrs = await fetchMasterAttributes(companyId, activeStatus);
+        setMasterAttributes(masterAttrs.master_attributes);
+
+        const rewardOutcomes = await fetchMasterRewardOutcomes(companyId, activeStatus);
+        setMasterRewardOutcomes(rewardOutcomes.master_reward_outcome);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    };
+
+    getData();
+  }, []);
+
+  //selected master attribute
+  const handleMasterAttributeChange = async (e) => {
+    const selectedId = e.target.value;
+    setSelectedMasterAttribute(selectedId);
+
+    // Find the index of the selected master attribute
+    const selectedIndex = masterAttributes.findIndex(attr => attr.id === parseInt(selectedId));
+    console.log(selectedIndex)
+
+    if (selectedIndex !== -1) { // Check if the index is valid
+      try {
+        const subAttrs = await fetchSubAttributes(selectedId);
+        console.log(subAttrs.master_attributes[selectedIndex].sub_attributes);
+        const selectedSubAttributes = subAttrs.master_attributes[selectedIndex].sub_attributes
+        setSubAttributes(selectedSubAttributes);
+      } catch (error) {
+        console.error('Error fetching sub attributes:', error);
+      }
+    } else {
+      console.error('Selected ID not found in master attributes');
+    }
+  };
+
+  //selected master reward outcome
+  const handleMasterSubRewardOutcomeChange = async (e) => {
+    const selectedId = e.target.value;
+    setSelectedMasterRewardOutcomes(selectedId);
+
+    // Find the index of the selected master attribute
+    const selectedIndex = masterRewardOutcomes.findIndex(attr => attr.id === parseInt(selectedId));
+    console.log(selectedIndex)
+
+    if (selectedIndex !== -1) { // Check if the index is valid
+      try {
+        const subRewardOutcomes = await fetchSubRewardOutcomes(selectedId);
+        console.log(subRewardOutcomes.master_reward_outcome[selectedIndex].sub_reward_outcome);
+        const selectedSubRewardOutcomes = subRewardOutcomes.master_reward_outcome[selectedIndex].sub_reward_outcome
+        setSubRewardOutcomes(selectedSubRewardOutcomes);
+      } catch (error) {
+        console.error('Error fetching sub attributes:', error);
+      }
+    } else {
+      console.error('Selected ID not found in master attributes');
+    }
+  };
+
 
   const addCondition = () => {
     setConditions([...conditions, { id: conditions.length + 1 }]);
@@ -63,24 +138,38 @@ const CreateRuleEngine = () => {
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Master Attribute<span>*</span></legend>
-              <select required className="p-1">
-                <option value="" disabled selected hidden>Select Master Attribute </option>
-                <option value="0">User Actions</option>
+              <select required="" className="p-1" onChange={handleMasterAttributeChange} value={selectedMasterAttribute}>
+                <option value="" >Select Master Attribute </option>
+
+                {masterAttributes.map(attr => (
+                          <option key={attr.id} value={attr.id}>
+                            {attr.display_name}
+                          </option>
+                        ))}
+
+                {/* <option value="0">User Actions</option>
                 <option value="1">Transaction Events</option>
                 <option value="1">Time-based Events</option>
                 <option value="1">User Demographics/Segments</option>
                 <option value="1">Engagement Behaviour</option>
                 <option value="1">Milestones</option>
-                <option value="1">Tier-based</option>
+                <option value="1">Tier-based</option> */}
               </select>
             </fieldset>
             <div className="col-md-1 d-flex justify-content-center align-items-center"><h4>&</h4></div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Sub Attribute<span>*</span></legend>
-              <select required className="p-1">
-                <option value="" disabled selected hidden>Select Sub Attribute</option>
-                <option value="0">Building1</option>
-                <option value="1">Building2</option>
+              <select required="" className="p-1" disabled={!selectedMasterAttribute}>
+                <option value="" >Select Sub Attribute</option>
+
+                {subAttributes.map(subAttr => (
+                          <option key={subAttr.id} value={subAttr.id}>
+                            {subAttr.display_name}
+                          </option>
+                        ))}
+
+                {/* <option value="0">Building1</option>
+                <option value="1">Building2</option> */}
               </select>
             </fieldset>
           </div>
@@ -91,7 +180,7 @@ const CreateRuleEngine = () => {
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Master Operator<span>*</span></legend>
-              <select required className="p-1">
+              <select required="" className="p-1">
                 <option value="" disabled selected hidden>Select Master Operator </option>
                 <option value="0">Common Operatives</option>
                 <option value="1">Logical Operatives</option>
@@ -102,7 +191,7 @@ const CreateRuleEngine = () => {
             <div className="col-md-1 d-flex justify-content-center align-items-center"><h4>&</h4></div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Sub Operator<span>*</span></legend>
-              <select required className="p-1">
+              <select required="" className="p-1">
                 <option value="" disabled selected hidden>Select Sub Operator </option>
                 <option value="0">Building1</option>
                 <option value="1">Building2</option>
@@ -171,16 +260,21 @@ const CreateRuleEngine = () => {
                     <legend className="float-none">
                       Master Reward Outcome<span>*</span>
                     </legend>
-                    <select required="" className="p-1">
-                      <option value="" disabled="" selected="" hidden="">
+                    <select required="" className="p-1" onChange={handleMasterSubRewardOutcomeChange} value={selectedMasterRewardOutcomes}>
+                      <option value="" selected="">
                         Select Master Reward Outcome
                       </option>
-                      <option value="0">Points-Based Rewards</option>
+                      {masterRewardOutcomes.map(reward =>
+                      <option key={reward.id} value={reward.id}>{reward.display_name}</option>
+                    )}
+
+
+                      {/* <option value="0">Points-Based Rewards</option>
                       <option value="1">Discounts/Coupons</option>
                       <option value="1">Tier Promotion</option>
                       <option value="1">Product/Service Offers</option>
                       <option value="1">Milestone-Based Rewards</option>
-                      <option value="1">Cashback</option>
+                      <option value="1">Cashback</option> */}
                     </select>
                   </fieldset>
                   <div className="col-md-1 d-flex justify-content-center align-items-center">
@@ -190,12 +284,16 @@ const CreateRuleEngine = () => {
                     <legend className="float-none">
                       Sub Reward Outcome<span>*</span>
                     </legend>
-                    <select required="" className="p-1">
-                      <option value="" disabled="" selected="" hidden="">
+                    <select required="" className="p-1" disabled={!selectedMasterRewardOutcomes}>
+                      <option value="">
                         Select Sub Reward Outcome
                       </option>
-                      <option value="0">Building1</option>
-                      <option value="1">Building2</option>
+
+                      {subRewardOutcomes.map(reward =>
+                      <option key={reward.id} value={reward.id}>{reward.display_name}</option>
+                    )}
+                      {/* <option value="0">Building1</option>
+                      <option value="1">Building2</option> */}
                     </select>
                   </fieldset>
                   <div className="col-md-1 d-flex justify-content-center align-items-center">
