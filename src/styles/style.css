@@ -3207,3 +3207,14 @@ body {
 
   /* create rule engine end */
   
+  /* Hide the spinners for number inputs in webkit browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide the spinners for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield; /* Remove the default spinner in Firefox */
+}

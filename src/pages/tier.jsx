@@ -9,19 +9,31 @@ import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+// Validation schema using Yup
+const validationSchema = Yup.object({
+  name: Yup.string().required("Tier Name is required"),
+  exit_points: Yup.number()
+    .required("Exit Points are required")
+    .positive("Exit Points must be a positive number"),
+  multipliers: Yup.number()
+    .required("Multipliers are required")
+    .positive("Multipliers must be a positive number"),
+  welcome_bonus: Yup.number()
+    .required("Welcome Bonus is required")
+    .positive("Welcome Bonus must be a positive number"),
+  point_type: Yup.string()
+    .required("Point type is required")
+    .oneOf(["lifetime", "yearly"], "Invalid point type"),
+});
 
 const Tiers = () => {
-  const [tiers, setTiers] = useState([]);  
+  const [tiers, setTiers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedTier, setSelectedTier] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    exit_points: 0,
-    multipliers: 0,
-    welcome_bonus: 0,
-    point_type: ""
-  });
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -43,36 +55,20 @@ const Tiers = () => {
 
   const handleEditClick = (tier) => {
     setSelectedTier(tier);
-    setFormData({
-      name: tier?.name,
-      exit_points: tier?.exit_points,
-      multipliers: tier?.multipliers,
-      welcome_bonus: tier?.welcome_bonus,
-      point_type: tier?.point_type
-    });
     setShowModal(true);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: name === "exit_points" || name === "multipliers" || name === "welcome_bonus" ? Number(value) : value,
-    }));
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  const handleFormSubmit = async (values) => {
     if (selectedTier) {
       try {
         const response = await axios.put(
           `https://staging.lockated.com/loyalty/tiers/${selectedTier.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-          { loyalty_tier: formData }
+          { loyalty_tier: values }
         );
         if (response) {
           setTiers((prevTiers) =>
             prevTiers.map((tier) =>
-              tier.id === selectedTier.id ? { ...tier, ...formData } : tier
+              tier.id === selectedTier.id ? { ...tier, ...values } : tier
             )
           );
         }
@@ -86,13 +82,6 @@ const Tiers = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedTier(null);
-    setFormData({
-      name: "",
-      exit_points: 0,
-      multipliers: 0,
-      welcome_bonus: 0,
-      point_type: ""
-    });
   };
 
   return (
@@ -180,81 +169,159 @@ const Tiers = () => {
                   <Modal.Title>Edit Tier</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <form onSubmit={handleFormSubmit}>
-                    <div className="mb-3">
-                      <label htmlFor="tierName" className="form-label">
-                        Tier Name
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="tierName"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="exitPoints" className="form-label">
-                        Exit Points
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="exitPoints"
-                        name="exit_points"
-                        value={formData.exit_points}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="multipliers" className="form-label">
-                        Multipliers
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="multipliers"
-                        name="multipliers"
-                        value={formData.multipliers}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="welcomeBonus" className="form-label">
-                        Welcome Bonus
-                      </label>
-                      <input
-                        type="number"
-                        className="form-control"
-                        id="welcomeBonus"
-                        name="welcome_bonus"
-                        value={formData.welcome_bonus}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label htmlFor="pointType" className="form-label">
-                        Point Type
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="pointType"
-                        name="point_type"
-                        value={formData.point_type}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <Button variant="primary" type="submit">
-                      Save Changes
-                    </Button>
-                  </form>
+                  {selectedTier && (
+                    <Formik
+                      initialValues={{
+                        name: selectedTier.name || "",
+                        exit_points: selectedTier.exit_points || 0,
+                        multipliers: selectedTier.multipliers || 0,
+                        welcome_bonus: selectedTier.welcome_bonus || 0,
+                        point_type: selectedTier.point_type || "",
+                      }}
+                      validationSchema={validationSchema}
+                      onSubmit={handleFormSubmit}
+                    >
+                      {({ values, handleChange }) => (
+                        <Form>
+                          <div className="row">
+                            <div className="col-6 mb-3">
+                              <fieldset className="border col-md-11 m-2 col-sm-11">
+                                <legend className="float-none">
+                                  Tier Name<span>*</span>
+                                </legend>
+                                <Field
+                                  type="text"
+                                  className="form-control border-0"
+                                  id="tierName"
+                                  name="name"
+                                />
+                              </fieldset>
+                              <ErrorMessage
+                                name="name"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+
+                            <div className="col-6 mb-3">
+                              <fieldset className="border col-md-11 m-2 col-sm-11">
+                                <legend className="float-none">
+                                  Exit Points<span>*</span>
+                                </legend>
+                                <Field
+                                  type="number"
+                                  className="form-control border-0"
+                                  id="exitPoints"
+                                  name="exit_points"
+                                  value={values.exit_points}
+                                  onChange={handleChange}
+                                />
+                              </fieldset>
+
+                              <ErrorMessage
+                                name="exit_points"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="row">
+                            <div className="col-6 mb-3">
+                              <fieldset className="border col-md-11 m-2 col-sm-11">
+                                <legend className="float-none">
+                                  Multipliers
+                                  <span>*</span>
+                                </legend>
+                                <Field
+                                  type="number"
+                                  className="form-control border-0"
+                                  id="multipliers"
+                                  name="multipliers"
+                                  value={values.multipliers}
+                                  onChange={handleChange}
+                                />
+                              </fieldset>
+
+                              <ErrorMessage
+                                name="multipliers"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+
+                            <div className="col-6 mb-3">
+                              <fieldset className="border col-md-11 m-2 col-sm-11">
+                                <legend className="float-none">
+                                  Welcome Bonus<span>*</span>
+                                </legend>
+                                <Field
+                                  type="number"
+                                  className="form-control border-0"
+                                  id="welcomeBonus"
+                                  name="welcome_bonus"
+                                  value={values.welcome_bonus}
+                                  onChange={handleChange}
+                                />
+                              </fieldset>
+
+                              <ErrorMessage
+                                name="welcome_bonus"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col-6 mb-3">
+                              <fieldset className="border col-md-11 m-2 col-sm-11">
+                                <legend className="float-none">
+                                  Point Type<span>*</span>
+                                </legend>
+                                <Field
+                                  as="select" // Change to select
+                                  className="form-control border-0"
+                                  id="pointType"
+                                  name="point_type"
+                                  onChange={handleChange}
+                                  value={values.point_type}
+                                >
+                                  <option value="" label="Select point type" />{" "}
+                                  <option value="lifetime" label="Life Time" />
+                                  <option value="yearly" label="Yearly" />
+                                </Field>
+                              </fieldset>
+
+                              <ErrorMessage
+                                name="point_type"
+                                component="div"
+                                className="text-danger"
+                              />
+                            </div>
+                          </div>
+                          <div className="row mt-2 justify-content-center align-items-center">
+                            <div className="col-4">
+                              <button
+                                type="submit"
+                                className="purple-btn1 w-100"
+                              >
+                                Submit
+                              </button>
+                            </div>
+                            <div className="col-4">
+                              <button
+                                type="reset"
+                                className="purple-btn2 w-100"
+                                onClick={handleCloseModal}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
+                  )}
                 </Modal.Body>
               </Modal>
             </div>

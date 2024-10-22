@@ -12,25 +12,30 @@ import { useNavigate } from "react-router-dom";
 const validationSchema = Yup.object().shape({
   tierName: Yup.string().required("Tier name is required"),
   exitPoints: Yup.number().required("Exit points are required").positive(),
-  setMultipliers: Yup.number().required("Set multipliers are required").positive(),
+  setMultipliers: Yup.number()
+    .required("Set multipliers are required")
+    .positive(),
   welcomeBonus: Yup.number().required("Welcome bonus is required").positive(),
 });
 
 const NewTier = () => {
   const [step, setStep] = useState(1);
   const [timeframe, setTimeframe] = useState("");
-  const [timeframeError, setTimeframeError] = useState(""); 
+  const [timeframeError, setTimeframeError] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleSubmit = async (values, { setSubmitting, resetForm, setStatus }) => {
+  const handleSubmit = async (
+    values,
+    { setSubmitting, resetForm, setStatus }
+  ) => {
     const data = {
       loyalty_tier: {
         name: values.tierName,
         exit_points: values.exitPoints,
         multipliers: values.setMultipliers,
         welcome_bonus: values.welcomeBonus,
-        point_type: timeframe, 
+        point_type: timeframe,
       },
     };
 
@@ -40,21 +45,20 @@ const NewTier = () => {
         data
       );
 
-      if (response.statusText === 'Created' ) {
+      if (response.statusText === "Created") {
         setStatus({ success: "Campaign created successfully!" });
         resetForm();
-        setStep(1); 
-        
-        console.log(data,'Navigating to /tier'); 
-        navigate('/tiers');
+        setStep(1);
+
+        console.log(data, "Navigating to /tier");
+        navigate("/tiers");
       }
-      console.log(response,data);
+      console.log(response, data);
     } catch (error) {
       setStatus({ error: "Failed to create campaign. Please try again." });
     } finally {
       setSubmitting(false);
     }
-    
   };
 
   const handleTimeframeChange = (value) => {
@@ -65,17 +69,17 @@ const NewTier = () => {
   const nextStep = () => {
     if (step === 1) {
       if (!timeframe) {
-        setTimeframeError("Please select a timeframe."); 
+        setTimeframeError("Please select a timeframe.");
       } else {
-        setStep(2); 
+        setStep(2);
       }
     }
   };
 
   const cancelStep = () => {
     setStep(1);
-    setTimeframe(""); 
-    setTimeframeError(""); 
+    setTimeframe("");
+    setTimeframeError("");
   };
 
   return (
@@ -91,20 +95,23 @@ const NewTier = () => {
               <p className="pointer">
                 <span className="text-secondary">Tiers</span> &gt; Tier Setting
               </p>
-
               <div className="mx-3 border-bottom">
                 <h5 className="d-flex">
                   <span className="title mt-3">TIER SETTING</span>
                 </h5>
-                <p className="mt-5 ms-4 fw-semibold">Point Accumulation Timeframe</p>
+                <p className="mt-5 ms-4 fw-semibold">
+                  Point Accumulation Timeframe
+                </p>
                 <p className="ms-4 text-muted">
-                  Establish how members enter into higher tiers on points earning and time frame.
+                  Establish how members enter into higher tiers on points
+                  earning and time frame.
                 </p>
               </div>
-
               <RoundedRadioButtonCard onChange={handleTimeframeChange} />
-              {timeframeError && <div className="text-danger ms-4">{timeframeError}</div>} {/* Error message */}
-
+              {timeframeError && (
+                <div className="text-danger ms-4">{timeframeError}</div>
+              )}{" "}
+              {/* Error message */}
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2">
                   <button className="purple-btn1 w-100" onClick={nextStep}>
@@ -136,13 +143,17 @@ const NewTier = () => {
                 <Form className="go-shadow me-3">
                   <div className="row ms-3">
                     <div className="col-md-2 m-2 col-sm-11">
-                      <label>Tier Name<span>*</span></label>
-                      <Field
-                        type="text"
-                        name="tierName"
-                        placeholder="Enter Tier Name"
-                        className="form-control"
-                      />
+                      <fieldset className="border col-md-11 m-2 col-sm-11">
+                        <legend className="float-none">
+                          Tier Name<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
+                          name="tierName"
+                          placeholder="Enter Tier Name"
+                          className="form-control border-0"
+                        />
+                      </fieldset>
                       <ErrorMessage
                         name="tierName"
                         component="div"
@@ -151,13 +162,18 @@ const NewTier = () => {
                     </div>
 
                     <div className="col-md-2 m-2 col-sm-11">
-                      <label>Exit Points<span>*</span></label>
-                      <Field
-                        type="text"
-                        name="exitPoints"
-                        placeholder="Enter Exit Points"
-                        className="form-control"
-                      />
+                      <fieldset className="border col-md-11 m-2 col-sm-11">
+                        <legend className="float-none">
+                          Exit Points<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
+                          name="exitPoints"
+                          placeholder="Enter Exit Points"
+                          className="form-control border-0"
+                        />
+                      </fieldset>
+
                       <ErrorMessage
                         name="exitPoints"
                         component="div"
@@ -166,13 +182,18 @@ const NewTier = () => {
                     </div>
 
                     <div className="col-md-2 m-2 col-sm-11">
-                      <label>Set Multipliers<span>*</span></label>
-                      <Field
-                        type="text"
-                        name="setMultipliers"
-                        placeholder="Enter Set Multipliers"
-                        className="form-control"
-                      />
+                      <fieldset className="border col-md-11 m-2 col-sm-11">
+                        <legend className="float-none">
+                          Set Multipliers<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
+                          name="setMultipliers"
+                          placeholder="Enter Set Multipliers"
+                          className="form-control border-0"
+                        />
+                      </fieldset>
+
                       <ErrorMessage
                         name="setMultipliers"
                         component="div"
@@ -181,13 +202,18 @@ const NewTier = () => {
                     </div>
 
                     <div className="col-md-2 m-2 col-sm-11">
-                      <label>Welcome Bonus<span>*</span></label>
-                      <Field
-                        type="text"
-                        name="welcomeBonus"
-                        placeholder="Enter Welcome Bonus"
-                        className="form-control"
-                      />
+                      <fieldset className="border col-md-11 m-2 col-sm-11">
+                        <legend className="float-none">
+                          Welcome Bonus<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
+                          name="welcomeBonus"
+                          placeholder="Enter Welcome Bonus"
+                          className="form-control border-0"
+                        />
+                      </fieldset>
+
                       <ErrorMessage
                         name="welcomeBonus"
                         component="div"
@@ -217,7 +243,7 @@ const NewTier = () => {
                       <button
                         type="reset"
                         className="purple-btn2 w-100"
-                        onClick={cancelStep} 
+                        onClick={cancelStep}
                       >
                         Cancel
                       </button>
