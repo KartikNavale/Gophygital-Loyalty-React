@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API_BASE_URL from "../Confi/api";
+import axios from 'axios'; // Import Axios
+
+
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -9,44 +11,90 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-
+    setError(""); // Reset error state
+    setLoading(true); // Start loading state
+  
+    // Regex to validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  
+    // Check if the entered email is valid
     if (!emailRegex.test(email)) {
       setError("Please enter a valid email address");
-      setLoading(false);
-      return;
+      setLoading(false); // Stop loading state
+      return; // Exit function early
     }
-
-    const formData = new FormData();
-    formData.append("user[email]", email);
-    formData.append("user[password]", password);
-
+  
+    // Log the credentials for debugging
+    console.log("Email:", email);
+    console.log("Password:", password);
+  
     try {
-      const response = await API_BASE_URL.post("/users/sign_in", formData, {
+      // Using Axios to make a POST request with the user object
+      const response = await axios.post("/login/users/sign_in", {
+        user: {
+          email,
+          password,
+        },
+      }, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'application/json', // Set the content type
         },
       });
-
-      const { spree_api_key, mobile, email, firstname } = response.data;
-
+  
+      // Check for the response status first
+      if (response.data.code === 401) {
+        // Handle 401 error specifically
+        setError("Email / Mobile or Password not valid");
+        return; // Exit the function early
+      }
+  
+      // Log the entire response for debugging
+      console.log("API Response:", response.data);
+  
+      // Destructure the response data
+      const { spree_api_key, mobile, email: responseEmail, firstname } = response.data;
+  
       // Store all relevant data in session storage
       sessionStorage.setItem("spree_api_key", spree_api_key);
       sessionStorage.setItem("mobile", mobile);
-      sessionStorage.setItem("email", email);
+      sessionStorage.setItem("email", responseEmail);
       sessionStorage.setItem("firstname", firstname);
-      navigate("/");
+  
+      // Navigate to the home page after successful login
+      navigate("/"); 
     } catch (err) {
-      setError(err.response?.data?.error || "An error occurred");
+      // Log error for debugging
+      console.error("Error occurred:", err);
+  
+      // Handle errors outside of the response
+      if (err.response) {
+        // Handle 401 error specifically
+        if (err.response.status === 401) {
+          setError("Email / Mobile or Password not valid");
+        } else {
+          const errorMessage = err.response.data?.error || err.message || "An unexpected error occurred. Please try again later.";
+          setError(errorMessage);
+        }
+      } else {
+        // Fallback for network errors or other issues
+        setError("An unexpected error occurred. Please try again later.");
+      }
     } finally {
+      // Always stop loading state
       setLoading(false);
     }
   };
+  
+
+  
+  
+  
+  
+  
 <style></style>
   return (
     <>
