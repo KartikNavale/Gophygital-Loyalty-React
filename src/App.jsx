@@ -35,7 +35,8 @@ function App() {
           <Route path='/campaign' element={<ProtectedRoute><Campaign /></ProtectedRoute>} />
           <Route path='/new-segment' element={<ProtectedRoute><NewSegment /></ProtectedRoute>} />
           <Route path='/new-campaign' element={<ProtectedRoute><NewCampaign /></ProtectedRoute>} />
-          <Route path='/member-details' element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} />
+          {/* <Route path='/member-details' element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} /> */}
+          <Route path="/member-details/:id" element={<ProtectedRoute><MemberDetails /></ProtectedRoute>} />
           <Route path='/rule-engine' element={<ProtectedRoute><RuleEngine /></ProtectedRoute>} />
           <Route path='/create-rule-engine' element={<ProtectedRoute><CreateRuleEngine /></ProtectedRoute>} />
           <Route path='/view-rule-engine' element={<ProtectedRoute><ViewRuleEngine /></ProtectedRoute>} />
