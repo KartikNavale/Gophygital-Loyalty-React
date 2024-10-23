@@ -12,31 +12,31 @@ const Members = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-   
+
   const getMembers = async () => {
     try {
       const response = await axios.get("https://staging.lockated.com/loyalty/members.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"); // Adjust the endpoint as necessary
       setMembers(response.data); // Return the data from the response
-      
+
     } catch (error) {
       console.error('Error fetching members:', error);
       throw error; // Rethrow the error for handling in the component
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    
+
     getMembers();
   }, []);
 
- 
-
-  
 
 
- 
+
+
+
+
   return (
     <>
       <Header />
@@ -88,13 +88,13 @@ const Members = () => {
                   </thead>
                   <tbody>
                     {members.map(member => (
-                      <tr key={member.id}> 
+                      <tr key={member.id}>
                         <td>{member.id}</td>
                         <td>{member.firstname} {member.lasttname}</td>
                         <td>{member.member_status.tier_level}</td>
-                        <td>{member.current_loyalty_points}</td>     
-                        <td>{member.lastActivityDate}</td>    {/* this field is not there*/}
-                        <td>{member.tier_validity}</td>         
+                        <td>{member.current_loyalty_points}</td>
+                        <td>{member.lastActivityDate}</td>    {/* this attribute is not there in  json*/}
+                        <td>{member.tier_validity}</td>
                         <td>
 
                           <Link to={`/member-details/${member.id}`}>
