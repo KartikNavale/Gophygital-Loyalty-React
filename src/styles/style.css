@@ -521,7 +521,7 @@ body {
     font-size: 14px !important;
     margin-bottom: -5px !important;
     width: auto !important;
-    margin-left: 15px !important;
+    margin-left: 5px !important;
   }
   
   .fieldset-collection label {
@@ -2402,7 +2402,7 @@ body {
   .form-control {
     border: none;
     border-radius: 0;
-    font-size: 14px !important;
+    text-align: center;
     color: #8c8c8c;
   }
   
@@ -3218,3 +3218,4 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield; /* Remove the default spinner in Firefox */
 }
+
