@@ -50,10 +50,8 @@ const NewTier = () => {
         resetForm();
         setStep(1);
 
-        console.log(data, "Navigating to /tier");
         navigate("/tiers");
       }
-      console.log(response, data);
     } catch (error) {
       setStatus({ error: "Failed to create campaign. Please try again." });
     } finally {
@@ -85,7 +83,14 @@ const NewTier = () => {
   return (
     <>
       <Header />
-      <div className="website-content d-flex">
+      <div
+        className="website-content d-flex"
+        style={{
+          height: "calc(100vh - 130px)",
+          position: "relative",
+          overflowY: "hidden",
+        }}
+      >
         <Sidebar />
         <div className="w-100">
           <SubHeader />
@@ -111,7 +116,6 @@ const NewTier = () => {
               {timeframeError && (
                 <div className="text-danger ms-4">{timeframeError}</div>
               )}{" "}
-              {/* Error message */}
               <div className="row mt-2 justify-content-center">
                 <div className="col-md-2">
                   <button className="purple-btn1 w-100" onClick={nextStep}>
@@ -140,114 +144,131 @@ const NewTier = () => {
               onSubmit={handleSubmit}
             >
               {({ isSubmitting, status }) => (
-                <Form className="go-shadow me-3">
-                  <div className="row ms-3">
-                    <div className="col-md-3 m-2 col-sm-11">
-                      <fieldset className="border">
-                        <legend className="float-none">
-                          Tier Name<span>*</span>
-                        </legend>
-                        <Field
-                          type="text"
+                <Form className="go-shadow me-3 h-100">
+                  <div className="position-relative" style={{height:'calc(100% - 5%)'}}>
+                    <div className="row ms-3">
+                      <div className="col-md-3 col-sm-11">
+                        <fieldset className="border">
+                          <legend className="float-none">
+                            Tier Name<span>*</span>
+                          </legend>
+                          <Field
+                            type="text"
+                            name="tierName"
+                            placeholder="Enter Tier Name"
+                            className="form-control border-0"
+                          />
+                        </fieldset>
+                        <ErrorMessage
                           name="tierName"
-                          placeholder="Enter Tier Name"
-                          className="form-control border-0"
+                          component="div"
+                          className="text-danger"
                         />
-                      </fieldset>
-                      <ErrorMessage
-                        name="tierName"
-                        component="div"
-                        className="text-danger"
-                      />
-                    </div>
+                      </div>
 
-                    <div className="col-md-3 m-2 col-sm-11">
-                      <fieldset className="border">
-                        <legend className="float-none">
-                          Exit Points<span>*</span>
-                        </legend>
-                        <Field
-                          type="text"
+                      <div className="col-md-3 col-sm-11">
+                        <fieldset className="border">
+                          <legend className="float-none">
+                            Exit Points<span>*</span>
+                          </legend>
+                          <Field
+                            type="text"
+                            name="exitPoints"
+                            placeholder="Enter Exit Points"
+                            className="form-control border-0"
+                          />
+                        </fieldset>
+
+                        <ErrorMessage
                           name="exitPoints"
-                          placeholder="Enter Exit Points"
-                          className="form-control border-0"
+                          component="div"
+                          className="text-danger"
                         />
-                      </fieldset>
+                      </div>
 
-                      <ErrorMessage
-                        name="exitPoints"
-                        component="div"
-                        className="text-danger"
-                      />
-                    </div>
+                      <div className="col-md-3 col-sm-11">
+                        <fieldset className="border">
+                          <legend className="float-none">
+                            Set Multipliers<span>*</span>
+                          </legend>
+                          <Field
+                            type="text"
+                            name="setMultipliers"
+                            placeholder="Enter Set Multipliers"
+                            className="form-control border-0"
+                          />
+                        </fieldset>
 
-                    <div className="col-md-3 m-2 col-sm-11">
-                      <fieldset className="border">
-                        <legend className="float-none">
-                          Set Multipliers<span>*</span>
-                        </legend>
-                        <Field
-                          type="text"
+                        <ErrorMessage
                           name="setMultipliers"
-                          placeholder="Enter Set Multipliers"
-                          className="form-control border-0"
+                          component="div"
+                          className="text-danger"
                         />
-                      </fieldset>
+                      </div>
 
-                      <ErrorMessage
-                        name="setMultipliers"
-                        component="div"
-                        className="text-danger"
-                      />
-                    </div>
+                      <div className="col-md-3 col-sm-11">
+                        <fieldset className="border">
+                          <legend className="float-none">
+                            Welcome Bonus<span>*</span>
+                          </legend>
+                          <Field
+                            type="text"
+                            name="welcomeBonus"
+                            placeholder="Enter Welcome Bonus"
+                            className="form-control border-0"
+                          />
+                        </fieldset>
 
-                    <div className="col-md-3 m-2 col-sm-11">
-                      <fieldset className="border">
-                        <legend className="float-none">
-                          Welcome Bonus<span>*</span>
-                        </legend>
-                        <Field
-                          type="text"
+                        <ErrorMessage
                           name="welcomeBonus"
-                          placeholder="Enter Welcome Bonus"
-                          className="form-control border-0"
+                          component="div"
+                          className="text-danger"
                         />
-                      </fieldset>
-
-                      <ErrorMessage
-                        name="welcomeBonus"
-                        component="div"
-                        className="text-danger"
-                      />
+                      </div>
                     </div>
-                  </div>
+                    <button
+                      className="purple-btn1"
+                      style={{ margin: "42px 28px", width: "150px" }}
+                    >
+                      Add New Tier
+                    </button>
 
-                  {status && status.success && (
-                    <div className="text-success">{status.success}</div>
-                  )}
-                  {status && status.error && (
-                    <div className="text-danger">{status.error}</div>
-                  )}
+                    <div
+                      className="row justify-content-center align-items-center"
+                      style={{
+                        position:'absolute',
+                        bottom:0,
+                        left:0,
+                        width:'100%'
 
-                  <div className="row mt-2 justify-content-center">
-                    <div className="col-md-2">
-                      <button
-                        type="submit"
-                        className="purple-btn1 w-100"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Submitting..." : "Submit"}
-                      </button>
+                      }}
+                    >
+                      <div className="col-md-2">
+                        <button
+                          type="submit"
+                          className="purple-btn1 w-100"
+                          disabled={isSubmitting}
+                        >
+                          {isSubmitting ? "Submitting..." : "Submit"}
+                        </button>
+                      </div>
+                      <div className="col-md-2">
+                        <button
+                          type="reset"
+                          className="purple-btn2 w-100"
+                          onClick={cancelStep}
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
-                    <div className="col-md-2">
-                      <button
-                        type="reset"
-                        className="purple-btn2 w-100"
-                        onClick={cancelStep}
-                      >
-                        Cancel
-                      </button>
-                    </div>
+
+                    {status && status.success && (
+                      <div className="text-success">{status.success}</div>
+                    )}
+                    {status && status.error && (
+                      <div className="text-danger">{status.error}</div>
+                    )}
                   </div>
                 </Form>
               )}
