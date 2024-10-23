@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
@@ -6,7 +6,9 @@ import SubHeader from "../components/SubHeader";
 import { fetchMasterAttributes, fetchSubAttributes, fetchMasterRewardOutcomes, fetchSubRewardOutcomes } from "../Confi/ruleEngineApi"
 
 const CreateRuleEngine = () => {
-  const [conditions, setConditions] = useState([{ id: 1 }]);
+
+  const [conditions, setConditions] = useState([{ id: 1, masterAttribute: '', subAttribute: '', masterOperator: '', subOperator: '' }]);
+
   const [ruleName, setRuleName] = useState('');
   const [masterAttributes, setMasterAttributes] = useState([]);
   const [selectedMasterAttribute, setSelectedMasterAttribute] = useState('');
@@ -15,6 +17,66 @@ const CreateRuleEngine = () => {
   const [masterRewardOutcomes, setMasterRewardOutcomes] = useState([]);
   const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] = useState('');
   const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
+
+  const [selectedMasterOperator, setSelectedMasterOperator] = useState('');
+  const [subOperators, setSubOperators] = useState([]);
+  const [selectedSubOperator, setSelectedSubOperator] = useState('');
+
+
+  //operator data static
+  const masterOperators = [
+    {
+      id: '0',
+      name: 'Common Operatives',
+      subOptions: [
+        { id: '1', name: 'Greater than (>)', value:'greater_than' },
+        { id: '2', name: 'Less than (<)',value:'less_than' },
+        { id: '3', name: 'Equals (=)' ,value:'equals'},
+        { id: '4', name: 'Not equals (!=)', value:'not_equals' },
+        { id: '5', name: 'Contains',value:'' },
+        { id: '6', name: 'Does not contain',value:'' },
+      ]
+    },
+    {
+      id: '1',
+      name: 'Logical Operatives',
+      subOptions: [
+        { id: '1', name: 'AND' },
+        { id: '2', name: 'OR' },
+        { id: '3', name: 'NOT' }
+      ]
+    },
+    {
+      id: '2',
+      name: 'Date/Time Operatives',
+      subOptions: [
+        { id: '1', name: 'Before' },
+        { id: '2', name: 'After' },
+        { id: '3', name: 'Between' },
+        { id: '4', name: 'Within' },
+      ]
+    },
+    {
+      id: '3',
+      name: 'Tier Operatives',
+      subOptions: [
+        { id: '1', name: 'Is in tier' },
+        { id: '2', name: 'Upgrade' },
+        { id: '3', name: 'Downgrade' }
+      ]
+    },
+  ];
+
+
+
+  const handleMasterOperatorChange = (e) => {
+    const selectedId = e.target.value;   //handle master operator
+    setSelectedMasterOperator(selectedId);
+    
+    const selectedMaster = masterOperators.find(op => op.id === selectedId);
+    setSubOperators(selectedMaster ? selectedMaster.subOptions : []);
+    setSelectedSubOperator(''); // Reset sub operator selection
+  };
 
 
   useEffect(() => {
@@ -83,7 +145,7 @@ const CreateRuleEngine = () => {
 
 
   const addCondition = () => {
-    setConditions([...conditions, { id: conditions.length + 1 }]);
+    setConditions([...conditions, { id: conditions.length + 1, masterAttribute: '', subAttribute: '', masterOperator: '', subOperator: '' }]);
   };
 
   const renderCondition = (condition, index) => (
@@ -93,7 +155,6 @@ const CreateRuleEngine = () => {
           <span>Condition {condition.id}</span>
         </h6>
       </div>
-  
       {index > 0 && ( // Only render the AND/OR section if this is not the first condition
         <ul className="nav nav-tabs border-0 mt-3">
           <div className="d-flex gap-3 And-btn rounded">
@@ -129,77 +190,92 @@ const CreateRuleEngine = () => {
           </div>
         </ul>
       )}
-  
+
       <div className="border-btm pb-2 mt-2">
+
+        {/* ......if ..... */}
         <div>
           <h4>
             <span className="badge setRuleCard">IF</span>
           </h4>
           <div className="row ms-1 mt-2">
+
+            {/* Attribute section */}
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Master Attribute<span>*</span></legend>
-              <select required="" className="p-1" onChange={handleMasterAttributeChange} value={selectedMasterAttribute}>
-                <option value="" >Select Master Attribute </option>
-
+              <select required="" className="p-1" onChange={(e) => {
+                const updatedConditions = conditions.map((cond, idx) =>
+                  idx === index ? { ...cond, masterAttribute: e.target.value } : cond
+                );
+                setConditions(updatedConditions);
+                handleMasterAttributeChange(e); // If needed to fetch sub attributes
+              }} value={condition.masterAttribute}>
+                <option value="">Select Master Attribute </option>
                 {masterAttributes.map(attr => (
-                          <option key={attr.id} value={attr.id}>
-                            {attr.display_name}
-                          </option>
-                        ))}
-
-                {/* <option value="0">User Actions</option>
-                <option value="1">Transaction Events</option>
-                <option value="1">Time-based Events</option>
-                <option value="1">User Demographics/Segments</option>
-                <option value="1">Engagement Behaviour</option>
-                <option value="1">Milestones</option>
-                <option value="1">Tier-based</option> */}
+                  <option key={attr.id} value={attr.id}>
+                    {attr.display_name}
+                  </option>
+                ))}
               </select>
             </fieldset>
             <div className="col-md-1 d-flex justify-content-center align-items-center"><h4>&</h4></div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Sub Attribute<span>*</span></legend>
-              <select required="" className="p-1" disabled={!selectedMasterAttribute}>
-                <option value="" >Select Sub Attribute</option>
-
+              <select required className="p-1" disabled={!condition.masterAttribute} onChange={(e) => {
+                const updatedConditions = conditions.map((cond, idx) =>
+                  idx === index ? { ...cond, subAttribute: e.target.value } : cond
+                );
+                setConditions(updatedConditions);
+              }} value={condition.subAttribute}>
+                <option value="">Select Sub Attribute</option>
                 {subAttributes.map(subAttr => (
-                          <option key={subAttr.id} value={subAttr.id}>
-                            {subAttr.display_name}
-                          </option>
-                        ))}
-
-                {/* <option value="0">Building1</option>
-                <option value="1">Building2</option> */}
+                  <option key={subAttr.id} value={subAttr.id}>
+                    {subAttr.display_name}
+                  </option>
+                ))}
               </select>
             </fieldset>
           </div>
         </div>
-  
+
+        {/* Operator section */}
         <div className="mt-3">
           <h4><span className="badge setRuleCard">Operator</span></h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Master Operator<span>*</span></legend>
-              <select required="" className="p-1">
-                <option value="" disabled selected hidden>Select Master Operator </option>
-                <option value="0">Common Operatives</option>
-                <option value="1">Logical Operatives</option>
-                <option value="1">Date/Time Operatives</option>
-                <option value="1">Tier Operatives</option>
+              <select required="" className="p-1" value={condition.masterOperator} onChange={(e) => {
+                const updatedConditions = conditions.map((cond, idx) =>
+                  idx === index ? { ...cond, masterOperator: e.target.value } : cond
+                );
+                setConditions(updatedConditions);
+                handleMasterOperatorChange(e); // If needed to update sub operators
+              }}>
+                <option value="">Select Master Operator </option>
+                {masterOperators.map(op => (
+                  <option key={op.id} value={op.id}>{op.name}</option>
+                ))}
               </select>
             </fieldset>
             <div className="col-md-1 d-flex justify-content-center align-items-center"><h4>&</h4></div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
               <legend className="float-none">Sub Operator<span>*</span></legend>
-              <select required="" className="p-1">
-                <option value="" disabled selected hidden>Select Sub Operator </option>
-                <option value="0">Building1</option>
-                <option value="1">Building2</option>
+              <select required className="p-1" disabled={!condition.masterOperator} value={condition.subOperator} onChange={(e) => {
+                const updatedConditions = conditions.map((cond, idx) =>
+                  idx === index ? { ...cond, subOperator: e.target.value } : cond
+                );
+                setConditions(updatedConditions);
+              }}>
+                <option value="">Select Sub Operator </option>
+                {subOperators.map(subOp => (
+                  <option key={subOp.id} value={subOp.id}>{subOp.name}</option>
+                ))}
               </select>
             </fieldset>
           </div>
         </div>
-  
+
+        {/* Value section */}
         <div className="mt-3">
           <h4><span className="badge setRuleCard">Value</span></h4>
           <div className="row ms-1 mt-2">
@@ -212,46 +288,47 @@ const CreateRuleEngine = () => {
       </div>
     </div>
   );
-  
+
+
 
 
   return (
     <>
       <Header />
       <div className="website-content d-flex">
-      <Sidebar />
+        <Sidebar />
         <div className="w-100">
-        <SubHeader />
-        <div className="module-data-section mt-2">
-          <p className="pointer">
-            <span className="text-secondary">Rule Engine</span> &gt; New Rule
-          </p>
-          <h5 className="mb-3">
-            <span className="title">New Rule</span>
-          </h5>
-          <div className="go-shadow me-3">
-            <div className="row ms-1">
-              <fieldset className="border col-md-11 m-2 col-sm-11">
-                <legend className="float-none">New Rule<span>*</span></legend>
-                <input type="text" placeholder="Enter Name" />
-              </fieldset>
+          <SubHeader />
+          <div className="module-data-section mt-2">
+            <p className="pointer">
+              <span className="text-secondary">Rule Engine</span> &gt; New Rule
+            </p>
+            <h5 className="mb-3">
+              <span className="title">New Rule</span>
+            </h5>
+            <div className="go-shadow me-3">
+              <div className="row ms-1">
+                <fieldset className="border col-md-11 m-2 col-sm-11">
+                  <legend className="float-none">New Rule<span>*</span></legend>
+                  <input type="text" placeholder="Enter Name" value={ruleName} onChange={(e)=>setRuleName(e.target.value)} />
+                </fieldset>
+              </div>
             </div>
-          </div>
 
-          <div className="main-rule">
-            {conditions.map(renderCondition)}
+            <div className="main-rule">
+              {conditions.map(renderCondition)}
 
-            <button className="setRuleCard2 mt-2" onClick={addCondition}style={{color:'black'}} >
-              <span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
-                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg>
-              </span>
-              Add Additional Condition
-            </button>
+              <button className="setRuleCard2 mt-2" onClick={addCondition} style={{ color: 'black' }} >
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-plus" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                  </svg>
+                </span>
+                Add Additional Condition
+              </button>
 
-            {/* THEN section */}
-            <div className="mt-3">
+              {/* THEN section */}
+              <div className="mt-3">
                 <h4>
                   <span className="badge setRuleCard">THEN</span>
                 </h4>
@@ -265,16 +342,8 @@ const CreateRuleEngine = () => {
                         Select Master Reward Outcome
                       </option>
                       {masterRewardOutcomes.map(reward =>
-                      <option key={reward.id} value={reward.id}>{reward.display_name}</option>
-                    )}
-
-
-                      {/* <option value="0">Points-Based Rewards</option>
-                      <option value="1">Discounts/Coupons</option>
-                      <option value="1">Tier Promotion</option>
-                      <option value="1">Product/Service Offers</option>
-                      <option value="1">Milestone-Based Rewards</option>
-                      <option value="1">Cashback</option> */}
+                        <option key={reward.id} value={reward.lock_model_name}>{reward.display_name}</option>
+                      )}
                     </select>
                   </fieldset>
                   <div className="col-md-1 d-flex justify-content-center align-items-center">
@@ -290,34 +359,33 @@ const CreateRuleEngine = () => {
                       </option>
 
                       {subRewardOutcomes.map(reward =>
-                      <option key={reward.id} value={reward.id}>{reward.display_name}</option>
-                    )}
-                      {/* <option value="0">Building1</option>
-                      <option value="1">Building2</option> */}
+                        <option key={reward.id} value={reward.rule_engine_available_model_id}>{reward.display_name}</option>
+                      )}
                     </select>
                   </fieldset>
-                  <div className="col-md-1 d-flex justify-content-center align-items-center">
+                  {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
                     <h4>=</h4>
-                  </div>
+                  </div> */}
                   <fieldset className="border col-md-3 m-2 col-sm-11 ">
                     <legend className="float-none">
-                      Point Value<span>*</span>
+                    Parameter    {/* <span>*</span> */}
                     </legend>
                     <input type="text" placeholder="Enter Point Value" />
                   </fieldset>
                 </div>
               </div>
-          </div>
-       {/* ..... */}
-          <div className="row mt-2 justify-content-center">
-            <div className="col-md-2">
-              <button className="purple-btn1 w-100">Save for Approval</button>
             </div>
-            <div className="col-md-2">
-              <button className="purple-btn2 w-100">Cancel</button>
+
+            {/* ..... */}
+            <div className="row mt-2 justify-content-center">
+              <div className="col-md-2">
+                <button className="purple-btn1 w-100">Save for Approval</button>
+              </div>
+              <div className="col-md-2">
+                <button className="purple-btn2 w-100">Cancel</button>
+              </div>
             </div>
           </div>
-        </div>
         </div>
         <Footer />
       </div>
