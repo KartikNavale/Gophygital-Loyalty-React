@@ -283,7 +283,7 @@ const MemberDetails = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {transactionData.map((item, id) => (
+                        {transactionData?.map((item, id) => (
                         <tr>
                           <td className="text-center">{item.created_at}</td>
                           <td className="text-center">{item.transaction_type}</td>
