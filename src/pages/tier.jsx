@@ -96,7 +96,7 @@ const Tiers = () => {
             </p>
             <h5 className="mb-3">Tiers</h5>
             <div className="loyalty-header">
-              <div>
+              <div className="d-flex justify-content-between align-items-center">
                 <Link to="/new-tier">
                   <button className="purple-btn1 rounded-3 px-3">
                     <svg
@@ -112,6 +112,31 @@ const Tiers = () => {
                     <span>New Tier</span>
                   </button>
                 </Link>
+                <div className="d-flex align-items-center">
+                  <div className="position-relative me-3">
+                    <input
+                      className="form-control"
+                      style={{ height: "35px", paddingLeft: "32px" }}
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                    />
+                    <div className="position-absolute" style={{top:'10px', left:'15px'}}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-search"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                      </svg>
+                    </div>
+                  </div>
+                  <button className="purple-btn1">Go</button>
+                  <button className="purple-btn2">Reset</button>
+                </div>
               </div>
 
               {loading && <p>Loading tiers...</p>}
@@ -185,7 +210,10 @@ const Tiers = () => {
                           <div className="row">
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
+                                <legend
+                                  className="float-none"
+                                  style={{ marginLeft: "15px !important" }}
+                                >
                                   Tier Name<span>*</span>
                                 </legend>
                                 <Field
@@ -204,7 +232,10 @@ const Tiers = () => {
 
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
+                                <legend
+                                  className="float-none"
+                                  style={{ marginLeft: "15px !important" }}
+                                >
                                   Exit Points<span>*</span>
                                 </legend>
                                 <Field
@@ -228,7 +259,10 @@ const Tiers = () => {
                           <div className="row">
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
+                                <legend
+                                  className="float-none"
+                                  style={{ marginLeft: "15px !important" }}
+                                >
                                   Multipliers
                                   <span>*</span>
                                 </legend>
@@ -251,7 +285,10 @@ const Tiers = () => {
 
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
+                                <legend
+                                  className="float-none"
+                                  style={{ marginLeft: "15px !important" }}
+                                >
                                   Welcome Bonus<span>*</span>
                                 </legend>
                                 <Field
@@ -274,7 +311,10 @@ const Tiers = () => {
                           <div className="row">
                             <div className="col-6 mb-3">
                               <fieldset className="border col-md-11 m-2 col-sm-11">
-                                <legend className="float-none" style={{ marginLeft: '15px !important'}}>
+                                <legend
+                                  className="float-none"
+                                  style={{ marginLeft: "15px !important" }}
+                                >
                                   Point Type<span>*</span>
                                 </legend>
                                 <Field
