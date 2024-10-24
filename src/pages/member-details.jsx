@@ -74,234 +74,228 @@ const MemberDetails = () => {
 
   return (
     <>
-      <Header />
-      <div className="website-content d-flex">
-        <Sidebar />
-        <div className="w-100">
-          <SubHeader />
-          <div className="module-data-section mt-2 mb-2">
-            <p className="pointer">
-              <span className="text-secondary">Members</span> &gt; Member
-              Details
-            </p>
+      <div className="w-100">
+        <SubHeader />
+        <div className="module-data-section mt-2 mb-2">
+          <p className="pointer">
+            <span className="text-secondary">Members</span> &gt; Member Details
+          </p>
 
-            {/* personal details */}
-            {loading ? (
-              <p>Loading...</p>
-            ) : error ? (
-              <p className="text-danger">{error}</p>
-            ) : (
-              <>
-                <div class="go-shadow mx-3 no-top-left-shadow ">
-                  <h5 class="d-flex">
-                    <span class="title mt-3">PERSONAL DETAILS</span>
-                  </h5>
-                  <div class="row px-3">
-                    <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Full name
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : {member.firstname} {member.lasttname}{" "}
-                      </div>
+          {/* personal details */}
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p className="text-danger">{error}</p>
+          ) : (
+            <>
+              <div class="go-shadow mx-3 no-top-left-shadow ">
+                <h5 class="d-flex">
+                  <span class="title mt-3">PERSONAL DETAILS</span>
+                </h5>
+                <div class="row px-3">
+                  <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Full name
                     </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Email Address
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : {member.email}
-                      </div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.firstname} {member.lasttname}{" "}
                     </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Phone No.
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : {member.phone}
-                      </div>
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Email Address
                     </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Home Address
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : {member.address.address1} {member.address.address2}{" "}
-                      </div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.email}
+                    </div>
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Phone No.
+                    </div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.phone}
+                    </div>
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Home Address
+                    </div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.address.address1} {member.address.address2}{" "}
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Membership Status */}
-                <div class="go-shadow mx-3 no-top-left-shadow ">
-                  <h5 class="d-flex">
-                    <span class="title mt-3">MEMBERSHIP STATUS</span>
-                  </h5>
-                  <div class="row px-3">
-                    <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Current Loyalty Points
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : {member.current_loyalty_points}
-                      </div>
+              {/* Membership Status */}
+              <div class="go-shadow mx-3 no-top-left-shadow ">
+                <h5 class="d-flex">
+                  <span class="title mt-3">MEMBERSHIP STATUS</span>
+                </h5>
+                <div class="row px-3">
+                  <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Current Loyalty Points
                     </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Tier Progress
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : {member.member_status.tier_progression}
-                      </div>
-                    </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Membership Duration{" "}
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">: Name</div>{" "}
-                      {/* this attribute is not there in  json*/}
-                    </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Account Status
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">: Active</div>
-                    </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Enrolled Date
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : {member.created_at}
-                      </div>
-                    </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Tier Level
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : {member.member_status.tier_level}
-                      </div>
-                    </div>
-                    <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                      <div class="col-6 p-1 text-muted member-detail-color">
-                        Expiry Points
-                      </div>
-                      <div class="col-6 p-1 member-detail-color">
-                        : 20/02/2024{" "}
-                      </div>{" "}
-                      {/* this attribute is not there in  json*/}
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.current_loyalty_points}
                     </div>
                   </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Tier Progress
+                    </div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.member_status.tier_progression}
+                    </div>
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Membership Duration{" "}
+                    </div>
+                    <div class="col-6 p-1 member-detail-color">: Name</div>{" "}
+                    {/* this attribute is not there in  json*/}
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Account Status
+                    </div>
+                    <div class="col-6 p-1 member-detail-color">: Active</div>
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Enrolled Date
+                    </div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.created_at}
+                    </div>
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Tier Level
+                    </div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.member_status.tier_level}
+                    </div>
+                  </div>
+                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div class="col-6 p-1 text-muted member-detail-color">
+                      Expiry Points
+                    </div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : 20/02/2024{" "}
+                    </div>{" "}
+                    {/* this attribute is not there in  json*/}
+                  </div>
                 </div>
+              </div>
 
-                {/* Middle Boxex */}
+              {/* Middle Boxex */}
 
-                <div className="material-boxes m-5">
-                  <div
-                    className="container-fluid d-flex align-item-center justify-content-center "
-                    style={{ height: "135px", width: "1000px" }}
-                  >
-                    <div className="row d-flex justify-content-between align-item-center">
-                      <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
-                        <div
-                          className="content-box text-center tab-button border pt-4"
-                          style={{
-                            height: "135px",
-                            width: "246px",
-                            borderRadius: "20px",
-                          }}
+              <div className="material-boxes m-5">
+                <div
+                  className="container-fluid d-flex align-item-center justify-content-center "
+                  style={{ height: "135px", width: "1000px" }}
+                >
+                  <div className="row d-flex justify-content-between align-item-center">
+                    <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
+                      <div
+                        className="content-box text-center tab-button border pt-4"
+                        style={{
+                          height: "135px",
+                          width: "246px",
+                          borderRadius: "20px",
+                        }}
+                      >
+                        <p className="content-box-sub fw-light">14.28%</p>
+                        <h6
+                          className="content-box-title"
+                          style={{ heigth: "20px", width: "221px" }}
                         >
-                          <p className="content-box-sub fw-light">14.28%</p>
-                          <h6
-                            className="content-box-title"
-                            style={{ heigth: "20px", width: "221px" }}
-                          >
-                            ALL THE POINTS EARNED
-                          </h6>
-                          <h6 className="content-box-title">1400</h6>
-                        </div>
+                          ALL THE POINTS EARNED
+                        </h6>
+                        <h6 className="content-box-title">1400</h6>
                       </div>
+                    </div>
 
-                      <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
-                        <div
-                          className="content-box text-center tab-button border pt-4"
-                          style={{
-                            height: "135px",
-                            width: "246px",
-                            borderRadius: "20px",
-                          }}
+                    <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
+                      <div
+                        className="content-box text-center tab-button border pt-4"
+                        style={{
+                          height: "135px",
+                          width: "246px",
+                          borderRadius: "20px",
+                        }}
+                      >
+                        <p className="content-box-sub fw-light">12.50%</p>
+                        <h6
+                          className="content-box-title"
+                          style={{ heigth: "20px", width: "221px" }}
                         >
-                          <p className="content-box-sub fw-light">12.50%</p>
-                          <h6
-                            className="content-box-title"
-                            style={{ heigth: "20px", width: "221px" }}
-                          >
-                            ALL THE POINTS REDEEMED
-                          </h6>
-                          <h6 className="content-box-title">7000</h6>
-                        </div>
+                          ALL THE POINTS REDEEMED
+                        </h6>
+                        <h6 className="content-box-title">7000</h6>
                       </div>
+                    </div>
 
-                      <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
-                        <div
-                          className="content-box text-center tab-button border pt-5"
-                          style={{
-                            height: "135px",
-                            width: "246px",
-                            borderRadius: "20px",
-                          }}
+                    <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
+                      <div
+                        className="content-box text-center tab-button border pt-5"
+                        style={{
+                          height: "135px",
+                          width: "246px",
+                          borderRadius: "20px",
+                        }}
+                      >
+                        <h6
+                          className="content-box-title"
+                          style={{ heigth: "20px", width: "221px" }}
                         >
-                          <h6
-                            className="content-box-title"
-                            style={{ heigth: "20px", width: "221px" }}
-                          >
-                            BALANCED POINTS
-                          </h6>
-                          <h6 className="content-box-title">7000</h6>
-                        </div>
+                          BALANCED POINTS
+                        </h6>
+                        <h6 className="content-box-title">7000</h6>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* table */}
+              {/* table */}
 
-                <div>
-                  <h5 className="m-3 title ps-2 ">TRANSACTION STATUS</h5>
-                  <div className="tbl-container mx-5">
-                    <table className="w-100">
-                      <thead>
-                        <tr>
-                          <td className="text-center"> Date</td>
-                          <td className="text-center"> Transaction Type</td>
-                          <td className="text-center"> Balanced Points</td>
-                          <td className="text-center">Earned Points</td>
-                          <td className="text-center">Redeem Points</td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {transactionData &&
-                          transactionData.map((item, id) => (
-                            <tr key={id}>
-                              <td className="text-center">{item.created_at}</td>
-                              <td className="text-center">
-                                {item.transaction_type}
-                              </td>
-                              <td className="text-center">...</td>
-                              <td className="text-center">...</td>
-                              <td className="text-center">...</td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
+              <div>
+                <h5 className="m-3 title ps-2 ">TRANSACTION STATUS</h5>
+                <div className="tbl-container mx-5">
+                  <table className="w-100">
+                    <thead>
+                      <tr>
+                        <td className="text-center"> Date</td>
+                        <td className="text-center"> Transaction Type</td>
+                        <td className="text-center"> Balanced Points</td>
+                        <td className="text-center">Earned Points</td>
+                        <td className="text-center">Redeem Points</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {transactionData &&
+                        transactionData.map((item, id) => (
+                          <tr key={id}>
+                            <td className="text-center">{item.created_at}</td>
+                            <td className="text-center">
+                              {item.transaction_type}
+                            </td>
+                            <td className="text-center">...</td>
+                            <td className="text-center">...</td>
+                            <td className="text-center">...</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
-        <Footer />
       </div>
     </>
   );

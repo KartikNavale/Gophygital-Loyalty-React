@@ -60,8 +60,6 @@ const NewCampaign = () => {
 
   return (
     <>
-      <Header />
-      <Sidebar />
       <div className="website-content">
         <div className="module-data-section mt-2">
           <p className="pointer">
@@ -173,7 +171,6 @@ const NewCampaign = () => {
             </div>
           </form>
         </div>
-        <Footer />
       </div>
     </>
   );

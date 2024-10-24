@@ -82,200 +82,190 @@ const NewTier = () => {
 
   return (
     <>
-      <Header />
-      <div
-        className="website-content d-flex"
-        style={{
-          height: "calc(100vh - 130px)",
-          position: "relative",
-          overflowY: "hidden",
-        }}
-      >
-        <Sidebar />
-        <div className="w-100">
-          <SubHeader />
+      <div className="w-100">
+        <SubHeader />
 
-          {step === 1 && (
-            <div className="module-data-section mt-2 flex-grow-1">
-              <p className="pointer">
-                <span className="text-secondary">Tiers</span> &gt; Tier Setting
+        {step === 1 && (
+          <div className="module-data-section mt-2 flex-grow-1">
+            <p className="pointer">
+              <span className="text-secondary">Tiers</span> &gt; Tier Setting
+            </p>
+            <div className="mx-3 border-bottom">
+              <h5 className="d-flex">
+                <span className="title mt-3">TIER SETTING</span>
+              </h5>
+              <p className="mt-5 ms-4 fw-semibold">
+                Point Accumulation Timeframe
               </p>
-              <div className="mx-3 border-bottom">
-                <h5 className="d-flex">
-                  <span className="title mt-3">TIER SETTING</span>
-                </h5>
-                <p className="mt-5 ms-4 fw-semibold">
-                  Point Accumulation Timeframe
-                </p>
-                <p className="ms-4 text-muted">
-                  Establish how members enter into higher tiers on points
-                  earning and time frame.
-                </p>
+              <p className="ms-4 text-muted">
+                Establish how members enter into higher tiers on points earning
+                and time frame.
+              </p>
+            </div>
+            <RoundedRadioButtonCard onChange={handleTimeframeChange} />
+            {timeframeError && (
+              <div className="text-danger ms-4">{timeframeError}</div>
+            )}{" "}
+            <div className="row mt-2 justify-content-center">
+              <div className="col-md-2">
+                <button className="purple-btn1 w-100" onClick={nextStep}>
+                  Next
+                </button>
               </div>
-              <RoundedRadioButtonCard onChange={handleTimeframeChange} />
-              {timeframeError && (
-                <div className="text-danger ms-4">{timeframeError}</div>
-              )}{" "}
-              <div className="row mt-2 justify-content-center">
-                <div className="col-md-2">
-                  <button className="purple-btn1 w-100" onClick={nextStep}>
-                    Next
-                  </button>
-                </div>
 
-                <div className="col-md-2">
-                  <button className="purple-btn2 w-100" onClick={cancelStep}>
-                    Cancel
-                  </button>
-                </div>
+              <div className="col-md-2">
+                <button className="purple-btn2 w-100" onClick={cancelStep}>
+                  Cancel
+                </button>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {step === 2 && (
-            <Formik
-              initialValues={{
-                tierName: "",
-                exitPoints: "",
-                setMultipliers: "",
-                welcomeBonus: "",
-              }}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-            >
-              {({ isSubmitting, status }) => (
-                <Form className="go-shadow me-3 h-100">
-                  <div className="position-relative" style={{height:'calc(100% - 5%)'}}>
-                    <div className="row ms-3">
-                      <div className="col-md-3 col-sm-11">
-                        <fieldset className="border">
-                          <legend className="float-none">
-                            Tier Name<span>*</span>
-                          </legend>
-                          <Field
-                            type="text"
-                            name="tierName"
-                            placeholder="Enter Tier Name"
-                            className="form-control border-0"
-                          />
-                        </fieldset>
-                        <ErrorMessage
+        {step === 2 && (
+          <Formik
+            initialValues={{
+              tierName: "",
+              exitPoints: "",
+              setMultipliers: "",
+              welcomeBonus: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting, status }) => (
+              <Form className="go-shadow me-3 h-100">
+                <div
+                  className="position-relative"
+                  style={{ height: "calc(100% - 5%)" }}
+                >
+                  <div className="row ms-3">
+                    <div className="col-md-3 col-sm-11">
+                      <fieldset className="border">
+                        <legend className="float-none">
+                          Tier Name<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
                           name="tierName"
-                          component="div"
-                          className="text-danger"
+                          placeholder="Enter Tier Name"
+                          className="form-control border-0"
                         />
-                      </div>
+                      </fieldset>
+                      <ErrorMessage
+                        name="tierName"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
 
-                      <div className="col-md-3 col-sm-11">
-                        <fieldset className="border">
-                          <legend className="float-none">
-                            Exit Points<span>*</span>
-                          </legend>
-                          <Field
-                            type="text"
-                            name="exitPoints"
-                            placeholder="Enter Exit Points"
-                            className="form-control border-0"
-                          />
-                        </fieldset>
-
-                        <ErrorMessage
+                    <div className="col-md-3 col-sm-11">
+                      <fieldset className="border">
+                        <legend className="float-none">
+                          Exit Points<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
                           name="exitPoints"
-                          component="div"
-                          className="text-danger"
+                          placeholder="Enter Exit Points"
+                          className="form-control border-0"
                         />
-                      </div>
+                      </fieldset>
 
-                      <div className="col-md-3 col-sm-11">
-                        <fieldset className="border">
-                          <legend className="float-none">
-                            Set Multipliers<span>*</span>
-                          </legend>
-                          <Field
-                            type="text"
-                            name="setMultipliers"
-                            placeholder="Enter Set Multipliers"
-                            className="form-control border-0"
-                          />
-                        </fieldset>
+                      <ErrorMessage
+                        name="exitPoints"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
 
-                        <ErrorMessage
+                    <div className="col-md-3 col-sm-11">
+                      <fieldset className="border">
+                        <legend className="float-none">
+                          Set Multipliers<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
                           name="setMultipliers"
-                          component="div"
-                          className="text-danger"
+                          placeholder="Enter Set Multipliers"
+                          className="form-control border-0"
                         />
-                      </div>
+                      </fieldset>
 
-                      <div className="col-md-3 col-sm-11">
-                        <fieldset className="border">
-                          <legend className="float-none">
-                            Welcome Bonus<span>*</span>
-                          </legend>
-                          <Field
-                            type="text"
-                            name="welcomeBonus"
-                            placeholder="Enter Welcome Bonus"
-                            className="form-control border-0"
-                          />
-                        </fieldset>
+                      <ErrorMessage
+                        name="setMultipliers"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
 
-                        <ErrorMessage
+                    <div className="col-md-3 col-sm-11">
+                      <fieldset className="border">
+                        <legend className="float-none">
+                          Welcome Bonus<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
                           name="welcomeBonus"
-                          component="div"
-                          className="text-danger"
+                          placeholder="Enter Welcome Bonus"
+                          className="form-control border-0"
                         />
-                      </div>
+                      </fieldset>
+
+                      <ErrorMessage
+                        name="welcomeBonus"
+                        component="div"
+                        className="text-danger"
+                      />
                     </div>
-                    <button
-                      className="purple-btn1"
-                      style={{ margin: "42px 28px", width: "150px" }}
-                    >
-                      Add New Tier
-                    </button>
-
-                    <div
-                      className="row justify-content-center align-items-center"
-                      style={{
-                        position:'absolute',
-                        bottom:0,
-                        left:0,
-                        width:'100%'
-
-                      }}
-                    >
-                      <div className="col-md-2">
-                        <button
-                          type="submit"
-                          className="purple-btn1 w-100"
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? "Submitting..." : "Submit"}
-                        </button>
-                      </div>
-                      <div className="col-md-2">
-                        <button
-                          type="reset"
-                          className="purple-btn2 w-100"
-                          onClick={cancelStep}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-
-                    {status && status.success && (
-                      <div className="text-success">{status.success}</div>
-                    )}
-                    {status && status.error && (
-                      <div className="text-danger">{status.error}</div>
-                    )}
                   </div>
-                </Form>
-              )}
-            </Formik>
-          )}
-        </div>
-        <Footer />
+                  <button
+                    className="purple-btn1"
+                    style={{ margin: "42px 28px", width: "150px" }}
+                  >
+                    Add New Tier
+                  </button>
+
+                  <div
+                    className="row justify-content-center align-items-center"
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      width: "100%",
+                    }}
+                  >
+                    <div className="col-md-2">
+                      <button
+                        type="submit"
+                        className="purple-btn1 w-100"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                      </button>
+                    </div>
+                    <div className="col-md-2">
+                      <button
+                        type="reset"
+                        className="purple-btn2 w-100"
+                        onClick={cancelStep}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+
+                  {status && status.success && (
+                    <div className="text-success">{status.success}</div>
+                  )}
+                  {status && status.error && (
+                    <div className="text-danger">{status.error}</div>
+                  )}
+                </div>
+              </Form>
+            )}
+          </Formik>
+        )}
       </div>
     </>
   );

@@ -9,49 +9,44 @@ import SubHeader from "../components/SubHeader";
 const TierSetting = () => {
   return (
     <>
-      <Header />
-      <div className="website-content d-flex flex-column vh-100">
-        <Sidebar />
-        <div className="w-100">
-          <SubHeader />
-          <div className="module-data-section mt-2 flex-grow-1">
-            <p className="pointer">
-              <span className="text-secondary">Tiers</span> &gt; Tier Setting
-            </p>
+      <div className="w-100">
+        <SubHeader />
+        <div className="module-data-section mt-2 flex-grow-1">
+          <p className="pointer">
+            <span className="text-secondary">Tiers</span> &gt; Tier Setting
+          </p>
 
-            {/* Tier setting */}
-            <div className="mx-3 border-bottom">
-              <h5 className="d-flex">
-                <span className="title mt-3">TIER SETTING</span>
-              </h5>
-              <p className="mt-5 ms-4 fw-semibold">
-                Point Accumulation Timeframe
-              </p>
-              <p className="ms-4 text-muted">
-                Establish how members enter into higher tiers on points earning
-                and time frame.
-              </p>
-            </div>
-            <RoundRadioButtonCard />
+          {/* Tier setting */}
+          <div className="mx-3 border-bottom">
+            <h5 className="d-flex">
+              <span className="title mt-3">TIER SETTING</span>
+            </h5>
+            <p className="mt-5 ms-4 fw-semibold">
+              Point Accumulation Timeframe
+            </p>
+            <p className="ms-4 text-muted">
+              Establish how members enter into higher tiers on points earning
+              and time frame.
+            </p>
+          </div>
+          <RoundRadioButtonCard />
+        </div>
+
+        <div className="row mt-2 justify-content-center">
+          <div className="col-md-2">
+            <Link to="/new-tier">
+              <button class="purple-btn1 w-100" fdprocessedid="u33pye">
+                Next
+              </button>
+            </Link>
           </div>
 
-          <div className="row mt-2 justify-content-center">
-            <div className="col-md-2">
-              <Link to="/new-tier">
-                <button class="purple-btn1 w-100" fdprocessedid="u33pye">
-                  Next
-                </button>
-              </Link>
-            </div>
-
-            <div className="col-md-2">
-              <button className="purple-btn2 w-100" fdprocessedid="af5l5g">
-                Cancel
-              </button>
-            </div>
+          <div className="col-md-2">
+            <button className="purple-btn2 w-100" fdprocessedid="af5l5g">
+              Cancel
+            </button>
           </div>
         </div>
-        <Footer />
       </div>
     </>
   );
