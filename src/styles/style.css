@@ -233,7 +233,7 @@ body {
     color: white;
     text-align: left;
     list-style: none;
-    background-image: linear-gradient(to bottom right, #77216f, #39102e);
+    /* background-image: linear-gradient(to bottom right, #77216f, #39102e); */
     border: 1px solid #5e2750;
     background-clip: padding-box;
     /* border: 1px solid rgba(0, 0, 0, 0.125); */
@@ -3184,6 +3184,35 @@ body {
   }
   .main-content {
     display: flex;
+  }
+  .no-hover {
+    background: none !important; /* Reset background to none to prevent hover color changes */
+    color: inherit !important; /* Ensure text color does not change */
+  }
+  
+.dropdown-item.no-hover,
+.dropdown-item.no-hover:hover,
+.dropdown-item.no-hover:focus,
+.dropdown-item.no-hover:active {
+  background-color: transparent !important;
+  color: inherit !important;    
+  outline: none !important;  
+  box-shadow: none !important;
+}
+
+/* Prevent any focus or active state background color changes */
+.dropdown-item:focus, 
+.dropdown-item:active {
+  background-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+  .submit-back {
+    background-color: #5e2750!important;
+    border: 0!important;
+    padding: 5px 20px!important;
+    margin: 8px 8px 8px 0px!important;
   }
   /* kartik css for loyalty */
 

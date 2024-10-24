@@ -2,6 +2,9 @@ import React from 'react';
 import '../styles/style.css'
 import GophygitalLogo1 from '/GophygitalLogo1.svg'
 import { useNavigate } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+import Form from 'react-bootstrap/Form';
+import {  Button } from 'react-bootstrap';
 
 
 const Header = () => {
@@ -69,21 +72,54 @@ const Header = () => {
             aria-label="Search"
           />
         </div>
-        <div className="btn-group">
-          <button
-            className="btn btn-sm dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            1201/D Jyoti Tower
-          </button>
-          <ul className="dropdown-menu">
-            <li>1346/F Hayat Tower</li>
-            <li>9876/A JP Morgan Tower</li>
-            <li>Busan Rcidency</li>
-          </ul>
-        </div>
+       
+       <Dropdown>
+  <Dropdown.Toggle id="dropdown-basic" style={{ backgroundColor: 'transparent', color: 'black', border: 'none' }}>
+  </Dropdown.Toggle>
+
+  <Dropdown.Menu>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Lockated " />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Godrej Eternity " />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Godrej Summit" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Godrej Prime" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Runwal Elegante" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Runwal The Reserve" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Runwal My City" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Godrej Oasis" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="World Trade" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Delhi" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Suneel Test" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className=" no-select">
+      <Form.Check type="checkbox" label="Test DB" />
+    </Dropdown.Item>
+    <Dropdown.Item as="div" className="text-center no-hover no-select">
+      <Button className="submit-back">Submit</Button>
+    </Dropdown.Item>
+  </Dropdown.Menu>
+</Dropdown>
+
         <span className="material-symbols-outlined align-middle"> apps </span>
         <div
           className="avatar"
