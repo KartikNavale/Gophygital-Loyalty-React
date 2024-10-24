@@ -2,9 +2,11 @@ import React from "react";
 import "../styles/style.css";
 import GophygitalLogo1 from "/GophygitalLogo1.svg";
 import { useNavigate } from "react-router-dom";
+import Dropdown from "react-bootstrap/Dropdown";
+import Form from "react-bootstrap/Form";
+import { Button } from "react-bootstrap";
 
 const Header = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
 
   const signout = () => {
@@ -14,7 +16,6 @@ const Header = () => {
     navigate("/login");
   };
 
-  const toggleDropdown = () => setShowDropdown(!showDropdown);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light p-0">
@@ -74,79 +75,75 @@ const Header = () => {
                   aria-label="Search"
                 />
               </div>
-              <div className="btn-group">
-                <button
-                  className="btn btn-sm dropdown-toggle"
-                  type="button"
-                  onClick={toggleDropdown}
-                >
-                  1201/D Jyoti Tower
-                </button>
-                {showDropdown && (
-                  <ul className="dropdown-menu show">
-                    <li className="dropdown-item">1346/F Hayat Tower</li>
-                    <li className="dropdown-item">9876/A JP Morgan Tower</li>
-                    <li className="dropdown-item">Busan Rcidency</li>
-                  </ul>
-                )}
-              </div>
-              <span className="material-symbols-outlined align-middle">
-                {" "}
-                apps{" "}
-              </span>
-              <div
-                className="avatar"
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#userInfo"
-              >
-                <div className="avatar__letters">A</div>
-              </div>
             </div>
+          </div>
+          <Dropdown>
+            <Dropdown.Toggle
+              id="dropdown-basic"
+              style={{
+                backgroundColor: "transparent",
+                color: "black",
+                border: "none",
+              }}
+            ></Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Lockated " />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Godrej Eternity " />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Godrej Summit" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Godrej Prime" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Runwal Elegante" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Runwal The Reserve" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Runwal My City" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Godrej Oasis" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="World Trade" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Delhi" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Suneel Test" />
+              </Dropdown.Item>
+              <Dropdown.Item as="div" className=" no-select">
+                <Form.Check type="checkbox" label="Test DB" />
+              </Dropdown.Item>
+              <Dropdown.Item
+                as="div"
+                className="text-center no-hover no-select"
+              >
+                <Button className="submit-back">Submit</Button>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+
+          <span className="material-symbols-outlined align-middle"> apps </span>
+          <div
+            className="avatar"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#userInfo"
+          >
+            <div className="avatar__letters">A</div>
           </div>
         </div>
       </nav>
-
-      <div
-        className="modal "
-        id="userInfo"
-        aria-labelledby="userInfoLabel"
-        aria-hidden="true"
-        style={{ display: "none" }}
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header border-0">
-              <button
-                type="button"
-                className="btn-close "
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              />
-            </div>
-            <div className=" text-center pb-5">
-              <div className="avatar2">
-                <div className="avatar__letters2">A</div>{" "}
-              </div>{" "}
-              <br />
-              <h5>{sessionStorage.getItem("firstname")}</h5>{" "}
-              {/* Dynamic Name */}
-              <p>{sessionStorage.getItem("email")}</p> {/* Dynamic Email */}
-              <p>{sessionStorage.getItem("mobile")}</p>{" "}
-              {/* Dynamic Phone Number */}
-              <button
-                className="purple-btn my-3 "
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={signout}
-              >
-                <span className="material-symbols-outlined"> logout </span>
-                <span className="my-2"> LogOut </span>
-              </button>{" "}
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 };
