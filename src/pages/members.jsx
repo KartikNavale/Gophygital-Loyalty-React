@@ -27,16 +27,10 @@ const Members = () => {
   };
 
   useEffect(() => {
-
     getMembers();
   }, []);
-
-
-
-
-
-
-
+  console.log("members :-",members);
+  
   return (
     <>
       <Header />
@@ -103,15 +97,12 @@ const Members = () => {
                               <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
                             </svg>
                           </Link>
-
-
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               )}
-
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const SignIn = ({ setIsAuthenticated }) => {
+const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -46,11 +46,8 @@ const SignIn = ({ setIsAuthenticated }) => {
         sessionStorage.setItem("email", response.data.email);
         sessionStorage.setItem("firstname", response.data.firstname);
         
-        // Set isAuthenticated to true after storing session details
-        setIsAuthenticated(true);
-
         // Redirect user to the members page after successful login
-        navigate("/members");
+        navigate("/");
       } else {
         setError("Login failed. Please check your credentials.");
       }

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import "./App.css";
 import "./styles/style.css";
 
@@ -25,38 +24,21 @@ import {
 } from "react-router-dom";
 import SignIn from "./login/SignIn";
 import RootLayout from "./pages/Layout/RootLayout";
+import ProtectedRoute from "./login/ProtectedRoute";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    sessionStorage.getItem("spree_api_key") !== null
-  );
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setIsAuthenticated(sessionStorage.getItem("spree_api_key") !== null);
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Check the session storage when the component mounts
-    setIsAuthenticated(sessionStorage.getItem("spree_api_key") !== null);
-  }, []);
-
+  
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/login" element={<SignIn setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/login" element={<SignIn />} />
           <Route
             path="/"
             element={
-              isAuthenticated ? <RootLayout /> : <Navigate to="/login" />
+              <ProtectedRoute>
+                <RootLayout />
+              </ProtectedRoute>
             }
           >
             <Route index element={<Navigate to="/members" />} />

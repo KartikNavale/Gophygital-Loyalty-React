@@ -47,20 +47,19 @@ const MemberDetails = () => {
       const response = await axios.get(
         `https://staging.lockated.com/loyalty/member_transactions.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
       );
-      const transactions = response.data.map(transaction => {
-        // Format the created_at date
-        const formattedDate = new Intl.DateTimeFormat('en-GB', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
+      const transactions = response.data.map((transaction) => {
+        const formattedDate = new Intl.DateTimeFormat("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
         }).format(new Date(transaction.created_at));
-  
+
         return {
           ...transaction,
           created_at: formattedDate,
         };
       });
-  
+
       console.log("transaction data", transactions);
       setTransactionData(transactions);
     } catch (error) {
@@ -68,10 +67,9 @@ const MemberDetails = () => {
       throw error;
     }
   };
-  
 
   useEffect(() => {
-    getTransactionData()
+    getTransactionData();
   }, []);
 
   return (
@@ -283,15 +281,18 @@ const MemberDetails = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {transactionData.map((item, id) => (
-                        <tr>
-                          <td className="text-center">{item.created_at}</td>
-                          <td className="text-center">{item.transaction_type}</td>
-                          <td className="text-center">...</td>
-                          <td className="text-center">...</td>
-                          <td className="text-center">...</td>
-                        </tr>
-                        ))}
+                        {transactionData &&
+                          transactionData.map((item, id) => (
+                            <tr key={id}>
+                              <td className="text-center">{item.created_at}</td>
+                              <td className="text-center">
+                                {item.transaction_type}
+                              </td>
+                              <td className="text-center">...</td>
+                              <td className="text-center">...</td>
+                              <td className="text-center">...</td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
