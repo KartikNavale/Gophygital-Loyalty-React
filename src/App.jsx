@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "./App.css";
 import "./styles/style.css";
 
@@ -12,6 +13,7 @@ import NewCampaign from "./pages/new-campaign";
 import NewSegment from "./pages/new-segment";
 import ViewRuleEngine from "./pages/view-rule-engine";
 import CreateRuleEngine from "./pages/create-rule-engine";
+import NewTier from "./pages/new-tier";
 import Test from "./pages/test";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -21,30 +23,36 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import NewTier from "./pages/new-tier";
 import SignIn from "./login/SignIn";
-import ProtectedRoute from "./login/ProtectedRoute"; // Import your ProtectedRoute
 import RootLayout from "./pages/Layout/RootLayout";
 
 function App() {
-  const isAuthenticated = sessionStorage.getItem("spree_api_key") !== null;
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    sessionStorage.getItem("spree_api_key") !== null
+  );
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsAuthenticated(sessionStorage.getItem("spree_api_key") !== null);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Check the session storage when the component mounts
+    setIsAuthenticated(sessionStorage.getItem("spree_api_key") !== null);
+  }, []);
 
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/login" element={<SignIn />} />
-          <Route
-            path="/"
-            element={
-              isAuthenticated ? (
-                <Navigate to="/members" />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-
+          <Route path="/login" element={<SignIn setIsAuthenticated={setIsAuthenticated} />} />
           <Route
             path="/"
             element={
@@ -58,7 +66,6 @@ function App() {
             <Route path="/campaign" element={<Campaign />} />
             <Route path="/new-segment" element={<NewSegment />} />
             <Route path="/new-campaign" element={<NewCampaign />} />
-            {/*  <Route path='/member-details' element={<MemberDetails />} />  */}
             <Route path="/member-details/:id" element={<MemberDetails />} />
             <Route path="/rule-engine" element={<RuleEngine />} />
             <Route path="/create-rule-engine" element={<CreateRuleEngine />} />

@@ -1,101 +1,67 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'; // Import Axios
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-
-
-const SignIn = () => {
+const SignIn = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset error state
     setLoading(true); // Start loading state
-  
-    // Regex to validate email format
+
+    // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-    // Check if the entered email is valid
     if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address");
-      setLoading(false); // Stop loading state
-      return; // Exit function early
-    }
-  
-    // Log the credentials for debugging
-    console.log("Email:", email);
-    console.log("Password:", password);
-  
-    try {
-      // Using Axios to make a POST request with the user object
-      const response = await axios.post("/login/users/sign_in", {
-        user: {
-          email,
-          password,
-        },
-      }, {
-        headers: {
-          'Content-Type': 'application/json', // Set the content type
-        },
-      });
-  
-      // Check for the response status first
-      if (response.data.code === 401) {
-        // Handle 401 error specifically
-        setError("Email / Mobile or Password not valid");
-        return; // Exit the function early
-      }
-  
-      // Log the entire response for debugging
-      console.log("API Response:", response.data);
-  
-      // Destructure the response data
-      const { spree_api_key, mobile, email: responseEmail, firstname } = response.data;
-  
-      // Store all relevant data in session storage
-      sessionStorage.setItem("spree_api_key", spree_api_key);
-      sessionStorage.setItem("mobile", mobile);
-      sessionStorage.setItem("email", responseEmail);
-      sessionStorage.setItem("firstname", firstname);
-  
-      // Navigate to the home page after successful login
-      navigate("/"); 
-    } catch (err) {
-      // Log error for debugging
-      console.error("Error occurred:", err);
-  
-      // Handle errors outside of the response
-      if (err.response) {
-        // Handle 401 error specifically
-        if (err.response.status === 401) {
-          setError("Email / Mobile or Password not valid");
-        } else {
-          const errorMessage = err.response.data?.error || err.message || "An unexpected error occurred. Please try again later.";
-          setError(errorMessage);
-        }
-      } else {
-        // Fallback for network errors or other issues
-        setError("An unexpected error occurred. Please try again later.");
-      }
-    } finally {
-      // Always stop loading state
+      setError("Please enter a valid email address.");
       setLoading(false);
+      return;
+    }
+
+    try {
+      // Example POST request for login
+      const response = await axios.post(
+        "/login/users/sign_in", // Replace with your login API endpoint
+        {
+          user: {
+            email,
+            password,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Handling response and storing session details
+      if (response.data.spree_api_key) {
+        sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
+        sessionStorage.setItem("email", response.data.email);
+        sessionStorage.setItem("firstname", response.data.firstname);
+        
+        // Set isAuthenticated to true after storing session details
+        setIsAuthenticated(true);
+
+        // Redirect user to the members page after successful login
+        navigate("/members");
+      } else {
+        setError("Login failed. Please check your credentials.");
+      }
+    } catch (err) {
+      console.error("Error during login:", err);
+      setError("Login failed. Please try again.");
+    } finally {
+      setLoading(false); // End loading state
     }
   };
-  
 
-  
-  
-  
-  
-  
-<style></style>
   return (
     <>
       <style>
@@ -250,28 +216,28 @@ input {
    <div className="login-container">
     
       <div className="login-box text-center">
-        <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="logo">
   <img src="https://snagging.lockated.com/assets/logo-87235e425cea36e6c4c9386959ec756051a0331c3a77aa6826425c1d9fabf82e.png" />
 </div>
 
           <div className="form-group">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
               required className="form-control"
               placeholder="Email "
-            />
-          </div>
+          />
+        </div>
           <div  className="form-group">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
               required className="form-control"placeholder="Password"
-            />
-          </div>
+          />
+        </div>
           <h5>
   By clicking Log in you are accepting our{" "}
   <a href="https://www.lockated.com/cms/privacy_policy.html">
@@ -285,10 +251,10 @@ input {
 
           <button type="submit" className="btn-success" disabled={loading}>
             {loading ? "Signing In..." : "Sign In"}
-          </button>
+        </button>
           {error && <p className="error-text">{error}</p>}
-        </form>
-      </div>
+      </form>
+    </div>
     </div>
     </>
   
