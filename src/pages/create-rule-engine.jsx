@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import React, { useState, useEffect } from "react"
 import SubHeader from "../components/SubHeader";
 import {
   fetchMasterAttributes,
@@ -18,6 +15,8 @@ const CreateRuleEngine = () => {
       subAttribute: "",
       masterOperator: "",
       subOperator: "",
+      logicalOperator: "",
+      value: ''
     },
   ]);
 
@@ -34,6 +33,10 @@ const CreateRuleEngine = () => {
   const [selectedMasterOperator, setSelectedMasterOperator] = useState("");
   const [subOperators, setSubOperators] = useState([]);
   const [selectedSubOperator, setSelectedSubOperator] = useState("");
+
+  // const [inputValue,setInputValue]=useState('')
+  const [error, setError] = useState('')
+  const [parameter, setParameter] = useState(null)
 
   //operator data static
   const masterOperators = [
@@ -53,28 +56,28 @@ const CreateRuleEngine = () => {
       id: "1",
       name: "Logical Operatives",
       subOptions: [
-        { id: "1", name: "AND" },
-        { id: "2", name: "OR" },
-        { id: "3", name: "NOT" },
+        { id: "1", name: "AND", value: "" },
+        { id: "2", name: "OR", value: "" },
+        { id: "3", name: "NOT", value: "" },
       ],
     },
     {
       id: "2",
       name: "Date/Time Operatives",
       subOptions: [
-        { id: "1", name: "Before" },
-        { id: "2", name: "After" },
-        { id: "3", name: "Between" },
-        { id: "4", name: "Within" },
+        { id: "1", name: "Before", value: "" },
+        { id: "2", name: "After", value: "" },
+        { id: "3", name: "Between", value: "" },
+        { id: "4", name: "Within", value: "" },
       ],
     },
     {
       id: "3",
       name: "Tier Operatives",
       subOptions: [
-        { id: "1", name: "Is in tier" },
-        { id: "2", name: "Upgrade" },
-        { id: "3", name: "Downgrade" },
+        { id: "1", name: "Is in tier", value: "" },
+        { id: "2", name: "Upgrade", value: "" },
+        { id: "3", name: "Downgrade", value: "" },
       ],
     },
   ];
@@ -163,10 +166,10 @@ const CreateRuleEngine = () => {
             .sub_reward_outcome;
         setSubRewardOutcomes(selectedSubRewardOutcomes);
       } catch (error) {
-        console.error("Error fetching sub attributes:", error);
+        console.error("Error fetching sub  master reward outcome:", error);
       }
     } else {
-      console.error("Selected ID not found in master attributes");
+      console.error("Selected ID not found in master reward outcome");
     }
   };
 
@@ -179,9 +182,77 @@ const CreateRuleEngine = () => {
         subAttribute: "",
         masterOperator: "",
         subOperator: "",
+        logicalOperator: "AND",
+        value: ""
       },
     ]);
   };
+
+
+  //data 
+
+  const handleSubmit = async () => {
+    if (!ruleName || conditions.some(cond => !cond.masterAttribute || !cond.subAttribute || !cond.subOperator || !cond.value)) {
+      setError("All fields are required.");
+      return;
+    }
+
+    const data = {
+      rule_engine_rule: {
+        name: ruleName,
+        description: "This is a description of the sample rule.",
+        rule_engine_conditions_attributes: conditions.map((condition) => ({
+          condition_attribute: condition.subAttribute,
+          operator: condition.subOperator,
+          compare_value: condition.value,
+          condition_selected_model: condition.masterAttribute,
+          condition_type: condition.logicalOperator,
+        })),
+        rule_engine_actions_attributes: [
+          {
+            lock_model_name: selectedMasterRewardOutcomes,
+            parameters: [parameter],
+            rule_engine_available_function_id: 1,
+            action_selected_model: selectedMasterRewardOutcomes,
+          },
+        ],
+      },
+    };
+
+    console.log(data)
+
+    try {
+      const response = await axios.post(API_URL_rule_engine, data);
+      if (response.status === 201) {
+        setSuccessMessage("Rule Engine created successfully!");
+        clearInputs();
+      }
+    } catch (error) {
+      setError("Failed to create Rule Engine. Please try again.");
+    }
+  };
+
+  const clearInputs = () => {
+    setRuleName("");
+    setConditions([
+      {
+        id: 1,
+        masterAttribute: "",
+        subAttribute: "",
+        masterOperator: "",
+        subOperator: "",
+        logicalOperator: "",
+        value: "",
+      },
+    ]);
+    setSelectedMasterRewardOutcomes("");
+    setSubRewardOutcomes([]);
+    setParameter(null);
+    setError("");
+    setSuccessMessage("");
+  };
+
+
 
   const renderCondition = (condition, index) => (
     <div key={condition.id} className="SetRuleCard">
@@ -205,6 +276,13 @@ const CreateRuleEngine = () => {
                 aria-controls={`home-tab-pane-${index}`}
                 aria-selected="true"
                 defaultChecked
+                checked={condition.logicalOperator === "AND"}
+                onChange={() => {
+                  const updatedConditions = conditions.map((cond, idx) =>
+                    idx === index ? { ...cond, logicalOperator: "AND" } : cond
+                  );
+                  setConditions(updatedConditions);
+                }}
               />
               <label htmlFor={`home-tab-${index}`} className="and-or-btn">
                 AND
@@ -221,6 +299,14 @@ const CreateRuleEngine = () => {
                 role="tab"
                 aria-controls={`profile-tab-pane-${index}`}
                 aria-selected="false"
+                checked={condition.logicalOperator === "OR"}
+                onChange={() => {
+                  const updatedConditions = conditions.map((cond, idx) =>
+                    idx === index ? { ...cond, logicalOperator: "OR" } : cond
+                  );
+                  setConditions(updatedConditions);
+                }}
+
               />
               <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
                 OR
@@ -351,7 +437,7 @@ const CreateRuleEngine = () => {
               >
                 <option value="">Select Sub Operator </option>
                 {subOperators.map((subOp) => (
-                  <option key={subOp.id} value={subOp.id}>
+                  <option key={subOp.id} value={subOp.value}>
                     {subOp.name}
                   </option>
                 ))}
@@ -374,6 +460,17 @@ const CreateRuleEngine = () => {
                 type="text"
                 className="p-1"
                 placeholder="Enter Point Value"
+                onChange={(e) => {
+                  const updatedConditions = conditions.map((cond, idx) =>
+                    idx === index
+                      ? { ...cond, value: e.target.value }
+                      : cond
+                  );
+                  setConditions(updatedConditions);
+
+                }}
+                checked={condition.value}
+
               />
             </fieldset>
           </div>
@@ -452,7 +549,7 @@ const CreateRuleEngine = () => {
                       Select Master Reward Outcome
                     </option>
                     {masterRewardOutcomes.map((reward) => (
-                      <option key={reward.id} value={reward.lock_model_name}>
+                      <option key={reward.id} value={reward.id}>
                         {reward.display_name}
                       </option>
                     ))}
@@ -489,7 +586,7 @@ const CreateRuleEngine = () => {
                   <legend className="float-none">
                     Parameter {/* <span>*</span> */}
                   </legend>
-                  <input type="text" placeholder="Enter Point Value" />
+                  <input type="text" placeholder="Enter Point Value" value={parameter} onChange={(e) => setParameter(e.target)} />
                 </fieldset>
               </div>
             </div>
@@ -498,7 +595,7 @@ const CreateRuleEngine = () => {
           {/* ..... */}
           <div className="row mt-2 justify-content-center">
             <div className="col-md-2">
-              <button className="purple-btn1 w-100">Save for Approval</button>
+              <button className="purple-btn1 w-100" onClick={handleSubmit}>Save for Approval</button>
             </div>
             <div className="col-md-2">
               <button className="purple-btn2 w-100">Cancel</button>
@@ -511,3 +608,8 @@ const CreateRuleEngine = () => {
 };
 
 export default CreateRuleEngine;
+
+
+
+
+
