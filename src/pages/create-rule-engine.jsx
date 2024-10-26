@@ -244,7 +244,7 @@ const CreateRuleEngine = () => {
     console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
   
     try {
-      const response = await fetch(
+      if(ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && actions !== null && conditions !== null){const response = await fetch(
         "https://staging.lockated.com/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
         {
           method: "POST", // Specify the request method
@@ -264,17 +264,13 @@ const CreateRuleEngine = () => {
         const errorData = await response.json(); // Parse error response
         setError(`Failed to create Rule Engine: ${errorData.message}`);
         console.error("Submission error:", errorData);
-      }
+      }}
     } catch (error) {
       setError("Failed to create Rule Engine. Please try again.");
       console.error("Submission error:", error);
     }
   };
   
-  
-  
-
-  // --------------------------------
 
   const renderCondition = (condition, index) => (
     <div key={condition.id} className="SetRuleCard">
