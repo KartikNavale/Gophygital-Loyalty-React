@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
+import axios from "axios";
 import {
   fetchMasterAttributes,
   fetchSubAttributes,
@@ -15,8 +19,8 @@ const CreateRuleEngine = () => {
       subAttribute: "",
       masterOperator: "",
       subOperator: "",
-      logicalOperator: "",
-      value: ''
+      condition_type:"",
+      value:''
     },
   ]);
 
@@ -26,17 +30,15 @@ const CreateRuleEngine = () => {
   const [subAttributes, setSubAttributes] = useState([]);
 
   const [masterRewardOutcomes, setMasterRewardOutcomes] = useState([]);
-  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] =
-    useState("");
+  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] =useState("");
   const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
 
   const [selectedMasterOperator, setSelectedMasterOperator] = useState("");
   const [subOperators, setSubOperators] = useState([]);
   const [selectedSubOperator, setSelectedSubOperator] = useState("");
 
-  // const [inputValue,setInputValue]=useState('')
-  const [error, setError] = useState('')
-  const [parameter, setParameter] = useState(null)
+  const [error,setError]=useState("")
+  const [parameter,setParameter]=useState('')
 
   //operator data static
   const masterOperators = [
@@ -44,7 +46,7 @@ const CreateRuleEngine = () => {
       id: "0",
       name: "Common Operatives",
       subOptions: [
-        { id: "1", name: "Greater than (>)", value: "greater_than" },
+        { id: "1", name: "Greater than (>)", value: "greater_than"  },
         { id: "2", name: "Less than (<)", value: "less_than" },
         { id: "3", name: "Equals (=)", value: "equals" },
         { id: "4", name: "Not equals (!=)", value: "not_equals" },
@@ -56,28 +58,28 @@ const CreateRuleEngine = () => {
       id: "1",
       name: "Logical Operatives",
       subOptions: [
-        { id: "1", name: "AND", value: "" },
-        { id: "2", name: "OR", value: "" },
-        { id: "3", name: "NOT", value: "" },
+        { id: "1", name: "AND",value:"" },
+        { id: "2", name: "OR" ,value:""},
+        { id: "3", name: "NOT" ,value:"" },
       ],
     },
     {
       id: "2",
       name: "Date/Time Operatives",
       subOptions: [
-        { id: "1", name: "Before", value: "" },
-        { id: "2", name: "After", value: "" },
-        { id: "3", name: "Between", value: "" },
-        { id: "4", name: "Within", value: "" },
+        { id: "1", name: "Before" ,value:""},
+        { id: "2", name: "After" ,value:"" },
+        { id: "3", name: "Between" ,value:"" },
+        { id: "4", name: "Within",value:"" },
       ],
     },
     {
       id: "3",
       name: "Tier Operatives",
       subOptions: [
-        { id: "1", name: "Is in tier", value: "" },
-        { id: "2", name: "Upgrade", value: "" },
-        { id: "3", name: "Downgrade", value: "" },
+        { id: "1", name: "Is in tier" ,value:"" },
+        { id: "2", name: "Upgrade" ,value:""},
+        { id: "3", name: "Downgrade" ,value:"" },
       ],
     },
   ];
@@ -166,10 +168,10 @@ const CreateRuleEngine = () => {
             .sub_reward_outcome;
         setSubRewardOutcomes(selectedSubRewardOutcomes);
       } catch (error) {
-        console.error("Error fetching sub  master reward outcome:", error);
+        console.error("Error fetching sub attributes:", error);
       }
     } else {
-      console.error("Selected ID not found in master reward outcome");
+      console.error("Selected ID not found in master attributes");
     }
   };
 
@@ -182,21 +184,41 @@ const CreateRuleEngine = () => {
         subAttribute: "",
         masterOperator: "",
         subOperator: "",
-        logicalOperator: "AND",
-        value: ""
+        condition_type:"",
+        value:''
       },
     ]);
   };
 
+  // ------------------------------
+  // const data = {
+  //   rule_engine_rule: {
+  //     name: ruleName, // Use ruleName directly from state
+  //     description: "This is a description of the sample rule.",
+  //     rule_engine_conditions_attributes: conditions.map((condition) => ({
+  //       condition_attribute: condition.subAttribute,
+  //       operator: condition.subOperator,
+  //       compare_value: condition.value,
+  //       condition_selected_model: Number(condition.masterAttribute),
+  //       condition_type: condition.condition_type,
+  //     })),
+  //     rule_engine_actions_attributes: [
+  //       {
+  //         parameters: [Number(parameter)], // Assuming parameter is from state
+  //         action_selected_model: Number(selectedMasterRewardOutcomes), // Use state variable directly
+  //       },
+  //     ],
+  //   },
+  // };
 
-  //data 
 
   const handleSubmit = async () => {
-    if (!ruleName || conditions.some(cond => !cond.masterAttribute || !cond.subAttribute || !cond.subOperator || !cond.value)) {
-      setError("All fields are required.");
-      return;
-    }
-
+    // Validate required fields
+    // if (!ruleName || conditions.some(cond => !cond.subAttribute || !cond.subOperator || !cond.value || !cond.masterAttribute)) {
+    //   setError("All fields are required.");
+    //   return;
+    // }
+  
     const data = {
       rule_engine_rule: {
         name: ruleName,
@@ -205,54 +227,43 @@ const CreateRuleEngine = () => {
           condition_attribute: condition.subAttribute,
           operator: condition.subOperator,
           compare_value: condition.value,
-          condition_selected_model: condition.masterAttribute,
-          condition_type: condition.logicalOperator,
+          condition_selected_model: Number(condition.masterAttribute),
+          condition_type: condition.condition_type,
         })),
         rule_engine_actions_attributes: [
           {
-            lock_model_name: selectedMasterRewardOutcomes,
-            parameters: [parameter],
-            rule_engine_available_function_id: 1,
-            action_selected_model: selectedMasterRewardOutcomes,
+            parameters: [Number(parameter)],
+            action_selected_model: Number(selectedMasterRewardOutcomes),
           },
         ],
       },
     };
 
-    console.log(data)
+    const jsonData = JSON.stringify(data); // The second argument is for pretty-printing
+console.log(jsonData);
 
+    // console.log(data)
+  
     try {
-      const response = await axios.post(API_URL_rule_engine, data);
+      const response = await axios.post(
+        "https://staging.lockated.com/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+        jsonData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+  
       if (response.status === 201) {
-        setSuccessMessage("Rule Engine created successfully!");
+        // setSuccessMessage("Rule Engine created successfully!");/
+        console.log("data created successfully")
         clearInputs();
       }
     } catch (error) {
       setError("Failed to create Rule Engine. Please try again.");
+      console.error("Submission error:", error); // Log the error for debugging
     }
   };
+  
 
-  const clearInputs = () => {
-    setRuleName("");
-    setConditions([
-      {
-        id: 1,
-        masterAttribute: "",
-        subAttribute: "",
-        masterOperator: "",
-        subOperator: "",
-        logicalOperator: "",
-        value: "",
-      },
-    ]);
-    setSelectedMasterRewardOutcomes("");
-    setSubRewardOutcomes([]);
-    setParameter(null);
-    setError("");
-    setSuccessMessage("");
-  };
-
-
+  // --------------------------------
 
   const renderCondition = (condition, index) => (
     <div key={condition.id} className="SetRuleCard">
@@ -276,13 +287,16 @@ const CreateRuleEngine = () => {
                 aria-controls={`home-tab-pane-${index}`}
                 aria-selected="true"
                 defaultChecked
-                checked={condition.logicalOperator === "AND"}
-                onChange={() => {
+                onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
-                    idx === index ? { ...cond, logicalOperator: "AND" } : cond
+                    idx === index
+                      ? { ...cond, condition_type: "AND"}
+                      : cond
                   );
                   setConditions(updatedConditions);
+              
                 }}
+                checked={condition.condition_type==="AND"}
               />
               <label htmlFor={`home-tab-${index}`} className="and-or-btn">
                 AND
@@ -299,14 +313,16 @@ const CreateRuleEngine = () => {
                 role="tab"
                 aria-controls={`profile-tab-pane-${index}`}
                 aria-selected="false"
-                checked={condition.logicalOperator === "OR"}
-                onChange={() => {
+                onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
-                    idx === index ? { ...cond, logicalOperator: "OR" } : cond
+                    idx === index
+                      ? { ...cond, condition_type: "OR" }
+                      : cond
                   );
                   setConditions(updatedConditions);
+              
                 }}
-
+                checked={condition.condition_type==="OR"}
               />
               <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
                 OR
@@ -331,6 +347,7 @@ const CreateRuleEngine = () => {
               <select
                 required=""
                 className="p-1"
+
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
                     idx === index
@@ -341,6 +358,7 @@ const CreateRuleEngine = () => {
                   handleMasterAttributeChange(e); // If needed to fetch sub attributes
                 }}
                 value={condition.masterAttribute}
+
               >
                 <option value="">Select Master Attribute </option>
                 {masterAttributes.map((attr) => (
@@ -373,7 +391,7 @@ const CreateRuleEngine = () => {
               >
                 <option value="">Select Sub Attribute</option>
                 {subAttributes.map((subAttr) => (
-                  <option key={subAttr.id} value={subAttr.id}>
+                  <option key={subAttr.id} value={subAttr.display_name}>
                     {subAttr.display_name}
                   </option>
                 ))}
@@ -437,7 +455,7 @@ const CreateRuleEngine = () => {
               >
                 <option value="">Select Sub Operator </option>
                 {subOperators.map((subOp) => (
-                  <option key={subOp.id} value={subOp.value}>
+                  <option key={subOp.id} value={subOp.name}>
                     {subOp.name}
                   </option>
                 ))}
@@ -460,6 +478,7 @@ const CreateRuleEngine = () => {
                 type="text"
                 className="p-1"
                 placeholder="Enter Point Value"
+                value={condition.value}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
                     idx === index
@@ -467,10 +486,7 @@ const CreateRuleEngine = () => {
                       : cond
                   );
                   setConditions(updatedConditions);
-
                 }}
-                checked={condition.value}
-
               />
             </fieldset>
           </div>
@@ -572,7 +588,7 @@ const CreateRuleEngine = () => {
                     {subRewardOutcomes.map((reward) => (
                       <option
                         key={reward.id}
-                        value={reward.rule_engine_available_model_id}
+                        value={reward.id}
                       >
                         {reward.display_name}
                       </option>
@@ -586,7 +602,7 @@ const CreateRuleEngine = () => {
                   <legend className="float-none">
                     Parameter {/* <span>*</span> */}
                   </legend>
-                  <input type="text" placeholder="Enter Point Value" value={parameter} onChange={(e) => setParameter(e.target)} />
+                  <input type="text" placeholder="Enter Point Value" value={parameter} onChange={(e)=>setParameter(e.target.value)}/>
                 </fieldset>
               </div>
             </div>
@@ -608,8 +624,3 @@ const CreateRuleEngine = () => {
 };
 
 export default CreateRuleEngine;
-
-
-
-
-
