@@ -26,7 +26,7 @@ const SignIn = () => {
     try {
       // Example POST request for login
       const response = await axios.post(
-        "/login/users/sign_in", // Replace with your login API endpoint
+        "https://staging.lockated.com/api/users/sign_in", // Replace with your login API endpoint
         {
           user: {
             email,
