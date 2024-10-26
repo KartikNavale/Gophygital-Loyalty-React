@@ -7,19 +7,22 @@ import Footer from '../../components/Footer'
 
 export default function RootLayout() {
   return (
-    <div>
-        <div className="d-flex">
-            <div style={{marginTop:'55px'}}>
-            <Sidebar />
-            </div>
-            <div className="flex-grow-1">
-                <Header />
-                <div style={{marginLeft:'200px'}}>
-                <Outlet />
-                <Footer />
-                </div>
-            </div>
+    <main className="h-100 w-100">
+       <Header />
+
+    <div className="main-content">
+ 
+        <div >
+          <Sidebar />
         </div>
+
+      <div className="website-content flex-grow-1">
+        <Outlet /> {/* Dynamic content rendering */}
+        <footer className="footer">
+          <Footer />
+        </footer>
+      </div>
     </div>
+  </main>
   )
 }

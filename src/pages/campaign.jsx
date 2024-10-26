@@ -20,11 +20,17 @@ const Campaign = () => {
   });
   const [showModal, setShowModal] = useState(false);
 
+  // const token = sessionStorage.getItem("spree_api_key");
+  // console.log("token ID in session after:", token); 
+
   useEffect(() => {
-    const fetchCampaigns = async () => {
+    const storedValue = sessionStorage.getItem("selectedId");
+    console.log("Stored ID in session after selection:", storedValue); 
+  
+    const fetchCampaigns = async (storedValue) => {
       try {
         const response = await axios.get(
-          "https://staging.lockated.com/loyalty/campaigns.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
+          `https://staging.lockated.com/loyalty/campaigns.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setCampaigns(response.data);
       } catch (err) {
@@ -33,9 +39,13 @@ const Campaign = () => {
         setLoading(false);
       }
     };
-
-    fetchCampaigns();
-  }, []);
+  
+    // Only call fetchCampaigns if storedValue is not null
+    if (storedValue) {
+      fetchCampaigns(storedValue);
+    }
+  }, []); // Empty dependency array to run only on component mount
+  
 
   const handleEditClick = (campaign) => {
     setSelectedCampaign(campaign);

@@ -40,7 +40,7 @@ const Sidebar = () => {
           </span>
         </p>
         <ul
-          className="p-0 collapse"
+          className="px-2 collapse left-1"
           style={{ display: "block" }}
           id="sidebarCollapse"
         >

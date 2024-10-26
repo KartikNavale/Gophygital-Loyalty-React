@@ -30,9 +30,11 @@ const Segment = () => {
   });
 
   const fetchSegments = async () => {
+    const storedValue = sessionStorage.getItem("selectedId");
+    console.log("Stored ID in session after selection:", storedValue); 
     try {
       const response = await axios.get(
-        "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
+        `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
       console.log("API Response:", response.data); // Check if `loyalty_segments` exists
       setSegments(response.data); // Fallback to empty array

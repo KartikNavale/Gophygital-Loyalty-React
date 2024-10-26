@@ -36,10 +36,12 @@ const Tiers = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    const storedValue = sessionStorage.getItem("selectedId");
+    console.log("Stored ID in session after selection:", storedValue); 
     const fetchTiers = async () => {
       try {
         const response = await axios.get(
-          "https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
+          `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setTiers(response.data);
         setLoading(false);
