@@ -24,6 +24,10 @@ const CreateRuleEngine = () => {
     },
   ]);
 
+   const [actions, setActions] = useState([
+    {  parameter: "",  selectedMasterRewardOutcomes: "" }
+  ]);
+
   const [ruleName, setRuleName] = useState("");
   const [masterAttributes, setMasterAttributes] = useState([]);
   const [selectedMasterAttribute, setSelectedMasterAttribute] = useState("");
@@ -46,7 +50,7 @@ const CreateRuleEngine = () => {
       id: "0",
       name: "Common Operatives",
       subOptions: [
-        { id: "1", name: "Greater than (>)", value: "greater_than"  },
+        { id: "1", name: "greater_than", value: "greater_than"  },
         { id: "2", name: "Less than (<)", value: "less_than" },
         { id: "3", name: "Equals (=)", value: "equals" },
         { id: "4", name: "Not equals (!=)", value: "not_equals" },
@@ -213,54 +217,61 @@ const CreateRuleEngine = () => {
 
 
   const handleSubmit = async () => {
-    // Validate required fields
-    // if (!ruleName || conditions.some(cond => !cond.subAttribute || !cond.subOperator || !cond.value || !cond.masterAttribute)) {
-    //   setError("All fields are required.");
-    //   return;
-    // }
-  
     const data = {
       rule_engine_rule: {
-        name: ruleName,
+        name: ruleName, // Ensure ruleName is defined elsewhere in your code
         description: "This is a description of the sample rule.",
+  
+        // Mapping conditions dynamically
         rule_engine_conditions_attributes: conditions.map((condition) => ({
-          condition_attribute: condition.subAttribute,
-          operator: condition.subOperator,
-          compare_value: condition.value,
-          condition_selected_model: Number(condition.masterAttribute),
-          condition_type: condition.condition_type,
+          condition_attribute: condition.subAttribute || "", // Handle blank cases if needed
+          operator: condition.subOperator || "",
+          compare_value: condition.value || "",
+          condition_selected_model: Number(condition.masterAttribute) || 1,
+          condition_type: condition.condition_type || "",
         })),
-        rule_engine_actions_attributes: [
-          {
-            parameters: [Number(parameter)],
-            action_selected_model: Number(selectedMasterRewardOutcomes),
-          },
-        ],
+  
+        // Mapping actions dynamically, handling blank fields
+        rule_engine_actions_attributes: actions.map((action) => ({
+          lock_model_name: action.lock_model_name || "", // Post as blank if not filled
+          parameters: [Number(action.parameter) || 0], // Ensure parameter is a number
+          rule_engine_available_function_id: action.rule_engine_available_function_id || "", // Blank if missing
+          action_selected_model: Number(action.selectedMasterRewardOutcomes) || 1,
+        })),
       },
     };
-
-    const jsonData = JSON.stringify(data); // The second argument is for pretty-printing
-console.log(jsonData);
-
-    // console.log(data)
+  
+    console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
   
     try {
-      const response = await axios.post(
+      const response = await fetch(
         "https://staging.lockated.com/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
-        jsonData,
-        { headers: { "Content-Type": "application/json" } }
+        {
+          method: "POST", // Specify the request method
+          headers: {
+            "Content-Type": "application/json", // Set content type to JSON
+          },
+          body: JSON.stringify(data), // Convert the data to JSON
+        }
       );
   
-      if (response.status === 201) {
-        // setSuccessMessage("Rule Engine created successfully!");/
-        console.log("data created successfully")
-        clearInputs();
+      if (response.ok) {
+        const responseData = await response.json(); // Parse the JSON response
+        setSuccessMessage("Rule Engine created successfully!");
+        console.log("Data created successfully:", responseData);
+        clearInputs(); // Clear form inputs if needed
+      } else {
+        const errorData = await response.json(); // Parse error response
+        setError(`Failed to create Rule Engine: ${errorData.message}`);
+        console.error("Submission error:", errorData);
       }
     } catch (error) {
       setError("Failed to create Rule Engine. Please try again.");
-      console.error("Submission error:", error); // Log the error for debugging
+      console.error("Submission error:", error);
     }
   };
+  
+  
   
 
   // --------------------------------
@@ -391,7 +402,7 @@ console.log(jsonData);
               >
                 <option value="">Select Sub Attribute</option>
                 {subAttributes.map((subAttr) => (
-                  <option key={subAttr.id} value={subAttr.display_name}>
+                  <option key={subAttr.id} value={subAttr.attribute_name}>
                     {subAttr.display_name}
                   </option>
                 ))}
