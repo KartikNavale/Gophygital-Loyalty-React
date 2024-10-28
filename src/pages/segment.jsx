@@ -27,6 +27,9 @@ const Segment = () => {
     // segment_filters: "",
     // segment_type: "",
     // loyalty_tier_id: "",
+
+    member_count:""
+
   });
 
   const fetchSegments = async () => {
@@ -198,7 +201,7 @@ const Segment = () => {
                           <tr key={segment.id || index}>
                             <td>{segment.name}</td>
                             <td className="fw-bold">{segment.segment_tag}</td>
-                            <td>{segment.total_members}</td>
+                            <td>{segment.member_count}</td>
                             <td>
                               <button
                                 className="btn btn-link"
