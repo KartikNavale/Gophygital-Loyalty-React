@@ -1,5 +1,5 @@
 
-// import React, { useState } from "react";
+
 // import "../styles/style.css";
 // import Header from "../components/Header";
 // import Sidebar from "../components/Sidebar";
@@ -450,7 +450,7 @@ const NewSegment = () => {
 
   const[tierLevels,setTierLevels]=useState([]);
   const [initialData, setInitialData] = useState([]);
-
+  
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -498,7 +498,7 @@ const NewSegment = () => {
     //   setError("All fields are required.");
     //   return;
     // }
-
+      
     if (
       !name ||
       !segment_tag ||
@@ -601,22 +601,7 @@ const NewSegment = () => {
     return `${year}-${month}-${day}`;
   };
 
-  const formatToCustomISO = (date) => {
-    const d = new Date(date);
-
-    // Format date parts to match desired format
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    const hours = String(d.getHours()).padStart(2, "0");
-    const minutes = String(d.getMinutes()).padStart(2, "0");
-    const seconds = String(d.getSeconds()).padStart(2, "0");
-    const milliseconds = String(d.getMilliseconds()).padStart(3, "0");
-
-    // Use the timezone offset expected by the API
-    const timezoneOffset = "+05:30";
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${timezoneOffset}`;
-  };
+ 
 
   // Handle applying the filter and fetching data
   const handleFilter = async (e) => {
@@ -642,15 +627,11 @@ const NewSegment = () => {
       );
     }
     if (formValues.activatedDate) {
-      const activatedDateFormatted = formatToCustomISO(
-        formValues.activatedDate
+      query.push(
+        `q[created_at_gteq]=${formatDate(formValues.activatedDate)}`
       );
-      query.push(`q[created_at_lteq]=${activatedDateFormatted}`);
-      console.log(
-        `Formatted Activated Date for API: ${activatedDateFormatted}`
-      ); // Log formatted date
     }
-
+        
     if (formValues.status) {
       query.push(
         `q[active_eq]=${formValues.status === "Active" ? "true" : "false"}`
@@ -839,7 +820,7 @@ const NewSegment = () => {
                   <div className=" d-flex align-items-center mt-4 ml-5">
                     <button
                       type="button"
-                      className=" btn btn-success form-control ml-5"
+                      className=" ml-5 purple-btn1"
                       onClick={handleFilter}
                       // style={{
                       //   minWidth: "100px", // Same width as select fields
