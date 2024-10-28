@@ -37,23 +37,23 @@ const Tiers = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
 
   const storedValue = sessionStorage.getItem("selectedId");
-    const fetchTiers = async () => {
-      try {
-        const response = await axios.get(
-          `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
-        );
-        if (response && response.data) {
-          setTiers(response.data.reverse());
-          setFilteredItems(response.data);
-          setLoading(false);
-        }
-      } catch (err) {
-        setError("Failed to fetch tiers data.");
+  const fetchTiers = async () => {
+    try {
+      const response = await axios.get(
+        `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+      );
+      if (response && response.data) {
+        setTiers(response.data.reverse());
+        setFilteredItems(response.data);
         setLoading(false);
       }
-    };
+    } catch (err) {
+      setError("Failed to fetch tiers data.");
+      setLoading(false);
+    }
+  };
 
-  useEffect(() => { 
+  useEffect(() => {
     fetchTiers();
   }, []);
 
@@ -111,38 +111,139 @@ const Tiers = () => {
     setCurrentPage(1);
   };
 
-  const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const handlePageChange = (page) => {
-      if (page > 0 && page <= totalPages) {
-        onPageChange(page);
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const Pagination = ({
+    currentPage,
+    totalPages,
+    totalEntries,
+  }) => {
+    const startEntry = (currentPage - 1) * itemsPerPage + 1;
+    const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+
+    const renderPageNumbers = () => {
+      const pages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(
+          <li
+            key={i}
+            className={`page-item ${i === currentPage ? "active" : ""}`}
+            style={{ border: "1px solid #ddd", margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(i)}
+              style={{
+                padding: "8px 12px",
+                color: i === currentPage ? "#fff" : "#5e2750",
+                backgroundColor: i === currentPage ? "#5e2750" : "#fff",
+                fontWeight: i === currentPage ? "bold" : "normal",
+                border:'2px solid #5e2750',
+                borderRadius:'3px'
+              }}
+            >
+              {i}
+            </button>
+          </li>
+        );
       }
+      return pages;
     };
 
     return (
-      <nav>
-        <ul className="pagination justify-content-center align-items-center">
-          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+      <nav className="d-flex justify-content-between align-items-center">
+        <ul
+          className="pagination justify-content-center align-items-center"
+          style={{
+            listStyleType: "none",
+            padding: "0",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <li
+            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+            style={{ margin: "2px" }}
+          >
             <button
-              className="purple-btn1"
-              onClick={() => handlePageChange(currentPage - 1)}
+              className="page-link"
+              onClick={() => handlePageChange(1)}
+              disabled={currentPage === 1}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+              }}
             >
-              Previous
+              «
             </button>
           </li>
-          <li className={`page-item active`}>{`Page ${currentPage}  `}</li>
+          <li
+            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+              }}
+            >
+              ‹
+            </button>
+          </li>
+          {renderPageNumbers()}
           <li
             className={`page-item ${
               currentPage === totalPages ? "disabled" : ""
             }`}
+            style={{ margin: "2px" }}
           >
             <button
-              className="purple-btn1"
+              className="page-link"
               onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor:
+                  currentPage === totalPages ? "#f0f0f0" : "#fff",
+              }}
             >
-              Next
+              ›
+            </button>
+          </li>
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(totalPages)}
+              disabled={currentPage === totalPages}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor:
+                  currentPage === totalPages ? "#f0f0f0" : "#fff",
+              }}
+            >
+              »
             </button>
           </li>
         </ul>
+        <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+          Showing {startEntry} to {endEntry} of {totalEntries} entries
+        </p>
       </nav>
     );
   };
@@ -225,13 +326,15 @@ const Tiers = () => {
               <div
                 className="tbl-container mt-4"
                 style={{
-                  height: "100%",
+                  height: "600px",
                   overflowY: "hidden",
-                  margin: "0 100px",
                   textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                 }}
               >
-                <table className="w-100" style={{ tableLayout: "fixed" }}>
+                <table className="w-100">
                   <thead>
                     <tr>
                       <th style={{ width: "20%" }}>Tier Name</th>
@@ -277,7 +380,8 @@ const Tiers = () => {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  onPageChange={setCurrentPage}
+                  onPageChange={handlePageChange}
+                  totalEntries={filteredItems.length}
                 />
               </div>
             )}
