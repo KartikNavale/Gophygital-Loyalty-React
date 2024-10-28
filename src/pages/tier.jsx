@@ -34,10 +34,14 @@ const Tiers = () => {
   const [error, setError] = useState(null);
   const [selectedTier, setSelectedTier] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
     const storedValue = sessionStorage.getItem("selectedId");
-    console.log("Stored ID in session after selection:", storedValue); 
+    console.log("Stored ID in session after selection:", storedValue);
     const fetchTiers = async () => {
       try {
         const response = await axios.get(
@@ -85,11 +89,68 @@ const Tiers = () => {
     setSelectedTier(null);
   };
 
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const currentItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleSearch = () => {
+    const filtered = tiers.filter((tier) =>
+      tier.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredItems(filtered);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+  console.log("filteredItems",filteredItems);
+  
+  const handleReset = () => {
+    setSearchTerm(""); 
+    setFilteredItems(tiers); 
+    setCurrentPage(1); // Reset to first page
+  };
+
+  // const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  //   const handlePageChange = (page) => {
+  //     if (page > 0 && page <= totalPages) {
+  //       onPageChange(page);
+  //     }
+  //   };
+
+  //   return (
+  //     <nav>
+  //       <ul className="pagination justify-content-center">
+  //         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage - 1)}
+  //           >
+  //             Previous
+  //           </button>
+  //         </li>
+  //         <li className="page-item active">
+  //           <button className="page-link">{currentPage}</button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage + 1)}
+  //           >
+  //             Next
+  //           </button>
+  //         </li>
+  //       </ul>
+  //     </nav>
+  //   );
+  // };
+
   return (
     <>
       <div className="w-100">
         <SubHeader />
-        <div className="module-data-section mt-2">
+        <div className="module-data-section mt-2 px-3">
           <p className="pointer">
             <span className="text-secondary">Tiers</span> &gt; Tier List
           </p>
@@ -97,7 +158,7 @@ const Tiers = () => {
           <div className="loyalty-header">
             <div className="d-flex justify-content-between align-items-center">
               <Link to="/new-tier">
-                <button className="purple-btn1 rounded-3 px-3">
+                <button className="purple-btn1 rounded-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="19"
@@ -115,7 +176,7 @@ const Tiers = () => {
                 <div className="position-relative me-3">
                   <input
                     className="form-control"
-                    style={{ height: "35px", paddingLeft: "32px" }}
+                    style={{ height: "35px", paddingLeft: "32px", textAlign: 'left' }}
                     type="search"
                     placeholder="Search"
                     aria-label="Search"
@@ -136,23 +197,30 @@ const Tiers = () => {
                     </svg>
                   </div>
                 </div>
-                <button className="purple-btn1">Go</button>
-                <button className="purple-btn2">Reset</button>
+                <button className="purple-btn1" onClick={handleSearch}>
+                  Go
+                </button>
+                <button className="purple-btn2" onClick={handleReset}>
+                  Reset
+                </button>
               </div>
             </div>
 
             {loading && <p>Loading tiers...</p>}
             {error && <p className="text-danger">{error}</p>}
             {!loading && !error && (
-              <div className="tbl-container mx-3 mt-4">
-                <table className="w-100">
+              <div
+                className="tbl-container mt-4"
+                style={{ margin: "0 100px", textAlign: "center" }}
+              >
+                <table className="w-100" style={{ tableLayout: "fixed" }}>
                   <thead>
                     <tr>
-                      <th>Tier Name</th>
-                      <th>Exit Points</th>
-                      <th>Multipliers</th>
-                      <th>Welcome Bonus</th>
-                      <th>Edit</th>
+                      <th style={{ width: "20%" }}>Tier Name</th>
+                      <th style={{ width: "20%" }}>Exit Points</th>
+                      <th style={{ width: "20%" }}>Multipliers</th>
+                      <th style={{ width: "20%" }}>Welcome Bonus</th>
+                      <th style={{ width: "20%" }}>Edit</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -187,6 +255,12 @@ const Tiers = () => {
                     ))}
                   </tbody>
                 </table>
+
+                {/* <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                /> */}
               </div>
             )}
 
