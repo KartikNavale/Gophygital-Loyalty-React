@@ -64,8 +64,22 @@ const Members = () => {
                 </button>
               </Link>
             </div>
+            
             <div className="d-flex flex-wrap justify-content-end me-5">
               {/* Search and action buttons here */}
+              <div className="d-flex flex-wrap justify-content-end">
+              <div className="d-flex search-input w-50 p-1 ms-0 me-3">
+                <span className="material-symbols-outlined"> search </span>
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+              </div>
+              <button className="purple-btn1 rounded-3 px-3">Go!</button>
+              <button className="purple-btn2 rounded-3 mt-2">Reset</button>
+            </div>
             </div>
           </div>
           <div className="tbl-container mx-3 mt-4">
@@ -95,7 +109,7 @@ const Members = () => {
                       </td>
                       <td>{member.member_status.tier_level}</td>
                       <td>{member.current_loyalty_points}</td>
-                      <td>{member.lastActivityDate}</td>{" "}
+                      <td>{member.lastActivityDate}</td>
                       {/* this attribute is not there in  json*/}
                       <td>{member.tier_validity}</td>
                       <td>

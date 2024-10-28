@@ -180,7 +180,7 @@ const NewCampaign = () => {
           <div className="row mt-2 justify-content-center">
             <div className="col-md-2">
               <button type="submit" className="purple-btn1 w-100">
-                Create Campaign
+                Submit
               </button>
             </div>
             <div className="col-md-2">
