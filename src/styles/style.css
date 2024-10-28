@@ -386,6 +386,54 @@ a.purple-btn1:hover {
   background-color: #5e2750;
   margin: 8px 8px 8px 0px;
 }
+
+.pagination {
+  background-color: white; /* White background for the pagination */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.page-item {
+  margin: 0 5px; /* Space between items */
+}
+
+.page-link {
+  color: black; /* Text color for links */
+  background-color: white; /* White background for links */
+  border: 1px solid #5e2750; /* Purple border for links */
+  border-radius: 4px; /* Rounded corners for links */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+.page-item .page-link{
+  color: black; /* Text color for links */
+
+}
+ul.pagination.justify-content-center {
+  justify-content: left !important;
+}
+
+.page-link:hover {
+  background-color: purple; /* Purple background on hover */
+}
+
+.page-item.disabled .page-link {
+  color: gray !important; /* Gray color for disabled links */
+  background-color: #f9f9f9 !important; /* Light gray background for disabled links */
+  border: 1px solid gray !important; /* Gray border for disabled links */
+}
+
+.page-item.active .page-link {
+  background-color: #5e2750; /* Purple background for the active page */
+  color: white; /* White text for the active page */
+  border: 1px solid #5e2750; /* Keep the border purple */
+}
+
+
+
+
+
+
+
+
 .purple-btn1-addroom {
   padding: 5px 10px;
   border: 2px solid #5e2750;
@@ -482,7 +530,12 @@ input[type="checkbox"] {
 
 .tbl-container {
   overflow: auto;
-  height: 200px;
+  height: max-content;
+  margin: 10px 0;
+}
+.tbl-container table {
+  overflow: auto;
+  height: 100%;
   margin: 10px 0;
 }
 
