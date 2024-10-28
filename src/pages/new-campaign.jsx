@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 const NewCampaign = () => {
   const navigate = useNavigate();
+  const storedValue = sessionStorage.getItem("selectedId");
+    console.log("Stored ID in session after selection:", storedValue); 
+  
 
   // Form validation schema
   const validationSchema = Yup.object({
@@ -16,6 +19,7 @@ const NewCampaign = () => {
     target_audiance: Yup.string().required("Target audience is required."),
     campaign_type: Yup.string().required("Campaign type is required."),
     loyalty_tier_id: Yup.string().required("Tier level is required."),
+    loyalty_type_id:Yup.string().required("Loyalty type id is required."),
   });
 
   const formik = useFormik({
@@ -25,6 +29,7 @@ const NewCampaign = () => {
       campaign_type: "",
       loyalty_tier_id: "",
       campaign_reward: false,
+      loyalty_type_id:storedValue
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -35,16 +40,20 @@ const NewCampaign = () => {
           campaign_type: values.campaign_type,
           loyalty_tier_id: Number(values.loyalty_tier_id), // Convert to number
           campaign_reward: values.campaign_reward ? "true" : "false", // Convert to string
+          loyalty_type_id:storedValue
         },
+        
       };
 
-      // console.log("Data to be sent:", data);
+     
 
       try {
         const response = await axios.post(
           "https://staging.lockated.com/loyalty/campaigns.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
           data
         );
+
+        console.log("Data to be sent:", data);
 
         if (response.status === 201) {
           alert("Campaign created successfully!");

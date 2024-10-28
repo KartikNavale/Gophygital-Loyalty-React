@@ -22,7 +22,8 @@ const Members = () => {
       setMembers(response.data); // Return the data from the response
     } catch (error) {
       console.error("Error fetching members:", error);
-      throw error; // Rethrow the error for handling in the component
+      // throw error; // Rethrow the error for handling in the component
+      setError("Failed fetch members. Please try again.")
     } finally {
       setLoading(false);
     }

@@ -311,7 +311,7 @@ const RuleEngine = () => {
         setRuleEngine(response.data);
         setFilteredItems(response.data); // Initialize with all items
       } catch (err) {
-        setError("Failed to fetch campaigns.");
+        setError("Failed to fetch rule engine.");
       } finally {
         setLoading(false);
       }

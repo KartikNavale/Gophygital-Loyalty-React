@@ -462,7 +462,7 @@ const CreateRuleEngine = () => {
               >
                 <option value="">Select Sub Operator </option>
                 {subOperators.map((subOp) => (
-                  <option key={subOp.id} value={subOp.name}>
+                  <option key={subOp.id} value={subOp.value}>
                     {subOp.name}
                   </option>
                 ))}
