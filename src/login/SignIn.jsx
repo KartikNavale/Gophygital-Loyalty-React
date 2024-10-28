@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import LoginModal from "../components/LoginModal";
+
 
 const SignIn = () => {
+  const [showModal, setShowModal] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,7 +43,9 @@ const SignIn = () => {
           },
         }
       );
-
+     if (response.data.code === 401) {
+        setError("Email or Password not valid.");
+      }
       // Handling response and storing session details
       if (response.data.spree_api_key) {
         sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
@@ -48,6 +54,13 @@ const SignIn = () => {
         
         // Redirect user to the members page after successful login
         navigate("/");
+
+
+        setTimeout(() => {
+          setShowModal(true);
+        }, 2000); // Adjust timing as necessary
+      
+
       } else {
         setError("Login failed. Please check your credentials.");
       }
@@ -251,6 +264,7 @@ input {
         </button>
           {error && <p className="error-text">{error}</p>}
       </form>
+
     </div>
     </div>
     </>

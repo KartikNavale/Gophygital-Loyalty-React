@@ -6,34 +6,49 @@ import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 
 import axios from "axios";
+import LoginModal from "../components/LoginModal";
 
 const Members = () => {
+  const [showModal, setShowModal] = useState(false);
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const getMembers = async () => {
     const storedValue = sessionStorage.getItem("selectedId");
-    console.log("Stored ID in session after selection:", storedValue); 
+    console.log("Stored ID in session after selection:", storedValue);
+
     try {
       const response = await axios.get(
         `https://staging.lockated.com/loyalty/members.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
-      ); // Adjust the endpoint as necessary
-      setMembers(response.data); // Return the data from the response
+      );
+      setMembers(response.data); // Update members state with API response data
+      setError(null); // Clear any previous errors
     } catch (error) {
       console.error("Error fetching members:", error);
-      // throw error; // Rethrow the error for handling in the component
-      setError("Failed fetch members. Please try again.")
+      setError("Failed to fetch members. Please try again.");
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop the loading indicator
     }
   };
 
   useEffect(() => {
-    getMembers();
-  }, []);
-  console.log("members :-", members);
+    const hasRun = sessionStorage.getItem('hasRun');
+    const timer = setTimeout(() => {
+      getMembers(); // Fetch members after 2 seconds
+    }, 1000);
+    if (!hasRun) {
+      setShowModal(true); // Open modal
 
+      
+
+      sessionStorage.setItem('hasRun', 'true'); // Mark as run
+
+      return () => clearTimeout(timer); // Cleanup on unmount
+    } else {
+      setLoading(false); // Avoid showing loader if already run
+    }
+  }, []); // Run only once on component mount
   return (
     <>
       <div className="w-100">
@@ -136,6 +151,8 @@ const Members = () => {
           </div>
         </div>
       </div>
+      <LoginModal showModal={showModal} handleClose={() => setShowModal(false)} />
+
     </>
   );
 };
