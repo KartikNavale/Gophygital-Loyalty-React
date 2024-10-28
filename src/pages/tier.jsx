@@ -36,8 +36,7 @@ const Tiers = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchTerm, setSearchTerm] = React.useState("");
 
-  useEffect(() => {
-    const storedValue = sessionStorage.getItem("selectedId");
+  const storedValue = sessionStorage.getItem("selectedId");
     const fetchTiers = async () => {
       try {
         const response = await axios.get(
@@ -54,8 +53,9 @@ const Tiers = () => {
       }
     };
 
+  useEffect(() => { 
     fetchTiers();
-  }, [tiers]);
+  }, []);
 
   const handleEditClick = (tier) => {
     setSelectedTier(tier);
@@ -65,35 +65,19 @@ const Tiers = () => {
   const handleFormSubmit = async (values) => {
     if (selectedTier) {
       try {
-        // Optimistically update the state to reflect the new changes
-        setTiers((prevTiers) =>
-          prevTiers.map((tier) =>
-            tier.id === selectedTier.id ? { ...tier, ...values } : tier
-          )
-        );
-
         const response = await axios.put(
           `https://staging.lockated.com/loyalty/tiers/${selectedTier.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
           { loyalty_tier: values },
           { headers: { "Content-Type": "application/json" } }
         );
 
-        // Double-check update after response if needed
         if (response && response.data) {
-          setTiers((prevTiers) =>
-            prevTiers.map((tier) =>
-              tier.id === selectedTier.id
-                ? { ...tier, ...response.data.loyalty_tier }
-                : tier
-            )
-          );
+          await fetchTiers(); // Refresh data after successful edit
         }
 
         handleCloseModal();
       } catch (error) {
         alert(`Error: ${error.message}`);
-        // Optional: Revert optimistic update if there's an error
-        setTiers((prevTiers) => prevTiers); // Re-fetch original state if needed
       }
     }
   };

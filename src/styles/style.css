@@ -2411,6 +2411,10 @@ input[type="checkbox"].violet-check {
   color: #8c8c8c;
 }
 
+.form-control::focus{
+  box-shadow:none !important;
+}
+
 .createproject-btn {
   height: 35px;
   border-radius: 4px;
