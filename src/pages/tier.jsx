@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import "../styles/style.css";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Tier Name is required"),
@@ -35,20 +32,22 @@ const Tiers = () => {
   const [selectedTier, setSelectedTier] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
-  const [searchTerm, setSearchTerm] = useState("");
+  const itemsPerPage = 10;
   const [filteredItems, setFilteredItems] = useState([]);
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   useEffect(() => {
     const storedValue = sessionStorage.getItem("selectedId");
-    console.log("Stored ID in session after selection:", storedValue);
     const fetchTiers = async () => {
       try {
         const response = await axios.get(
           `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
-        setTiers(response.data);
-        setLoading(false);
+        if (response && response.data) {
+          setTiers(response.data.reverse());
+          setFilteredItems(response.data);
+          setLoading(false);
+        }
       } catch (err) {
         setError("Failed to fetch tiers data.");
         setLoading(false);
@@ -56,7 +55,7 @@ const Tiers = () => {
     };
 
     fetchTiers();
-  }, []);
+  }, [tiers]);
 
   const handleEditClick = (tier) => {
     setSelectedTier(tier);
@@ -66,20 +65,35 @@ const Tiers = () => {
   const handleFormSubmit = async (values) => {
     if (selectedTier) {
       try {
+        // Optimistically update the state to reflect the new changes
+        setTiers((prevTiers) =>
+          prevTiers.map((tier) =>
+            tier.id === selectedTier.id ? { ...tier, ...values } : tier
+          )
+        );
+
         const response = await axios.put(
           `https://staging.lockated.com/loyalty/tiers/${selectedTier.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-          { loyalty_tier: values }
+          { loyalty_tier: values },
+          { headers: { "Content-Type": "application/json" } }
         );
-        if (response) {
+
+        // Double-check update after response if needed
+        if (response && response.data) {
           setTiers((prevTiers) =>
             prevTiers.map((tier) =>
-              tier.id === selectedTier.id ? { ...tier, ...values } : tier
+              tier.id === selectedTier.id
+                ? { ...tier, ...response.data.loyalty_tier }
+                : tier
             )
           );
         }
+
         handleCloseModal();
       } catch (error) {
         alert(`Error: ${error.message}`);
+        // Optional: Revert optimistic update if there's an error
+        setTiers((prevTiers) => prevTiers); // Re-fetch original state if needed
       }
     }
   };
@@ -96,55 +110,58 @@ const Tiers = () => {
   );
 
   const handleSearch = () => {
-    const filtered = tiers.filter((tier) =>
-      tier.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filtered = tiers.filter((rule) => {
+      const ruleName = rule.name ? rule.name.toLowerCase() : ""; // Ensure rule.name is not null
+      return ruleName.includes(searchTerm.toLowerCase());
+    });
+
+    console.log("filtered :----", filtered);
+
     setFilteredItems(filtered);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1);
   };
-  console.log("filteredItems",filteredItems);
-  
+
   const handleReset = () => {
-    setSearchTerm(""); 
-    setFilteredItems(tiers); 
-    setCurrentPage(1); // Reset to first page
+    setSearchTerm("");
+    setFilteredItems(tiers);
+    setCurrentPage(1);
   };
 
-  // const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  //   const handlePageChange = (page) => {
-  //     if (page > 0 && page <= totalPages) {
-  //       onPageChange(page);
-  //     }
-  //   };
+  const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+    const handlePageChange = (page) => {
+      if (page > 0 && page <= totalPages) {
+        onPageChange(page);
+      }
+    };
 
-  //   return (
-  //     <nav>
-  //       <ul className="pagination justify-content-center">
-  //         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage - 1)}
-  //           >
-  //             Previous
-  //           </button>
-  //         </li>
-  //         <li className="page-item active">
-  //           <button className="page-link">{currentPage}</button>
-  //         </li>
-  //         <li
-  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage + 1)}
-  //           >
-  //             Next
-  //           </button>
-  //         </li>
-  //       </ul>
-  //     </nav>
-  //   );
-  // };
+    return (
+      <nav>
+        <ul className="pagination justify-content-center align-items-center">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="purple-btn1"
+              onClick={() => handlePageChange(currentPage - 1)}
+            >
+              Previous
+            </button>
+          </li>
+          <li className={`page-item active`}>{`Page ${currentPage}  `}</li>
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="purple-btn1"
+              onClick={() => handlePageChange(currentPage + 1)}
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+    );
+  };
 
   return (
     <>
@@ -176,14 +193,20 @@ const Tiers = () => {
                 <div className="position-relative me-3">
                   <input
                     className="form-control"
-                    style={{ height: "35px", paddingLeft: "32px", textAlign: 'left' }}
+                    style={{
+                      height: "35px",
+                      paddingLeft: "30px",
+                      textAlign: "left",
+                    }}
                     type="search"
                     placeholder="Search"
                     aria-label="Search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
                   <div
                     className="position-absolute"
-                    style={{ top: "10px", left: "15px" }}
+                    style={{ top: "7px", left: "10px" }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -197,10 +220,16 @@ const Tiers = () => {
                     </svg>
                   </div>
                 </div>
-                <button className="purple-btn1" onClick={handleSearch}>
-                  Go
+                <button
+                  className="purple-btn1 rounded-3 px-3"
+                  onClick={handleSearch}
+                >
+                  Go!
                 </button>
-                <button className="purple-btn2" onClick={handleReset}>
+                <button
+                  className="purple-btn2 rounded-3 mt-2"
+                  onClick={handleReset} // Reset search
+                >
                   Reset
                 </button>
               </div>
@@ -211,7 +240,12 @@ const Tiers = () => {
             {!loading && !error && (
               <div
                 className="tbl-container mt-4"
-                style={{ margin: "0 100px", textAlign: "center" }}
+                style={{
+                  height: "100%",
+                  overflowY: "hidden",
+                  margin: "0 100px",
+                  textAlign: "center",
+                }}
               >
                 <table className="w-100" style={{ tableLayout: "fixed" }}>
                   <thead>
@@ -224,7 +258,7 @@ const Tiers = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tiers.map((tier) => (
+                    {currentItems.map((tier) => (
                       <tr key={tier.id}>
                         <td>{tier.name}</td>
                         <td>{tier.exit_points}</td>
@@ -256,11 +290,11 @@ const Tiers = () => {
                   </tbody>
                 </table>
 
-                {/* <Pagination
+                <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={setCurrentPage}
-                /> */}
+                />
               </div>
             )}
 
@@ -401,7 +435,6 @@ const Tiers = () => {
                                 onChange={handleChange}
                                 value={values.point_type}
                               >
-                                <option value="" label="Select point type" />{" "}
                                 <option value="lifetime" label="Life Time" />
                                 <option value="yearly" label="Yearly" />
                               </Field>

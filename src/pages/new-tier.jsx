@@ -9,6 +9,8 @@ import SubHeader from "../components/SubHeader";
 import RoundedRadioButtonCard from "../components/RoundedRadioButtonCard";
 import { useNavigate } from "react-router-dom";
 
+const storedValue = sessionStorage.getItem("selectedId");
+
 const validationSchema = Yup.object().shape({
   tierName: Yup.string().required("Tier name is required"),
   exitPoints: Yup.number().required("Exit points are required").positive(),
@@ -16,6 +18,7 @@ const validationSchema = Yup.object().shape({
     .required("Set multipliers are required")
     .positive(),
   welcomeBonus: Yup.number().required("Welcome bonus is required").positive(),
+  loyalty_type_id: Yup.string().required("Loyalty type id is required."),
 });
 
 const NewTier = () => {
@@ -28,6 +31,7 @@ const NewTier = () => {
       exitPoints: "",
       setMultipliers: "",
       welcomeBonus: "",
+      loyalty_type_id: storedValue,
     },
   ]);
 
@@ -37,13 +41,14 @@ const NewTier = () => {
     values,
     { setSubmitting, resetForm, setStatus }
   ) => {
+    console.log("Submitted values:", values);
     const data = {
       loyalty_tier: {
         name: values.tierName,
         exit_points: values.exitPoints,
         multipliers: values.setMultipliers,
         welcome_bonus: values.welcomeBonus,
-        point_type: timeframe,
+        loyalty_type_id: storedValue,
       },
     };
 
@@ -53,15 +58,15 @@ const NewTier = () => {
         data
       );
 
-      if (response.statusText === "Created") {
-        setStatus({ success: "Campaign created successfully!" });
+      if (response.status === 201) {
+        setStatus({ success: "Tier created successfully!" });
         resetForm();
         setStep(1);
-
         navigate("/tiers");
       }
     } catch (error) {
-      setStatus({ error: "Failed to create campaign. Please try again." });
+      console.error("Submission error:", error); // Log the error
+      setStatus({ error: "Failed to create tier. Please try again." });
     } finally {
       setSubmitting(false);
     }
@@ -96,6 +101,7 @@ const NewTier = () => {
         exitPoints: "",
         setMultipliers: "",
         welcomeBonus: "",
+        loyalty_type_id: storedValue
       },
     ]);
   };
@@ -103,10 +109,9 @@ const NewTier = () => {
   const removeTierRow = (index) => {
     setTiers(tiers.filter((_, i) => i !== index));
   };
-
   return (
     <>
-      <div className="w-100">
+      <div className="w-100" style={{height: '90%'}}>
         <SubHeader />
 
         {step === 1 && (
@@ -153,6 +158,7 @@ const NewTier = () => {
               exitPoints: "",
               setMultipliers: "",
               welcomeBonus: "",
+              loyalty_type_id: storedValue
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -161,93 +167,91 @@ const NewTier = () => {
               <Form className="go-shadow mx-3 h-100">
                 <div
                   className="position-relative"
-                  style={{ height: "calc(100% - 5%)" }}
+                  style={{ height: "100%" }}
                 >
                   <div className="row ms-3">
-                      <div className="col-md-3 col-sm-11">
-                        <fieldset className="border">
-                          <legend className="float-none">
-                            Tier Name<span>*</span>
-                          </legend>
-                          <Field
-                            type="text"
+                    <div className="col-md-3 col-sm-11">
+                      <fieldset className="border">
+                        <legend className="float-none">
+                          Tier Name<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
                           name="tierName"
-                            placeholder="Enter Tier Name"
-                            className="form-control border-0"
-                          />
-                        </fieldset>
-                        <ErrorMessage
+                          placeholder="Enter Tier Name"
+                          className="form-control border-0"
+                        />
+                      </fieldset>
+                      <ErrorMessage
                         name="tierName"
-                          component="div"
-                          className="text-danger"
-                        />
-                      </div>
-
-                      <div className="col-md-3 col-sm-11">
-                        <fieldset className="border">
-                          <legend className="float-none">
-                            Exit Points<span>*</span>
-                          </legend>
-                          <Field
-                            type="text"
-                          name="exitPoints"
-                            placeholder="Enter Exit Points"
-                            className="form-control border-0"
-                          />
-                        </fieldset>
-
-                        <ErrorMessage
-                        name="exitPoints"
-                          component="div"
-                          className="text-danger"
-                        />
-                      </div>
-
-                      <div className="col-md-3 col-sm-11">
-                        <fieldset className="border">
-                          <legend className="float-none">
-                            Set Multipliers<span>*</span>
-                          </legend>
-                          <Field
-                            type="text"
-                          name="setMultipliers"
-                            placeholder="Enter Set Multipliers"
-                            className="form-control border-0"
-                          />
-                        </fieldset>
-
-                        <ErrorMessage
-                        name="setMultipliers"
-                          component="div"
-                          className="text-danger"
-                        />
-                      </div>
-
-                      <div className="col-md-3 col-sm-11">
-                        <fieldset className="border">
-                          <legend className="float-none">
-                            Welcome Bonus<span>*</span>
-                          </legend>
-                          <Field
-                            type="text"
-                          name="welcomeBonus"
-                            placeholder="Enter Welcome Bonus"
-                            className="form-control border-0"
-                          />
-                        </fieldset>
-
-                        <ErrorMessage
-                        name="welcomeBonus"
-                          component="div"
-                          className="text-danger"
-                        />
-                      </div>
+                        component="div"
+                        className="text-danger"
+                      />
                     </div>
+
+                    <div className="col-md-3 col-sm-11">
+                      <fieldset className="border">
+                        <legend className="float-none">
+                          Exit Points<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
+                          name="exitPoints"
+                          placeholder="Enter Exit Points"
+                          className="form-control border-0"
+                        />
+                      </fieldset>
+                      <ErrorMessage
+                        name="exitPoints"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
+
+                    <div className="col-md-3 col-sm-11">
+                      <fieldset className="border">
+                        <legend className="float-none">
+                          Set Multipliers<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
+                          name="setMultipliers"
+                          placeholder="Enter Set Multipliers"
+                          className="form-control border-0"
+                        />
+                      </fieldset>
+                      <ErrorMessage
+                        name="setMultipliers"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
+
+                    <div className="col-md-3 col-sm-11">
+                      <fieldset className="border">
+                        <legend className="float-none">
+                          Welcome Bonus<span>*</span>
+                        </legend>
+                        <Field
+                          type="text"
+                          name="welcomeBonus"
+                          placeholder="Enter Welcome Bonus"
+                          className="form-control border-0"
+                        />
+                      </fieldset>
+                      <ErrorMessage
+                        name="welcomeBonus"
+                        component="div"
+                        className="text-danger"
+                      />
+                    </div>
+                  </div>
                   <button
                     className="purple-btn1"
                     style={{ margin: "42px 28px", width: "150px" }}
-                    onClick={addNewTierRow}
                     type="button"
+                    // Assuming `addNewTierRow` is defined somewhere else
+                    onClick={addNewTierRow}
                   >
                     Add New Tier
                   </button>
@@ -266,7 +270,6 @@ const NewTier = () => {
                         type="submit"
                         className="purple-btn1 w-100"
                         disabled={isSubmitting}
-                        onClick={handleSubmit}
                       >
                         {isSubmitting ? "Submitting..." : "Submit"}
                       </button>
@@ -275,7 +278,7 @@ const NewTier = () => {
                       <button
                         type="reset"
                         className="purple-btn2 w-100"
-                        onClick={cancelStep}
+                        onClick={cancelStep} 
                       >
                         Cancel
                       </button>

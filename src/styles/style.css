@@ -2408,7 +2408,6 @@ input[type="checkbox"].violet-check {
 .form-control {
   border: none;
   border-radius: 0;
-  text-align: center;
   color: #8c8c8c;
 }
 
