@@ -37,6 +37,8 @@ const CreateRuleEngine = () => {
   const [masterRewardOutcomes, setMasterRewardOutcomes] = useState([]);
   const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] = useState({ id: '', name: '' });
   const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
+  const [subRewardOutcomesnew, setsubRewardOutcomesnew] = useState([]);
+
 
   const [selectedMasterOperator, setSelectedMasterOperator] = useState("");
   const [subOperators, setSubOperators] = useState([]);
@@ -282,8 +284,8 @@ const CreateRuleEngine = () => {
     
         rule_engine_actions_attributes:[ {
           lock_model_name: selectedMasterRewardOutcomes.name || "",
-          parameters: [Number(parameter) || 0],
-          rule_engine_available_function_id:  subRewardOutcomes.rule_engine_available_model_id || "",
+          parameters: [Number(parameter) || ""],
+          rule_engine_available_function_id:  subRewardOutcomesnew|| "",
           action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
         }
             ]
@@ -641,13 +643,19 @@ const CreateRuleEngine = () => {
                     required=""
                     className="p-1"
                     disabled={!selectedMasterRewardOutcomes}
+                    onChange={(e) => {
+                      const selectedId = e.target.value; // Get the selected sub-reward outcome ID
+                      // Handle the selection as needed, e.g., update the state or construct the data object
+                      setsubRewardOutcomesnew(selectedId);
+                    }}
+                    value={subRewardOutcomesnew} // Ensure this reflects the selected sub-reward outcome
                   >
                     <option value="">Select Sub Reward Outcome</option>
 
                     {subRewardOutcomes.map((reward) => (
                       <option
                         key={reward.id}
-                        value={reward.id}
+                        value={reward.rule_engine_available_model_id}
                       >
                         {reward.display_name}
                       </option>
