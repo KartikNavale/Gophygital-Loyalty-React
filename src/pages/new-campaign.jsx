@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -9,9 +9,10 @@ import { useNavigate } from "react-router-dom";
 
 const NewCampaign = () => {
   const navigate = useNavigate();
+  const [tierLevels, setTierLevels] = useState([]);
   const storedValue = sessionStorage.getItem("selectedId");
-    console.log("Stored ID in session after selection:", storedValue); 
-  
+  console.log("Stored ID in session after selection:", storedValue);
+
 
   // Form validation schema
   const validationSchema = Yup.object({
@@ -19,7 +20,7 @@ const NewCampaign = () => {
     target_audiance: Yup.string().required("Target audience is required."),
     campaign_type: Yup.string().required("Campaign type is required."),
     loyalty_tier_id: Yup.string().required("Tier level is required."),
-    loyalty_type_id:Yup.string().required("Loyalty type id is required."),
+    loyalty_type_id: Yup.string().required("Loyalty type id is required."),
   });
 
   const formik = useFormik({
@@ -29,7 +30,7 @@ const NewCampaign = () => {
       campaign_type: "",
       loyalty_tier_id: "",
       campaign_reward: false,
-      loyalty_type_id:storedValue
+      loyalty_type_id: storedValue
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -40,12 +41,12 @@ const NewCampaign = () => {
           campaign_type: values.campaign_type,
           loyalty_tier_id: Number(values.loyalty_tier_id), // Convert to number
           campaign_reward: values.campaign_reward ? "true" : "false", // Convert to string
-          loyalty_type_id:storedValue
+          loyalty_type_id: storedValue
         },
-        
+
       };
 
-     
+
 
       try {
         const response = await axios.post(
@@ -69,6 +70,26 @@ const NewCampaign = () => {
       }
     },
   });
+
+//tier level
+  useEffect(() => {
+    const fetchTierLevels = async () => {
+      const storedValue = sessionStorage.getItem("selectedId");
+      console.log("Stored ID in session after selection:", storedValue);
+      try {
+        const response = await axios.get(
+          `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        );
+        setTierLevels(response.data);
+        // Store API data in state
+        console.log(response.data)
+      } catch (error) {
+        console.error("Error fetching tier levels:", error);
+      }
+    };
+
+    fetchTierLevels();
+  }, []);
 
   return (
     <>
@@ -113,7 +134,7 @@ const NewCampaign = () => {
                   <option value="No purchase">No purchase</option>
                 </select>
                 {formik.touched.target_audiance &&
-                formik.errors.target_audiance ? (
+                  formik.errors.target_audiance ? (
                   <p className="text-danger">{formik.errors.target_audiance}</p>
                 ) : null}
               </fieldset>
@@ -152,13 +173,20 @@ const NewCampaign = () => {
                   onBlur={formik.handleBlur}
                   required=""
                 >
-                  <option value="">Select Tier Level</option>
+                  {/* <option value="">Select Tier Level</option>
                   <option value="1">Bronze</option>
                   <option value="2">Silver</option>
-                  <option value="3">Gold</option>
+                  <option value="3">Gold</option> */}
+                  <option value="">Select Tier Level</option>
+                  {
+                    tierLevels?.map((tier, index) => (
+                      <option key={tier.id} value={tier.id}>{tier.display_name}</option>
+
+                    ))
+                  }
                 </select>
                 {formik.touched.loyalty_tier_id &&
-                formik.errors.loyalty_tier_id ? (
+                  formik.errors.loyalty_tier_id ? (
                   <p className="text-danger">{formik.errors.loyalty_tier_id}</p>
                 ) : null}
               </fieldset>

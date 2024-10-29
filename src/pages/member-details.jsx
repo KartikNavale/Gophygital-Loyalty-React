@@ -6,6 +6,7 @@ import "../styles/style.css";
 import SubHeader from "../components/SubHeader";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Members from "./members";
 
 const MemberDetails = () => {
   const { id } = useParams(); // Get the member ID from the URL
@@ -14,17 +15,53 @@ const MemberDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const year = String(date.getFullYear()); // Get last two digits of the year
+    return `${day}-${month}-${year}`;
+  };
+
   const getMemberDetails = async (id) => {
+    const storedValue = sessionStorage.getItem("selectedId");
+    console.log("Stored ID in session after selection:", storedValue); 
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
+        `https://staging.lockated.com/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
-      console.log(response.data);
-      return response.data;
+      // console.log(response.data);
+      // const member = response.data.map((itemMember) => {
+      //   const formattedDate = new Intl.DateTimeFormat("en-GB", {
+      //     day: "2-digit",
+      //     month: "2-digit",
+      //     year: "numeric",
+      //   }).format(new Date(itemMember.created_at));
+
+      //   return {
+      //     ...itemMember,
+      //     created_at: formattedDate,
+      //   };
+      // });
+
+      // console.log("transaction data", member);
+      // setMember(member);
+      
+
+
+      // Format the created_at date
+      const formattedMember = {
+        ...response.data,
+        created_at: formatDate(response.data.created_at), // Format the created_at date
+      };
+
+      return formattedMember;
     } catch (error) {
       console.error("Error fetching member details:", error);
       throw error;
     }
+      
+    
   };
 
   useEffect(() => {
@@ -43,9 +80,11 @@ const MemberDetails = () => {
   }, [id]);
 
   const getTransactionData = async () => {
+    const storedValue = sessionStorage.getItem("selectedId");
+    console.log("Stored ID in session after selection:", storedValue); 
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/member_transactions.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
+        `https://staging.lockated.com/loyalty/member_transactions.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
       const transactions = response.data.map((transaction) => {
         const formattedDate = new Intl.DateTimeFormat("en-GB", {
@@ -98,7 +137,7 @@ const MemberDetails = () => {
                       Full name
                     </div>
                     <div class="col-6 p-1 member-detail-color">
-                      : {member.firstname} {member.lasttname}{" "}
+                      : {member.firstname} {member.lasttname}
                     </div>
                   </div>
                   <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
@@ -114,7 +153,7 @@ const MemberDetails = () => {
                       Phone No.
                     </div>
                     <div class="col-6 p-1 member-detail-color">
-                      : {member.phone}
+                      : {member.mobile}
                     </div>
                   </div>
                   <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
@@ -122,7 +161,7 @@ const MemberDetails = () => {
                       Home Address
                     </div>
                     <div class="col-6 p-1 member-detail-color">
-                      : {member.address.address1} {member.address.address2}{" "}
+                      : {member.address.address1} {member.address.address2}
                     </div>
                   </div>
                 </div>
@@ -152,9 +191,9 @@ const MemberDetails = () => {
                   </div>
                   <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
                     <div class="col-6 p-1 text-muted member-detail-color">
-                      Membership Duration{" "}
+                      Membership Duration
                     </div>
-                    <div class="col-6 p-1 member-detail-color">: Name</div>{" "}
+                    <div class="col-6 p-1 member-detail-color">: {member.duration}</div>
                     {/* this attribute is not there in  json*/}
                   </div>
                   <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
@@ -184,8 +223,8 @@ const MemberDetails = () => {
                       Expiry Points
                     </div>
                     <div class="col-6 p-1 member-detail-color">
-                      : 20/02/2024{" "}
-                    </div>{" "}
+                      : 
+                    </div>
                     {/* this attribute is not there in  json*/}
                   </div>
                 </div>
@@ -208,14 +247,14 @@ const MemberDetails = () => {
                           borderRadius: "20px",
                         }}
                       >
-                        <p className="content-box-sub fw-light">14.28%</p>
+                        <p className="content-box-sub fw-light">{member.earned_percentage}% </p>
                         <h6
                           className="content-box-title"
                           style={{ heigth: "20px", width: "221px" }}
                         >
                           ALL THE POINTS EARNED
                         </h6>
-                        <h6 className="content-box-title">1400</h6>
+                        <h6 className="content-box-title">{member.earned_points}</h6>
                       </div>
                     </div>
 
@@ -228,14 +267,14 @@ const MemberDetails = () => {
                           borderRadius: "20px",
                         }}
                       >
-                        <p className="content-box-sub fw-light">12.50%</p>
+                        <p className="content-box-sub fw-light">{member.reedem_percentage}% </p>
                         <h6
                           className="content-box-title"
                           style={{ heigth: "20px", width: "221px" }}
                         >
                           ALL THE POINTS REDEEMED
                         </h6>
-                        <h6 className="content-box-title">7000</h6>
+                        <h6 className="content-box-title">{member.reedem_points}</h6>
                       </div>
                     </div>
 
@@ -254,7 +293,7 @@ const MemberDetails = () => {
                         >
                           BALANCED POINTS
                         </h6>
-                        <h6 className="content-box-title">7000</h6>
+                        <h6 className="content-box-title">   </h6>   
                       </div>
                     </div>
                   </div>
@@ -271,22 +310,20 @@ const MemberDetails = () => {
                       <tr>
                         <td className="text-center"> Date</td>
                         <td className="text-center"> Transaction Type</td>
-                        <td className="text-center"> Balanced Points</td>
-                        <td className="text-center">Earned Points</td>
-                        <td className="text-center">Redeem Points</td>
+                        <td className="text-center"> Points</td>
+                       
                       </tr>
                     </thead>
                     <tbody>
                       {transactionData &&
                         transactionData.map((item, id) => (
                           <tr key={id}>
-                            <td className="text-center">{item.created_at}</td>
-                            <td className="text-center">
+                            <td className="text-center" style={{width:'33%'}}>{item.created_at}</td>
+                            <td className="text-center" style={{width:'33%'}}>
                               {item.transaction_type}
                             </td>
-                            <td className="text-center">...</td>
-                            <td className="text-center">...</td>
-                            <td className="text-center">...</td>
+                            <td className="text-center" style={{width:'33%'}}>{item.points}</td>
+                            
                           </tr>
                         ))}
                     </tbody>

@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   fetchMasterAttributes,
   fetchSubAttributes,
@@ -12,6 +13,8 @@ import {
 } from "../Confi/ruleEngineApi";
 
 const CreateRuleEngine = () => {
+
+  const navigate = useNavigate()
   const [conditions, setConditions] = useState([
     {
       id: 1,
@@ -19,13 +22,13 @@ const CreateRuleEngine = () => {
       subAttribute: "",
       masterOperator: "",
       subOperator: "",
-      condition_type:"",
-      value:''
+      condition_type: "",
+      value: ''
     },
   ]);
 
-   const [actions, setActions] = useState([
-    {  parameter: "",  selectedMasterRewardOutcomes: "" }
+  const [actions, setActions] = useState([
+    { parameter: "", selectedMasterRewardOutcomes: "" }
   ]);
 
   const [ruleName, setRuleName] = useState("");
@@ -34,15 +37,16 @@ const CreateRuleEngine = () => {
   const [subAttributes, setSubAttributes] = useState([]);
 
   const [masterRewardOutcomes, setMasterRewardOutcomes] = useState([]);
-  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] =useState("");
+  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] = useState("");
   const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
 
   const [selectedMasterOperator, setSelectedMasterOperator] = useState("");
   const [subOperators, setSubOperators] = useState([]);
   const [selectedSubOperator, setSelectedSubOperator] = useState("");
 
-  const [error,setError]=useState("")
-  const [parameter,setParameter]=useState('')
+  const [error, setError] = useState("")
+  const [parameter, setParameter] = useState('')
+  const [previousValue, setPreviousValue] = useState('');
 
   //operator data static
   const masterOperators = [
@@ -50,7 +54,7 @@ const CreateRuleEngine = () => {
       id: "0",
       name: "Common Operatives",
       subOptions: [
-        { id: "1", name: "greater_than", value: "greater_than"  },
+        { id: "1", name: "greater_than", value: "greater_than" },
         { id: "2", name: "Less than (<)", value: "less_than" },
         { id: "3", name: "Equals (=)", value: "equals" },
         { id: "4", name: "Not equals (!=)", value: "not_equals" },
@@ -62,28 +66,28 @@ const CreateRuleEngine = () => {
       id: "1",
       name: "Logical Operatives",
       subOptions: [
-        { id: "1", name: "AND",value:"" },
-        { id: "2", name: "OR" ,value:""},
-        { id: "3", name: "NOT" ,value:"" },
+        { id: "1", name: "AND", value: "" },
+        { id: "2", name: "OR", value: "" },
+        { id: "3", name: "NOT", value: "" },
       ],
     },
     {
       id: "2",
       name: "Date/Time Operatives",
       subOptions: [
-        { id: "1", name: "Before" ,value:""},
-        { id: "2", name: "After" ,value:"" },
-        { id: "3", name: "Between" ,value:"" },
-        { id: "4", name: "Within",value:"" },
+        { id: "1", name: "Before", value: "" },
+        { id: "2", name: "After", value: "" },
+        { id: "3", name: "Between", value: "" },
+        { id: "4", name: "Within", value: "" },
       ],
     },
     {
       id: "3",
       name: "Tier Operatives",
       subOptions: [
-        { id: "1", name: "Is in tier" ,value:"" },
-        { id: "2", name: "Upgrade" ,value:""},
-        { id: "3", name: "Downgrade" ,value:"" },
+        { id: "1", name: "Is in tier", value: "" },
+        { id: "2", name: "Upgrade", value: "" },
+        { id: "3", name: "Downgrade", value: "" },
       ],
     },
   ];
@@ -188,8 +192,8 @@ const CreateRuleEngine = () => {
         subAttribute: "",
         masterOperator: "",
         subOperator: "",
-        condition_type:"",
-        value:''
+        condition_type: "",
+        value: ''
       },
     ]);
   };
@@ -217,11 +221,49 @@ const CreateRuleEngine = () => {
 
 
   const handleSubmit = async () => {
+    // Validate required fields
+    if (!ruleName || conditions.some(cond =>
+      !cond.subAttribute ||
+      !cond.subOperator ||
+      !cond.value ||
+      !cond.masterAttribute ||
+      cond.value === previousValue // Check against previous value
+    )) {
+      setError("All fields are required.");
+      return;
+    }
+
+    // Check for duplicate condition values and ensure they are numbers
+    const values = conditions.map(cond => cond.value);
+    const uniqueValues = new Set();
+    for (const value of values) {
+      if (isNaN(value) || value.trim() === "") {
+        setError("Each condition value must be a valid number.");
+        return;
+      }
+      uniqueValues.add(value);
+    }
+
+    if (isNaN(parameter) || parameter.trim() === "") {
+      setError("Parameter value must be a valid number.");
+      return;
+    }
+
+    if (uniqueValues.size !== values.length) {
+      setError("Each condition value must be unique.");
+      return;
+    }
+
+    // Update previousValue to the current value before proceeding
+    const newValue = conditions.map(cond => cond.value);
+    setPreviousValue(newValue); // Store the latest value(s) as the previous value
+
+
     const data = {
       rule_engine_rule: {
         name: ruleName, // Ensure ruleName is defined elsewhere in your code
         description: "This is a description of the sample rule.",
-  
+
         // Mapping conditions dynamically
         rule_engine_conditions_attributes: conditions.map((condition) => ({
           condition_attribute: condition.subAttribute || "", // Handle blank cases if needed
@@ -230,7 +272,7 @@ const CreateRuleEngine = () => {
           condition_selected_model: Number(condition.masterAttribute) || 1,
           condition_type: condition.condition_type || "",
         })),
-  
+
         // Mapping actions dynamically, handling blank fields
         rule_engine_actions_attributes: actions.map((action) => ({
           lock_model_name: action.lock_model_name || "", // Post as blank if not filled
@@ -240,37 +282,40 @@ const CreateRuleEngine = () => {
         })),
       },
     };
-  
+
     console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
-  
+
     try {
-      if(ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && actions !== null && conditions !== null){const response = await fetch(
-        "https://staging.lockated.com/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
-        {
-          method: "POST", // Specify the request method
-          headers: {
-            "Content-Type": "application/json", // Set content type to JSON
-          },
-          body: JSON.stringify(data), // Convert the data to JSON
+      if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && actions !== null && conditions !== null) {
+        const response = await fetch(
+          "https://staging.lockated.com/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+          {
+            method: "POST", // Specify the request method
+            headers: {
+              "Content-Type": "application/json", // Set content type to JSON
+            },
+            body: JSON.stringify(data), // Convert the data to JSON
+          }
+        );
+
+        if (response.ok) {
+          const responseData = await response.json(); // Parse the JSON response
+          alert("Rule Engine created successfully!");
+          navigate("/rule-engine")
+          console.log("Data created successfully:", responseData);
+          clearInputs(); // Clear form inputs if needed
+        } else {
+          const errorData = await response.json(); // Parse error response
+          setError(`Failed to create Rule Engine: ${errorData.message}`);
+          console.error("Submission error:", errorData);
         }
-      );
-  
-      if (response.ok) {
-        const responseData = await response.json(); // Parse the JSON response
-        setSuccessMessage("Rule Engine created successfully!");
-        console.log("Data created successfully:", responseData);
-        clearInputs(); // Clear form inputs if needed
-      } else {
-        const errorData = await response.json(); // Parse error response
-        setError(`Failed to create Rule Engine: ${errorData.message}`);
-        console.error("Submission error:", errorData);
-      }}
+      }
     } catch (error) {
       setError("Failed to create Rule Engine. Please try again.");
       console.error("Submission error:", error);
     }
   };
-  
+
 
   const renderCondition = (condition, index) => (
     <div key={condition.id} className="SetRuleCard">
@@ -297,13 +342,13 @@ const CreateRuleEngine = () => {
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
                     idx === index
-                      ? { ...cond, condition_type: "AND"}
+                      ? { ...cond, condition_type: "AND" }
                       : cond
                   );
                   setConditions(updatedConditions);
-              
+
                 }}
-                checked={condition.condition_type==="AND"}
+                checked={condition.condition_type === "AND"}
               />
               <label htmlFor={`home-tab-${index}`} className="and-or-btn">
                 AND
@@ -327,9 +372,9 @@ const CreateRuleEngine = () => {
                       : cond
                   );
                   setConditions(updatedConditions);
-              
+
                 }}
-                checked={condition.condition_type==="OR"}
+                checked={condition.condition_type === "OR"}
               />
               <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
                 OR
@@ -609,16 +654,18 @@ const CreateRuleEngine = () => {
                   <legend className="float-none">
                     Parameter {/* <span>*</span> */}
                   </legend>
-                  <input type="text" placeholder="Enter Point Value" value={parameter} onChange={(e)=>setParameter(e.target.value)}/>
+                  <input type="text" placeholder="Enter Point Value" value={parameter} onChange={(e) => setParameter(e.target.value)} />
                 </fieldset>
               </div>
             </div>
           </div>
 
+          {error && <div className="error" style={{ color: 'red' }}>{error}</div>}
+
           {/* ..... */}
           <div className="row mt-2 justify-content-center">
             <div className="col-md-2">
-              <button className="purple-btn1 w-100" onClick={handleSubmit}>Save for Approval</button>
+              <button className="purple-btn1 w-100" onClick={handleSubmit}>Submit</button>
             </div>
             <div className="col-md-2">
               <button className="purple-btn2 w-100">Cancel</button>
