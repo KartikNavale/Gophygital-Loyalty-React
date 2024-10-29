@@ -1,18 +1,14 @@
-
-
 // import "../styles/style.css";
 // import Header from "../components/Header";
 // import Sidebar from "../components/Sidebar";
 // import Footer from "../components/Footer";
 // import SubHeader from "../components/SubHeader";
-// import axios from "axios"; 
+// import axios from "axios";
 // // Import axios for making API calls
 // import { useNavigate } from "react-router-dom";
 
-
-
 // const NewSegment = () => {
-  
+
 //   const [name, setName] = useState(""); // Updated: Replaced segmentName
 //   const [segment_tag, setSegmentTag] = useState("");
 
@@ -102,8 +98,6 @@
 //     setSelectedMemberIds([]);
 //   };
 
-
-
 //   const [formValues, setFormValues] = useState({
 //     enrollmentDate: "",
 //     status: "",
@@ -172,7 +166,6 @@
 //     );
 //   };
 
-
 //   return (
 //     <>
 //       <div className="w-100">
@@ -239,7 +232,6 @@
 //                     <option value="Custom Campaign">Custom Campaign</option>
 //                   </select>
 //                 </fieldset>
-
 
 //               {/* Filter Element */}
 //               <div className="filter-container mt-4">
@@ -339,7 +331,7 @@
 //                 </div>
 
 //                 {/* Submit and Cancel Buttons */}
-                
+
 //               {/* End Filter Element */}
 //             </div>
 //           </div>
@@ -424,7 +416,7 @@
 // };
 
 // export default NewSegment;
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/style.css";
 
 import SubHeader from "../components/SubHeader";
@@ -443,13 +435,19 @@ const NewSegment = () => {
 
   const navigate = useNavigate(); // For navigation after success
   const storedValue = sessionStorage.getItem("selectedId");
-  console.log("Stored ID in session after selection:", storedValue); 
-
+  console.log("Stored ID in session after selection:", storedValue);
 
   const [segment_members, setSelectedMemberIds] = useState([]);
 
-  const[tierLevels,setTierLevels]=useState([]);
+  const [tierLevels, setTierLevels] = useState([]);
   const [initialData, setInitialData] = useState([]);
+  // const [filteredItems, setFilteredItems] = useState([]);
+
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const itemsPerPage = 10;
+
+  
+
   
 
   useEffect(() => {
@@ -465,8 +463,8 @@ const NewSegment = () => {
         );
         setInitialData(memberResponse.data);
         setFilteredData(memberResponse.data);
-          // Set initial data as default filtered data
-          setSelectedMemberIds(memberResponse.data.map((member) => member.id));
+        // Set initial data as default filtered data
+        setSelectedMemberIds(memberResponse.data.map((member) => member.id));
       } catch (error) {
         console.error("Error fetching initial data:", error);
       }
@@ -481,8 +479,8 @@ const NewSegment = () => {
           "https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
         );
         setTierLevels(response.data);
-         // Store API data in state
-         console.log(response.data)
+        // Store API data in state
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching tier levels:", error);
       }
@@ -498,7 +496,7 @@ const NewSegment = () => {
     //   setError("All fields are required.");
     //   return;
     // }
-      
+
     if (
       !name ||
       !segment_tag ||
@@ -517,7 +515,7 @@ const NewSegment = () => {
 
       segment_type,
 
-      loyalty_type_id:storedValue
+      loyalty_type_id: storedValue,
 
       // Updated key name
     };
@@ -532,7 +530,7 @@ const NewSegment = () => {
         segment_type: data1.segment_type,
         // loyalty_tier_id: Number(data1.loyalty_tier_id)
 
-        loyalty_type_id:storedValue,
+        loyalty_type_id: storedValue,
 
         loyalty_members: { member_ids: segment_members },
       },
@@ -601,8 +599,6 @@ const NewSegment = () => {
     return `${year}-${month}-${day}`;
   };
 
- 
-
   // Handle applying the filter and fetching data
   const handleFilter = async (e) => {
     e.preventDefault();
@@ -613,7 +609,7 @@ const NewSegment = () => {
       setError("Please fill at least one filter field before applying.");
       return;
     }
-  
+
     // Reset error if filter fields are filled
     setError("");
 
@@ -627,11 +623,9 @@ const NewSegment = () => {
       );
     }
     if (formValues.activatedDate) {
-      query.push(
-        `q[created_at_gteq]=${formatDate(formValues.activatedDate)}`
-      );
+      query.push(`q[created_at_gteq]=${formatDate(formValues.activatedDate)}`);
     }
-        
+
     if (formValues.status) {
       query.push(
         `q[active_eq]=${formValues.status === "Active" ? "true" : "false"}`
@@ -668,6 +662,274 @@ const NewSegment = () => {
     );
   };
 
+  // const handlePageChange = (page) => {
+  //   if (page > 0 && page <= totalPages) {
+  //     setCurrentPage(page);
+  //   }
+  // };
+
+  // const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  // const currentItems = filteredItems.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage
+  // );
+
+
+  // const Pagination = ({
+  //   currentPage,
+  //   totalPages,
+  //   totalEntries,
+  // }) => {
+  //   const startEntry = (currentPage - 1) * itemsPerPage + 1;
+  //   const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+
+  //   const renderPageNumbers = () => {
+  //     const pages = [];
+  //     for (let i = 1; i <= totalPages; i++) {
+  //       pages.push(
+  //         <li
+  //           key={i}
+  //           className={`page-item ${i === currentPage ? "active" : ""}`}
+  //           style={{ border: "1px solid #ddd", margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(i)}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: i === currentPage ? "#fff" : "#5e2750",
+  //               backgroundColor: i === currentPage ? "#5e2750" : "#fff",
+  //               fontWeight: i === currentPage ? "bold" : "normal",
+  //               border:'2px solid #5e2750',
+  //               borderRadius:'3px'
+  //             }}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //     return pages;
+  //   };
+
+  //   return (
+  //     <nav className="d-flex justify-content-between align-items-center">
+  //       <ul
+  //         className="pagination justify-content-center align-items-center"
+  //         style={{
+  //           listStyleType: "none",
+  //           padding: "0",
+  //           display: "flex",
+  //           alignItems: "center",
+  //         }}
+  //       >
+  //         <li
+  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(1)}
+  //             disabled={currentPage === 1}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             «
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage - 1)}
+  //             disabled={currentPage === 1}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             ‹
+  //           </button>
+  //         </li>
+  //         {renderPageNumbers()}
+  //         <li
+  //           className={`page-item ${
+  //             currentPage === totalPages ? "disabled" : ""
+  //           }`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage + 1)}
+  //             disabled={currentPage === totalPages}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor:
+  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             ›
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${
+  //             currentPage === totalPages ? "disabled" : ""
+  //           }`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(totalPages)}
+  //             disabled={currentPage === totalPages}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor:
+  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             »
+  //           </button>
+  //         </li>
+  //       </ul>
+  //       <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+  //         Showing {startEntry} to {endEntry} of {totalEntries} entries
+  //       </p>
+  //     </nav>
+  //   );
+  // };
+
+  // const Pagination = ({ currentPage, totalPages, totalEntries }) => {
+  //   const startEntry = (currentPage - 1) * itemsPerPage + 1;
+  //   const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+
+  //   const renderPageNumbers = () => {
+  //     const pages = [];
+  //     for (let i = 1; i <= totalPages; i++) {
+  //       pages.push(
+  //         <li
+  //           key={i}
+  //           className={`page-item ${i === currentPage ? "active" : ""}`}
+  //           style={{ border: "1px solid #ddd", margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(i)}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: i === currentPage ? "#fff" : "#5e2750",
+  //               backgroundColor: i === currentPage ? "#5e2750" : "#fff",
+  //               fontWeight: i === currentPage ? "bold" : "normal",
+  //               border: "2px solid #5e2750",
+  //               borderRadius: "3px",
+  //             }}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //     return pages;
+  //   };
+
+  //   return (
+  //     <nav className="d-flex justify-content-between align-items-center">
+  //       <ul
+  //         className="pagination justify-content-center align-items-center"
+  //         style={{
+  //           listStyleType: "none",
+  //           padding: "0",
+  //           display: "flex",
+  //           alignItems: "center",
+  //         }}
+  //       >
+  //         <li
+  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(1)}
+  //             disabled={currentPage === 1}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             «
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage - 1)}
+  //             disabled={currentPage === 1}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             ‹
+  //           </button>
+  //         </li>
+  //         {renderPageNumbers()}
+  //         <li
+  //           className={`page-item ${
+  //             currentPage === totalPages ? "disabled" : ""
+  //           }`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage + 1)}
+  //             disabled={currentPage === totalPages}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === totalPages ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             ›
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${
+  //             currentPage === totalPages ? "disabled" : ""
+  //           }`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(totalPages)}
+  //             disabled={currentPage === totalPages}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === totalPages ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             »
+  //           </button>
+  //         </li>
+  //       </ul>
+  //       <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+  //         Showing {startEntry} to {endEntry} of {totalEntries} entries
+  //       </p>
+  //     </nav>
+  //   );
+  // };
   return (
     <>
       <div className="w-100">
@@ -683,10 +945,10 @@ const NewSegment = () => {
                 <legend className="float-none">
                   Segment Name<span>*</span>
                 </legend>
-                <input               
+                <input
                   type="text"
                   placeholder="Enter Segment Name"
-                  required="" 
+                  required=""
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
@@ -768,8 +1030,8 @@ const NewSegment = () => {
                   <div className="filter-field m-2">
                     <label htmlFor="gender">Gender</label>
                     <select
-                      id="gender"  
-                      name="gender" 
+                      id="gender"
+                      name="gender"
                       className="form-control"
                       value={formValues.gender}
                       onChange={handleChange}
@@ -806,13 +1068,11 @@ const NewSegment = () => {
                       <option value="" disabled hidden>
                         Select Tier Level
                       </option>
-                      {
-                        tierLevels?.map((tier, index) => (
-                          <option key={tier.name} value={tier.name}>{tier.display_name}</option>
-                          
-                        ))
-                      }
-                     
+                      {tierLevels?.map((tier, index) => (
+                        <option key={tier.name} value={tier.name}>
+                          {tier.display_name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   {/* Apply Filter Button */}
@@ -838,7 +1098,7 @@ const NewSegment = () => {
               </div>
             </div>
             {/* Display Filtered Data */}
-             <div className="filtered-data-section mt-4">
+            <div className="filtered-data-section mt-4">
               <h5>Filtered Data:</h5>
               {filteredData.length > 0 ? (
                 <div className="tbl-container mx-3 mt-4">
@@ -885,6 +1145,13 @@ const NewSegment = () => {
                       ))}
                     </tbody>
                   </table>
+                  {/* <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  totalEntries={filteredItems.length}
+                /> */}
+
                 </div>
               ) : (
                 <p className="text-secondary mx-4">
