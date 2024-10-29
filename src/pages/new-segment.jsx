@@ -5,6 +5,8 @@ import SubHeader from "../components/SubHeader";
 import axios from "axios";
 // Import axios for making API calls
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewSegment = () => {
   const [name, setName] = useState(""); // Updated: Replaced segmentName
@@ -68,73 +70,129 @@ const NewSegment = () => {
     fetchTierLevels();
   }, []);
 
-  const handleSubmit = async (values) => {
-    values.preventDefault();
+  // const handleSubmit = async (values) => {
+  //   values.preventDefault();
 
    
 
-    if (
-      !name ||
-      !segment_tag ||
-      !segment_type ||
-      segment_members.length === 0 // Ensure at least one member is selected
-    ) {
-      setError(
-        "All fields are required, and at least one member must be selected."
-      );
-      return;
-    }
+  //   if (
+  //     !name ||
+  //     !segment_tag ||
+  //     !segment_type ||
+  //     segment_members.length === 0 // Ensure at least one member is selected
+  //   ) {
+  //     setError(
+  //       "All fields are required, and at least one member must be selected."
+  //     );
+  //     return;
+  //   }
 
-    const data1 = {
-      name, // Updated key name
-      segment_tag,
+  //   const data1 = {
+  //     name, // Updated key name
+  //     segment_tag,
 
-      segment_type,
+  //     segment_type,
 
-      loyalty_type_id: storedValue,
+  //     loyalty_type_id: storedValue,
 
-      // Updated key name
-    };
-    console.log(data1);
+  //     // Updated key name
+  //   };
+  //   console.log(data1);
 
-    console.log(data1.name);
-    const data = {
-      loyalty_segment: {
-        name: data1.name,
-        segment_tag: data1.segment_tag,
-        // segment_filters: data1.segment_filters,
-        segment_type: data1.segment_type,
-        // loyalty_tier_id: Number(data1.loyalty_tier_id)
+  //   console.log(data1.name);
+  //   const data = {
+  //     loyalty_segment: {
+  //       name: data1.name,
+  //       segment_tag: data1.segment_tag,
+  //       // segment_filters: data1.segment_filters,
+  //       segment_type: data1.segment_type,
+  //       // loyalty_tier_id: Number(data1.loyalty_tier_id)
 
-        loyalty_type_id: storedValue,
+  //       loyalty_type_id: storedValue,
 
-        loyalty_members: { member_ids: segment_members },
-      },
-    };
-    console.log(data);
+  //       loyalty_members: { member_ids: segment_members },
+  //     },
+  //   };
+  //   console.log(data);
 
-    try {
-      const response = await axios.post(
-        "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+  //   try {
+  //     const response = await axios.post(
+  //       "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
 
-        data
-      );
-      console.log("data posted");
-      if (response.statusText === "Created") {
-        setSuccessMessage("Segment created successfully!");
-        alert("Segment created successfully!");
+  //       data
+  //     );
+  //     console.log("data posted");
+  //     if (response.statusText === "Created") {
+  //       setSuccessMessage("Segment created successfully!");
+  //       alert("Segment created successfully!");
 
-        clearForm();
+  //       clearForm();
 
-        console.log(data, "Navigating to /Segment");
-        navigate("/Segment");
+  //       console.log(data, "Navigating to /Segment");
+  //       navigate("/Segment");
 
-        console.log(response, data);
-      }
-    } catch (error) {
-      setError("Failed to create segment. Please try again.");
-    }
+  //       console.log(response, data);
+  //     }
+  //   } catch (error) {
+  //     setError("Failed to create segment. Please try again.");
+  //   }
+  // };
+
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (
+    !name ||
+    !segment_tag ||
+    !segment_type ||
+    segment_members.length === 0 // Ensure at least one member is selected
+  ) {
+    toast.error("All Mandatory field are required, and at least one member must be selected.", {
+      position: "top-center",
+      autoClose: 3000,
+    });
+    return;
+  }
+
+  // Proceed with form submission if all fields are filled
+  const data1 = {
+    name,
+    segment_tag,
+    segment_type,
+    loyalty_type_id: storedValue,
   };
+
+  const data = {
+    loyalty_segment: {
+      name: data1.name,
+      segment_tag: data1.segment_tag,
+      segment_type: data1.segment_type,
+      loyalty_type_id: storedValue,
+      loyalty_members: { member_ids: segment_members },
+    },
+  };
+
+  try {
+    const response = await axios.post(
+      "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+      data
+    );
+    if (response.statusText === "Created") {
+      toast.success("Segment created successfully!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      clearForm();
+      navigate("/Segment");
+    }
+  } catch (error) {
+    toast.error("Failed to create segment. Please try again.", {
+      position: "top-center",
+      autoClose: 3000,
+    });
+  }
+};
 
   const clearForm = () => {
     setName(""); // Updated: Clear name field
@@ -648,6 +706,7 @@ const NewSegment = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };
