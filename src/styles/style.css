@@ -409,6 +409,7 @@ a.purple-btn1:hover {
 }
 ul.pagination.justify-content-center {
   justify-content: left !important;
+  margin-top: 5px;
 }
 
 .page-link:hover {
@@ -523,9 +524,21 @@ input[type="checkbox"] {
   min-height: 50px;
 }
 
-.tbl-container thead td,
-.tbl-container thead th {
+.tbl-container td
+.tbl-container  th {
+  text-align: left !important;
   border: 1px solid white;
+}
+.tbl-container td{
+  text-align: left !important;
+
+}
+
+fieldset select {
+  background: white;
+}
+fieldset input {
+  background: white;
 }
 
 .tbl-container {

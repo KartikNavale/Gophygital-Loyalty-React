@@ -27,9 +27,7 @@ const CreateRuleEngine = () => {
     },
   ]);
 
-  const [actions, setActions] = useState([
-    { parameter: "", selectedMasterRewardOutcomes: "" }
-  ]);
+
 
   const [ruleName, setRuleName] = useState("");
   const [masterAttributes, setMasterAttributes] = useState([]);
@@ -37,8 +35,10 @@ const CreateRuleEngine = () => {
   const [subAttributes, setSubAttributes] = useState([]);
 
   const [masterRewardOutcomes, setMasterRewardOutcomes] = useState([]);
-  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] = useState("");
+  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] = useState({ id: '', name: '' });
   const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
+  const [subRewardOutcomesnew, setsubRewardOutcomesnew] = useState([]);
+
 
   const [selectedMasterOperator, setSelectedMasterOperator] = useState("");
   const [subOperators, setSubOperators] = useState([]);
@@ -155,7 +155,13 @@ const CreateRuleEngine = () => {
   //selected master reward outcome
   const handleMasterSubRewardOutcomeChange = async (e) => {
     const selectedId = e.target.value;
-    setSelectedMasterRewardOutcomes(selectedId);
+    
+    const selectedOption = e.target.selectedOptions[0]; // Get the selected <option> element
+    const selectedName = selectedOption.getAttribute('data-name'); // Get the data-name attribute    setSelectedMasterRewardOutcomes(selectedName);
+    setSelectedMasterRewardOutcomes({
+      id: selectedId,
+      name: selectedName,
+    });
 
     // Find the index of the selected master attribute
     const selectedIndex = masterRewardOutcomes.findIndex(
@@ -183,6 +189,7 @@ const CreateRuleEngine = () => {
     }
   };
 
+
   const addCondition = () => {
     setConditions([
       ...conditions,
@@ -197,6 +204,8 @@ const CreateRuleEngine = () => {
       },
     ]);
   };
+
+
 
   // ------------------------------
   // const data = {
@@ -263,7 +272,7 @@ const CreateRuleEngine = () => {
       rule_engine_rule: {
         name: ruleName, // Ensure ruleName is defined elsewhere in your code
         description: "This is a description of the sample rule.",
-
+    
         // Mapping conditions dynamically
         rule_engine_conditions_attributes: conditions.map((condition) => ({
           condition_attribute: condition.subAttribute || "", // Handle blank cases if needed
@@ -272,21 +281,22 @@ const CreateRuleEngine = () => {
           condition_selected_model: Number(condition.masterAttribute) || 1,
           condition_type: condition.condition_type || "",
         })),
-
-        // Mapping actions dynamically, handling blank fields
-        rule_engine_actions_attributes: actions.map((action) => ({
-          lock_model_name: action.lock_model_name || "", // Post as blank if not filled
-          parameters: [Number(action.parameter) || 0], // Ensure parameter is a number
-          rule_engine_available_function_id: action.rule_engine_available_function_id || "", // Blank if missing
-          action_selected_model: Number(action.selectedMasterRewardOutcomes) || 1,
-        })),
-      },
-    };
+    
+        rule_engine_actions_attributes:[ {
+          lock_model_name: selectedMasterRewardOutcomes.name || "",
+          parameters: [Number(parameter) || ""],
+          rule_engine_available_function_id:  subRewardOutcomesnew|| "",
+          action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
+        }
+            ]
+        }
+    }
+    
 
     console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
 
     try {
-      if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && actions !== null && conditions !== null) {
+      if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== ""  && conditions !== null) {
         const response = await fetch(
           "https://staging.lockated.com/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
           {
@@ -607,21 +617,20 @@ const CreateRuleEngine = () => {
                   <legend className="float-none">
                     Master Reward Outcome<span>*</span>
                   </legend>
-                  <select
-                    required=""
-                    className="p-1"
-                    onChange={handleMasterSubRewardOutcomeChange}
-                    value={selectedMasterRewardOutcomes}
-                  >
-                    <option value="" selected="">
-                      Select Master Reward Outcome
-                    </option>
-                    {masterRewardOutcomes.map((reward) => (
-                      <option key={reward.id} value={reward.id}>
-                        {reward.display_name}
-                      </option>
-                    ))}
-                  </select>
+                                <select
+                required
+                className="p-1"
+                onChange={handleMasterSubRewardOutcomeChange}
+                value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
+              >
+                <option value="" disabled>Select Master Reward Outcome</option>
+                {masterRewardOutcomes.map((reward) => (
+                  <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
+                    {reward.display_name}
+                  </option>
+                ))}
+              </select>
+
                 </fieldset>
                 <div className="col-md-1 d-flex justify-content-center align-items-center">
                   <h4>&</h4>
@@ -634,13 +643,19 @@ const CreateRuleEngine = () => {
                     required=""
                     className="p-1"
                     disabled={!selectedMasterRewardOutcomes}
+                    onChange={(e) => {
+                      const selectedId = e.target.value; // Get the selected sub-reward outcome ID
+                      // Handle the selection as needed, e.g., update the state or construct the data object
+                      setsubRewardOutcomesnew(selectedId);
+                    }}
+                    value={subRewardOutcomesnew} // Ensure this reflects the selected sub-reward outcome
                   >
                     <option value="">Select Sub Reward Outcome</option>
 
                     {subRewardOutcomes.map((reward) => (
                       <option
                         key={reward.id}
-                        value={reward.id}
+                        value={reward.rule_engine_available_model_id}
                       >
                         {reward.display_name}
                       </option>

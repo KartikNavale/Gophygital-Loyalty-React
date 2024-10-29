@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
 
+import LoginModal from "../components/LoginModal";
+
 const Members = () => {
+  const [showModal, setShowModal] = useState(false);
+
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -50,8 +54,22 @@ const Members = () => {
   };
 
   useEffect(() => {
-    getMembers();
-  }, []);
+    const hasRun = sessionStorage.getItem('hasRun');
+    const timer = setTimeout(() => {
+      getMembers(); // Fetch members after 2 seconds
+    }, 1000);
+    if (!hasRun) {
+      setShowModal(true); // Open modal
+
+      
+
+      sessionStorage.setItem('hasRun', 'true'); // Mark as run
+
+      return () => clearTimeout(timer); // Cleanup on unmount
+    } else {
+      setLoading(false); // Avoid showing loader if already run
+    }
+  }, []); // Run only once on component mount
 
   const handleSearch = () => {
     const filtered = members.filter(member =>
@@ -407,6 +425,8 @@ const Members = () => {
             )}
           </div>
         </div>
+        <LoginModal showModal={showModal} handleClose={() => setShowModal(false)} />
+
       </div>
     </>
   );
