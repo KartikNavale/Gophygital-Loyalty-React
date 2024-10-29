@@ -32,6 +32,53 @@ const RuleEngine = () => {
     fetchRuleEngine();
   }, []);
 
+
+
+  //operatives
+  // const masterOperators = [
+  //   {
+  //     id: "0",
+  //     name: "Common Operatives",
+  //     subOptions: [
+  //       { id: "1", name: "greater_than", value: "greater_than"  },
+  //       { id: "2", name: "Less than (<)", value: "less_than" },
+  //       { id: "3", name: "Equals (=)", value: "equals" },
+  //       { id: "4", name: "Not equals (!=)", value: "not_equals" },
+  //       { id: "5", name: "Contains", value: "" },
+  //       { id: "6", name: "Does not contain", value: "" },
+  //     ],
+  //   },
+  //   {
+  //     id: "1",
+  //     name: "Logical Operatives",
+  //     subOptions: [
+  //       { id: "1", name: "AND",value:"" },
+  //       { id: "2", name: "OR" ,value:""},
+  //       { id: "3", name: "NOT" ,value:"" },
+  //     ],
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "Date/Time Operatives",
+  //     subOptions: [
+  //       { id: "1", name: "Before" ,value:""},
+  //       { id: "2", name: "After" ,value:"" },
+  //       { id: "3", name: "Between" ,value:"" },
+  //       { id: "4", name: "Within",value:"" },
+  //     ],
+  //   },
+  //   {
+  //     id: "3",
+  //     name: "Tier Operatives",
+  //     subOptions: [
+  //       { id: "1", name: "Is in tier" ,value:"" },
+  //       { id: "2", name: "Upgrade" ,value:""},
+  //       { id: "3", name: "Downgrade" ,value:"" },
+  //     ],
+  //   },
+  // ];
+
+
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const currentItems = filteredItems.slice(
     (currentPage - 1) * itemsPerPage,
@@ -52,84 +99,173 @@ const RuleEngine = () => {
     setCurrentPage(1); // Reset to first page
   };
 
-  const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const handlePageChange = (page) => {
-      if (page > 0 && page <= totalPages) {
-        onPageChange(page);
-      }
-    };
 
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
-    //operatives
-    const masterOperators = [
-      {
-        id: "0",
-        name: "Common Operatives",
-        subOptions: [
-          { id: "1", name: "greater_than", value: "greater_than"  },
-          { id: "2", name: "Less than (<)", value: "less_than" },
-          { id: "3", name: "Equals (=)", value: "equals" },
-          { id: "4", name: "Not equals (!=)", value: "not_equals" },
-          { id: "5", name: "Contains", value: "" },
-          { id: "6", name: "Does not contain", value: "" },
-        ],
-      },
-      {
-        id: "1",
-        name: "Logical Operatives",
-        subOptions: [
-          { id: "1", name: "AND",value:"" },
-          { id: "2", name: "OR" ,value:""},
-          { id: "3", name: "NOT" ,value:"" },
-        ],
-      },
-      {
-        id: "2",
-        name: "Date/Time Operatives",
-        subOptions: [
-          { id: "1", name: "Before" ,value:""},
-          { id: "2", name: "After" ,value:"" },
-          { id: "3", name: "Between" ,value:"" },
-          { id: "4", name: "Within",value:"" },
-        ],
-      },
-      {
-        id: "3",
-        name: "Tier Operatives",
-        subOptions: [
-          { id: "1", name: "Is in tier" ,value:"" },
-          { id: "2", name: "Upgrade" ,value:""},
-          { id: "3", name: "Downgrade" ,value:"" },
-        ],
-      },
-    ];
+  const Pagination = ({
+    currentPage,
+    totalPages,
+    totalEntries,
+  }) => {
+    const startEntry = (currentPage - 1) * itemsPerPage + 1;
+    const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
 
-
-    
-    
-
-    // ----
-
-    return (
-      <nav>
-        <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
-              Previous
+    const renderPageNumbers = () => {
+      const pages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(
+          <li
+            key={i}
+            className={`page-item ${i === currentPage ? "active" : ""}`}
+            style={{ border: "1px solid #ddd", margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(i)}
+              style={{
+                padding: "8px 12px",
+                color: i === currentPage ? "#fff" : "#5e2750",
+                backgroundColor: i === currentPage ? "#5e2750" : "#fff",
+                fontWeight: i === currentPage ? "bold" : "normal",
+                border:'2px solid #5e2750',
+                borderRadius:'3px'
+              }}
+            >
+              {i}
             </button>
           </li>
-          <li className={`page-item active`}>
-            <button className="page-link">{currentPage}</button>
+        );
+      }
+      return pages;
+    };
+
+    return (
+      <nav className="d-flex justify-content-between align-items-center">
+        <ul
+          className="pagination justify-content-center align-items-center"
+          style={{
+            listStyleType: "none",
+            padding: "0",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <li
+            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(1)}
+              disabled={currentPage === 1}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+              }}
+            >
+              «
+            </button>
           </li>
-          <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
-              Next
+          <li
+            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+              }}
+            >
+              ‹
+            </button>
+          </li>
+          {renderPageNumbers()}
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor:
+                  currentPage === totalPages ? "#f0f0f0" : "#fff",
+              }}
+            >
+              ›
+            </button>
+          </li>
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(totalPages)}
+              disabled={currentPage === totalPages}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor:
+                  currentPage === totalPages ? "#f0f0f0" : "#fff",
+              }}
+            >
+              »
             </button>
           </li>
         </ul>
+        <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+          Showing {startEntry} to {endEntry} of {totalEntries} entries
+        </p>
       </nav>
     );
   };
+
+  
+
+  // const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  //   const handlePageChange = (page) => {
+  //     if (page > 0 && page <= totalPages) {
+  //       onPageChange(page);
+  //     }
+  //   };
+
+  //   return (
+  //     <nav>
+  //       <ul className="pagination justify-content-center">
+  //         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+  //           <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
+  //             Previous
+  //           </button>
+  //         </li>
+  //         <li className={`page-item active`}>
+  //           <button className="page-link">{currentPage}</button>
+  //         </li>
+  //         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+  //           <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
+  //             Next
+  //           </button>
+  //         </li>
+  //       </ul>
+  //     </nav>
+  //   );
+  // };
 
   //toggle
 
@@ -278,7 +414,13 @@ const RuleEngine = () => {
 
                   </tbody>
                 </table>
-                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /> */}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  totalEntries={filteredItems.length}
+                />
               </>
             )}
           </div>

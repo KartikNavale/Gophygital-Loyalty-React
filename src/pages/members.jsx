@@ -35,6 +35,7 @@ const Members = () => {
       const formattedMembers = response.data.map((member) => ({
         ...member,
         tier_validity: formatDate(member.tier_validity), // Use the correct date property
+        last_sign_in:formatDate(member.last_sign_in)
       }));
 
       setMembers(formattedMembers); // Set formatted members
@@ -67,11 +68,25 @@ const Members = () => {
   };
 
   // Pagination logic
+
+  
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const currentItems = filteredItems.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  // const handlePageChange = (page) => {
+  //   if (page > 0 && page <= totalPages) {
+  //     setCurrentPage(page);
+  //   }
+  // };
+  
+  // const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  // const currentItems = filteredItems.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage
+  // );
 
   const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     return (
@@ -94,6 +109,138 @@ const Members = () => {
       </nav>
     );
   };
+
+  // const Pagination = ({
+  //   currentPage,
+  //   totalPages,
+  //   totalEntries,
+  // }) => {
+  //   const startEntry = (currentPage - 1) * itemsPerPage + 1;
+  //   const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+
+  //   const renderPageNumbers = () => {
+  //     const pages = [];
+  //     for (let i = 1; i <= totalPages; i++) {
+  //       pages.push(
+  //         <li
+  //           key={i}
+  //           className={`page-item ${i === currentPage ? "active" : ""}`}
+  //           style={{ border: "1px solid #ddd", margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(i)}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: i === currentPage ? "#fff" : "#5e2750",
+  //               backgroundColor: i === currentPage ? "#5e2750" : "#fff",
+  //               fontWeight: i === currentPage ? "bold" : "normal",
+  //               border:'2px solid #5e2750',
+  //               borderRadius:'3px'
+  //             }}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //     return pages;
+  //   };
+
+  //   return (
+  //     <nav className="d-flex justify-content-between align-items-center">
+  //       <ul
+  //         className="pagination justify-content-center align-items-center"
+  //         style={{
+  //           listStyleType: "none",
+  //           padding: "0",
+  //           display: "flex",
+  //           alignItems: "center",
+  //         }}
+  //       >
+  //         <li
+  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(1)}
+  //             disabled={currentPage === 1}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             «
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage - 1)}
+  //             disabled={currentPage === 1}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             ‹
+  //           </button>
+  //         </li>
+  //         {renderPageNumbers()}
+  //         <li
+  //           className={`page-item ${
+  //             currentPage === totalPages ? "disabled" : ""
+  //           }`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage + 1)}
+  //             disabled={currentPage === totalPages}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor:
+  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             ›
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${
+  //             currentPage === totalPages ? "disabled" : ""
+  //           }`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(totalPages)}
+  //             disabled={currentPage === totalPages}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor:
+  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             »
+  //           </button>
+  //         </li>
+  //       </ul>
+  //       <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+  //         Showing {startEntry} to {endEntry} of {totalEntries} entries
+  //       </p>
+  //     </nav>
+  //   );
+  // };
+
 
   return (
     <>
@@ -132,7 +279,9 @@ const Members = () => {
             </div>
           </div>
 
-          <div className="tbl-container mx-3 mt-4" style={{ height: "100%", overflowY: "hidden", margin: "0 100px" }}>
+          <div className="tbl-container mx-3 mt-4" style={{ height: "100%", overflowY: "hidden", margin: "0 100px" , 
+            // textAlign: "center"
+            }}>
             {loading ? (
               <p>Loading...</p>
             ) : error ? (
@@ -160,7 +309,7 @@ const Members = () => {
                         </td>
                         <td style={{ width: '14.2%' }}>{member.member_status.tier_level}</td>
                         <td style={{ width: '14.2%' }}>{member.current_loyalty_points}</td>
-                        <td style={{ width: '14.2%' }}>{member.lastActivityDate}</td>
+                        <td style={{ width: '14.2%' }}>{member.last_sign_in}</td>
                         <td style={{ width: '14.2%' }}>{member.tier_validity}</td>
                         <td style={{ width: '14.2%' }}>
                           <Link to={`/member-details/${member.id}`}>
@@ -183,6 +332,13 @@ const Members = () => {
                 </table>
 
                 <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+
+                {/* <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  totalEntries={filteredItems.length}
+                /> */}
               </>
             )}
           </div>

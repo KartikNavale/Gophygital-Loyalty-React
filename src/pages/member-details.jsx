@@ -293,7 +293,7 @@ const MemberDetails = () => {
                         >
                           BALANCED POINTS
                         </h6>
-                        <h6 className="content-box-title">   </h6>   
+                        <h6 className="content-box-title">{member.current_loyalty_points}   </h6>   
                       </div>
                     </div>
                   </div>

@@ -122,30 +122,168 @@ const Campaign = () => {
     currentPage * itemsPerPage
   );
 
-  const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const handlePageChange = (page) => {
-      if (page > 0 && page <= totalPages) {
-        onPageChange(page);
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  //   const handlePageChange = (page) => {
+  //     if (page > 0 && page <= totalPages) {
+  //       onPageChange(page);
+  //     }
+  //   };
+
+  //   return (
+  //     <nav>
+  //       <ul className="pagination justify-content-center">
+  //         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+  //           <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
+  //             Previous
+  //           </button>
+  //         </li>
+  //         <li className={`page-item active`}>
+  //           <button className="page-link">{currentPage}</button>
+  //         </li>
+  //         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+  //           <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
+  //             Next
+  //           </button>
+  //         </li>
+  //       </ul>
+  //     </nav>
+  //   );
+  // };
+
+
+  const Pagination = ({
+    currentPage,
+    totalPages,
+    totalEntries,
+  }) => {
+    const startEntry = (currentPage - 1) * itemsPerPage + 1;
+    const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+
+    const renderPageNumbers = () => {
+      const pages = [];
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(
+          <li
+            key={i}
+            className={`page-item ${i === currentPage ? "active" : ""}`}
+            style={{ border: "1px solid #ddd", margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(i)}
+              style={{
+                padding: "8px 12px",
+                color: i === currentPage ? "#fff" : "#5e2750",
+                backgroundColor: i === currentPage ? "#5e2750" : "#fff",
+                fontWeight: i === currentPage ? "bold" : "normal",
+                border:'2px solid #5e2750',
+                borderRadius:'3px'
+              }}
+            >
+              {i}
+            </button>
+          </li>
+        );
       }
+      return pages;
     };
 
     return (
-      <nav>
-        <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
-              Previous
+      <nav className="d-flex justify-content-between align-items-center">
+        <ul
+          className="pagination justify-content-center align-items-center"
+          style={{
+            listStyleType: "none",
+            padding: "0",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <li
+            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(1)}
+              disabled={currentPage === 1}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+              }}
+            >
+              «
             </button>
           </li>
-          <li className={`page-item active`}>
-            <button className="page-link">{currentPage}</button>
+          <li
+            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+              }}
+            >
+              ‹
+            </button>
           </li>
-          <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
-              Next
+          {renderPageNumbers()}
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor:
+                  currentPage === totalPages ? "#f0f0f0" : "#fff",
+              }}
+            >
+              ›
+            </button>
+          </li>
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+            style={{ margin: "2px" }}
+          >
+            <button
+              className="page-link"
+              onClick={() => handlePageChange(totalPages)}
+              disabled={currentPage === totalPages}
+              style={{
+                padding: "8px 12px",
+                color: "#5e2750",
+                backgroundColor:
+                  currentPage === totalPages ? "#f0f0f0" : "#fff",
+              }}
+            >
+              »
             </button>
           </li>
         </ul>
+        <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+          Showing {startEntry} to {endEntry} of {totalEntries} entries
+        </p>
       </nav>
     );
   };
@@ -221,7 +359,14 @@ const Campaign = () => {
                     ))}
                   </tbody>
                 </table>
-                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /> */}
+
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  totalEntries={filteredItems.length}
+                />
               </>
             )}
             <Modal show={showModal} onHide={handleCloseModal}>
