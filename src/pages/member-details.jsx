@@ -17,15 +17,15 @@ const MemberDetails = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
     const year = String(date.getFullYear()); // Get last two digits of the year
     return `${day}-${month}-${year}`;
   };
 
+  const storedValue = sessionStorage.getItem("selectedId");
   const getMemberDetails = async (id) => {
-    const storedValue = sessionStorage.getItem("selectedId");
-    console.log("Stored ID in session after selection:", storedValue); 
+    console.log("Stored ID in session after selection:", storedValue, id);
     try {
       const response = await axios.get(
         `https://staging.lockated.com/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
@@ -46,8 +46,6 @@ const MemberDetails = () => {
 
       // console.log("transaction data", member);
       // setMember(member);
-      
-
 
       // Format the created_at date
       const formattedMember = {
@@ -60,8 +58,6 @@ const MemberDetails = () => {
       console.error("Error fetching member details:", error);
       throw error;
     }
-      
-    
   };
 
   useEffect(() => {
@@ -78,28 +74,33 @@ const MemberDetails = () => {
 
     fetchMember();
   }, [id]);
+  console.log("id :", id, "storedValue :", storedValue);
 
-  const getTransactionData = async () => {
+  const getTransactionData = async (id) => {
     const storedValue = sessionStorage.getItem("selectedId");
-    console.log("Stored ID in session after selection:", storedValue); 
+    console.log("Stored ID in session after selection:", storedValue);
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/member_transactions.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `https://staging.lockated.com/loyalty/members.json?q[id_eq]=${id}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&q[loyalty_type_id_eq]=${storedValue}`
       );
-      const transactions = response.data.map((transaction) => {
-        const formattedDate = new Intl.DateTimeFormat("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }).format(new Date(transaction.created_at));
 
-        return {
-          ...transaction,
-          created_at: formattedDate,
-        };
+      // Extract member_transactions from each member and map over them
+      const transactions = response.data.flatMap((member) => {
+        return member.member_transactions.map((transaction) => {
+          const formattedDate = new Intl.DateTimeFormat("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }).format(new Date(member.created_at));
+
+          return {
+            ...transaction,
+            created_at: formattedDate,
+          };
+        });
       });
 
-      console.log("transaction data", transactions);
+      console.log("transaction data", transactions,response.data);
       setTransactionData(transactions);
     } catch (error) {
       console.error("Error fetching member details:", error);
@@ -108,8 +109,8 @@ const MemberDetails = () => {
   };
 
   useEffect(() => {
-    getTransactionData();
-  }, []);
+    getTransactionData(id);
+  }, [id]);
 
   return (
     <>
@@ -193,7 +194,9 @@ const MemberDetails = () => {
                     <div class="col-6 p-1 text-muted member-detail-color">
                       Membership Duration
                     </div>
-                    <div class="col-6 p-1 member-detail-color">: {member.duration}</div>
+                    <div class="col-6 p-1 member-detail-color">
+                      : {member.duration}
+                    </div>
                     {/* this attribute is not there in  json*/}
                   </div>
                   <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
@@ -222,9 +225,7 @@ const MemberDetails = () => {
                     <div class="col-6 p-1 text-muted member-detail-color">
                       Expiry Points
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : 
-                    </div>
+                    <div class="col-6 p-1 member-detail-color">:</div>
                     {/* this attribute is not there in  json*/}
                   </div>
                 </div>
@@ -247,14 +248,18 @@ const MemberDetails = () => {
                           borderRadius: "20px",
                         }}
                       >
-                        <p className="content-box-sub fw-light">{member.earned_percentage}% </p>
+                        <p className="content-box-sub fw-light">
+                          {member.earned_percentage}%{" "}
+                        </p>
                         <h6
                           className="content-box-title"
                           style={{ heigth: "20px", width: "221px" }}
                         >
                           ALL THE POINTS EARNED
                         </h6>
-                        <h6 className="content-box-title">{member.earned_points}</h6>
+                        <h6 className="content-box-title">
+                          {member.earned_points}
+                        </h6>
                       </div>
                     </div>
 
@@ -267,14 +272,18 @@ const MemberDetails = () => {
                           borderRadius: "20px",
                         }}
                       >
-                        <p className="content-box-sub fw-light">{member.reedem_percentage}% </p>
+                        <p className="content-box-sub fw-light">
+                          {member.reedem_percentage}%{" "}
+                        </p>
                         <h6
                           className="content-box-title"
                           style={{ heigth: "20px", width: "221px" }}
                         >
                           ALL THE POINTS REDEEMED
                         </h6>
-                        <h6 className="content-box-title">{member.reedem_points}</h6>
+                        <h6 className="content-box-title">
+                          {member.reedem_points}
+                        </h6>
                       </div>
                     </div>
 
@@ -293,7 +302,9 @@ const MemberDetails = () => {
                         >
                           BALANCED POINTS
                         </h6>
-                        <h6 className="content-box-title">{member.current_loyalty_points}   </h6>   
+                        <h6 className="content-box-title">
+                          {member.current_loyalty_points}{" "}
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -311,19 +322,30 @@ const MemberDetails = () => {
                         <td className="text-center"> Date</td>
                         <td className="text-center"> Transaction Type</td>
                         <td className="text-center"> Points</td>
-                       
                       </tr>
                     </thead>
                     <tbody>
                       {transactionData &&
-                        transactionData.map((item, id) => (
-                          <tr key={id}>
-                            <td className="text-center" style={{width:'33%'}}>{item.created_at}</td>
-                            <td className="text-center" style={{width:'33%'}}>
+                        transactionData.map((item, index) => (
+                          <tr key={index}>
+                            <td
+                              className="text-center"
+                              style={{ width: "33%" }}
+                            >
+                              {item.created_at}
+                            </td>
+                            <td
+                              className="text-center"
+                              style={{ width: "33%" }}
+                            >
                               {item.transaction_type}
                             </td>
-                            <td className="text-center" style={{width:'33%'}}>{item.points}</td>
-                            
+                            <td
+                              className="text-center"
+                              style={{ width: "33%" }}
+                            >
+                              {item.points}
+                            </td>
                           </tr>
                         ))}
                     </tbody>
