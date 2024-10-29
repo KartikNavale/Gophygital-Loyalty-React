@@ -43,7 +43,7 @@ const Tiers = () => {
         `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
       if (response && response.data) {
-        setTiers(response.data.reverse());
+        setTiers(response.data);
         setFilteredItems(response.data);
         setLoading(false);
       }
@@ -117,11 +117,7 @@ const Tiers = () => {
     }
   };
 
-  const Pagination = ({
-    currentPage,
-    totalPages,
-    totalEntries,
-  }) => {
+  const Pagination = ({ currentPage, totalPages, totalEntries }) => {
     const startEntry = (currentPage - 1) * itemsPerPage + 1;
     const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
 
@@ -142,8 +138,8 @@ const Tiers = () => {
                 color: i === currentPage ? "#fff" : "#5e2750",
                 backgroundColor: i === currentPage ? "#5e2750" : "#fff",
                 fontWeight: i === currentPage ? "bold" : "normal",
-                border:'2px solid #5e2750',
-                borderRadius:'3px'
+                border: "2px solid #5e2750",
+                borderRadius: "3px",
               }}
             >
               {i}
@@ -155,7 +151,7 @@ const Tiers = () => {
     };
 
     return (
-      <nav className="d-flex justify-content-between align-items-center">
+      <nav className="d-flex justify-content-between align-items-center mt-3">
         <ul
           className="pagination justify-content-center align-items-center"
           style={{
@@ -252,8 +248,8 @@ const Tiers = () => {
     <>
       <div className="w-100">
         <SubHeader />
-        <div className="module-data-section mt-2 px-3">
-          <p className="pointer">
+        <div className="module-data-section mt-2 px-3" style={{color: '#000'}}>
+          <p className="pointer" >
             <span className="text-secondary">Tiers</span> &gt; Tier List
           </p>
           <h5 className="mb-3">Tiers</h5>
@@ -334,49 +330,50 @@ const Tiers = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <table className="w-100">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "20%" }}>Tier Name</th>
-                      <th style={{ width: "20%" }}>Exit Points</th>
-                      <th style={{ width: "20%" }}>Multipliers</th>
-                      <th style={{ width: "20%" }}>Welcome Bonus</th>
-                      <th style={{ width: "20%" }}>Edit</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentItems.map((tier) => (
-                      <tr key={tier.id}>
-                        <td>{tier.name}</td>
-                        <td>{tier.exit_points}</td>
-                        <td>{tier.multipliers}x</td>
-                        <td>{tier.welcome_bonus} Points</td>
-                        <td>
-                          <button
-                            className="btn btn-link"
-                            onClick={() => handleEditClick(tier)}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-pencil-square"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                              <path
-                                fillRule="evenodd"
-                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                              />
-                            </svg>
-                          </button>
-                        </td>
+                <div>
+                  <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
+                    <thead>
+                      <tr style={{}}>
+                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Tier Name</th>
+                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Exit Points</th>
+                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Multipliers</th>
+                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Welcome Bonus</th>
+                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Edit</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-
+                    </thead>
+                    <tbody>
+                      {currentItems.map((tier) => (
+                        <tr key={tier.id} style={{ color:'#334155'}} >
+                          <td>{tier.name}</td>
+                          <td>{tier.exit_points}</td>
+                          <td>{tier.multipliers}x</td>
+                          <td>{tier.welcome_bonus} Points</td>
+                          <td>
+                            <button
+                              className="btn btn-link"
+                              onClick={() => handleEditClick(tier)}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="#5e2750"
+                                className="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path
+                                  fillRule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                />
+                              </svg>
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
