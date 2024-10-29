@@ -135,9 +135,9 @@ const NewTier = () => {
       {
         loyalty_type_id: Number(storedValue),
         name: "",
-        exit_points: 0,
-        multipliers: 0,
-        welcome_bonus: 0,
+        exit_points: "",
+        multipliers: "",
+        welcome_bonus: "",
         point_type: timeframe,
       },
     ]);
@@ -198,9 +198,9 @@ const NewTier = () => {
             <Formik
               initialValues={{
                 name: "",
-                exit_points: 0,
-                multipliers: 0,
-                welcome_bonus: 0,
+                exit_points: "",
+                multipliers: "",
+                welcome_bonus: "",
                 loyalty_type_id: Number(storedValue),
                 point_type: timeframe,
               }}
