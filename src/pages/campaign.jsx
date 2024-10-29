@@ -20,9 +20,9 @@ const Campaign = () => {
     target_audiance: "",
   });
   const [showModal, setShowModal] = useState(false);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 15;
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
 
@@ -40,7 +40,7 @@ const Campaign = () => {
     };
 
     fetchCampaigns();
-  }, []); 
+  }, []);
 
   const handleEditClick = (campaign) => {
     setSelectedCampaign(campaign);
@@ -182,8 +182,8 @@ const Campaign = () => {
                 color: i === currentPage ? "#fff" : "#5e2750",
                 backgroundColor: i === currentPage ? "#5e2750" : "#fff",
                 fontWeight: i === currentPage ? "bold" : "normal",
-                border:'2px solid #5e2750',
-                borderRadius:'3px'
+                border: '2px solid #5e2750',
+                borderRadius: '3px'
               }}
             >
               {i}
@@ -241,9 +241,8 @@ const Campaign = () => {
           </li>
           {renderPageNumbers()}
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
             style={{ margin: "2px" }}
           >
             <button
@@ -261,9 +260,8 @@ const Campaign = () => {
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
             style={{ margin: "2px" }}
           >
             <button
@@ -297,35 +295,71 @@ const Campaign = () => {
             <span className="text-secondary">Campaign</span> &gt; Campaign List
           </p>
           <h5 className="mb-3">Campaign</h5>
-          <div className="d-flex justify-content-between loyalty-header">
-            <div>
-              <Link to="/new-campaign">
-                <button className="purple-btn1 rounded-3 px-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-plus mb-1" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
-                  </svg>
-                  <span>New Campaign</span>
-                </button>
-              </Link>
-            </div>
-            <div className="d-flex flex-wrap justify-content-end">
-              <div className="d-flex search-input w-50 p-1 ms-0 me-3">
-                <span className="material-symbols-outlined"> search </span>
+
+
+          <div className="d-flex justify-content-between align-items-center">
+            <Link to="/new-campaign">
+              <button className="purple-btn1 rounded-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="19"
+                  height="19"
+                  fill="currentColor"
+                  className="bi bi-plus mb-1"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
+                </svg>
+                <span>New Campaign</span>
+              </button>
+            </Link>
+            <div className="d-flex align-items-center">
+              <div className="position-relative me-3">
                 <input
-                  className="form-control me-2"
+                  className="form-control"
+                  style={{
+                    height: "35px",
+                    paddingLeft: "30px",
+                    textAlign: "left",
+                  }}
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)} 
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
+                <div
+                  className="position-absolute"
+                  style={{ top: "7px", left: "10px" }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                  </svg>
+                </div>
               </div>
-              <button className="purple-btn1 rounded-3 px-3" onClick={handleSearch}>Go!</button>
-              <button className="purple-btn2 rounded-3 mt-2" onClick={handleReset}>Reset</button>
+              <button
+                className="purple-btn1 rounded-3 px-3"
+                onClick={handleSearch}
+              >
+                Go!
+              </button>
+              <button
+                className="purple-btn2 rounded-3 mt-2"
+                onClick={handleReset} // Reset search
+              >
+                Reset
+              </button>
             </div>
           </div>
 
-          <div className="tbl-container mx-3 mt-4" style={{ height: "100%", overflowY: "hidden", margin: "0 100px"}}>
+          <div className="tbl-container mx-3 mt-4" style={{ height: "100%", overflowY: "hidden", margin: "0 100px" }}>
             {loading ? (
               <p>Loading...</p>
             ) : error ? (
@@ -344,12 +378,12 @@ const Campaign = () => {
                   <tbody>
                     {currentItems.map((campaign) => (
                       <tr key={campaign.id}>
-                        <td style={{width:'25%'}}>{campaign.name}</td>
-                        <td style={{width:'25%'}}>{campaign.campaign_tag}</td>
-                        <td style={{width:'25%'}}>{campaign.target_audiance}</td>
-                        <td style={{width:'25%'}}>
+                        <td style={{ width: '25%' }}>{campaign.name}</td>
+                        <td style={{ width: '25%' }}>{campaign.campaign_tag}</td>
+                        <td style={{ width: '25%' }}>{campaign.target_audiance}</td>
+                        <td style={{ width: '25%' }}>
                           <button className="btn btn-link" onClick={() => handleEditClick(campaign)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#667080" className="bi bi-pencil-square" viewBox="0 0 16 16">
                               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                               <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                             </svg>

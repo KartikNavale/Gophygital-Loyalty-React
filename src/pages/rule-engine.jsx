@@ -10,7 +10,7 @@ const RuleEngine = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 15;
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
 
@@ -131,8 +131,8 @@ const RuleEngine = () => {
                 color: i === currentPage ? "#fff" : "#5e2750",
                 backgroundColor: i === currentPage ? "#5e2750" : "#fff",
                 fontWeight: i === currentPage ? "bold" : "normal",
-                border:'2px solid #5e2750',
-                borderRadius:'3px'
+                border: '2px solid #5e2750',
+                borderRadius: '3px'
               }}
             >
               {i}
@@ -190,9 +190,8 @@ const RuleEngine = () => {
           </li>
           {renderPageNumbers()}
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
             style={{ margin: "2px" }}
           >
             <button
@@ -210,9 +209,8 @@ const RuleEngine = () => {
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
             style={{ margin: "2px" }}
           >
             <button
@@ -237,7 +235,7 @@ const RuleEngine = () => {
     );
   };
 
-  
+
 
   // const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   //   const handlePageChange = (page) => {
@@ -295,7 +293,7 @@ const RuleEngine = () => {
             <span className="text-secondary">Rule Engine</span> &gt; Rule List
           </p>
           <h5 className="mb-3">Rule List</h5>
-          <div className="d-flex justify-content-between loyalty-header">
+          {/* <div className="d-flex justify-content-between loyalty-header">
             <div>
               <Link to="/create-rule-engine">
                 <button className="purple-btn1 rounded-3 px-3">
@@ -338,6 +336,78 @@ const RuleEngine = () => {
                 Reset
               </button>
             </div>
+          </div> */}
+
+          <div className="d-flex justify-content-between align-items-center">
+            <Link to="/create-rule-engine">
+              <button className="purple-btn1 rounded-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="19"
+                  height="19"
+                  fill="currentColor"
+                  className="bi bi-plus mb-1"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
+                </svg>
+                <span>New Rule</span>
+              </button>
+            </Link>
+            <div className="d-flex align-items-center">
+            <button
+                className="purple-btn2 rounded-3 mt-2 me-3"
+                data-bs-toggle="modal"
+                data-bs-target="#viewModal"
+              >
+               <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-plus mb-1" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                  </svg>
+               Filter
+              </button>
+              <div className="position-relative me-3">
+                <input
+                  className="form-control"
+                  style={{
+                    height: "35px",
+                    paddingLeft: "30px",
+                    textAlign: "left",
+                  }}
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div
+                  className="position-absolute"
+                  style={{ top: "7px", left: "10px" }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                  </svg>
+                </div>
+              </div>
+              <button
+                className="purple-btn1 rounded-3 px-3"
+                onClick={handleSearch}
+              >
+                Go!
+              </button>
+              <button
+                className="purple-btn2 rounded-3 mt-2"
+                onClick={handleReset} // Reset search
+              >
+                Reset
+              </button>
+            </div>
           </div>
 
           <div className="tbl-container mx-3 mt-4"
@@ -345,7 +415,7 @@ const RuleEngine = () => {
               height: "100%",
               overflowY: "hidden",
               margin: "0 100px",
-              
+
             }}>
             {loading ? (
               <p>Loading...</p>
@@ -376,7 +446,7 @@ const RuleEngine = () => {
                           {console.log(rule.name)}
                           <td style={{ width: "11.11%" }}>{condition.model_name}</td>
                           <td style={{ width: "11.11%" }}>{condition.condition_attribute}</td>
-                          <td style={{ width: "11.11%"}}>Common Operatives</td>
+                          <td style={{ width: "11.11%" }}>Common Operatives</td>
                           <td style={{ width: "11.11%" }}>{condition.operator}</td>
 
                           {actions.length > 0 ? (
@@ -401,7 +471,7 @@ const RuleEngine = () => {
                           </td>
                           <td style={{ width: "11.11%" }}>
                             <Link to="/view-rule-engine">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-eye" viewBox="0 0 16 16">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" className="bi bi-eye" viewBox="0 0 16 16">
                                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
                                 <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
                               </svg>
