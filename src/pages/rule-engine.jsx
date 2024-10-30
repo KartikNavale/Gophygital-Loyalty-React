@@ -61,134 +61,134 @@ const RuleEngine = () => {
     }
   };
 
-  const Pagination = ({
-    currentPage,
-    totalPages,
-    totalEntries,
-  }) => {
-    const startEntry = (currentPage - 1) * itemsPerPage + 1;
-    const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+  // const Pagination = ({
+  //   currentPage,
+  //   totalPages,
+  //   totalEntries,
+  // }) => {
+  //   const startEntry = (currentPage - 1) * itemsPerPage + 1;
+  //   const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
 
-    const renderPageNumbers = () => {
-      const pages = [];
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(
-          <li
-            key={i}
-            className={`page-item ${i === currentPage ? "active" : ""}`}
-            style={{ border: "1px solid #ddd", margin: "2px" }}
-          >
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(i)}
-              style={{
-                padding: "8px 12px",
-                color: i === currentPage ? "#fff" : "#5e2750",
-                backgroundColor: i === currentPage ? "#5e2750" : "#fff",
-                fontWeight: i === currentPage ? "bold" : "normal",
-                border: '2px solid #5e2750',
-                borderRadius: '3px'
-              }}
-            >
-              {i}
-            </button>
-          </li>
-        );
-      }
-      return pages;
-    };
+  //   const renderPageNumbers = () => {
+  //     const pages = [];
+  //     for (let i = 1; i <= totalPages; i++) {
+  //       pages.push(
+  //         <li
+  //           key={i}
+  //           className={`page-item ${i === currentPage ? "active" : ""}`}
+  //           style={{ border: "1px solid #ddd", margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(i)}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: i === currentPage ? "#fff" : "#5e2750",
+  //               backgroundColor: i === currentPage ? "#5e2750" : "#fff",
+  //               fontWeight: i === currentPage ? "bold" : "normal",
+  //               border: '2px solid #5e2750',
+  //               borderRadius: '3px'
+  //             }}
+  //           >
+  //             {i}
+  //           </button>
+  //         </li>
+  //       );
+  //     }
+  //     return pages;
+  //   };
 
-    return (
-      <nav className="d-flex justify-content-between align-items-center">
-        <ul
-          className="pagination justify-content-center align-items-center"
-          style={{
-            listStyleType: "none",
-            padding: "0",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <li
-            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-            style={{ margin: "2px" }}
-          >
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(1)}
-              disabled={currentPage === 1}
-              style={{
-                padding: "8px 12px",
-                color: "#5e2750",
-                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-              }}
-            >
-              «
-            </button>
-          </li>
-          <li
-            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-            style={{ margin: "2px" }}
-          >
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              style={{
-                padding: "8px 12px",
-                color: "#5e2750",
-                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-              }}
-            >
-              ‹
-            </button>
-          </li>
-          {renderPageNumbers()}
-          <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
-            style={{ margin: "2px" }}
-          >
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              style={{
-                padding: "8px 12px",
-                color: "#5e2750",
-                backgroundColor:
-                  currentPage === totalPages ? "#f0f0f0" : "#fff",
-              }}
-            >
-              ›
-            </button>
-          </li>
-          <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
-            style={{ margin: "2px" }}
-          >
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(totalPages)}
-              disabled={currentPage === totalPages}
-              style={{
-                padding: "8px 12px",
-                color: "#5e2750",
-                backgroundColor:
-                  currentPage === totalPages ? "#f0f0f0" : "#fff",
-              }}
-            >
-              »
-            </button>
-          </li>
-        </ul>
-        <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
-          Showing {startEntry} to {endEntry} of {totalEntries} entries
-        </p>
-      </nav>
-    );
-  };
+  //   return (
+  //     <nav className="d-flex justify-content-between align-items-center">
+  //       <ul
+  //         className="pagination justify-content-center align-items-center"
+  //         style={{
+  //           listStyleType: "none",
+  //           padding: "0",
+  //           display: "flex",
+  //           alignItems: "center",
+  //         }}
+  //       >
+  //         <li
+  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(1)}
+  //             disabled={currentPage === 1}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             «
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage - 1)}
+  //             disabled={currentPage === 1}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             ‹
+  //           </button>
+  //         </li>
+  //         {renderPageNumbers()}
+  //         <li
+  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""
+  //             }`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(currentPage + 1)}
+  //             disabled={currentPage === totalPages}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor:
+  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             ›
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""
+  //             }`}
+  //           style={{ margin: "2px" }}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => handlePageChange(totalPages)}
+  //             disabled={currentPage === totalPages}
+  //             style={{
+  //               padding: "8px 12px",
+  //               color: "#5e2750",
+  //               backgroundColor:
+  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
+  //             }}
+  //           >
+  //             »
+  //           </button>
+  //         </li>
+  //       </ul>
+  //       <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+  //         Showing {startEntry} to {endEntry} of {totalEntries} entries
+  //       </p>
+  //     </nav>
+  //   );
+  // };
 
   //toggle
 
@@ -207,6 +207,152 @@ const RuleEngine = () => {
   //     console.error("Error updating rule:", error);
   //   }
   // };
+
+
+  
+  const Pagination = ({
+    currentPage,
+    totalPages,
+    totalEntries,
+    onPageChange, // Pass the onPageChange function as a prop
+  }) => {
+    const startEntry = (currentPage - 1) * itemsPerPage + 1;
+    const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+
+    // Function to get the range of page numbers to display
+    const getPageNumbers = () => {
+      const pages = [];
+      const maxVisiblePages = 5; // Set the maximum number of visible pages
+      const halfVisible = Math.floor(maxVisiblePages / 2);
+
+      let startPage, endPage;
+
+      if (totalPages <= maxVisiblePages) {
+        // If total pages are less than or equal to maxVisiblePages, show all
+        startPage = 1;
+        endPage = totalPages;
+      } else {
+        // Otherwise, calculate the start and end pages
+        if (currentPage <= halfVisible) {
+          startPage = 1;
+          endPage = maxVisiblePages;
+        } else if (currentPage + halfVisible >= totalPages) {
+          startPage = totalPages - maxVisiblePages + 1;
+          endPage = totalPages;
+        } else {
+          startPage = currentPage - halfVisible;
+          endPage = currentPage + halfVisible;
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      return pages;
+    };
+
+    const pageNumbers = getPageNumbers();
+
+    const handleJumpForward = () => {
+      if (currentPage + 5 <= totalPages) {
+        onPageChange(currentPage + 5);
+      } else {
+        onPageChange(totalPages); // Go to last page if jump exceeds total pages
+      }
+    };
+
+    const handleJumpBackward = () => {
+      if (currentPage - 5 >= 1) {
+        onPageChange(currentPage - 5);
+      } else {
+        onPageChange(1); // Go to first page if jump goes below 1
+      }
+    };
+
+    return (
+      <nav className="d-flex justify-content-between align-items-center">
+        <ul
+          className="pagination justify-content-center align-items-center"
+          style={{ listStyleType: "none", padding: "0" }}
+        >
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => onPageChange(1)} // Jump to first page
+              disabled={currentPage === 1}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              «« {/* Double left arrow for jumping to the first page */}
+            </button>
+          </li>
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              ‹
+            </button>
+          </li>
+
+          {pageNumbers.map((page) => (
+            <li
+              key={page}
+              className={`page-item ${page === currentPage ? "active" : ""}`}
+            >
+              <button
+                className="page-link"
+                onClick={() => onPageChange(page)}
+                style={{
+                  padding: "8px 12px",
+                  color: page === currentPage ? "#fff" : "#5e2750",
+                  backgroundColor: page === currentPage ? "#5e2750" : "#fff",
+                  border: "2px solid #5e2750",
+                  borderRadius: "3px",
+                }}
+              >
+                {page}
+              </button>
+            </li>
+          ))}
+
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link"
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              ›
+            </button>
+          </li>
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link"
+              onClick={handleJumpForward} // Jump forward by 7 pages
+              disabled={currentPage === totalPages}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              »» {/* Double right arrow for jumping to the last page */}
+            </button>
+          </li>
+        </ul>
+        <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+          Showing {startEntry} to {endEntry} of {totalEntries} entries
+        </p>
+      </nav>
+    );
+  };
 
 
   const handleToggle = async (id, isActive) => {
@@ -237,50 +383,6 @@ const RuleEngine = () => {
             <span className="text-secondary">Rule Engine</span> &gt; Rule List
           </p>
           <h5 className="mb-3">Rule List</h5>
-          {/* <div className="d-flex justify-content-between loyalty-header">
-            <div>
-              <Link to="/create-rule-engine">
-                <button className="purple-btn1 rounded-3 px-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-plus mb-1" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                  </svg>
-                  <span>New Rule</span>
-                </button>
-              </Link>
-            </div>
-            <div className="d-flex justify-content-end">
-              <button
-                className="purple-btn2 rounded-3 mt-2 me-3"
-                data-bs-toggle="modal"
-                data-bs-target="#viewModal"
-              >
-                Filter
-              </button>
-              <div className="d-flex search-input w-50 p-1 ms-0 me-3">
-                <span className="material-symbols-outlined"> search </span>
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)} // Update search term on change
-                />
-              </div>
-              <button
-                className="purple-btn1 rounded-3 px-3"
-                onClick={handleSearch} // Call search on button click
-              >
-                Go!
-              </button>
-              <button
-                className="purple-btn2 rounded-3 mt-2"
-                onClick={handleReset} // Reset search
-              >
-                Reset
-              </button>
-            </div>
-          </div> */}
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/create-rule-engine">
@@ -379,15 +481,15 @@ const RuleEngine = () => {
                 <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                   <thead>
                     <tr>
-                      <th>Rule Name</th>
-                      <th>Attribute</th>
-                      <th>Sub-Attribute</th>
-                      <th>Operatives</th>
-                      <th>Sub Operatives</th>
-                      <th>Reward Outcome</th>
-                      <th>Sub Reward Outcome</th>
-                      <th>Toggle</th>
-                      <th>View</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Rule Name</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Attribute</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Sub-Attribute</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Operatives</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Sub Operatives</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Reward Outcome</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Sub Reward Outcome</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Toggle</th>
+                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>View</th>
                     </tr>
                   </thead>
                   <tbody>
