@@ -475,8 +475,8 @@ const Tiers = () => {
               >
                 <div>
                   <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
-                    <thead>
-                      <tr style={{}}>
+                    <thead style={{textAlign:'left'}}>
+                      <tr>
                         <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Tier Name</th>
                         <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Exit Points</th>
                         <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Multipliers</th>
