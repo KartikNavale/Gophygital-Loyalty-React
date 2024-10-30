@@ -436,10 +436,10 @@ const Segment = () => {
                 <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px', align:"center" }}>
                   <thead>
                     <tr style={{}}>
-                      <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px"   }}>Segment Name</th>
-                      <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px"  }}>Segment Tag</th>
-                      <th style={{ width: "400px", fontWeight:'400',fontSize:'13px' , height:"40px"}}>Total Members</th>
-                      <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Edit</th>
+                      <th style={{ width: "400px", fontWeight:'450',fontSize:'13px', height:"40px"   }}>Segment Name</th>
+                      <th style={{ width: "400px", fontWeight:'450',fontSize:'13px', height:"40px"  }}>Segment Tag</th>
+                      <th style={{ width: "400px", fontWeight:'450',fontSize:'13px' , height:"40px"}}>Total Members</th>
+                      <th style={{ width: "400px", fontWeight:'450',fontSize:'13px', height:"40px" }}>Edit</th>
                     </tr>
                   </thead>
                   <tbody  >
