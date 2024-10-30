@@ -51,7 +51,7 @@ function App() {
             <Route path="/member-details/:id" element={<MemberDetails />} />
             <Route path="/rule-engine" element={<RuleEngine />} />
             <Route path="/create-rule-engine" element={<CreateRuleEngine />} />
-            <Route path="/view-rule-engine" element={<ViewRuleEngine />} />
+            <Route path="/view-rule-engine/:id" element={<ViewRuleEngine />} />
             <Route path="/tier-setting" element={<TierSetting />} />
             <Route path="/new-tier" element={<NewTier />} />
             <Route path="/test" element={<Test />} />

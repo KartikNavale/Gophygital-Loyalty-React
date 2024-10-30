@@ -30,24 +30,7 @@ const MemberDetails = () => {
       const response = await axios.get(
         `https://staging.lockated.com/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
-      // console.log(response.data);
-      // const member = response.data.map((itemMember) => {
-      //   const formattedDate = new Intl.DateTimeFormat("en-GB", {
-      //     day: "2-digit",
-      //     month: "2-digit",
-      //     year: "numeric",
-      //   }).format(new Date(itemMember.created_at));
-
-      //   return {
-      //     ...itemMember,
-      //     created_at: formattedDate,
-      //   };
-      // });
-
-      // console.log("transaction data", member);
-      // setMember(member);
-
-      // Format the created_at date
+      
       const formattedMember = {
         ...response.data,
         created_at: formatDate(response.data.created_at), // Format the created_at date

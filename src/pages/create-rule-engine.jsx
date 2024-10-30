@@ -5,6 +5,9 @@ import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   fetchMasterAttributes,
   fetchSubAttributes,
@@ -238,9 +241,15 @@ const CreateRuleEngine = () => {
       !cond.masterAttribute ||
       cond.value === previousValue // Check against previous value
     )) {
-      setError("All fields are required.");
+      // setError("All fields are required.");
+      toast.error("All Mandatory field are required", {
+        position: "top-center",
+        autoClose: 3000,
+      });
       return;
     }
+
+  
 
     // Check for duplicate condition values and ensure they are numbers
     const values = conditions.map(cond => cond.value);
@@ -310,7 +319,7 @@ const CreateRuleEngine = () => {
 
         if (response.ok) {
           const responseData = await response.json(); // Parse the JSON response
-          alert("Rule Engine created successfully!");
+          // alert("Rule Engine created successfully!");
           navigate("/rule-engine")
           console.log("Data created successfully:", responseData);
           clearInputs(); // Clear form inputs if needed
@@ -326,12 +335,37 @@ const CreateRuleEngine = () => {
     }
   };
 
+  //cross button
+  const removeCondition = (id) => {
+    const updatedConditions = conditions.filter(condition => condition.id !== id);
+    setConditions(updatedConditions);
+  };
+
+
 
   const renderCondition = (condition, index) => (
     <div key={condition.id} className="SetRuleCard">
       <div>
         <h6 className="mt-3">
-          <span>Condition {condition.id}</span>
+          <span>Condition {condition.id}
+          <button 
+            onClick={() => removeCondition(condition.id)} 
+            className="ms-3"
+            // title="Remove Condition"
+            style={{border:'none',backgroundColor:'white'}}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-x"
+              viewBox="0 0 16 16"
+            >
+              <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          </span>
         </h6>
       </div>
       {index > 0 && ( // Only render the AND/OR section if this is not the first condition
@@ -688,6 +722,7 @@ const CreateRuleEngine = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };

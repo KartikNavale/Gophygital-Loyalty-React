@@ -34,51 +34,6 @@ const RuleEngine = () => {
 
 
 
-  //operatives
-  // const masterOperators = [
-  //   {
-  //     id: "0",
-  //     name: "Common Operatives",
-  //     subOptions: [
-  //       { id: "1", name: "greater_than", value: "greater_than"  },
-  //       { id: "2", name: "Less than (<)", value: "less_than" },
-  //       { id: "3", name: "Equals (=)", value: "equals" },
-  //       { id: "4", name: "Not equals (!=)", value: "not_equals" },
-  //       { id: "5", name: "Contains", value: "" },
-  //       { id: "6", name: "Does not contain", value: "" },
-  //     ],
-  //   },
-  //   {
-  //     id: "1",
-  //     name: "Logical Operatives",
-  //     subOptions: [
-  //       { id: "1", name: "AND",value:"" },
-  //       { id: "2", name: "OR" ,value:""},
-  //       { id: "3", name: "NOT" ,value:"" },
-  //     ],
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "Date/Time Operatives",
-  //     subOptions: [
-  //       { id: "1", name: "Before" ,value:""},
-  //       { id: "2", name: "After" ,value:"" },
-  //       { id: "3", name: "Between" ,value:"" },
-  //       { id: "4", name: "Within",value:"" },
-  //     ],
-  //   },
-  //   {
-  //     id: "3",
-  //     name: "Tier Operatives",
-  //     subOptions: [
-  //       { id: "1", name: "Is in tier" ,value:"" },
-  //       { id: "2", name: "Upgrade" ,value:""},
-  //       { id: "3", name: "Downgrade" ,value:"" },
-  //     ],
-  //   },
-  // ];
-
-
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const currentItems = filteredItems.slice(
     (currentPage - 1) * itemsPerPage,
@@ -235,53 +190,42 @@ const RuleEngine = () => {
     );
   };
 
-
-
-  // const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  //   const handlePageChange = (page) => {
-  //     if (page > 0 && page <= totalPages) {
-  //       onPageChange(page);
-  //     }
-  //   };
-
-  //   return (
-  //     <nav>
-  //       <ul className="pagination justify-content-center">
-  //         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-  //           <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
-  //             Previous
-  //           </button>
-  //         </li>
-  //         <li className={`page-item active`}>
-  //           <button className="page-link">{currentPage}</button>
-  //         </li>
-  //         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-  //           <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
-  //             Next
-  //           </button>
-  //         </li>
-  //       </ul>
-  //     </nav>
-  //   );
-  // };
-
   //toggle
 
-  const handleToggle = async (id, isActive) => {
-    try {
-      // Optionally, update the state and make an API call to update the rule's active state
-      await axios.patch(`https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414/${id}`, { active: isActive });
+  // const handleToggle = async (id, isActive) => {
+  //   try {
+  //     // Optionally, update the state and make an API call to update the rule's active state
+  //     await axios.patch(`https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414/${id}`, { active: isActive });
 
-      // Update local state if necessary
-      setRules(prevRules =>
-        prevRules.map(rule =>
-          rule.id === id ? { ...rule, active: isActive } : rule
-        )
-      );
+  //     // Update local state if necessary
+  //     setRules(prevRules =>
+  //       prevRules.map(rule =>
+  //         rule.id === id ? { ...rule, active: isActive } : rule
+  //       )
+  //     );
+  //   } catch (error) {
+  //     console.error("Error updating rule:", error);
+  //   }
+  // };
+
+
+  const handleToggle = async (id, isActive) => {
+    console.log(`Toggling rule ID: ${id} to active: ${isActive}`);
+    try {
+        // Make an API call to update the rule's active state
+        const response = await axios.put(`https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414/${id}`, { active: isActive });
+        console.log("API Response:", response.data);
+
+        // Update local state to reflect the change
+        setRules(prevRules =>
+            prevRules.map(rule =>
+                rule.id === id ? { ...rule, active: isActive } : rule
+            )
+        );
     } catch (error) {
-      console.error("Error updating rule:", error);
+        console.error("Error updating rule:", error);
     }
-  };
+};
 
 
   return (
@@ -411,19 +355,28 @@ const RuleEngine = () => {
           </div>
 
           <div className="tbl-container mx-3 mt-4"
+            // style={{
+            //   height: "100%",
+            //   overflowY: "hidden",
+            //   margin: "0 100px",
+
+            // }}
             style={{
               height: "100%",
               overflowY: "hidden",
-              margin: "0 100px",
-
-            }}>
+              // textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              // justifyContent: "space-between",
+            }}
+            >
             {loading ? (
               <p>Loading...</p>
             ) : error ? (
               <p className="text-danger">{error}</p>
             ) : (
               <>
-                <table className="w-100">
+                <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                   <thead>
                     <tr>
                       <th>Rule Name</th>
@@ -470,7 +423,7 @@ const RuleEngine = () => {
                             </span>
                           </td>
                           <td style={{ width: "11.11%" }}>
-                            <Link to="/view-rule-engine">
+                            <Link to={`/view-rule-engine/${id}`}>
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" className="bi bi-eye" viewBox="0 0 16 16">
                                 <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
                                 <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />

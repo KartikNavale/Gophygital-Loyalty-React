@@ -3,20 +3,300 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { fetchMasterRewardOutcomes, fetchSubRewardOutcomes } from "../Confi/ruleEngineApi";
 
 const ViewRuleEngine = () => {
-  const [ruleName, setRuleName] = useState("");
-  const [masterAttributes, setMasterAttributes] = useState([]);
-  const [selectedMasterAttribute, setSelectedMasterAttribute] = useState("");
-  const [subAttributes, setSubAttributes] = useState([]);
+  const { id } = useParams(); // Get the member ID from the URL
+  // const [ruleName, setRuleName] = useState("");
 
-  const [masterRewardOutcomes, setMasterRewardOutcomes] = useState([]);
-  const [selectedMasterRewardOutcomes, setSelectedMasterRewardOutcomes] =
-    useState("");
-  const [subRewardOutcomes, setSubRewardOutcomes] = useState([]);
 
-  
-  
+  const [rule, setRule] = useState(null)
+  console.log(id)
+
+  const [conditions, setConditions] = useState([
+    {
+      id: 1,
+      masterAttribute: "",
+      subAttribute: "",
+      masterOperator: "",
+      subOperator: "",
+      condition_type: "",
+      value: ''
+    },
+  ]);
+
+  const [actions, setactions] = useState([
+    {
+
+      fetchMasterRewardOutcome: "",
+      fetchSubRewardOutcome: "",
+      parameter: ''
+    },
+  ]);
+
+  const addCondition = () => {
+    setConditions([
+      ...conditions,
+      {
+        id: conditions.length + 1,
+        masterAttribute: "",
+        subAttribute: "",
+        masterOperator: "",
+        subOperator: "",
+        condition_type: "",
+        value: ''
+      },
+    ]);
+  };
+
+  const removeCondition = (id) => {
+    const updatedConditions = conditions.filter(condition => condition.id !== id);
+    setConditions(updatedConditions);
+  };
+
+
+  const renderCondition = (condition, index) => (
+    <div key={condition.id} className="SetRuleCard">
+      <div>
+        <h6 className="mt-3">
+          <span>Condition {condition.id}
+
+          <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-pencil-square mb-1 ms-3 text-body-secondary"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                  />
+                </svg>
+
+                <button 
+            onClick={() => removeCondition(condition.id)} 
+            className="ms-3"
+            // title="Remove Condition"
+            style={{border:'none',backgroundColor:'white'}}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-x"
+              viewBox="0 0 16 16"
+            >
+              <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          </span>
+        </h6>
+      </div>
+      {index > 0 && ( // Only render the AND/OR section if this is not the first condition
+        <ul className="nav nav-tabs border-0 mt-3">
+          <div className="d-flex gap-3 And-btn rounded">
+            <li className="nav-item d-flex p-2 gap-2" role="presentation">
+              <input
+                type="radio"
+                className="nav-link"
+                id={`home-tab-${index}`}
+                name={`tab-${index}`}
+                data-bs-toggle="tab"
+                data-bs-target={`#home-tab-pane-${index}`}
+                role="tab"
+                aria-controls={`home-tab-pane-${index}`}
+                aria-selected="true"
+                defaultChecked
+
+              />
+              <label htmlFor={`home-tab-${index}`} className="and-or-btn">
+                AND
+              </label>
+            </li>
+            <li className="nav-item d-flex p-2 gap-2" role="presentation">
+              <input
+                type="radio"
+                className="nav-link"
+                id={`profile-tab-${index}`}
+                name={`tab-${index}`}
+                data-bs-toggle="tab"
+                data-bs-target={`#profile-tab-pane-${index}`}
+                role="tab"
+                aria-controls={`profile-tab-pane-${index}`}
+                aria-selected="false"
+
+              />
+              <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
+                OR
+              </label>
+            </li>
+          </div>
+        </ul>
+      )}
+
+      <div className="border-btm pb-2 mt-2">
+        {/* ......if ..... */}
+        <div>
+          <h4>
+            <span className="badge setRuleCard">IF</span>
+          </h4>
+          <div className="row ms-1 mt-2">
+            {/* Attribute section */}
+            <fieldset className="border col-md-3 m-2 col-sm-11">
+              <legend className="float-none">
+                Master Attribute<span>*</span>
+              </legend>
+              <select
+                required=""
+                className="p-1"
+
+
+              >
+                <option value="">Select Master Attribute </option>
+
+                <option value=""></option>
+              </select>
+            </fieldset>
+            <div className="col-md-1 d-flex justify-content-center align-items-center">
+              <h4>&</h4>
+            </div>
+            <fieldset className="border col-md-3 m-2 col-sm-11">
+              <legend className="float-none">
+                Sub Attribute<span>*</span>
+              </legend>
+              <select
+                required
+                className="p-1"
+
+              >
+                <option value="">Select Sub Attribute</option>
+
+              </select>
+            </fieldset>
+          </div>
+        </div>
+
+        {/* Operator section */}
+        <div className="mt-3">
+          <h4>
+            <span className="badge setRuleCard">Operator</span>
+          </h4>
+          <div className="row ms-1 mt-2">
+            <fieldset className="border col-md-3 m-2 col-sm-11">
+              <legend className="float-none">
+                Master Operator<span>*</span>
+              </legend>
+              <select
+                required=""
+                className="p-1"
+
+              >
+                <option value="">Select Master Operator </option>
+                {/* {conditions.map((condition) => (
+                  <option key={condition.id} value=""> {condition.masterOperator}</option>
+                ))} */}
+
+              </select>
+            </fieldset>
+            <div className="col-md-1 d-flex justify-content-center align-items-center">
+              <h4>&</h4>
+            </div>
+            <fieldset className="border col-md-3 m-2 col-sm-11">
+              <legend className="float-none">
+                Sub Operator<span>*</span>
+              </legend>
+              <select
+                required
+                className="p-1"
+
+              >
+                <option value="">Select Sub Operator </option>
+                {/* {conditions.map((condition) => (
+                  <option key={condition.id} value=""> {condition.subOperator}</option>
+                ))} */}
+
+              </select>
+            </fieldset>
+          </div>
+        </div>
+
+        {/* Value section */}
+        <div className="mt-3">
+          <h4>
+            <span className="badge setRuleCard">Value</span>
+          </h4>
+          <div className="row ms-1 mt-2">
+            <fieldset className="border col-md-3 m-2 col-sm-11">
+              <legend className="float-none">
+                Value<span>*</span>
+              </legend>
+              <input
+                type="text"
+                className="p-1"
+                placeholder="Enter Point Value"
+                // value={condition.value}
+                // onChange={(e) => {
+                //   const updatedConditions = conditions.map((cond, idx) =>
+                //     idx === index
+                //       ? { ...cond, value: e.target.value }
+                //       : cond
+                //   );
+                //   setConditions(updatedConditions);
+                // }}
+              />
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+
+  // const storedValue = sessionStorage.getItem("selectedId");
+  const getRuleEngine = async (id) => {
+    // console.log("Stored ID in session after selection:", storedValue, id);
+    try {
+      const response = await axios.get(
+        `https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&id=${id}`
+      );
+    
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching member details:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    const fetchRule = async () => {
+      try {
+        const data = await getRuleEngine(id);
+        console.log(data)
+        setRule(data);
+        // if (data.conditions) {
+        //   console.log(data.conditions)
+        //   setConditions(data.conditions);
+        // }
+        // if (data.actions) {
+        //   console.log(data.actions)
+        //   setactions(data.actions)
+        // }
+      } catch (err) {
+        // setError(err.message);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchRule();
+  }, [id]);
+
 
   return (
     <>
@@ -49,14 +329,14 @@ const ViewRuleEngine = () => {
                 <legend className="float-none">
                   New Rule<span>*</span>
                 </legend>
-                <input type="text" placeholder="Enter Name" />
+                <input type="text" placeholder="Enter Name" name={rule?.name} />
               </fieldset>
             </div>
           </div>
           <div className="SetRuleCard">
             <div>
               <h5 className="title mt-3">Set Rule Conditions</h5>
-              <h6 class=" mt-3">
+              {/* <h6 class=" mt-3">
                 <span className="">Condition 1</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,195 +352,86 @@ const ViewRuleEngine = () => {
                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
                   />
                 </svg>
-              </h6>
+              </h6> */}
             </div>
-            <div className="border-btm pb-2">
-              <div>
-                <h4>
-                  <span className="badge setRuleCard">IF</span>
-                </h4>
-                <div className="row ms-1 mt-2">
-                  <fieldset className="border  col-md-3 m-2 col-sm-11">
-                    <legend className="float-none">
-                      Master Attribute<span>*</span>
-                    </legend>
-                    <select
-                      required=""
-                      // onChange={handleMasterAttributeChange}
-                      // value={selectedMasterAttribute}
-                    >
-                      <option value="" disabled="" selected="" hidden="">
-                        Select Master Attribute
-                      </option>
-                      {/* {masterAttributes.map((attr) => (
-                        <option key={attr.id} value={attr.id}>
-                          {attr.display_name}
-                        </option>
-                      ))} */}
-
-                      <option value="0">User Actions</option>
-                        <option value="1">Transaction Events</option>
-                        <option value="1">Time-based Events</option>
-                        <option value="1">User Demographics/Segments</option>
-                        <option value="1">Engagement Behaviour</option>
-                        <option value="1">Milestones</option>
-                        <option value="1">Tier-based</option>
-                    </select>
-                  </fieldset>
-                  <div className="col-md-1 d-flex justify-content-center align-items-center">
-                    <h4>&</h4>
-                  </div>
-                  <fieldset className="border  col-md-3 m-2 col-sm-11">
-                    <legend className="float-none">
-                      Sub Attribute<span>*</span>
-                    </legend>
-                    <select required="">
-                      <option value="" disabled="" selected="" hidden="">
-                        Select Sub Attribute
-                      </option>
-                      {/* {subAttributes.map((subAttr) => (
-                        <option key={subAttr.id} value={subAttr.id}>
-                          {subAttr.display_name}
-                        </option>
-                      ))} */}
-                    </select>
-                  </fieldset>
-                </div>
-              </div>
-
-              <div className="mt-3">
-                <h4>
-                  <span className="badge setRuleCard">Operator</span>
-                </h4>
-                <div className="row ms-1 mt-2">
-                  <fieldset className="border  col-md-3 m-2 col-sm-11">
-                    <legend className="float-none">
-                      Master Operator<span>*</span>
-                    </legend>
-                    <select required="">
-                      <option value="" disabled="" selected="" hidden="">
-                        Select Master Operator
-                      </option>
-                      <option value="0">Common Operatives</option>
-                      <option value="1">Logical Operatives</option>
-                      <option value="1">Date/Time Operatives</option>
-                      <option value="1">Tier Operatives</option>
-                    </select>
-                  </fieldset>
-                  <div className="col-md-1 d-flex justify-content-center align-items-center">
-                    <h4>&</h4>
-                  </div>
-                  <fieldset className="border  col-md-3 m-2 col-sm-11">
-                    <legend className="float-none">
-                      Sub Operator<span>*</span>
-                    </legend>
-                    <select required="">
-                      <option value="" disabled="" selected="" hidden="">
-                        Select Sub Operator
-                      </option>
-                      <option value="0">Building1</option>
-                      <option value="1">Building2</option>
-                    </select>
-                  </fieldset>
-                </div>
-              </div>
-
-              <div className="mt-3">
-                <h4>
-                  <span className="badge setRuleCard">Value</span>
-                </h4>
-                <div className="row ms-1 mt-2">
-                  <fieldset className="border col-md-3 m-2 col-sm-11">
-                    <legend className="float-none">
-                      Value<span>*</span>
-                    </legend>
-                    <input type="text" placeholder="Enter Point Value" />
-                  </fieldset>
-                </div>
-              </div>
-            </div>
+       
           </div>
 
-          <button className="setRuleCard2 mt-2" style={{ color: "black" }}>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="currentColor"
-                className="bi bi-plus"
-                viewBox="0 0 16 16"
-              >
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-              </svg>
-            </span>
-            Add Additional Condition
-          </button>
 
-          {/* then */}
-          <div className="mt-3">
-            <h4>
-              <span className="badge setRuleCard">THEN</span>
-            </h4>
-            <div className="row ms-1 mt-2">
-              <fieldset className="border  col-md-3 m-2 col-sm-11">
-                <legend className="float-none">
-                  Master Reward Outcome<span>*</span>
-                </legend>
-                <select
-                  required=""
-                  // onChange={handleMasterSubRewardOutcomeChange}
-                  // value={selectedMasterRewardOutcomes}
+
+          <div className="main-rule">
+            {conditions.map(renderCondition)}
+
+            <button
+              className="setRuleCard2 mt-2"
+              onClick={addCondition}
+              style={{ color: "black" }}
+            >
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  className="bi bi-plus"
+                  viewBox="0 0 16 16"
                 >
-                  <option value="" disabled="" selected="" hidden="">
-                    Select Master Reward Outcome
-                  </option>
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                </svg>
+              </span>
+              Add Additional Condition
+            </button>
 
-                  {/* {masterRewardOutcomes.map((reward) => (
-                    <option key={reward.id} value={reward.id}>
-                      {reward.display_name}
-                    </option>
-                  ))} */}
+            {/* THEN section */}
+            <div className="mt-3">
+              <h4>
+                <span className="badge setRuleCard">THEN</span>
+              </h4>
+              <div className="row ms-1 mt-2">
+                <fieldset className="border  col-md-3 m-2 col-sm-11">
+                  <legend className="float-none">
+                    Master Reward Outcome<span>*</span>
+                  </legend>
 
-                  <option value="1">Discounts/Coupons</option>
-                    <option value="1">Tier Promotion</option>
-                    <option value="1">Product/Service Offers</option>
-                    <option value="1">Milestone-Based Rewards</option>
-                    <option value="1">Cashback</option>
-                </select>
-              </fieldset>
-              <div className="col-md-1 d-flex justify-content-center align-items-center">
-                <h4>&</h4>
+                  <select
+                    required=""
+                    className="p-1"
+
+                  >
+                    <option value="">Select Master Reward Outcome</option>
+                    <option value=""></option>
+                  </select>
+
+                </fieldset>
+                <div className="col-md-1 d-flex justify-content-center align-items-center">
+                  <h4>&</h4>
+                </div>
+                <fieldset className="border  col-md-3 m-2 col-sm-11">
+                  <legend className="float-none">
+                    Sub Reward Outcome<span>*</span>
+                  </legend>
+                  <select
+                    required=""
+                    className="p-1"
+
+                  >
+                    <option value="">Select Sub Reward Outcome</option>
+
+                    <option value=""></option>
+                  </select>
+                </fieldset>
+                {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
+                    <h4>=</h4>
+                  </div> */}
+                <fieldset className="border col-md-3 m-2 col-sm-11 ">
+                  <legend className="float-none">
+                    Parameter {/* <span>*</span> */}
+                  </legend>
+                  <input type="text" placeholder="Enter Point Value" />
+                </fieldset>
               </div>
-              <fieldset className="border  col-md-3 m-2 col-sm-11">
-                <legend className="float-none">
-                  Sub Reward Outcome<span>*</span>
-                </legend>
-                <select required="">
-                  <option value="" disabled="" selected="" hidden="">
-                    Select Sub Reward Outcome
-                  </option>
-                  {/* {subRewardOutcomes.map((reward) => (
-                    <option key={reward.id} value={reward.id}>
-                      {reward.display_name}
-                    </option>
-                  ))} */}
-                  <option value="0">Building1</option>
-                    <option value="1">Building2</option>
-                </select>
-              </fieldset>
-              <div className="col-md-1 d-flex justify-content-center align-items-center">
-                <h4>=</h4>
-              </div>
-              <fieldset className="border col-md-3 m-2 col-sm-11">
-                <legend className="float-none">
-                  Point Value<span>*</span>
-                </legend>
-                <input type="text" placeholder="Enter Point Value" />
-              </fieldset>
             </div>
           </div>
-          {/* ... */}
 
           <div className="row mt-2 justify-content-center">
             <div className="col-md-2">
@@ -285,7 +456,7 @@ export default ViewRuleEngine;
 
 
 
-//another 
+//another
 
 // import React, { useState, useEffect } from "react";
 // import Header from "../components/Header";

@@ -57,7 +57,7 @@ const NewCampaign = () => {
         console.log("Data to be sent:", data);
 
         if (response.status === 201) {
-          alert("Campaign created successfully!");
+          // alert("Campaign created successfully!");
           formik.resetForm();
           navigate("/campaign");
         }

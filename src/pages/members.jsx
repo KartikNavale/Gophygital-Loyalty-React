@@ -360,17 +360,27 @@ const Members = () => {
           </div>
 
 
-          <div className="tbl-container mx-3 mt-4" style={{
-            height: "100%", overflowY: "hidden", margin: "0 100px",
-            // textAlign: "center"
-          }}>
+          <div className="tbl-container mx-3 mt-4" 
+          // style={{
+          //   height: "100%", overflowY: "hidden", margin: "0 100px",
+          //   // textAlign: "center"
+          // }}
+          style={{
+            height: "100%",
+            overflowY: "hidden",
+            // textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            // justifyContent: "space-between",
+          }}
+          >
             {loading ? (
               <p>Loading...</p>
             ) : error ? (
               <p className="text-danger">{error}</p>
             ) : (
               <>
-                <table className="w-100">
+                <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                   <thead>
                     <tr>
                       <th>Member ID</th>
