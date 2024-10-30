@@ -27,14 +27,23 @@ const Segment = () => {
     member_count: ""
   });
 
+  // const handleSearch = () => {
+  //   const filtered = segments.filter((rule) =>
+  //     rule.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  //   setFilteredItems(filtered);
+  //   setCurrentPage(1);
+  // };
+
+
   const handleSearch = () => {
     const filtered = segments.filter((rule) =>
-      rule.name.toLowerCase().includes(searchTerm.toLowerCase())
+      rule.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      rule.segment_tag.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredItems(filtered);
     setCurrentPage(1);
   };
-
   const handleReset = () => {
     setSearchTerm("");
     setFilteredItems(segments);
@@ -424,22 +433,22 @@ const Segment = () => {
                 </div>
               </div>
               <div className="tbl-container mx-3 mt-4">
-                <table className="w-100">
+                <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px', align:"center" }}>
                   <thead>
-                    <tr>
-                      <th>Segment Name</th>
-                      <th>Segment Tag</th>
-                      <th>Total Members</th>
-                      <th>Edit</th>
+                    <tr style={{}}>
+                      <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px"   }}>Segment Name</th>
+                      <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px"  }}>Segment Tag</th>
+                      <th style={{ width: "400px", fontWeight:'400',fontSize:'13px' , height:"40px"}}>Total Members</th>
+                      <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Edit</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody  >
                     {currentItems.length > 0 ? (
                       currentItems.map((segment, index) => (
-                        <tr key={segment.id || index}>
-                          <td>{segment.name}</td>
-                          <td className="fw-bold">{segment.segment_tag}</td>
-                          <td>{segment.member_count}</td>
+                        <tr  key={segment.id || index}>
+                         <td  style={{ align: 'center', verticalAlign: 'middle' }}>{segment.name}</td>
+                          <td  style={{ align: 'center', fontSize:"13px " ,fontWeight:"700"}}className="">{segment.segment_tag}</td>
+                          <td style={{ align:"center"}}>{segment.member_count}</td>
                           <td>
                             <button
                               className="btn btn-link"
@@ -465,7 +474,7 @@ const Segment = () => {
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="4">No segments found</td>
+                        <td style={{ textAlign: 'center' }} colSpan="4">No segments found</td>
                       </tr>
                     )}
                   </tbody>

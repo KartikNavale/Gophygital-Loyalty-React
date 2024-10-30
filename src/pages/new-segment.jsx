@@ -326,7 +326,7 @@ const NewSegment = () => {
     // Function to get the range of page numbers to display
     const getPageNumbers = () => {
       const pages = [];
-      const maxVisiblePages = 7; // Set the maximum number of visible pages
+      const maxVisiblePages = 5; // Set the maximum number of visible pages
       const halfVisible = Math.floor(maxVisiblePages / 2);
 
       let startPage, endPage;
@@ -359,16 +359,16 @@ const NewSegment = () => {
     const pageNumbers = getPageNumbers();
 
     const handleJumpForward = () => {
-      if (currentPage + 7 <= totalPages) {
-        onPageChange(currentPage + 7);
+      if (currentPage + 5 <= totalPages) {
+        onPageChange(currentPage + 5);
       } else {
         onPageChange(totalPages); // Go to last page if jump exceeds total pages
       }
     };
 
     const handleJumpBackward = () => {
-      if (currentPage - 7 >= 1) {
-        onPageChange(currentPage - 7);
+      if (currentPage - 5 >= 1) {
+        onPageChange(currentPage - 5);
       } else {
         onPageChange(1); // Go to first page if jump goes below 1
       }
@@ -630,16 +630,16 @@ const NewSegment = () => {
               <h5>Members List</h5>
               { showMembers && filteredData.length > 0 ? (
                 <div className="tbl-container mx-3 mt-4">
-                  <table className="w-100 ">
+                  <table className="w-100 "  style={{color: '#000', fontWeight:'400',fontSize:'13px', align:"center" }}>
                     <thead>
                       <tr>
-                        <th>Select</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Gender</th>
-                        <th>Status</th>
-                        <th>Loyalty Points</th>
+                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Select</th>
+                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Name</th>
+                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Email</th>
+                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Address</th>
+                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Gender</th>
+                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Status</th>
+                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Loyalty Points</th>
                       </tr>
                     </thead>
                     <tbody>
