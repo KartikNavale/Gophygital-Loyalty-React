@@ -532,7 +532,7 @@ const Campaign = () => {
                       <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Edit</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody style={{color: '#000', fontWeight:'450',fontSize:'13px', textAlign:"center"}}>
                     {currentItems.map((campaign) => (
                       <tr key={campaign.id}>
                         <td style={{ width: '25%' }}>{campaign.name}</td>
