@@ -467,10 +467,18 @@ const NewSegment = () => {
             <span className="text-secondary">Segment</span> &gt; New Segment
           </p>
           <h5 className="mb-3 title">New Segment</h5>
-          <div className="go-shadow me-3 pb-4">
-            <div className="row ms-1 mt-4">
+          <div className="go-shadow me-3 pb-4" >
+            <div className="row ms-1 mt-4 ">
               <fieldset className="border col-md-3 m-2 col-sm-11">
-                <legend className="float-none">
+                <legend className="float-none"
+                
+                style={{
+                  fontSize: '14px',           // Adjust font size for visibility
+                 
+                  padding: '6px',           // Padding to ensure full visibility of text
+                  lineHeight: '1.2',          // Adjust line-height for better readability
+                  marginBottom: '-8px',       // Slight negative margin if legend is too high
+                }}>
                   Segment Name<span>*</span>
                 </legend>
                 <input
@@ -479,17 +487,38 @@ const NewSegment = () => {
                   required=""
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  style={{
+                    height: '30px',
+                    width: '100%',
+                    padding: '8px',
+                    boxSizing: 'border-box',
+                  }}
                 />
               </fieldset>
 
-              <fieldset className="border col-md-3 m-2 col-sm-11">
-                <legend className="float-none">
+              <fieldset className="border col-md-3 m-2 col-sm-11 ">
+                <legend className="float-none"
+                 style={{
+                  fontSize: '14px',           // Adjust font size for visibility
+                 
+                  padding: '6px',           // Padding to ensure full visibility of text
+                  lineHeight: '1.2',          // Adjust line-height for better readability
+                  marginBottom: '-8px',       // Slight negative margin if legend is too high
+                }}>
+                
                   Segment tag<span>*</span>
                 </legend>
                 <select
                   required=""
                   value={segment_tag}
                   onChange={(e) => setSegmentTag(e.target.value)}
+                  style={{
+                    height: '40px',
+                    width: '100%',
+                    padding: '8px',
+                     
+                    boxSizing: 'border-box',
+                  }}
                 >
                   <option value="" disabled selected hidden>
                     Select Segment tag
@@ -503,13 +532,27 @@ const NewSegment = () => {
               </fieldset>
 
               <fieldset className="border col-md-3 m-2 col-sm-11">
-                <legend className="float-none">
+                <legend className="float-none"
+                 style={{
+                  fontSize: '14px',           // Adjust font size for visibility
+                 
+                  padding: '6px',           // Padding to ensure full visibility of text
+                  lineHeight: '1.2',          // Adjust line-height for better readability
+                  marginBottom: '-8px',       // Slight negative margin if legend is too high
+                }}>
                   Segment type<span>*</span>
+                  
                 </legend>
                 <select
                   required=""
                   value={segment_type}
                   onChange={(e) => setSegmentType(e.target.value)}
+                  style={{
+                    height: '40px',
+                    width: '100%',
+                    padding: '8px',
+                    boxSizing: 'border-box',
+                  }}
                 >
                   <option value="" disabled selected hidden>
                     Select segment type
