@@ -213,6 +213,7 @@ const NewTier = () => {
                     height: "100%",
                     flexDirection: "column",
                     marginRight: "26px",
+                    overflowY:'auto'
                   }}
                 >
                   <div>
