@@ -468,7 +468,7 @@ const NewSegment = () => {
           </p>
           <h5 className="mb-3 title">New Segment</h5>
           <div className="go-shadow me-3 pb-4" >
-            <div className="row ms-1 mt-4 ">
+            <div className="row ms-1 mt-4  ">
               <fieldset className="border col-md-3 m-2 col-sm-11">
                 <legend className="float-none"
                 
@@ -479,20 +479,25 @@ const NewSegment = () => {
                   lineHeight: '1.2',          // Adjust line-height for better readability
                   marginBottom: '-8px',       // Slight negative margin if legend is too high
                 }}>
+                
                   Segment Name<span>*</span>
                 </legend>
+              
+
                 <input
+                
                   type="text"
+                  className="border w-100 p-2 py-2 border-bottom pb-2 border-0 border-bottom-0 bold-placeholder"
                   placeholder="Enter Segment Name"
                   required=""
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  style={{
-                    height: '30px',
-                    width: '100%',
-                    padding: '8px',
-                    boxSizing: 'border-box',
-                  }}
+                  // style={{
+                  //   height: '30px',
+                  //   width: '100%',
+                  //   padding: '8px',
+                  //   boxSizing: 'border-box',
+                  // }}
                 />
               </fieldset>
 
@@ -506,19 +511,21 @@ const NewSegment = () => {
                   marginBottom: '-8px',       // Slight negative margin if legend is too high
                 }}>
                 
+                
                   Segment tag<span>*</span>
                 </legend>
                 <select
+                 className="mt-1 mb-1"
                   required=""
                   value={segment_tag}
                   onChange={(e) => setSegmentTag(e.target.value)}
-                  style={{
-                    height: '40px',
-                    width: '100%',
-                    padding: '8px',
+                  // style={{
+                  //   height: '40px',
+                  //   width: '100%',
+                  //   padding: '8px',
                      
-                    boxSizing: 'border-box',
-                  }}
+                  //   boxSizing: 'border-box',
+                  // }}
                 >
                   <option value="" disabled selected hidden>
                     Select Segment tag
@@ -540,19 +547,21 @@ const NewSegment = () => {
                   lineHeight: '1.2',          // Adjust line-height for better readability
                   marginBottom: '-8px',       // Slight negative margin if legend is too high
                 }}>
+                
                   Segment type<span>*</span>
                   
                 </legend>
                 <select
+                 className="mt-1 mb-1"
                   required=""
                   value={segment_type}
                   onChange={(e) => setSegmentType(e.target.value)}
-                  style={{
-                    height: '40px',
-                    width: '100%',
-                    padding: '8px',
-                    boxSizing: 'border-box',
-                  }}
+                  // style={{
+                  //   height: '40px',
+                  //   width: '100%',
+                  //   padding: '8px',
+                  //   boxSizing: 'border-box',
+                  // }}
                 >
                   <option value="" disabled selected hidden>
                     Select segment type
