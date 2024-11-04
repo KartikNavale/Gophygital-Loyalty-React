@@ -304,6 +304,8 @@ const NewCampaign = () => {
       !formValues.target_audiance||
       !formValues.campaign_type||
       !formValues.loyalty_tier_id
+      // ||
+      // !formValues.campaign_reward
      ) {
       // setError("All fields are required.");
       toast.error("All Mandatory field are required", {
@@ -353,11 +355,11 @@ const NewCampaign = () => {
       </p>
       <h5 className="mb-3 title">New Campaign</h5>
       <form onSubmit={handleSubmit} className="go-shadow me-3 pt-3"
-      style={{
-        height: "100%",
-        flexDirection: "column",
-        marginRight: "26px",
-      }}
+      // style={{
+      //   height: "100%",
+      //   flexDirection: "column",
+      //   marginRight: "26px",
+      // }}
       >
         <div className="border-bottom pb-2">
           <div className="row">
@@ -436,7 +438,7 @@ const NewCampaign = () => {
         </div>
         <div className="mt-2">
           <p className="fw-bold">
-            Points Criteria <span>*</span>
+            Points Criteria<span style={{color:'#E95420'}}>*</span>
           </p>
           <p>
             <input
