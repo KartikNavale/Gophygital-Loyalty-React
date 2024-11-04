@@ -655,9 +655,9 @@ const Tiers = () => {
                               >
                                 Point Type<span>*</span>
                               </legend>
-                              <Field
-                                as="select" // Change to select
-                                className="form-control border-0"
+                              <select
+                                // className="form-control border-0"
+                                style={{padding:'8px'}}
                                 id="pointType"
                                 name="point_type"
                                 onChange={handleChange}
@@ -665,7 +665,7 @@ const Tiers = () => {
                               >
                                 <option value="lifetime" label="Life Time" />
                                 <option value="yearly" label="Yearly" />
-                              </Field>
+                              </select>
                             </fieldset>
 
                             <ErrorMessage
