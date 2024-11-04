@@ -447,14 +447,14 @@ const NewCampaign = () => {
               name="campaign_reward"
               checked={formValues.campaign_reward}
               onChange={handleChange}
-              // style={{ border:  "solid #8B0203"}}
+              style={{ border:"#8B0203"}}
             />
             <span className="align-middle">Send points to existing members.</span>
           </p>
         </div>
         <div className="mt-5">
           <p className="fw-bold">
-            Campaign Rewards <span>*</span>
+            Campaign Rewards <span style={{color:'#E95420'}}>*</span>
           </p>
         </div>
         <div className="row  justify-content-center" style={{marginTop:'150px'}}>
