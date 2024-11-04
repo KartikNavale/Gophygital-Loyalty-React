@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
@@ -180,7 +179,7 @@ const NewTier = () => {
               </div>
 
               <div className="col-md-2">
-                <button className="purple-btn2 w-100" onClick={cancelStep}>
+                <button className="purple-btn2 w-100" onClick={() => navigate('/tiers')}>
                   Cancel
                 </button>
               </div>
@@ -442,6 +441,7 @@ const NewTier = () => {
                         className="purple-btn2 w-100"
                         onClick={() => {
                           setTiers([]);
+                          cancelStep()
                         }}
                       >
                         Cancel
