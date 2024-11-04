@@ -2651,6 +2651,9 @@ input[type="checkbox"].violet-check {
   color: #9b9b9b;
   padding: 4px;
 }
+.form-control::focus {
+box-shadow: none;
+}
 .form-control::placeholder {
   color: #9b9b9b;
   text-align: left;
