@@ -255,8 +255,8 @@ const CreateRuleEngine = () => {
     const values = conditions.map(cond => cond.value);
     const uniqueValues = new Set();
     for (const value of values) {
-      if (isNaN(value) || value.trim() === "") {
-        setError("Each condition value must be a valid number.");
+      if (value.trim() === "") {
+        setError(" Please enter value.");
         return;
       }
       uniqueValues.add(value);
