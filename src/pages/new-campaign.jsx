@@ -349,7 +349,7 @@ const NewCampaign = () => {
   };
 
   return (
-    <div className="module-data-section mt-2" style={{ height: "50%" }}>
+    <div className="module-data-section mt-2">
       <p className="pointer">
         <span className="text-secondary">Campaign</span> &gt; New Campaign
       </p>
@@ -457,7 +457,7 @@ const NewCampaign = () => {
             Campaign Rewards <span>*</span>
           </p>
         </div>
-        <div className="row  justify-content-center" style={{marginTop:'280px'}}>
+        <div className="row  justify-content-center" style={{marginTop:'150px'}}>
           <div className="col-md-2">
             <button type="submit" className="purple-btn1 w-100">Submit</button>
           </div>
