@@ -90,7 +90,7 @@
 
 //     fetchTierLevels();
 //   }, []);
-  
+
 
 //   return (
 //     <>
@@ -280,6 +280,11 @@ const NewCampaign = () => {
       ...formValues,
       [name]: type === "checkbox" ? checked : value,
     });
+
+    // setFormValues({
+    //     ...formValues,
+    //     [e.target.name]: e.target.checked,
+    //   });
   };
 
   // const validate = () => {
@@ -299,14 +304,14 @@ const NewCampaign = () => {
     //   return;
     // }
 
-     // Validate required fields
-     if (!formValues.name ||
-      !formValues.target_audiance||
-      !formValues.campaign_type||
+    // Validate required fields
+    if (!formValues.name ||
+      !formValues.target_audiance ||
+      !formValues.campaign_type ||
       !formValues.loyalty_tier_id
       // ||
       // !formValues.campaign_reward
-     ) {
+    ) {
       // setError("All fields are required.");
       toast.error("All Mandatory field are required", {
         position: "top-center",
@@ -314,7 +319,7 @@ const NewCampaign = () => {
       });
       return;
     }
-    
+
     const data = {
       loyalty_campaign: {
         name: formValues.name,
@@ -347,6 +352,9 @@ const NewCampaign = () => {
       alert("Failed to create campaign. Please try again.");
     }
   };
+
+
+
 
   return (
     <div className="module-data-section mt-2">
@@ -404,7 +412,7 @@ const NewCampaign = () => {
                 value={formValues.campaign_type}
                 onChange={handleChange}
                 required=""
-                 className="mt-1 mb-1"
+                className="mt-1 mb-1"
               >
                 <option value="">Select Campaign Type</option>
                 <option value="Point based">Point based</option>
@@ -425,7 +433,7 @@ const NewCampaign = () => {
                 value={formValues.loyalty_tier_id}
                 onChange={handleChange}
                 required=""
-                 className="mt-1 mb-1"
+                className="mt-1 mb-1"
               >
                 <option value="">Select Tier Level</option>
                 {tierLevels.map((tier) => (
@@ -436,28 +444,29 @@ const NewCampaign = () => {
             </fieldset>
           </div>
         </div>
+       
         <div className="mt-2">
           <p className="fw-bold">
-            Points Criteria<span style={{color:'#E95420'}}>*</span>
+            Points Criteria <span style={{ color: "#E95420" }}>*</span>
           </p>
           <p>
             <input
-              className="align-middle mx-2"
+              className="align-middle mx-2 custom-checkbox"
               type="checkbox"
               name="campaign_reward"
               checked={formValues.campaign_reward}
               onChange={handleChange}
-              style={{ border:"#8B0203"}}
             />
-            <span className="align-middle">Send points to existing members.</span>
+            <span className="align-middle" style={{color:'#00000099'}}>Send points to existing members.</span>
           </p>
         </div>
+
         <div className="mt-5">
           <p className="fw-bold">
-            Campaign Rewards <span style={{color:'#E95420'}}>*</span>
+            Campaign Rewards <span style={{ color: '#E95420' }}>*</span>
           </p>
         </div>
-        <div className="row  justify-content-center" style={{marginTop:'150px'}}>
+        <div className="row  justify-content-center" style={{ marginTop: '150px' }}>
           <div className="col-md-2">
             <button type="submit" className="purple-btn1 w-100">Submit</button>
           </div>

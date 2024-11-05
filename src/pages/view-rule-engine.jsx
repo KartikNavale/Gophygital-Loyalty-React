@@ -263,12 +263,12 @@ const ViewRuleEngine = () => {
     // console.log("Stored ID in session after selection:", storedValue, id);
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&id=${id}`
+        `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
       );
-    
+    console.log(response.data)
       return response.data;
     } catch (error) {
-      console.error("Error fetching member details:", error);
+      console.error("Error fetching Rule Engine:", error);
       throw error;
     }
   };

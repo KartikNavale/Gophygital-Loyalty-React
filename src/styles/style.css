@@ -3330,3 +3330,53 @@ margin: 0;
 input[type="number"] {
 -moz-appearance: textfield; /* Remove the default spinner in Firefox */
 }
+
+
+
+
+
+/* campaign checkbox  */
+/* input[type="checkbox"]{ */
+  /* border: 1px solid #db1a1a !important; */
+  /* position: relative; */
+  /* accent-color:#5e2750 !important; */
+  /* position: relative; */
+ 
+/* } */
+
+/* input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  top: -2.5px;
+  left: -2.5px;
+  right: -3px;
+  bottom: -2.5px;
+  border: 1px solid #8B0203 !important;
+  border-radius: 4px; */
+  /* pointer-events: none; */
+/* } */
+
+ /* Styling for the custom checkbox */
+ .custom-checkbox {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #8B0203 !important;
+  border-radius: 4px;
+  /* transition: border-color 0.3s ease, background-color 0.3s ease; */
+}
+
+.custom-checkbox:checked {
+  border-color: #8B0203; /* Border color when checked */
+  background-color:  #5e2750!important; /* Background color when checked */
+}
+
+
+.custom-checkbox:focus {
+  outline: none;
+}
+
+/*  */
+

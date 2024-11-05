@@ -274,14 +274,15 @@ const CreateRuleEngine = () => {
 
     // Update previousValue to the current value before proceeding
     const newValue = conditions.map(cond => cond.value);
-    setPreviousValue(newValue); // Store the latest value(s) as the previous value
+    setPreviousValue(newValue); // Store the latest value(s) as the previous value]
 
+    // const storedValue = sessionStorage.getItem("selectedId")
 
     const data = {
       rule_engine_rule: {
         name: ruleName, // Ensure ruleName is defined elsewhere in your code
         description: "This is a description of the sample rule.",
-    
+        loyalty_type_id: sessionStorage.getItem("selectedId"),//type id
         // Mapping conditions dynamically
         rule_engine_conditions_attributes: conditions.map((condition) => ({
           condition_attribute: condition.subAttribute || "", // Handle blank cases if needed
@@ -322,7 +323,7 @@ const CreateRuleEngine = () => {
           // alert("Rule Engine created successfully!");
           navigate("/rule-engine")
           console.log("Data created successfully:", responseData);
-          clearInputs(); // Clear form inputs if needed
+          // clearInputs(); // Clear form inputs if needed
         } else {
           const errorData = await response.json(); // Parse error response
           setError(`Failed to create Rule Engine: ${errorData.message}`);
@@ -679,6 +680,7 @@ const CreateRuleEngine = () => {
                     disabled={!selectedMasterRewardOutcomes}
                     onChange={(e) => {
                       const selectedId = e.target.value; // Get the selected sub-reward outcome ID
+                      console.log(selectedId)
                       // Handle the selection as needed, e.g., update the state or construct the data object
                       setsubRewardOutcomesnew(selectedId);
                     }}
@@ -689,7 +691,8 @@ const CreateRuleEngine = () => {
                     {subRewardOutcomes.map((reward) => (
                       <option
                         key={reward.id}
-                        value={reward.rule_engine_available_model_id}
+                        // value={reward.rule_engine_available_model_id}
+                        value={reward.id}
                       >
                         {reward.display_name}
                       </option>

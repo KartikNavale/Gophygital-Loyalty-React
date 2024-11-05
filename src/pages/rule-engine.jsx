@@ -16,10 +16,12 @@ const RuleEngine = () => {
 
   useEffect(() => {
     const fetchRuleEngine = async () => {
+      const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          "https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
+          `https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
+        console.log(response.data)
         setRuleEngine(response.data);
         setFilteredItems(response.data); // Initialize with all items
       } catch (err) {
