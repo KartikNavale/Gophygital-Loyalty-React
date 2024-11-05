@@ -648,6 +648,12 @@ fieldset {
   border-color: #dee2e6 #dee2e6 #e95420 #dee2e6 !important;
 }
 
+.active-link {
+  color: #e95420 !important;
+  background-color: white !important;
+  border-color: #dee2e6 #dee2e6 #e95420 #dee2e6 !important;
+}
+
 .nav-tabs button {
   color: #707070 !important;
   background-color: #f8f8f8 !important;
