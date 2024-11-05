@@ -158,7 +158,7 @@ const CreateRuleEngine = () => {
   //selected master reward outcome
   const handleMasterSubRewardOutcomeChange = async (e) => {
     const selectedId = e.target.value;
-    
+
     const selectedOption = e.target.selectedOptions[0]; // Get the selected <option> element
     const selectedName = selectedOption.getAttribute('data-name'); // Get the data-name attribute    setSelectedMasterRewardOutcomes(selectedName);
     setSelectedMasterRewardOutcomes({
@@ -249,7 +249,7 @@ const CreateRuleEngine = () => {
       return;
     }
 
-  
+
 
     // Check for duplicate condition values and ensure they are numbers
     const values = conditions.map(cond => cond.value);
@@ -291,22 +291,22 @@ const CreateRuleEngine = () => {
           condition_selected_model: Number(condition.masterAttribute) || 1,
           condition_type: condition.condition_type || "",
         })),
-    
-        rule_engine_actions_attributes:[ {
+
+        rule_engine_actions_attributes: [{
           lock_model_name: selectedMasterRewardOutcomes.name || "",
           parameters: [Number(parameter) || ""],
-          rule_engine_available_function_id:  subRewardOutcomesnew|| "",
+          rule_engine_available_function_id: subRewardOutcomesnew || "",
           action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
         }
-            ]
-        }
+        ]
+      }
     }
-    
+
 
     console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
 
     try {
-      if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== ""  && conditions !== null) {
+      if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && conditions !== null) {
         const response = await fetch(
           "https://staging.lockated.com/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
           {
@@ -349,23 +349,23 @@ const CreateRuleEngine = () => {
       <div>
         <h6 className="mt-3">
           <span>Condition {condition.id}
-          <button 
-            onClick={() => removeCondition(condition.id)} 
-            className="ms-3"
-            // title="Remove Condition"
-            style={{border:'none',backgroundColor:'white'}}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-x"
-              viewBox="0 0 16 16"
+            <button
+              onClick={() => removeCondition(condition.id)}
+              className="ms-3"
+              // title="Remove Condition"
+              style={{ border: 'none', backgroundColor: 'white' }}
             >
-              <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-x"
+                viewBox="0 0 16 16"
+              >
+                <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
           </span>
         </h6>
       </div>
@@ -443,7 +443,7 @@ const CreateRuleEngine = () => {
               </legend>
               <select
                 required=""
-                className="p-1"
+                className="p-1  mt-1 mb-1"
 
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -473,8 +473,8 @@ const CreateRuleEngine = () => {
                 Sub Attribute<span>*</span>
               </legend>
               <select
-                required
-                className="p-1"
+                required=""
+                className="p-1  mt-1 mb-1"
                 disabled={!condition.masterAttribute}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -509,7 +509,7 @@ const CreateRuleEngine = () => {
               </legend>
               <select
                 required=""
-                className="p-1"
+                className="p-1 mt-1 mb-1"
                 value={condition.masterOperator}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -537,8 +537,8 @@ const CreateRuleEngine = () => {
                 Sub Operator<span>*</span>
               </legend>
               <select
-                required
-                className="p-1"
+                required=""
+                className="p-1  mt-1 mb-1"
                 disabled={!condition.masterOperator}
                 value={condition.subOperator}
                 onChange={(e) => {
@@ -573,7 +573,7 @@ const CreateRuleEngine = () => {
               </legend>
               <input
                 type="text"
-                className="p-1"
+                className="p-1 mt-1 mb-1"
                 placeholder="Enter Point Value"
                 value={condition.value}
                 onChange={(e) => {
@@ -614,6 +614,7 @@ const CreateRuleEngine = () => {
                   placeholder="Enter Name"
                   value={ruleName}
                   onChange={(e) => setRuleName(e.target.value)}
+                  className="mt-1 mb-1"
                 />
               </fieldset>
             </div>
@@ -652,19 +653,19 @@ const CreateRuleEngine = () => {
                   <legend className="float-none">
                     Master Reward Outcome<span>*</span>
                   </legend>
-                                <select
-                required
-                className="p-1"
-                onChange={handleMasterSubRewardOutcomeChange}
-                value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
-              >
-                <option value="" disabled>Select Master Reward Outcome</option>
-                {masterRewardOutcomes.map((reward) => (
-                  <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
-                    {reward.display_name}
-                  </option>
-                ))}
-              </select>
+                  <select
+                    required=""
+                    className="p-1 mt-1 mb-1"
+                    onChange={handleMasterSubRewardOutcomeChange}
+                    value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
+                  >
+                    <option value="" disabled>Select Master Reward Outcome</option>
+                    {masterRewardOutcomes.map((reward) => (
+                      <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
+                        {reward.display_name}
+                      </option>
+                    ))}
+                  </select>
 
                 </fieldset>
                 <div className="col-md-1 d-flex justify-content-center align-items-center">
@@ -676,7 +677,7 @@ const CreateRuleEngine = () => {
                   </legend>
                   <select
                     required=""
-                    className="p-1"
+                    className="p-1 mt-1 mb-1"
                     disabled={!selectedMasterRewardOutcomes}
                     onChange={(e) => {
                       const selectedId = e.target.value; // Get the selected sub-reward outcome ID
@@ -706,7 +707,7 @@ const CreateRuleEngine = () => {
                   <legend className="float-none">
                     Parameter {/* <span>*</span> */}
                   </legend>
-                  <input type="text" placeholder="Enter Point Value" value={parameter} onChange={(e) => setParameter(e.target.value)} />
+                  <input type="text" placeholder="Enter Point Value" value={parameter} onChange={(e) => setParameter(e.target.value)} className="mt-1 mb-1" />
                 </fieldset>
               </div>
             </div>
