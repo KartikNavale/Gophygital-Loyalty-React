@@ -399,7 +399,7 @@ const Tiers = () => {
           <div className="loyalty-header">
             <div className="d-flex justify-content-between align-items-center">
               <Link to="/new-tier">
-                <button className="purple-btn1 rounded-3">
+                <button className="purple-btn1 rounded-1" style={{paddingRight:'50px'}}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="19"
@@ -477,11 +477,11 @@ const Tiers = () => {
                   <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                     <thead style={{textAlign:'left'}}>
                       <tr>
-                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Tier Name</th>
-                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Exit Points</th>
-                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Multipliers</th>
-                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Welcome Bonus</th>
-                        <th style={{ width: "20%", fontWeight:'400',fontSize:'13px' }}>Edit</th>
+                        <th>Tier Name</th>
+                        <th>Exit Points</th>
+                        <th>Multipliers</th>
+                        <th>Welcome Bonus</th>
+                        <th>Edit</th>
                       </tr>
                     </thead>
                     <tbody>

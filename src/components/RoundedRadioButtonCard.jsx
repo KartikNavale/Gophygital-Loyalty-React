@@ -26,8 +26,8 @@ export default function RoundedRadioButtonCard({ onChange }) {
   return (  
     <div className="container">  
       {options.map((option) => (  
-        <div className="card m-4 tier-setting-card" key={option.value}>  
-          <div className="card-body">  
+        <div className="card m-4 tier-setting-card" style={{backgroundColor:'#fdeee9'}} key={option.value}>  
+          <div className="card-body" >  
             <div className="d-flex flex-column align-items-start">  
               <div  
                 onClick={() => handleClick(option.value)}  
