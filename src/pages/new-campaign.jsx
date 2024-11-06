@@ -447,7 +447,7 @@ const NewCampaign = () => {
        
         <div className="mt-2">
           <p className="fw-bold">
-            Points Criteria <span style={{ color: "#E95420" }}>*</span>
+            Points Criteria<span style={{ color: "#E95420" }}>*</span>
           </p>
           <p>
             <input
@@ -463,7 +463,7 @@ const NewCampaign = () => {
 
         <div className="mt-5">
           <p className="fw-bold">
-            Campaign Rewards <span style={{ color: '#E95420' }}>*</span>
+            Campaign Rewards<span style={{ color: '#E95420' }}>*</span>
           </p>
         </div>
         <div className="row  justify-content-center" style={{ marginTop: '150px' }}>

@@ -578,11 +578,11 @@ const RuleEngine = () => {
                   <div className="row ms-1 mt-2">
                     <fieldset className="border col-md-5 m-2 col-sm-11">
                       <legend className="float-none">
-                        Master Attribute<span>*</span>
+                      Master Attribute<span>*</span>
                       </legend>
-                      <select required>
+                      <select required="" className="mt-1 mb-1">
                         <option value="" disabled selected hidden>
-                          select Master Attribute
+                        User Action
                         </option>
                         <option value="0">User Actions</option>
                         <option value="1">Transaction Events</option>
@@ -597,9 +597,9 @@ const RuleEngine = () => {
                       <legend className="float-none">
                         Sub Attribute<span>*</span>
                       </legend>
-                      <select required>
+                      <select required=""  className="mt-1 mb-1">
                         <option value="" disabled selected hidden>
-                          select sub Attribute
+                          Select Sub Attribute
                         </option>
                         <option value="0">Building1</option>
                         <option value="1">Building2</option>
@@ -612,9 +612,9 @@ const RuleEngine = () => {
                       <legend className="float-none">
                         Master Operator<span>*</span>
                       </legend>
-                      <select required>
+                      <select required=""  className="mt-1 mb-1">
                         <option value="" disabled selected hidden>
-                          select Master Operator
+                          Select Master Operator
                         </option>
                         <option value="0">Common Operatives</option>
                         <option value="1">Logical Operatives</option>
@@ -624,18 +624,18 @@ const RuleEngine = () => {
                     </fieldset>
                     <fieldset className="border col-md-5 m-2 col-sm-11">
                       <legend className="float-none">
-                        Sub operator<span>*</span>
+                        Sub Operator<span>*</span>
                       </legend>
-                      <select required>
+                      <select required=""  className="mt-1 mb-1">
                         <option value="" disabled selected hidden>
-                          select sub operator
+                          Select Sub Operator
                         </option>
                         <option value="0">Building1</option>
                         <option value="1">Building2</option>
                       </select>
                     </fieldset>
                   </div>
-                  <div className="row mt-2 justify-content-center">
+                  <div className="row mt-2 justify-content-center mt-5">
                     <div className="col-md-4">
                       <button className="purple-btn1 w-100">
                         Submit
