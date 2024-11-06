@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import "../styles/style.css";
 import Header from "../components/Header";
@@ -24,7 +22,7 @@ const Segment = () => {
   const [formData, setFormData] = useState({
     name: "",
     segment_tag: "",
-    member_count: ""
+    member_count: "",
   });
 
   // const handleSearch = () => {
@@ -35,11 +33,11 @@ const Segment = () => {
   //   setCurrentPage(1);
   // };
 
-
   const handleSearch = () => {
-    const filtered = segments.filter((rule) =>
-      rule.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      rule.segment_tag.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = segments.filter(
+      (rule) =>
+        rule.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        rule.segment_tag.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredItems(filtered);
     setCurrentPage(1);
@@ -81,12 +79,11 @@ const Segment = () => {
     setShowModal(true); // Assuming this controls a modal for editing
   };
 
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -150,7 +147,7 @@ const Segment = () => {
     setSelectedSegment(null);
     setFormData({
       name: "",
-      segment_tag: ""
+      segment_tag: "",
     });
   };
 
@@ -172,8 +169,6 @@ const Segment = () => {
     }
   };
 
-
- 
   //   const handlePageChange = (page) => {
   //     if (page > 0 && page <= totalPages) {
   //       onPageChange(page);
@@ -209,12 +204,7 @@ const Segment = () => {
   //   );
   // };
 
-
-  const Pagination = ({
-    currentPage,
-    totalPages,
-    totalEntries,
-  }) => {
+  const Pagination = ({ currentPage, totalPages, totalEntries }) => {
     const startEntry = (currentPage - 1) * itemsPerPage + 1;
     const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
 
@@ -235,8 +225,8 @@ const Segment = () => {
                 color: i === currentPage ? "#fff" : "#5e2750",
                 backgroundColor: i === currentPage ? "#5e2750" : "#fff",
                 fontWeight: i === currentPage ? "bold" : "normal",
-                border:'2px solid #5e2750',
-                borderRadius:'3px'
+                border: "2px solid #5e2750",
+                borderRadius: "3px",
               }}
             >
               {i}
@@ -341,7 +331,6 @@ const Segment = () => {
     );
   };
 
-
   return (
     <>
       <div className="w-100">
@@ -375,37 +364,36 @@ const Segment = () => {
                 </div>
 
                 <div className="d-flex align-items-center">
-                <div className="position-relative me-3">
-                  <input
-                    className="form-control"
-                    style={{
-                      height: "35px",
-                      paddingLeft: "30px",
-                      textAlign: "left",
-                    }}
-                    type="search"
-                   
-                    aria-label="Search"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <div
-                    className="position-absolute"
-                    style={{ top: "7px", left: "10px" }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-search"
-                      viewBox="0 0 16 16"
+                  <div className="position-relative me-3">
+                    <input
+                      className="form-control"
+                      style={{
+                        height: "35px",
+                        paddingLeft: "30px",
+                        textAlign: "left",
+                      }}
+                      type="search"
+                      aria-label="Search"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <div
+                      className="position-absolute"
+                      style={{ top: "7px", left: "10px" }}
                     >
-                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-search"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                      </svg>
+                    </div>
                   </div>
-                </div>
-                {/* <div className="d-flex flex-wrap justify-content-end">
+                  {/* <div className="d-flex flex-wrap justify-content-end">
                   <div className="d-flex search-input w-50 p-1 ms-0 me-3">
                     <span className="material-symbols-outlined">search</span>
                     <input
@@ -433,22 +421,45 @@ const Segment = () => {
                 </div>
               </div>
               <div className="tbl-container mx-3 mt-4">
-                <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px', align:"center" }}>
+                <table
+                  className="w-100"
+                  style={{
+                    color: "#000",
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    align: "center",
+                  }}
+                >
                   <thead>
                     <tr style={{}}>
-                      <th style={{ width: "400px", fontWeight:'450',fontSize:'13px', height:"40px"   }}>Segment Name</th>
-                      <th style={{ width: "400px", fontWeight:'450',fontSize:'13px', height:"40px"  }}>Segment Tag</th>
-                      <th style={{ width: "400px", fontWeight:'450',fontSize:'13px' , height:"40px"}}>Total Members</th>
-                      <th style={{ width: "400px", fontWeight:'450',fontSize:'13px', height:"40px" }}>Edit</th>
+                      <th style={{ width: "25%" }}>Segment Name</th>
+                      <th style={{ width: "25%" }}>Segment Tag</th>
+                      <th style={{ width: "25%" }}>Total Members</th>
+                      <th style={{ width: "25%" }}>Edit</th>
                     </tr>
                   </thead>
-                  <tbody  >
+                  <tbody>
                     {currentItems.length > 0 ? (
                       currentItems.map((segment, index) => (
-                        <tr  key={segment.id || index}>
-                         <td  style={{ align: 'center', verticalAlign: 'middle' }}>{segment.name}</td>
-                          <td  style={{ align: 'center', fontSize:"13px " ,fontWeight:"700"}}className="">{segment.segment_tag}</td>
-                          <td style={{ align:"center"}}>{segment.member_count}</td>
+                        <tr key={segment.id || index}>
+                          <td
+                            style={{ align: "center", verticalAlign: "middle" }}
+                          >
+                            {segment.name}
+                          </td>
+                          <td
+                            style={{
+                              align: "center",
+                              fontSize: "13px ",
+                              fontWeight: "700",
+                            }}
+                            className=""
+                          >
+                            {segment.segment_tag}
+                          </td>
+                          <td style={{ align: "center" }}>
+                            {segment.member_count}
+                          </td>
                           <td>
                             <button
                               className="btn btn-link"
@@ -474,7 +485,9 @@ const Segment = () => {
                       ))
                     ) : (
                       <tr>
-                        <td style={{ textAlign: 'center' }} colSpan="4">No segments found</td>
+                        <td style={{ textAlign: "center" }} colSpan="4">
+                          No segments found
+                        </td>
                       </tr>
                     )}
                   </tbody>
@@ -513,20 +526,19 @@ const Segment = () => {
             <div className="form-group">
               <label htmlFor="segment_tag">Segment Tag:</label>
               <select
-                      className="form-select"
-                      id="segmentTag"
-                      name="segment_tag"
-                      value={formData.segment_tag}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Select Segment Tag</option>
-                      <option value="Recently joined">Recently joined</option>
-                      <option value="Suspended">Suspended</option>
-                      <option value="1-purchase">1-purchase</option>
-                      <option value="No purchase">No purchase</option>
-                    </select>
-
+                className="form-select"
+                id="segmentTag"
+                name="segment_tag"
+                value={formData.segment_tag}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Select Segment Tag</option>
+                <option value="Recently joined">Recently joined</option>
+                <option value="Suspended">Suspended</option>
+                <option value="1-purchase">1-purchase</option>
+                <option value="No purchase">No purchase</option>
+              </select>
             </div>
             <Button variant="primary" type="submit" className="mt-3">
               Save Changes

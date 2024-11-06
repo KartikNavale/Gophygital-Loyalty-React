@@ -557,7 +557,6 @@ input[type="checkbox"] {
 }
 
 .tbl-container th {
-  width: 20%;
   font-weight: 400;
   font-size: 13px;
   border-right: 1px solid white;

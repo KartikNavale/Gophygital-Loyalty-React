@@ -477,11 +477,11 @@ const Tiers = () => {
                   <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                     <thead style={{textAlign:'left'}}>
                       <tr>
-                        <th>Tier Name</th>
-                        <th>Exit Points</th>
-                        <th>Multipliers</th>
-                        <th>Welcome Bonus</th>
-                        <th>Edit</th>
+                        <th style={{width: '20%'}}>Tier Name</th>
+                        <th style={{width: '20%'}}>Exit Points</th>
+                        <th style={{width: '20%'}}>Multipliers</th>
+                        <th style={{width: '20%'}}>Welcome Bonus</th>
+                        <th style={{width: '20%'}}>Edit</th>
                       </tr>
                     </thead>
                     <tbody>
