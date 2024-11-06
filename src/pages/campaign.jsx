@@ -447,7 +447,7 @@ const Campaign = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/new-campaign">
-              <button className="purple-btn1 rounded-3">
+              <button className="purple-btn1" style={{borderRadius:'5px'}}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"

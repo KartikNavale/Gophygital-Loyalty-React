@@ -388,7 +388,7 @@ const RuleEngine = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/create-rule-engine">
-              <button className="purple-btn1 rounded-3">
+              <button className="purple-btn1" style={{borderRadius:'5px'}}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -574,8 +574,10 @@ const RuleEngine = () => {
                   ></button>
                 </div>
                 <div className="modal-body" >
+                  {/* <p className="title" style={{fontSize:'14px',fontWeight:'400'}}>Attributes</p> */}
+                  <div className="row" >
                   <p className="title" style={{fontSize:'14px',fontWeight:'400'}}>Attributes</p>
-                  <div className="row ms-1" >
+                  <div className="row ms-2">
                     <fieldset className="border col-md-5 m-2 col-sm-11">
                       <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                       Master Attribute<span>*</span>
@@ -605,10 +607,13 @@ const RuleEngine = () => {
                         <option value="1">Building2</option>
                       </select>
                     </fieldset>
+                    </div>
                   </div>
-                  <p className="title" style={{fontSize:'14px',fontWeight:'400'}}>Operator</p>
-                  <div className="row ms-1 mt-2" >
-                    <fieldset className="border col-md-5 m-2 col-sm-11">
+                  {/* <p className="title mt-2" style={{fontSize:'14px',fontWeight:'400'}}>Operator</p> */}
+                  <div className="row mt-2" >
+                  <p className="title mt-2" style={{fontSize:'14px',fontWeight:'400'}}>Operator</p>
+                  <div className="row ms-2">
+                  <fieldset className="border col-md-5 m-2 col-sm-11">
                       <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                         Master Operator<span>*</span>
                       </legend>
@@ -634,6 +639,34 @@ const RuleEngine = () => {
                         <option value="1">Building2</option>
                       </select>
                     </fieldset>
+
+                  </div>
+                    {/* <fieldset className="border col-md-5 m-2 col-sm-11">
+                      <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+                        Master Operator<span>*</span>
+                      </legend>
+                      <select required=""  className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}}>
+                        <option value="" disabled selected hidden>
+                          Select Master Operator
+                        </option>
+                        <option value="0">Common Operatives</option>
+                        <option value="1">Logical Operatives</option>
+                        <option value="2">Date/Time Operatives</option>
+                        <option value="3">Tier Operatives</option>
+                      </select>
+                    </fieldset>
+                    <fieldset className="border col-md-5 m-2 col-sm-11">
+                      <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+                        Sub Operator<span>*</span>
+                      </legend>
+                      <select required=""  className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}}>
+                        <option value="" disabled selected hidden>
+                          Select Sub Operator
+                        </option>
+                        <option value="0">Building1</option>
+                        <option value="1">Building2</option>
+                      </select>
+                    </fieldset> */}
                   </div>
                   <div className="row mt-2 justify-content-center mt-5">
                     <div className="col-md-4">
