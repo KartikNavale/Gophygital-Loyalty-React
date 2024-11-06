@@ -152,7 +152,7 @@ const NewTier = () => {
             <div className="text-danger ms-4">{timeframeError}</div>
           )}
           <div
-            className="row mt-2 justify-content-center"
+            className="row mt-2 justify-content-center align-items-center"
             style={{ position: "absolute", bottom: 0, width: "100%" }}
           >
             <div className="col-md-2">
