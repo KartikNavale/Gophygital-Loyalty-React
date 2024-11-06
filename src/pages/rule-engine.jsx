@@ -582,7 +582,7 @@ const RuleEngine = () => {
                       </legend>
                       <select required="" className="mt-1 mb-1">
                         <option value="" disabled selected hidden>
-                        User Action
+                        Select Master Attribute
                         </option>
                         <option value="0">User Actions</option>
                         <option value="1">Transaction Events</option>
@@ -601,7 +601,7 @@ const RuleEngine = () => {
                         <option value="" disabled selected hidden>
                           Select Sub Attribute
                         </option>
-                        <option value="0">Building1</option>
+                        <option value="0">Referral</option>
                         <option value="1">Building2</option>
                       </select>
                     </fieldset>
