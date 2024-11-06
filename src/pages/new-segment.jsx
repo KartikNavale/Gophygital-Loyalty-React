@@ -70,129 +70,63 @@ const NewSegment = () => {
     fetchTierLevels();
   }, []);
 
-  // const handleSubmit = async (values) => {
-  //   values.preventDefault();
-
-   
-
-  //   if (
-  //     !name ||
-  //     !segment_tag ||
-  //     !segment_type ||
-  //     segment_members.length === 0 // Ensure at least one member is selected
-  //   ) {
-  //     setError(
-  //       "All fields are required, and at least one member must be selected."
-  //     );
-  //     return;
-  //   }
-
-  //   const data1 = {
-  //     name, // Updated key name
-  //     segment_tag,
-
-  //     segment_type,
-
-  //     loyalty_type_id: storedValue,
-
-  //     // Updated key name
-  //   };
-  //   console.log(data1);
-
-  //   console.log(data1.name);
-  //   const data = {
-  //     loyalty_segment: {
-  //       name: data1.name,
-  //       segment_tag: data1.segment_tag,
-  //       // segment_filters: data1.segment_filters,
-  //       segment_type: data1.segment_type,
-  //       // loyalty_tier_id: Number(data1.loyalty_tier_id)
-
-  //       loyalty_type_id: storedValue,
-
-  //       loyalty_members: { member_ids: segment_members },
-  //     },
-  //   };
-  //   console.log(data);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
-
-  //       data
-  //     );
-  //     console.log("data posted");
-  //     if (response.statusText === "Created") {
-  //       setSuccessMessage("Segment created successfully!");
-  //       alert("Segment created successfully!");
-
-  //       clearForm();
-
-  //       console.log(data, "Navigating to /Segment");
-  //       navigate("/Segment");
-
-  //       console.log(response, data);
-  //     }
-  //   } catch (error) {
-  //     setError("Failed to create segment. Please try again.");
-  //   }
-  // };
-
-
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (
-    !name ||
-    !segment_tag ||
-    !segment_type ||
-    segment_members.length === 0 // Ensure at least one member is selected
-  ) {
-    toast.error("All Mandatory field are required, and at least one member must be selected.", {
-      position: "top-center",
-      autoClose: 3000,
-    });
-    return;
-  }
+    if (
+      !name ||
+      !segment_tag ||
+      !segment_type ||
+      segment_members.length === 0 // Ensure at least one member is selected
+    ) {
+      toast.error(
+        "All Mandatory field are required, and at least one member must be selected.",
+        {
+          position: "top-center",
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
 
-  // Proceed with form submission if all fields are filled
-  const data1 = {
-    name,
-    segment_tag,
-    segment_type,
-    loyalty_type_id: storedValue,
-  };
-
-  const data = {
-    loyalty_segment: {
-      name: data1.name,
-      segment_tag: data1.segment_tag,
-      segment_type: data1.segment_type,
+    // Proceed with form submission if all fields are filled
+    const data1 = {
+      name,
+      segment_tag,
+      segment_type,
       loyalty_type_id: storedValue,
-      loyalty_members: { member_ids: segment_members },
-    },
-  };
+    };
 
-  try {
-    const response = await axios.post(
-      "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
-      data
-    );
-    if (response.statusText === "Created") {
-      toast.success("Segment created successfully!", {
+    const data = {
+      loyalty_segment: {
+        name: data1.name,
+        segment_tag: data1.segment_tag,
+        segment_type: data1.segment_type,
+        loyalty_type_id: storedValue,
+        loyalty_members: { member_ids: segment_members },
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+        data
+      );
+      if (response.statusText === "Created") {
+        toast.success("Segment created successfully!", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+        clearForm();
+        navigate("/Segment");
+      }
+    } catch (error) {
+      toast.error("Failed to create segment. Please try again.", {
         position: "top-center",
         autoClose: 3000,
       });
-      clearForm();
-      navigate("/Segment");
     }
-  } catch (error) {
-    toast.error("Failed to create segment. Please try again.", {
-      position: "top-center",
-      autoClose: 3000,
-    });
-  }
-};
+  };
 
   const clearForm = () => {
     setName(""); // Updated: Clear name field
@@ -463,29 +397,27 @@ const NewSegment = () => {
       <div className="w-100">
         <SubHeader />
         <div className="module-data-section mt-2">
-          <p className="pointer">
-            <span className="text-secondary">Segment</span> &gt; New Segment
+          <p className="pointer ">
+            <span className="">Segment</span> &gt; New Segment
           </p>
-          <h5 className="mb-3 title">New Segment</h5>
-          <div className="go-shadow me-3 pb-4" >
-            <div className="row ms-1 mt-4  ">
-              <fieldset className="border col-md-3 m-2 col-sm-11">
-                <legend className="float-none"
-                
-                style={{
-                  fontSize: '14px',           // Adjust font size for visibility
-                 
-                  padding: '6px',           // Padding to ensure full visibility of text
-                  lineHeight: '1.2',          // Adjust line-height for better readability
-                  marginBottom: '-8px',       // Slight negative margin if legend is too high
-                }}>
-                
+          <h5 className="mb-1 title ms-3" style={{ marginBottom: "30px" ,marginTop: "33px" }}>New Segment</h5>
+          {/* <div className="go-shadow me-3 pb-4"> */}
+            <div className="row ms-2 mt-2" style={{ marginBottom: "30px" }}>
+              <fieldset className="border col-md-3 m-2 col-sm-11 ">
+                <legend
+                  className="float-none"
+                  style={{
+                    fontSize: "14px", // Adjust font size for visibility
+
+                    padding: "6px", // Padding to ensure full visibility of text
+                    lineHeight: "1.2", // Adjust line-height for better readability
+                    marginBottom: "-8px", // Slight negative margin if legend is too high
+                  }}
+                >
                   Segment Name<span>*</span>
                 </legend>
-              
 
                 <input
-                
                   type="text"
                   className="border w-100 p-2 py-2 border-bottom pb-2 border-0 border-bottom-0 bold-placeholder"
                   placeholder="Enter Segment Name"
@@ -502,30 +434,23 @@ const NewSegment = () => {
               </fieldset>
 
               <fieldset className="border col-md-3 m-2 col-sm-11 ">
-                <legend className="float-none"
-                 style={{
-                  fontSize: '14px',           // Adjust font size for visibility
-                 
-                  padding: '6px',           // Padding to ensure full visibility of text
-                  lineHeight: '1.2',          // Adjust line-height for better readability
-                  marginBottom: '-8px',       // Slight negative margin if legend is too high
-                }}>
-                
-                
+                <legend
+                  className="float-none"
+                  style={{
+                    fontSize: "14px", // Adjust font size for visibility
+
+                    padding: "6px", // Padding to ensure full visibility of text
+                    lineHeight: "1.2", // Adjust line-height for better readability
+                    marginBottom: "-8px", // Slight negative margin if legend is too high
+                  }}
+                >
                   Segment tag<span>*</span>
                 </legend>
                 <select
-                 className="mt-1 mb-1"
+                  className="mt-1 mb-1"
                   required=""
                   value={segment_tag}
                   onChange={(e) => setSegmentTag(e.target.value)}
-                  // style={{
-                  //   height: '40px',
-                  //   width: '100%',
-                  //   padding: '8px',
-                     
-                  //   boxSizing: 'border-box',
-                  // }}
                 >
                   <option value="" disabled selected hidden>
                     Select Segment tag
@@ -539,29 +464,23 @@ const NewSegment = () => {
               </fieldset>
 
               <fieldset className="border col-md-3 m-2 col-sm-11">
-                <legend className="float-none"
-                 style={{
-                  fontSize: '14px',           // Adjust font size for visibility
-                 
-                  padding: '6px',           // Padding to ensure full visibility of text
-                  lineHeight: '1.2',          // Adjust line-height for better readability
-                  marginBottom: '-8px',       // Slight negative margin if legend is too high
-                }}>
-                
+                <legend
+                  className="float-none"
+                  style={{
+                    fontSize: "14px", // Adjust font size for visibility
+
+                    padding: "6px", // Padding to ensure full visibility of text
+                    lineHeight: "1.2", // Adjust line-height for better readability
+                    marginBottom: "-8px", // Slight negative margin if legend is too high
+                  }}
+                >
                   Segment type<span>*</span>
-                  
                 </legend>
                 <select
-                 className="mt-1 mb-1"
+                  className="mt-1 mb-1"
                   required=""
                   value={segment_type}
                   onChange={(e) => setSegmentType(e.target.value)}
-                  // style={{
-                  //   height: '40px',
-                  //   width: '100%',
-                  //   padding: '8px',
-                  //   boxSizing: 'border-box',
-                  // }}
                 >
                   <option value="" disabled selected hidden>
                     Select segment type
@@ -575,27 +494,44 @@ const NewSegment = () => {
               </fieldset>
 
               {/* Filter Element */}
+
+              
               <div className="filter-container mt-4">
                 <h5 className="filter-label">Filter Members</h5>
                 <div className="filter-fields d-flex flex-wrap border p-3">
                   <div className="filter-field m-2">
-                    <label htmlFor="enrollmentDate">Enrollment Date</label>
+                    <label htmlFor="enrollmentDate"
+                     style={{
+                      fontSize: "14px", 
+                      fontWeight: "400", 
+                      marginBottom: "5px", 
+                      display: "block"
+                    }}
+                    >Enrollment Date</label>
                     <input
                       type="date"
                       id="enrollmentDate"
                       name="enrollmentDate"
-                      className="form-control"
+                      className="form-control border w-100 p-2 py-2  pb-2 bold-placeholder"
                       value={formValues.enrollmentDate}
                       onChange={handleChange}
+                     
                     />
                   </div>
 
                   <div className="filter-field m-2">
-                    <label htmlFor="status">Status</label>
+                    <label htmlFor="status"
+                     style={{
+                      fontSize: "14px", 
+                      fontWeight: "400", 
+                      marginBottom: "5px", 
+                      display: "block"
+                    }}
+                    >Status</label>
                     <select
                       id="status"
                       name="status"
-                      className="form-control"
+                      className="form-control form-control border w-100 p-2 py-2  pb-2 bold-placeholder"
                       value={formValues.status}
                       onChange={handleChange}
                     >
@@ -607,41 +543,93 @@ const NewSegment = () => {
                     </select>
                   </div>
 
-                  <div className="filter-field m-2">
-                    <label htmlFor="gender">Gender</label>
+                   <div className="filter-field m-2">
+                    <label htmlFor="gender"
+                     style={{
+                      fontSize: "14px", 
+                      fontWeight: "400", 
+                      marginBottom: "5px", 
+                      display: "block"
+                    
+                      
+                    }}
+                    >Gender</label>
                     <select
+                    
                       id="gender"
                       name="gender"
-                      className="form-control"
+                      className="form-control form-control form-control border w-100 p-2 py-2  pb-2 "
                       value={formValues.gender}
                       onChange={handleChange}
+                      
                     >
-                      <option value="" disabled hidden>
-                        Select gender
+                      <option value="" disabled selected hidden>
+                        Select gender 
                       </option>
                       <option value="m">Male</option>
                       <option value="f">Female</option>
                     </select>
-                  </div>
+                  </div> 
+{/* 
+<fieldset className="border col-md-3 m-2 ">
+  <legend
+    className="float-none"
+    style={{
+      fontSize: "14px",
+      padding: "6px",
+      lineHeight: "1.2",
+      marginBottom: "-8px",
+    }}
+  >
+    Gender<span>*</span>
+  </legend>
+  <select
+    id="gender"
+    name="gender"
+    className="custom-select mt-1 mb-1 w-100"
+    value={formValues.gender}
+    onChange={handleChange}
+  >
+    <option value="" disabled hidden>
+      Select gender
+    </option>
+    <option value="m">Male</option>
+    <option value="f">Female</option>
+  </select>
+</fieldset> */}
 
                   <div className="filter-field m-2">
-                    <label htmlFor="activatedDate">Activated Date</label>
+                    <label htmlFor="activatedDate"
+                     style={{
+                      fontSize: "14px", 
+                      fontWeight: "400", 
+                      marginBottom: "5px", 
+                      display: "block"
+                    }}
+                    >Activated Date</label>
                     <input
                       type="date"
                       id="activatedDate"
                       name="activatedDate"
-                      className="form-control"
+                      className="form-control form-control form-control border w-100 p-2 py-2  pb-2 bold-placeholder"
                       value={formValues.activatedDate}
                       onChange={handleChange}
                     />
                   </div>
 
                   <div className="filter-field m-2">
-                    <label htmlFor="tierLevel">Tier Level</label>
+                    <label htmlFor="tierLevel"
+                     style={{
+                      fontSize: "14px", 
+                      fontWeight: "400", 
+                      marginBottom: "5px", 
+                      display: "block"
+                    }}
+                    >Tier Level</label>
                     <select
                       id="tierLevel"
                       name="tierLevel"
-                      className="form-control"
+                      className="form-control form-control form-control border w-100 p-2 py-2  pb-2 bold-placeholder"
                       value={formValues.tierLevel}
                       onChange={handleChange}
                     >
@@ -660,38 +648,101 @@ const NewSegment = () => {
                   <div className=" d-flex align-items-center mt-4 ml-5">
                     <button
                       type="button"
-                      className=" ml-5 purple-btn1"
+                      className=" ml-5 purple-btn1 ms-3 "
                       onClick={handleFilter}
-                      // style={{
-                      //   minWidth: "100px", // Same width as select fields
-                      //   height: "38px", // Same height as input/select fields
-                      // }}
                     >
                       Apply Filter
                     </button>
                   </div>
                 </div>
-
-                {/* Submit and Cancel Buttons */}
-
-                {/* End Filter Element */}
               </div>
             </div>
             {/* Display Filtered Data */}
             <div className="filtered-data-section mt-4">
-              <h5>Members List</h5>
-              { showMembers && filteredData.length > 0 ? (
+              <h5 className="ms-3">Members List</h5>
+              {showMembers && filteredData.length > 0 ? (
                 <div className="tbl-container mx-3 mt-4">
-                  <table className="w-100 "  style={{color: '#000', fontWeight:'400',fontSize:'13px', align:"center" }}>
+                  <table
+                    className="w-100 "
+                    style={{
+                      color: "#000",
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      align: "center",
+                    }}
+                  >
                     <thead>
                       <tr>
-                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Select</th>
-                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Name</th>
-                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Email</th>
-                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Address</th>
-                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Gender</th>
-                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Status</th>
-                        <th style={{ width: "400px", fontWeight:'400',fontSize:'13px', height:"40px" }}>Loyalty Points</th>
+                        <th
+                          style={{
+                            width: "400px",
+                            fontWeight: "400",
+                            fontSize: "13px",
+                            height: "40px",
+                          }}
+                        >
+                          Select
+                        </th>
+                        <th
+                          style={{
+                            width: "400px",
+                            fontWeight: "400",
+                            fontSize: "13px",
+                            height: "40px",
+                          }}
+                        >
+                          Name
+                        </th>
+                        <th
+                          style={{
+                            width: "400px",
+                            fontWeight: "400",
+                            fontSize: "13px",
+                            height: "40px",
+                          }}
+                        >
+                          Email
+                        </th>
+                        <th
+                          style={{
+                            width: "400px",
+                            fontWeight: "400",
+                            fontSize: "13px",
+                            height: "40px",
+                          }}
+                        >
+                          Address
+                        </th>
+                        <th
+                          style={{
+                            width: "400px",
+                            fontWeight: "400",
+                            fontSize: "13px",
+                            height: "40px",
+                          }}
+                        >
+                          Gender
+                        </th>
+                        <th
+                          style={{
+                            width: "400px",
+                            fontWeight: "400",
+                            fontSize: "13px",
+                            height: "40px",
+                          }}
+                        >
+                          Status
+                        </th>
+                        <th
+                          style={{
+                            width: "400px",
+                            fontWeight: "400",
+                            fontSize: "13px",
+                            height: "40px",
+                          }}
+                        >
+                          Loyalty Points
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -739,7 +790,7 @@ const NewSegment = () => {
                 </p>
               )}
             </div>
-            <div className="row mt-2 justify-content-center">
+            <div className="row mt-5 justify-content-center">
               <div className="col-md-2">
                 <button className="purple-btn1 w-100" onClick={handleSubmit}>
                   Submit
@@ -757,7 +808,7 @@ const NewSegment = () => {
             )}
           </div>
         </div>
-      </div>
+      {/* </div> */}
       <ToastContainer />
     </>
   );

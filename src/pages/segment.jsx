@@ -117,7 +117,9 @@ const Segment = () => {
         const response = await axios.put(
           `https://staging.lockated.com/loyalty/segments/${selectedSegment.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
           { loyalty_segment: formData }
+        
         );
+        console.log(response)
         if (response) {
           // Update segments state
           const updatedSegments = segments.map((segment) =>
@@ -335,7 +337,8 @@ const Segment = () => {
     <>
       <div className="w-100">
         <SubHeader />
-        <div className="module-data-section mt-2">
+        <div className="module-data-section mt-2"
+        >
           <p className="pointer">
             <span className="text-secondary">Segment</span> &gt; Segment List
           </p>
@@ -420,16 +423,10 @@ const Segment = () => {
                   </button>
                 </div>
               </div>
-              <div className="tbl-container mx-3 mt-4">
-                <table
-                  className="w-100"
-                  style={{
-                    color: "#000",
-                    fontWeight: "400",
-                    fontSize: "13px",
-                    align: "center",
-                  }}
-                >
+              <div className="tbl-container mx-3 mt-4"
+              //  style={{ maxHeight: "400px", overflowY: "scroll", overflowX: "auto" }}>
+              >
+                <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px', align:"center" }}>
                   <thead>
                     <tr style={{}}>
                       <th style={{ width: "25%" }}>Segment Name</th>
