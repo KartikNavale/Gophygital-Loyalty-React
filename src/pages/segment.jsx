@@ -342,7 +342,7 @@ const Segment = () => {
           <p className="pointer">
             <span className="text-secondary">Segment</span> &gt; Segment List
           </p>
-          <h5 className="mb-3">Segment</h5>
+          <h5>Segment</h5>
           {loading && <p>Loading segments...</p>}
           {error && <p className="text-danger">{error}</p>}
           {!loading && !error && (

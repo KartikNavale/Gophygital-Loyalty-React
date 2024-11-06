@@ -442,7 +442,7 @@ const Campaign = () => {
           <p className="pointer">
             <span className="text-secondary">Campaign</span> &gt; Campaign List
           </p>
-          <h5 className="mb-3">Campaign</h5>
+          <h5>Campaign</h5>
 
 
           <div className="d-flex justify-content-between align-items-center">

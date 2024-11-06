@@ -416,7 +416,7 @@ const Members = () => {
           <p className="pointer">
             <span className="text-secondary">Members</span> &gt; Manage Members
           </p>
-          <h5 className="mb-3">Manage Members</h5>
+          <h5>Manage Members</h5>
           {/* <div className="d-flex justify-content-between loyalty-header">
             <div>
               <Link to="">

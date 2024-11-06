@@ -384,7 +384,7 @@ const RuleEngine = () => {
           <p className="pointer">
             <span className="text-secondary">Rule Engine</span> &gt; Rule List
           </p>
-          <h5 className="mb-3">Rule List</h5>
+          <h5>Rule List</h5>
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/create-rule-engine">

@@ -395,7 +395,7 @@ const Tiers = () => {
           <p className="pointer" >
             <span className="text-secondary">Tiers</span> &gt; Tier List
           </p>
-          <h5 className="mb-3">Tiers</h5>
+          <h5>Tiers</h5>
           <div className="loyalty-header">
             <div className="d-flex justify-content-between align-items-center">
               <Link to="/new-tier">
