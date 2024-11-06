@@ -276,12 +276,12 @@ section .locked img {
 .sidebar {
   padding-left: 2.5px;
   /* max-width: max-content; */
-  width: 12rem;
+  width: 12.7rem;
   z-index: 20;
   height: 91vh;
   background: #2c001e;
   padding-bottom: 100px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 
@@ -296,8 +296,7 @@ section .locked img {
 }
 
 .module-data-section {
-  margin-left: 25px;
-  margin-bottom: 20px;
+padding: 0rem 1rem 2rem 1rem;
 }
 
 .sidebar ul li a {
@@ -397,9 +396,10 @@ a.purple-btn1:hover {
 }
 
 .page-link {
+  padding: 6px 10px !important;
   color: black; /* Text color for links */
   background-color: white; /* White background for links */
-  border: 1px solid #5e2750; /* Purple border for links */
+  border: 1px solid #5e2750 !important; /* Purple border for links */
   border-radius: 4px; /* Rounded corners for links */
   transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
 }
@@ -542,14 +542,12 @@ fieldset input {
 }
 
 .tbl-container {
-  overflow: auto;
   height: max-content;
-  margin: 10px 0;
 }
 .tbl-container table {
   overflow: auto;
   height: 100%;
-  margin: 10px 0;
+  margin: 10px 2px !important;
 }
 
 ::-webkit-scrollbar {
