@@ -348,7 +348,7 @@ const CreateRuleEngine = () => {
     <div key={condition.id} className="SetRuleCard">
       <div>
         <h6 className="mt-3">
-          <span>Condition {condition.id}
+          <span style={{fontSize:'18px',fontWeight:'600'}}>Condition {condition.id}
             <button
               onClick={() => removeCondition(condition.id)}
               className="ms-3"
@@ -433,18 +433,18 @@ const CreateRuleEngine = () => {
         {/* ......if ..... */}
         <div>
           <h4>
-            <span className="badge setRuleCard">IF</span>
+            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>IF</span>
           </h4>
           <div className="row ms-1 mt-2">
             {/* Attribute section */}
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                 Master Attribute<span>*</span>
               </legend>
               <select
                 required=""
                 className="p-1  mt-1 mb-1"
-
+                style={{fontSize:'12px',fontWeight:'400'}}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
                     idx === index
@@ -469,12 +469,13 @@ const CreateRuleEngine = () => {
               <h4>&</h4>
             </div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                 Sub Attribute<span>*</span>
               </legend>
               <select
                 required=""
                 className="p-1  mt-1 mb-1"
+                style={{fontSize:'12px',fontWeight:'400'}}
                 disabled={!condition.masterAttribute}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -500,16 +501,17 @@ const CreateRuleEngine = () => {
         {/* Operator section */}
         <div className="mt-3">
           <h4>
-            <span className="badge setRuleCard">Operator</span>
+            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Operator</span>
           </h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                 Master Operator<span>*</span>
               </legend>
               <select
                 required=""
                 className="p-1 mt-1 mb-1"
+                style={{fontSize:'12px',fontWeight:'400'}}
                 value={condition.masterOperator}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -533,12 +535,13 @@ const CreateRuleEngine = () => {
               <h4>&</h4>
             </div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                 Sub Operator<span>*</span>
               </legend>
               <select
                 required=""
                 className="p-1  mt-1 mb-1"
+                style={{fontSize:'12px',fontWeight:'400'}}
                 disabled={!condition.masterOperator}
                 value={condition.subOperator}
                 onChange={(e) => {
@@ -564,16 +567,17 @@ const CreateRuleEngine = () => {
         {/* Value section */}
         <div className="mt-3">
           <h4>
-            <span className="badge setRuleCard">Value</span>
+            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Value</span>
           </h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                 Value<span>*</span>
               </legend>
               <input
                 type="text"
                 className="p-1 mt-1 mb-1"
+                style={{fontSize:'12px',fontWeight:'400'}}
                 placeholder="Enter Point Value"
                 value={condition.value}
                 onChange={(e) => {
@@ -601,12 +605,12 @@ const CreateRuleEngine = () => {
             <span className="text-secondary">Rule Engine</span> &gt; New Rule
           </p>
           <h5 className="mb-3">
-            <span className="title">New Rule</span>
+            <span className="title" style={{fontSize:'20px',fontWeight:'600'}}>New Rule</span>
           </h5>
           <div className="go-shadow me-3">
             <div className="row ms-1">
               <fieldset className="border col-md-11 m-2 col-sm-11">
-                <legend className="float-none">
+                <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                   New Rule<span>*</span>
                 </legend>
                 <input
@@ -615,6 +619,7 @@ const CreateRuleEngine = () => {
                   value={ruleName}
                   onChange={(e) => setRuleName(e.target.value)}
                   className="mt-1 mb-1"
+                  style={{fontSize:'12px',fontWeight:'400'}}
                 />
               </fieldset>
             </div>
@@ -626,7 +631,7 @@ const CreateRuleEngine = () => {
             <button
               className="setRuleCard2 mt-2"
               onClick={addCondition}
-              style={{ color: "black" }}
+              style={{ color: "black",fontSize:'16px',fontWeight:"500" }}
             >
               <span>
                 <svg
@@ -646,16 +651,17 @@ const CreateRuleEngine = () => {
             {/* THEN section */}
             <div className="mt-3">
               <h4>
-                <span className="badge setRuleCard">THEN</span>
+                <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>THEN</span>
               </h4>
               <div className="row ms-1 mt-2">
                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none">
+                  <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                     Master Reward Outcome<span>*</span>
                   </legend>
                   <select
                     required=""
                     className="p-1 mt-1 mb-1"
+                    style={{fontSize:'12px',fontWeight:'400'}}
                     onChange={handleMasterSubRewardOutcomeChange}
                     value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
                   >
@@ -672,12 +678,13 @@ const CreateRuleEngine = () => {
                   <h4>&</h4>
                 </div>
                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none">
+                  <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                     Sub Reward Outcome<span>*</span>
                   </legend>
                   <select
                     required=""
                     className="p-1 mt-1 mb-1"
+                    style={{fontSize:'12px',fontWeight:'400'}}
                     disabled={!selectedMasterRewardOutcomes}
                     onChange={(e) => {
                       const selectedId = e.target.value; // Get the selected sub-reward outcome ID
@@ -704,10 +711,10 @@ const CreateRuleEngine = () => {
                     <h4>=</h4>
                   </div> */}
                 <fieldset className="border col-md-3 m-2 col-sm-11 ">
-                  <legend className="float-none">
+                  <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                     Parameter {/* <span>*</span> */}
                   </legend>
-                  <input type="text" placeholder="Enter Point Value" value={parameter} onChange={(e) => setParameter(e.target.value)} className="mt-1 mb-1" />
+                  <input type="text" placeholder="Enter Parameter Value" value={parameter} onChange={(e) => setParameter(e.target.value)} className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}} />
                 </fieldset>
               </div>
             </div>

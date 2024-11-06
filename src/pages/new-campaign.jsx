@@ -361,7 +361,7 @@ const NewCampaign = () => {
       <p className="pointer">
         <span className="text-secondary">Campaign</span> &gt; New Campaign
       </p>
-      <h5 className="mb-3 title">New Campaign</h5>
+      <h5 className="mb-3 title" style={{fontSize:'20px',fontWeight:'600'}}>New Campaign</h5>
       <form onSubmit={handleSubmit} className="go-shadow me-3 pt-3"
       // style={{
       //   height: "100%",
@@ -378,16 +378,18 @@ const NewCampaign = () => {
                 name="name"
                 value={formValues.name}
                 onChange={handleChange}
+                style={{fontSize:'12px',fontWeight:'400'}}
               />
               {errors.name && <p className="text-danger">{errors.name}</p>}
             </div>
           </div>
           <div className="row ms-1 mt-4">
             <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
-              <legend className="float-none" ClassName="">
+              <legend className="float-none" ClassName="" style={{fontSize:'14px',fontWeight:'400'}}>
                 Target Audience<span>*</span>
               </legend>
               <select
+              style={{fontSize:'12px',fontWeight:'400'}}
                 name="target_audiance"
                 value={formValues.target_audiance}
                 onChange={handleChange}
@@ -404,10 +406,11 @@ const NewCampaign = () => {
             </fieldset>
 
             <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
-              <legend className="float-none">
+              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                 Campaign Type<span>*</span>
               </legend>
               <select
+              style={{fontSize:'12px',fontWeight:'400'}}
                 name="campaign_type"
                 value={formValues.campaign_type}
                 onChange={handleChange}
@@ -425,10 +428,11 @@ const NewCampaign = () => {
             </fieldset>
 
             <fieldset className="border col-lg-3 col-md-5 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                 Tier Level<span>*</span>
               </legend>
               <select
+              style={{fontSize:'12px',fontWeight:'400'}}
                 name="loyalty_tier_id"
                 value={formValues.loyalty_tier_id}
                 onChange={handleChange}
@@ -446,7 +450,7 @@ const NewCampaign = () => {
         </div>
        
         <div className="mt-2">
-          <p className="fw-bold">
+          <p className="fw-bold" style={{fontSize:'16px',fontWeight:'500'}}>
             Points Criteria<span style={{ color: "#E95420" }}>*</span>
           </p>
           <p>
@@ -457,12 +461,12 @@ const NewCampaign = () => {
               checked={formValues.campaign_reward}
               onChange={handleChange}
             />
-            <span className="align-middle" style={{color:'#00000099'}}>Send points to existing members.</span>
+            <span className="align-middle" style={{color:'#00000099',fontSize:'13.63px',fontWeight:'400'}}>Send points to existing members.</span>
           </p>
         </div>
 
         <div className="mt-5">
-          <p className="fw-bold">
+          <p className="fw-bold" style={{fontSize:'16px',fontWeight:'600'}}>
             Campaign Rewards<span style={{ color: '#E95420' }}>*</span>
           </p>
         </div>

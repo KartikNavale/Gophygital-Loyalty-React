@@ -527,13 +527,13 @@ const Campaign = () => {
                 <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                   <thead>
                     <tr>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Campaign Name</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Campaign Tag</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Target Audience</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Edit</th>
+                      <th>Campaign Name</th>
+                      <th>Campaign Tag</th>
+                      <th>Target Audience</th>
+                      <th>Edit</th>
                     </tr>
                   </thead>
-                  <tbody style={{color: '#000', fontWeight:'450',fontSize:'13px', textAlign:"center"}}>
+                  <tbody style={{color: '#000', fontWeight:'400',fontSize:'13px', textAlign:"center"}}>
                     {currentItems.map((campaign) => (
                       <tr key={campaign.id}>
                         <td style={{ width: '25%' }}>{campaign.name}</td>

@@ -483,18 +483,18 @@ const RuleEngine = () => {
                 <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                   <thead>
                     <tr>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Rule Name</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Attribute</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Sub-Attribute</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Operatives</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Sub Operatives</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Reward Outcome</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Sub Reward Outcome</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Toggle</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>View</th>
+                      <th>Rule Name</th>
+                      <th>Attribute</th>
+                      <th>Sub-Attribute</th>
+                      <th>Operatives</th>
+                      <th>Sub Operatives</th>
+                      <th>Reward Outcome</th>
+                      <th>Sub Reward Outcome</th>
+                      <th>Toggle</th>
+                      <th>View</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                     {currentItems.map((rule) => {
                       const { id, name, conditions, active, actions } = rule;
                       return conditions.map((condition, index) => (
@@ -563,7 +563,7 @@ const RuleEngine = () => {
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header py-1 mt-1">
-                  <h5 className="modal-title" id="viewModalLabel">
+                  <h5 className="modal-title" id="viewModalLabel" style={{fontSize:'16px',fontWeight:'600'}}>
                     Filter By
                   </h5>
                   <button
@@ -573,14 +573,14 @@ const RuleEngine = () => {
                     aria-label="Close"
                   ></button>
                 </div>
-                <div className="modal-body">
-                  <p className="title">Attributes</p>
-                  <div className="row ms-1 mt-2">
+                <div className="modal-body" >
+                  <p className="title" style={{fontSize:'14px',fontWeight:'400'}}>Attributes</p>
+                  <div className="row ms-1" >
                     <fieldset className="border col-md-5 m-2 col-sm-11">
-                      <legend className="float-none">
+                      <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                       Master Attribute<span>*</span>
                       </legend>
-                      <select required="" className="mt-1 mb-1">
+                      <select required="" className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}}>
                         <option value="" disabled selected hidden>
                         Select Master Attribute
                         </option>
@@ -594,10 +594,10 @@ const RuleEngine = () => {
                       </select>
                     </fieldset>
                     <fieldset className="border col-md-5 m-2 col-sm-11">
-                      <legend className="float-none">
+                      <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                         Sub Attribute<span>*</span>
                       </legend>
-                      <select required=""  className="mt-1 mb-1">
+                      <select required=""  className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}}>
                         <option value="" disabled selected hidden>
                           Select Sub Attribute
                         </option>
@@ -606,13 +606,13 @@ const RuleEngine = () => {
                       </select>
                     </fieldset>
                   </div>
-                  <p className="title">Operator</p>
-                  <div className="row ms-1 mt-2">
+                  <p className="title" style={{fontSize:'14px',fontWeight:'400'}}>Operator</p>
+                  <div className="row ms-1 mt-2" >
                     <fieldset className="border col-md-5 m-2 col-sm-11">
-                      <legend className="float-none">
+                      <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                         Master Operator<span>*</span>
                       </legend>
-                      <select required=""  className="mt-1 mb-1">
+                      <select required=""  className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}}>
                         <option value="" disabled selected hidden>
                           Select Master Operator
                         </option>
@@ -623,10 +623,10 @@ const RuleEngine = () => {
                       </select>
                     </fieldset>
                     <fieldset className="border col-md-5 m-2 col-sm-11">
-                      <legend className="float-none">
+                      <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                         Sub Operator<span>*</span>
                       </legend>
-                      <select required=""  className="mt-1 mb-1">
+                      <select required=""  className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}}>
                         <option value="" disabled selected hidden>
                           Select Sub Operator
                         </option>

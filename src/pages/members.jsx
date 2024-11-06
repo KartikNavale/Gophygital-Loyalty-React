@@ -470,6 +470,7 @@ const Members = () => {
                     paddingLeft: "30px",
                     textAlign: "left",
                   }}
+                  // autoComplete
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
@@ -531,16 +532,16 @@ const Members = () => {
                 <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                   <thead>
                     <tr>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Member ID</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Member Name</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Tier Level</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Current Balance</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Last Activity Date</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>Tier Validity</th>
-                      <th style={{color: '#000', fontWeight:'450',fontSize:'13px'}}>View</th>
+                      <th>Member ID</th>
+                      <th>Member Name</th>
+                      <th>Tier Level</th>
+                      <th>Current Balance</th>
+                      <th>Last Activity Date</th>
+                      <th>Tier Validity</th>
+                      <th>View</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
                     {currentItems.map((member) => (
                       <tr key={member.id}>
                         <td style={{ width: '14.2%' }}>{member.id}</td>
