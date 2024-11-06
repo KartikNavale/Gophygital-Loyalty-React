@@ -18,9 +18,18 @@ const Header = ({ noTier }) => {
 
   const signout = () => {
     console.log("Signing out...");
-    sessionStorage.clear(); // Example: clear session storage on sign out
+    sessionStorage.clear(); // Clear session storage
+    setShowModal(false);
+  
+    // Remove any existing modal backdrop elements
+    const modalBackdrop = document.querySelector(".modal-backdrop");
+    if (modalBackdrop) {
+      modalBackdrop.remove();
+    }
+  
     navigate("/login");
   };
+  
 
   return (
     <>
