@@ -24,7 +24,7 @@ export default function RoundedRadioButtonCard({ onChange }) {
   };  
 
   return (  
-    <div className="container">  
+    <div style={{paddingLeft:'10px'}}>  
       {options.map((option) => (  
         <div className="card m-4 tier-setting-card" style={{backgroundColor:'#fdeee9'}} key={option.value}>  
           <div className="card-body" >  
