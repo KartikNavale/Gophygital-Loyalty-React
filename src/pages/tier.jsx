@@ -393,9 +393,9 @@ const Tiers = () => {
         <SubHeader />
         <div className="module-data-section mt-2 px-3" style={{color: '#000'}}>
           <p className="pointer" >
-            <span className="text-secondary">Tiers</span> &gt; Tier List
+            <span className="text-secondary" style={{fontSize:'16px !important'}}>Tiers</span> &gt; Tier List
           </p>
-          <h5>Tiers</h5>
+          <h5 style={{fontSize:'22px'}}>Tiers</h5>
           <div className="loyalty-header">
             <div className="d-flex justify-content-between align-items-center">
               <Link to="/new-tier">

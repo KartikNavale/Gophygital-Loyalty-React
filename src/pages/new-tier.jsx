@@ -135,9 +135,9 @@ const NewTier = () => {
           <p className="pointer">
             <span className="text-secondary">Tiers</span> &gt; Tier Setting
           </p>
-          <div className="mx-3 border-bottom">
+          <div className="mx-3 border-bottom" style={{fontSize:'16px'}}>
             <h5 className="d-flex">
-              <span className="title mt-3">TIER SETTING</span>
+              <span className="title mt-3" style={{fontSize:'22px'}}>TIER SETTING</span>
             </h5>
             <p className="mt-5 ms-4 fw-semibold">
               Point Accumulation Timeframe

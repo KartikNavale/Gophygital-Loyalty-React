@@ -49,7 +49,7 @@ export default function RoundedRadioButtonCard({ onChange }) {
                 </svg>  
                 <h5 className="card-title mb-0 ps-3 fw-bold">{option.label}</h5>  
               </div>  
-              <p className="text-muted ms-3">{option.description}</p>  
+              <p className="text-muted ms-3" style={{fontSize:'16px'}}>{option.description}</p>  
             </div>  
           </div>  
         </div>  
