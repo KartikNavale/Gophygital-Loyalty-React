@@ -33,14 +33,15 @@ const NewSegment = () => {
 
   useEffect(() => {
     const fetchInitialData = async () => {
+      const storedValue = sessionStorage.getItem("selectedId");
       try {
         const tierResponse = await axios.get(
-          "https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
+          `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setTierLevels(tierResponse.data);
 
         const memberResponse = await axios.get(
-          "https://staging.lockated.com/loyalty/members.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
+          `https://staging.lockated.com/loyalty/members.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setInitialData(memberResponse.data);
         setFilteredData(memberResponse.data);
@@ -140,6 +141,15 @@ const NewSegment = () => {
     setSelectedMemberIds([]);
   };
 
+  // const initialFormValues = {
+  //   enrollmentDate: "",
+  //   status: "",
+  //   age: "",
+  //   activatedDate: "",
+  //   gender: "",
+  //   tierLevel: "",
+  // };
+  // const [formValues, setFormValues] = useState(initialFormValues);
   const [formValues, setFormValues] = useState({
     enrollmentDate: "",
     status: "",
@@ -159,6 +169,11 @@ const NewSegment = () => {
       [e.target.name]: e.target.value,
     });
   };
+  // const resetFilter = () => {
+  //   setFormValues(initialFormValues); // Reset form values to initial state
+  //   setFilteredData([]); // Clear filtered data
+  // };
+
 
   const formatDate = (date) => {
     const d = new Date(date);
@@ -213,7 +228,7 @@ const NewSegment = () => {
     try {
       // Call API with query string
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/members.json${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `https://staging.lockated.com/loyalty/members.json${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       setFilteredData(response.data); // Set the fetched data
@@ -571,33 +586,7 @@ const NewSegment = () => {
                       <option value="f">Female</option>
                     </select>
                   </div> 
-{/* 
-<fieldset className="border col-md-3 m-2 ">
-  <legend
-    className="float-none"
-    style={{
-      fontSize: "14px",
-      padding: "6px",
-      lineHeight: "1.2",
-      marginBottom: "-8px",
-    }}
-  >
-    Gender<span>*</span>
-  </legend>
-  <select
-    id="gender"
-    name="gender"
-    className="custom-select mt-1 mb-1 w-100"
-    value={formValues.gender}
-    onChange={handleChange}
-  >
-    <option value="" disabled hidden>
-      Select gender
-    </option>
-    <option value="m">Male</option>
-    <option value="f">Female</option>
-  </select>
-</fieldset> */}
+
 
                   <div className="filter-field m-2">
                     <label htmlFor="activatedDate"
@@ -655,6 +644,16 @@ const NewSegment = () => {
                       Apply Filter
                     </button>
                   </div>
+
+                  {/* <div className=" d-flex align-items-center mt-4 ml-5">
+                    <button
+                      type="button"
+                      className=" ml-5 purple-btn1 ms-3 "
+                      onClick={resetFilter}
+                    >
+                      Reset Filter
+                    </button> */}
+                  
                 </div>
               </div>
             </div>

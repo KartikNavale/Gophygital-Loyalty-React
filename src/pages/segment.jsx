@@ -350,13 +350,16 @@ const Segment = () => {
               <div className="d-flex justify-content-between loyalty-header">
                 <div>
                   <Link to="/new-segment">
-                    <button className="purple-btn1 rounded-3 px-3">
+                    <button className="purple-btn1 px-3 
+                    rounded-1" style={{paddingRight:'50px'}}
+                    // style={{borderRadius:'5px'}}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="19"
                         height="19"
                         fill="currentColor"
-                        className="bi bi-plus mb-1"
+                        className="bi bi-plus mb-1 "
                         viewBox="0 0 16 16"
                       >
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
@@ -426,13 +429,13 @@ const Segment = () => {
               <div className="tbl-container mx-3 mt-4"
               //  style={{ maxHeight: "400px", overflowY: "scroll", overflowX: "auto" }}>
               >
-                <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px', align:"center" }}>
-                  <thead>
-                    <tr style={{}}>
-                      <th style={{ width: "25%" }}>Segment Name</th>
-                      <th style={{ width: "25%" }}>Segment Tag</th>
-                      <th style={{ width: "25%" }}>Total Members</th>
-                      <th style={{ width: "25%" }}>Edit</th>
+                <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
+                  <thead style={{textAlign:'left'}}>
+                    <tr >
+                      <th style={{ width: "20%" }}>Segment Name</th>
+                      <th style={{ width: "20%" }}>Segment Tag</th>
+                      <th style={{ width: "20%" }}>Total Members</th>
+                      <th style={{ width: "20%" }}>Edit</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -466,7 +469,7 @@ const Segment = () => {
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
                                 height="16"
-                                fill="#667080"
+                                fill="#5e2750"
                                 className="bi bi-pencil-square"
                                 viewBox="0 0 16 16"
                               >
