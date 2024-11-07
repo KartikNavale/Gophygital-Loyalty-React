@@ -55,9 +55,10 @@ const NewSegment = () => {
 
   useEffect(() => {
     const fetchTierLevels = async () => {
+      const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          "https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
+          `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setTierLevels(response.data);
         // Store API data in state
@@ -208,11 +209,11 @@ const NewSegment = () => {
 
     // Construct full query string
     const queryString = query.length > 0 ? `?${query.join("&")}` : "";
-
+    const storedValue = sessionStorage.getItem("selectedId")
     try {
       // Call API with query string
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/members.json${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
+        `https://staging.lockated.com/loyalty/members.json${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       setFilteredData(response.data); // Set the fetched data
