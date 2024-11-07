@@ -12,7 +12,11 @@ const ViewRuleEngine = () => {
   // const [ruleName, setRuleName] = useState("");
 
 
-  const [rule, setRule] = useState(null)
+  const [rule, setRule] = useState({
+    name:'',
+    conditions: [],
+    actions: [],
+  })
   console.log(id)
 
   const [conditions, setConditions] = useState([
@@ -32,7 +36,7 @@ const ViewRuleEngine = () => {
 
       fetchMasterRewardOutcome: "",
       fetchSubRewardOutcome: "",
-      parameter: ''
+      parameters: ''
     },
   ]);
 
@@ -144,38 +148,46 @@ const ViewRuleEngine = () => {
         {/* ......if ..... */}
         <div>
           <h4>
-            <span className="badge setRuleCard">IF</span>
+            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>IF</span>
           </h4>
           <div className="row ms-1 mt-2">
             {/* Attribute section */}
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
                 Master Attribute<span>*</span>
               </legend>
               <select
                 required=""
-                className="p-1"
-
+                className="p-1 mt-1 mb-1"
+                style={{fontSize:'12px',fontWeight:'400'}}
 
               >
-                <option value="">Select Master Attribute </option>
+                 {conditions.map((master)=>(
+                      <option value="">{master.model_name}</option>
+                     
+                    ))}
+                {/* <option value="">Select Master Attribute </option> */}
 
-                <option value=""></option>
+                {/* <option value=""></option> */}
               </select>
             </fieldset>
             <div className="col-md-1 d-flex justify-content-center align-items-center">
               <h4>&</h4>
             </div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
                 Sub Attribute<span>*</span>
               </legend>
               <select
-                required
-                className="p-1"
-
+                required=""
+                className="p-1 mt-1 mb-1"
+                style={{fontSize:'12px',fontWeight:'400'}}
               >
-                <option value="">Select Sub Attribute</option>
+                {conditions.map((master)=>(
+                      <option value="">{master.condition_attribute}</option>
+                     
+                    ))}
+                {/* <option value="">Select Sub Attribute</option> */}
 
               </select>
             </fieldset>
@@ -185,17 +197,17 @@ const ViewRuleEngine = () => {
         {/* Operator section */}
         <div className="mt-3">
           <h4>
-            <span className="badge setRuleCard">Operator</span>
+            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Operator</span>
           </h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
                 Master Operator<span>*</span>
               </legend>
               <select
                 required=""
-                className="p-1"
-
+                className="p-1 mt-1 mb-1"
+                style={{fontSize:'12px',fontWeight:'400'}}
               >
                 <option value="">Select Master Operator </option>
                 {/* {conditions.map((condition) => (
@@ -208,15 +220,20 @@ const ViewRuleEngine = () => {
               <h4>&</h4>
             </div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
                 Sub Operator<span>*</span>
               </legend>
               <select
-                required
-                className="p-1"
-
+                required=""
+                className="p-1 mt-1 mb-1"
+                style={{fontSize:'12px',fontWeight:'400'}}
               >
-                <option value="">Select Sub Operator </option>
+                {conditions.map((master)=>(
+                      <option value="" >{master.operator}</option>
+
+                     
+                    ))}
+                {/* <option value="">Select Sub Operator </option> */}
                 {/* {conditions.map((condition) => (
                   <option key={condition.id} value=""> {condition.subOperator}</option>
                 ))} */}
@@ -229,27 +246,23 @@ const ViewRuleEngine = () => {
         {/* Value section */}
         <div className="mt-3">
           <h4>
-            <span className="badge setRuleCard">Value</span>
+            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Value</span>
           </h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none">
+              <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}} >
                 Value<span>*</span>
               </legend>
-              <input
-                type="text"
-                className="p-1"
-                placeholder="Enter Point Value"
-                // value={condition.value}
-                // onChange={(e) => {
-                //   const updatedConditions = conditions.map((cond, idx) =>
-                //     idx === index
-                //       ? { ...cond, value: e.target.value }
-                //       : cond
-                //   );
-                //   setConditions(updatedConditions);
-                // }}
-              />
+              {conditions.map((master)=>(
+                      <input
+                      type="text"
+                      className="p-1 mt-1 mb-1"
+                      // placeholder="Enter Point Value"
+                       value={master.compare_value}
+                       style={{fontSize:'12px',fontWeight:'400'}}
+                    />
+                    ))}
+             
             </fieldset>
           </div>
         </div>
@@ -261,11 +274,12 @@ const ViewRuleEngine = () => {
   // const storedValue = sessionStorage.getItem("selectedId");
   const getRuleEngine = async (id) => {
     // console.log("Stored ID in session after selection:", storedValue, id);
+    const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
+        `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
-    console.log(response.data)
+    console.log("data for id",response.data)
       return response.data;
     } catch (error) {
       console.error("Error fetching Rule Engine:", error);
@@ -279,14 +293,14 @@ const ViewRuleEngine = () => {
         const data = await getRuleEngine(id);
         console.log(data)
         setRule(data);
-        // if (data.conditions) {
-        //   console.log(data.conditions)
-        //   setConditions(data.conditions);
-        // }
-        // if (data.actions) {
-        //   console.log(data.actions)
-        //   setactions(data.actions)
-        // }
+        if (data.conditions) {
+          console.log(data.conditions)
+          setConditions(data.conditions);
+        }
+        if (data.actions) {
+          console.log(data.actions)
+          setactions(data.actions)
+        }
       } catch (err) {
         // setError(err.message);
       } finally {
@@ -307,7 +321,7 @@ const ViewRuleEngine = () => {
             <span className="text-secondary">Rule Engine</span> &gt; New Rule
           </p>
           <h5 class="mb-3">
-            <span className="title">New Rule</span>
+            <span className="title" style={{fontSize:'20px',fontWeight:'600'}}>New Rule</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="19"
@@ -326,33 +340,17 @@ const ViewRuleEngine = () => {
           <div className="go-shadow me-3">
             <div className="row ms-1">
               <fieldset className="border col-md-11 m-2 col-sm-11">
-                <legend className="float-none">
+                <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
                   New Rule<span>*</span>
                 </legend>
-                <input type="text" placeholder="Enter Name" name={rule?.name} />
+                <input type="text" placeholder="Enter Name" name={rule?.name} value={rule.name} style={{fontSize:'12px',fontWeight:'400'}} className="mt-1 mb-1"/>
               </fieldset>
             </div>
           </div>
           <div className="SetRuleCard">
             <div>
               <h5 className="title mt-3">Set Rule Conditions</h5>
-              {/* <h6 class=" mt-3">
-                <span className="">Condition 1</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-pencil-square mb-1 ms-3 text-body-secondary"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                  <path
-                    fill-rule="evenodd"
-                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                  />
-                </svg>
-              </h6> */}
+              
             </div>
        
           </div>
@@ -365,7 +363,8 @@ const ViewRuleEngine = () => {
             <button
               className="setRuleCard2 mt-2"
               onClick={addCondition}
-              style={{ color: "black" }}
+              style={{ color: "black",fontSize:'16px',fontWeight:"500"  }}
+            
             >
               <span>
                 <svg
@@ -385,21 +384,25 @@ const ViewRuleEngine = () => {
             {/* THEN section */}
             <div className="mt-3">
               <h4>
-                <span className="badge setRuleCard">THEN</span>
+                <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>THEN</span>
               </h4>
               <div className="row ms-1 mt-2">
                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none">
+                  <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
                     Master Reward Outcome<span>*</span>
                   </legend>
 
                   <select
                     required=""
-                    className="p-1"
-
+                    className="p-1 mt-1 mb-1"
+                    style={{fontSize:'12px',fontWeight:'400'}}
                   >
-                    <option value="">Select Master Reward Outcome</option>
-                    <option value=""></option>
+                    {actions.map((master)=>(
+                      <option value="" >{master.lock_model_name}</option>
+                     
+                    ))}
+                    {/* // <option value="">Select Master Reward Outcome</option> */}
+                    {/* // <option value=""></option> */}
                   </select>
 
                 </fieldset>
@@ -407,27 +410,35 @@ const ViewRuleEngine = () => {
                   <h4>&</h4>
                 </div>
                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none">
+                  <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
                     Sub Reward Outcome<span>*</span>
                   </legend>
                   <select
                     required=""
-                    className="p-1"
-
+                    className="p-1 mt-1 mb-1"
+                    style={{fontSize:'12px',fontWeight:'400'}}
                   >
-                    <option value="">Select Sub Reward Outcome</option>
+                     {actions.map((master)=>(
+                      <option value="" >{master.action_method}</option>
+                     
+                    ))}
+                    {/* <option value="">Select Sub Reward Outcome</option>
 
-                    <option value=""></option>
+                    <option value=""></option> */}
                   </select>
                 </fieldset>
                 {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
                     <h4>=</h4>
                   </div> */}
                 <fieldset className="border col-md-3 m-2 col-sm-11 ">
-                  <legend className="float-none">
+                  <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
                     Parameter {/* <span>*</span> */}
                   </legend>
-                  <input type="text" placeholder="Enter Point Value" />
+                  {actions.map((master)=>(
+                       <input type="text" placeholder="Enter Point Value" value={master.parameters} style={{fontSize:'12px',fontWeight:'400'}} className="mt-1 mb-1"/>
+                     
+                    ))}
+                  {/* <input type="text" placeholder="Enter Point Value" value={} /> */}
                 </fieldset>
               </div>
             </div>

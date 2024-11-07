@@ -63,154 +63,7 @@ const RuleEngine = () => {
     }
   };
 
-  // const Pagination = ({
-  //   currentPage,
-  //   totalPages,
-  //   totalEntries,
-  // }) => {
-  //   const startEntry = (currentPage - 1) * itemsPerPage + 1;
-  //   const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
-
-  //   const renderPageNumbers = () => {
-  //     const pages = [];
-  //     for (let i = 1; i <= totalPages; i++) {
-  //       pages.push(
-  //         <li
-  //           key={i}
-  //           className={`page-item ${i === currentPage ? "active" : ""}`}
-  //           style={{ border: "1px solid #ddd", margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(i)}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: i === currentPage ? "#fff" : "#5e2750",
-  //               backgroundColor: i === currentPage ? "#5e2750" : "#fff",
-  //               fontWeight: i === currentPage ? "bold" : "normal",
-  //               border: '2px solid #5e2750',
-  //               borderRadius: '3px'
-  //             }}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //     return pages;
-  //   };
-
-  //   return (
-  //     <nav className="d-flex justify-content-between align-items-center">
-  //       <ul
-  //         className="pagination justify-content-center align-items-center"
-  //         style={{
-  //           listStyleType: "none",
-  //           padding: "0",
-  //           display: "flex",
-  //           alignItems: "center",
-  //         }}
-  //       >
-  //         <li
-  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(1)}
-  //             disabled={currentPage === 1}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             «
-  //           </button>
-  //         </li>
-  //         <li
-  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage - 1)}
-  //             disabled={currentPage === 1}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             ‹
-  //           </button>
-  //         </li>
-  //         {renderPageNumbers()}
-  //         <li
-  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""
-  //             }`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage + 1)}
-  //             disabled={currentPage === totalPages}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor:
-  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             ›
-  //           </button>
-  //         </li>
-  //         <li
-  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""
-  //             }`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(totalPages)}
-  //             disabled={currentPage === totalPages}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor:
-  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             »
-  //           </button>
-  //         </li>
-  //       </ul>
-  //       <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
-  //         Showing {startEntry} to {endEntry} of {totalEntries} entries
-  //       </p>
-  //     </nav>
-  //   );
-  // };
-
-  //toggle
-
-  // const handleToggle = async (id, isActive) => {
-  //   try {
-  //     // Optionally, update the state and make an API call to update the rule's active state
-  //     await axios.patch(`https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414/${id}`, { active: isActive });
-
-  //     // Update local state if necessary
-  //     setRules(prevRules =>
-  //       prevRules.map(rule =>
-  //         rule.id === id ? { ...rule, active: isActive } : rule
-  //       )
-  //     );
-  //   } catch (error) {
-  //     console.error("Error updating rule:", error);
-  //   }
-  // };
-
-
+ 
   
   const Pagination = ({
     currentPage,
@@ -361,19 +214,28 @@ const RuleEngine = () => {
     console.log(`Toggling rule ID: ${id} to active: ${isActive}`);
     try {
         // Make an API call to update the rule's active state
-        const response = await axios.put(`https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414/${id}`, { active: isActive });
+        const response = await axios.patch(`https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`, {rule_engine_rule:{ active: isActive }});
         console.log("API Response:", response.data);
 
         // Update local state to reflect the change
-        setRules(prevRules =>
+        setRuleEngine(prevRules =>
             prevRules.map(rule =>
                 rule.id === id ? { ...rule, active: isActive } : rule
             )
         );
+
+        // Optional: You can also update filteredItems if needed
+      setFilteredItems((prevFilteredItems) =>
+        prevFilteredItems.map((rule) =>
+          rule.id === id ? { ...rule, active: isActive } : rule
+        )
+      );
+    
     } catch (error) {
         console.error("Error updating rule:", error);
     }
 };
+
 
 
   return (

@@ -14,7 +14,8 @@ const Members = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredItems, setFilteredItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]); //filter
+  const [suggestions, setSuggestions] = useState([]); // To store the search suggestions
 
 
   const formatDate = (dateString) => {
@@ -61,7 +62,7 @@ const Members = () => {
     if (!hasRun) {
       setShowModal(true); // Open modal
 
-      
+
 
       sessionStorage.setItem('hasRun', 'true'); // Mark as run
 
@@ -71,19 +72,56 @@ const Members = () => {
     }
   }, []); // Run only once on component mount
 
-  const handleSearch = () => {
-    const filtered = members.filter(member =>
-      `${member.firstname} ${member.lastname}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredItems(filtered);
-    setCurrentPage(1); // Reset to first page after search
-  };
+  // const handleSearch = () => {
+  //   const filtered = members.filter(member =>
+  //     `${member.firstname} ${member.lastname}`.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  //   setFilteredItems(filtered);
+  //   setCurrentPage(1); // Reset to first page after search
+  // };
 
   const handleReset = () => {
     setSearchTerm("");
     setFilteredItems(members);
     setCurrentPage(1);
   };
+
+  // Handle search submission (e.g., when pressing 'Go!')
+  const handleSearch = () => {
+    const filtered = members.filter((member) =>
+      `${member.firstname} ${member.lasttname}`.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredItems(filtered);
+    setCurrentPage(1); // Reset to the first page of results
+    setSuggestions([]); // Clear suggestions after searching
+  };
+
+
+  // Handle search input change
+  const handleSearchInputChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+
+    // If there's a search term, filter the members and show suggestions
+    if (term) {
+      const filteredSuggestions = members.filter(
+        (member) =>
+          `${member.firstname} ${member.lasttname}`
+            .toLowerCase()
+            .includes(term.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions); // Update suggestions list
+    } else {
+      setSuggestions([]); // Clear suggestions when input is empty
+    }
+  };
+
+  const handleSuggestionClick = (member) => {
+    setSearchTerm(`${member.firstname} ${member.lasttname}`);
+    setSuggestions([]); // Clear suggestions after selection
+    setFilteredItems([member]); // Optionally, filter to show the selected member
+  };
+
 
   // Pagination logic
 
@@ -259,7 +297,7 @@ const Members = () => {
   //   );
   // };
 
-  
+
   const Pagination = ({
     currentPage,
     totalPages,
@@ -369,9 +407,8 @@ const Members = () => {
           ))}
 
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -383,9 +420,8 @@ const Members = () => {
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -405,7 +441,7 @@ const Members = () => {
   };
 
 
-  
+
 
 
   return (
@@ -447,7 +483,7 @@ const Members = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="">
-              <button className="purple-btn1" style={{borderRadius:'5px'}}>
+              <button className="purple-btn1" style={{ borderRadius: '5px' }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -475,7 +511,8 @@ const Members = () => {
                   placeholder="Search"
                   aria-label="Search"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  // onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={handleSearchInputChange}
                 />
                 <div
                   className="position-absolute"
@@ -493,6 +530,24 @@ const Members = () => {
                   </svg>
                 </div>
               </div>
+
+              <div>
+              {suggestions.length > 0 && (
+                <ul className="suggestions-list" style={{ listStyle: "none", padding: "0", marginTop: "5px", border: "1px solid #ddd", maxHeight: "200px", overflowY: "auto" }}>
+                  {suggestions.map((member) => (
+                    <li
+                      key={member.id}
+                      // className="suggestion-item"
+                      style={{ padding: "8px", cursor: "pointer" }}
+                      onClick={() => handleSuggestionClick(member)} // Handle suggestion click
+                    >
+                      {member.firstname} {member.lasttname}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              </div>
+
               <button
                 className="purple-btn1 rounded-3 px-3"
                 onClick={handleSearch}
@@ -509,19 +564,19 @@ const Members = () => {
           </div>
 
 
-          <div className="tbl-container mx-3 mt-4" 
-          // style={{
-          //   height: "100%", overflowY: "hidden", margin: "0 100px",
-          //   // textAlign: "center"
-          // }}
-          style={{
-            height: "100%",
-            overflowY: "hidden",
-            // textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            // justifyContent: "space-between",
-          }}
+          <div className="tbl-container mx-3 mt-4"
+            // style={{
+            //   height: "100%", overflowY: "hidden", margin: "0 100px",
+            //   // textAlign: "center"
+            // }}
+            style={{
+              height: "100%",
+              overflowY: "hidden",
+              // textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              // justifyContent: "space-between",
+            }}
           >
             {loading ? (
               <p>Loading...</p>
@@ -529,7 +584,7 @@ const Members = () => {
               <p className="text-danger">{error}</p>
             ) : (
               <>
-                <table className="w-100"  style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
+                <table className="w-100" style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
                   <thead>
                     <tr>
                       <th>Member ID</th>
@@ -541,12 +596,12 @@ const Members = () => {
                       <th>View</th>
                     </tr>
                   </thead>
-                  <tbody style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
+                  <tbody style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
                     {currentItems.map((member) => (
                       <tr key={member.id}>
                         <td style={{ width: '14.2%' }}>{member.id}</td>
                         <td style={{ width: '14.2%' }}>
-                          {member.firstname} {member.lastname} {/* Corrected 'lasttname' to 'lastname' */}
+                        {member.firstname} {member.lasttname}
                         </td>
                         <td style={{ width: '14.2%' }}>{member.member_status.tier_level}</td>
                         <td style={{ width: '14.2%' }}>{member.current_loyalty_points}</td>
@@ -592,4 +647,5 @@ const Members = () => {
 };
 
 export default Members;
+
 
