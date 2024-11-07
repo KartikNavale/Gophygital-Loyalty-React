@@ -465,12 +465,7 @@ const Tiers = () => {
               <div
                 className="tbl-container mx-3 mt-4"
                 style={{
-                  height: "600px",
-                  overflowY: "hidden",
-                  textAlign: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
+                  maxHeight: "600px",
                 }}
               >
                 <div>
