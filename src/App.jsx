@@ -26,9 +26,9 @@ import SignIn from "./login/SignIn";
 import RootLayout from "./pages/Layout/RootLayout";
 import ProtectedRoute from "./login/ProtectedRoute";
 import ViewSegment from "./pages/view-segment";
+import TierDetails from "./pages/tier-details";
 
 function App() {
-  
   return (
     <Router>
       <div>
@@ -44,7 +44,6 @@ function App() {
           >
             <Route index element={<Navigate to="/members" />} />
             <Route path="/members" element={<Members />} />
-            <Route path="/tiers" element={<Tiers />} />
             <Route path="/segment" element={<Segment />} />
             <Route path="/campaign" element={<Campaign />} />
             <Route path="/new-segment" element={<NewSegment />} />
@@ -54,7 +53,9 @@ function App() {
             <Route path="/create-rule-engine" element={<CreateRuleEngine />} />
             <Route path="/view-rule-engine/:id" element={<ViewRuleEngine />} />
             <Route path="/tier-setting" element={<TierSetting />} />
+            <Route path="/tiers" element={<Tiers />} />
             <Route path="/new-tier" element={<NewTier />} />
+            <Route path="/tier-details/:id" element={<TierDetails />} />
             <Route path="/test" element={<Test />} />
             <Route path="/view-segment/:id" element={<ViewSegment />} />
           </Route>

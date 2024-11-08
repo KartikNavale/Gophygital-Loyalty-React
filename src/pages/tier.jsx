@@ -7,7 +7,7 @@ import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Tier Name is required"),
@@ -36,6 +36,7 @@ const Tiers = () => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [searchTerm, setSearchTerm] = React.useState("");
 
+  const navigate = useNavigate();
   const storedValue = sessionStorage.getItem("selectedId");
   const fetchTiers = async () => {
     try {
@@ -387,19 +388,34 @@ const Tiers = () => {
     );
   };
 
+  let yearlyTier = tiers.filter((item) => item.point_type === "yearly").length
+  let lifeTimeTier = tiers.filter((item) => item.point_type === "lifetime").length
+
   return (
-    <>
+    <>  
       <div className="w-100">
         <SubHeader />
-        <div className="module-data-section mt-2 px-3" style={{color: '#000'}}>
-          <p className="pointer" >
-            <span className="text-secondary" style={{fontSize:'16px !important'}}>Tiers</span> &gt; Tier List
+        <div
+          className="module-data-section mt-2 px-3"
+          style={{ color: "#000" }}
+        >
+          <p className="pointer">
+            <span
+              className="text-secondary"
+              style={{ fontSize: "16px !important" }}
+            >
+              Tiers
+            </span>{" "}
+            &gt; Tier List
           </p>
-          <h5 style={{fontSize:'22px'}}>Tiers</h5>
+          <h5 style={{ fontSize: "22px" }}>Tiers</h5>
           <div className="loyalty-header">
             <div className="d-flex justify-content-between align-items-center">
               <Link to="/new-tier">
-                <button className="purple-btn1 rounded-1" style={{paddingRight:'50px'}}>
+                <button
+                  className="purple-btn1 rounded-1"
+                  style={{ paddingRight: "50px" }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="19"
@@ -459,6 +475,24 @@ const Tiers = () => {
               </div>
             </div>
 
+            <div
+              className="row justify-content-start gap-3 mt-2 mx-3"
+              style={{ color: "#fff" }}
+            >
+              <div className="col-md-3 col-sm-8 violet-red p-2 rounded-1">
+                <p>{tiers.length}</p>
+                <p>Total Tiers</p>
+              </div>
+              <div className="col-md-3 col-sm-8 green p-2 rounded-1">
+                <p>{yearlyTier}</p>
+                <p>Rolling Year Tiers</p>
+              </div>
+              <div className="col-md-3 col-sm-8 pink p-2 rounded-1">
+                <p>{lifeTimeTier}</p>
+                <p>Life Time Tiers</p>
+              </div>
+            </div>
+
             {loading && <p>Loading tiers...</p>}
             {error && <p className="text-danger">{error}</p>}
             {!loading && !error && (
@@ -469,19 +503,27 @@ const Tiers = () => {
                 }}
               >
                 <div>
-                  <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
-                    <thead style={{textAlign:'left'}}>
+                  <table
+                    className="w-100"
+                    style={{
+                      color: "#000",
+                      fontWeight: "400",
+                      fontSize: "13px",
+                    }}
+                  >
+                    <thead style={{ textAlign: "left" }}>
                       <tr>
-                        <th style={{width: '20%'}}>Tier Name</th>
-                        <th style={{width: '20%'}}>Exit Points</th>
-                        <th style={{width: '20%'}}>Multipliers</th>
-                        <th style={{width: '20%'}}>Welcome Bonus</th>
-                        <th style={{width: '20%'}}>Edit</th>
+                        <th style={{ width: "16.66%" }}>Tier Name</th>
+                        <th style={{ width: "16.66%" }}>Exit Points</th>
+                        <th style={{ width: "16.66%" }}>Multipliers</th>
+                        <th style={{ width: "16.66%" }}>Welcome Bonus</th>
+                        <th style={{ width: "16.66%" }}>Edit</th>
+                        <th style={{ width: "16.66%" }}>View</th>
                       </tr>
                     </thead>
                     <tbody>
                       {currentItems.map((tier) => (
-                        <tr key={tier.id} style={{ color:'#334155'}} >
+                        <tr key={tier.id} style={{ color: "#334155" }}>
                           <td>{tier.name}</td>
                           <td>{tier.exit_points}</td>
                           <td>{tier.multipliers}x</td>
@@ -503,6 +545,35 @@ const Tiers = () => {
                                 <path
                                   fillRule="evenodd"
                                   d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                />
+                              </svg>
+                            </button>
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-link"
+                              onClick={() =>
+                                navigate(`/tier-details/${tier.id}`)
+                              }
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                              >
+                                <path
+                                  d="M0.833008 10.0002C0.833008 10.0002 4.16634 3.3335 9.99967 3.3335C15.833 3.3335 19.1663 10.0002 19.1663 10.0002C19.1663 10.0002 15.833 16.6668 9.99967 16.6668C4.16634 16.6668 0.833008 10.0002 0.833008 10.0002Z"
+                                  stroke="black"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                                <path
+                                  d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z"
+                                  stroke="black"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
                                 />
                               </svg>
                             </button>
@@ -652,7 +723,7 @@ const Tiers = () => {
                               </legend>
                               <select
                                 // className="form-control border-0"
-                                style={{padding:'8px'}}
+                                style={{ padding: "8px" }}
                                 id="pointType"
                                 name="point_type"
                                 onChange={handleChange}
