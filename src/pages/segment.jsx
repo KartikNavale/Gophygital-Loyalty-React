@@ -25,14 +25,7 @@ const Segment = () => {
     member_count: "",
   });
 
-  // const handleSearch = () => {
-  //   const filtered = segments.filter((rule) =>
-  //     rule.name.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  //   setFilteredItems(filtered);
-  //   setCurrentPage(1);
-  // };
-
+  
   const handleSearch = () => {
     const filtered = segments.filter(
       (rule) =>
@@ -87,29 +80,7 @@ const Segment = () => {
     }));
   };
 
-  // const handleFormSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (selectedSegment) {
-  //     try {
-  //       const response = await axios.put(
-  //         `https://staging.lockated.com/loyalty/segments/${selectedSegment.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-  //         { loyalty_segment: formData }
-  //       );
-  //       if (response) {
-  //         setSegments((prevSegments) =>
-  //           prevSegments.map((segment) =>
-  //             segment.id === selectedSegment.id
-  //               ? { ...segment, ...formData }
-  //               : segment
-  //           )
-  //         );
-  //       }
-  //       handleCloseModal();
-  //     } catch (error) {
-  //       alert(`Error: ${error.message}`);
-  //     }
-  //   }
-  // };
+  
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (selectedSegment) {
@@ -153,11 +124,7 @@ const Segment = () => {
     });
   };
 
-  // const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  // const currentItems = filteredItems.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
+  
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const currentItems = filteredItems.slice(
@@ -171,40 +138,7 @@ const Segment = () => {
     }
   };
 
-  //   const handlePageChange = (page) => {
-  //     if (page > 0 && page <= totalPages) {
-  //       onPageChange(page);
-  //     }
-  //   };
-
-  //   return (
-  //     <nav>
-  //       <ul className="pagination justify-content-center">
-  //         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage - 1)}
-  //           >
-  //             Previous
-  //           </button>
-  //         </li>
-  //         <li className="page-item active">
-  //           <button className="page-link">{currentPage}</button>
-  //         </li>
-  //         <li
-  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage + 1)}
-  //           >
-  //             Next
-  //           </button>
-  //         </li>
-  //       </ul>
-  //     </nav>
-  //   );
-  // };
+  
 
   const Pagination = ({ currentPage, totalPages, totalEntries }) => {
     const startEntry = (currentPage - 1) * itemsPerPage + 1;
@@ -399,19 +333,7 @@ const Segment = () => {
                       </svg>
                     </div>
                   </div>
-                  {/* <div className="d-flex flex-wrap justify-content-end">
-                  <div className="d-flex search-input w-50 p-1 ms-0 me-3">
-                    <span className="material-symbols-outlined">search</span>
-                    <input
-                      className="form-control me-2"
-                      
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                  </div> */}
+                
                   <button
                     className="purple-btn1 rounded-3 px-3"
                     onClick={handleSearch}
@@ -436,6 +358,7 @@ const Segment = () => {
                       <th style={{ width: "20%" }}>Segment Tag</th>
                       <th style={{ width: "20%" }}>Total Members</th>
                       <th style={{ width: "20%" }}>Edit</th>
+                      <th style={{ width: "20%" }}>View</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -480,7 +403,25 @@ const Segment = () => {
                                 />
                               </svg>
                             </button>
+                            
+                        
+                    
                           </td>
+                        
+
+                    <Link to={`/view-segment/${segment.id}`}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="#000000"
+                              className="bi bi-eye ms-4 mt-3"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                              <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                            </svg>
+                          </Link>
                         </tr>
                       ))
                     ) : (
@@ -506,7 +447,7 @@ const Segment = () => {
           )}
         </div>
       </div>
-      <Modal show={showModal} onHide={handleCloseModal}>
+      {/* <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Segment</Modal.Title>
         </Modal.Header>
@@ -545,7 +486,48 @@ const Segment = () => {
             </Button>
           </form>
         </Modal.Body>
-      </Modal>
+      </Modal> */}
+
+<Modal show={showModal} onHide={handleCloseModal}>
+  <Modal.Header closeButton>
+    <Modal.Title>Edit Segment</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <form onSubmit={handleFormSubmit}>
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">Segment Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          className="form-control"
+          value={formData.name}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="segmentTag" className="form-label">Segment Tag</label>
+        <select
+          className="form-select"
+          id="segmentTag"
+          name="segment_tag"
+          value={formData.segment_tag}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="">Select Segment Tag</option>
+          <option value="Recently joined">Recently joined</option>
+          <option value="Suspended">Suspended</option>
+          <option value="1-purchase">1-purchase</option>
+          <option value="No purchase">No purchase</option>
+        </select>
+      </div>
+      <button type="submit" className="purple-btn1">Save Changes</button>
+    </form>
+  </Modal.Body>
+</Modal>
+
     </>
   );
 };

@@ -29,6 +29,7 @@ const NewSegment = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  
   const [showMembers, setShowMembers] = useState(false);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const NewSegment = () => {
         setInitialData(memberResponse.data);
         setFilteredData(memberResponse.data);
         // Set initial data as default filtered data
-        setSelectedMemberIds(memberResponse.data.map((member) => member.id));
+        setSelectedMemberIds([]);  // 
       } catch (error) {
         console.error("Error fetching initial data:", error);
       }
@@ -72,17 +73,71 @@ const NewSegment = () => {
     fetchTierLevels();
   }, []);
 
+  //   const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (
+  //     !name ||
+  //     !segment_tag ||
+  //     !segment_type ||
+  //     segment_members.length === 0 // Ensure at least one member is selected
+  //   ) {
+  //     toast.error(
+  //       "All Mandatory field are required, and at least one member must be selected.",
+  //       {
+  //         position: "top-center",
+  //         autoClose: 3000,
+  //       }
+  //     );
+  //     return;
+  //   }
+
+  //   // Proceed with form submission if all fields are filled
+  //   const data1 = {
+  //     name,
+  //     segment_tag,
+  //     segment_type,
+  //     loyalty_type_id: storedValue,
+  //   };
+
+  //   const data = {
+  //     loyalty_segment: {
+  //       name: data1.name,
+  //       segment_tag: data1.segment_tag,
+  //       segment_type: data1.segment_type,
+  //       loyalty_type_id: storedValue,
+  //       loyalty_members: { member_ids: segment_members },
+  //     },
+  //   };
+
+  //   try {
+  //     const response = await axios.post(
+  //       "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+  //       data
+  //     );
+  //     if (response.statusText === "Created") {
+  //       toast.success("Segment created successfully!", {
+  //         position: "top-center",
+  //         autoClose: 3000,
+  //       });
+  //       clearForm();
+  //       navigate("/Segment");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Failed to create segment. Please try again.", {
+  //       position: "top-center",
+  //       autoClose: 3000,
+  //     });
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (
-      !name ||
-      !segment_tag ||
-      !segment_type ||
-      segment_members.length === 0 // Ensure at least one member is selected
-    ) {
+  
+    if (!name || !segment_tag || !segment_type || segment_members.length === 0) {
       toast.error(
-        "All Mandatory field are required, and at least one member must be selected.",
+        "All Mandatory fields are required, and at least one member must be selected.",
         {
           position: "top-center",
           autoClose: 3000,
@@ -90,25 +145,20 @@ const NewSegment = () => {
       );
       return;
     }
-
-    // Proceed with form submission if all fields are filled
-    const data1 = {
-      name,
-      segment_tag,
-      segment_type,
-      loyalty_type_id: storedValue,
-    };
-
+  
     const data = {
       loyalty_segment: {
-        name: data1.name,
-        segment_tag: data1.segment_tag,
-        segment_type: data1.segment_type,
+        name,
+        segment_tag,
+        segment_type,
         loyalty_type_id: storedValue,
-        loyalty_members: { member_ids: segment_members },
+        loyalty_members: {
+          member_ids: segment_members.length > 0 ? segment_members : [],
+           // Submit empty if no filters
+        },
       },
     };
-
+  
     try {
       const response = await axios.post(
         "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
@@ -129,7 +179,7 @@ const NewSegment = () => {
       });
     }
   };
-
+  
   const clearForm = () => {
     setName(""); // Updated: Clear name field
     setSegmentTag("");
@@ -141,24 +191,24 @@ const NewSegment = () => {
     setSelectedMemberIds([]);
   };
 
-  // const initialFormValues = {
-  //   enrollmentDate: "",
-  //   status: "",
-  //   age: "",
-  //   activatedDate: "",
-  //   gender: "",
-  //   tierLevel: "",
-  // };
-  // const [formValues, setFormValues] = useState(initialFormValues);
-  const [formValues, setFormValues] = useState({
+  const initialFormValues = {
     enrollmentDate: "",
     status: "",
     age: "",
-
     activatedDate: "",
     gender: "",
     tierLevel: "",
-  });
+  };
+  const [formValues, setFormValues] = useState(initialFormValues);
+  // const [formValues, setFormValues] = useState({
+  //   enrollmentDate: "",
+  //   status: "",
+  //   age: "",
+
+  //   activatedDate: "",
+  //   gender: "",
+  //   tierLevel: "",
+  // });
 
   const [filteredData, setFilteredData] = useState([]); // State to store filtered data
 
@@ -174,7 +224,13 @@ const NewSegment = () => {
   //   setFilteredData([]); // Clear filtered data
   // };
 
-
+  const resetFilter = () => {
+    setFormValues(initialFormValues); // Reset form values to initial state
+    setFilteredData([]); // Clear filtered data
+    setSelectedMemberIds([]); // Clear selected member IDs
+    setShowMembers(false); // Hide members list
+  };
+  
   const formatDate = (date) => {
     const d = new Date(date);
     const year = d.getFullYear();
@@ -184,23 +240,79 @@ const NewSegment = () => {
   };
 
   // Handle applying the filter and fetching data
+  // const handleFilter = async (e) => {
+  //   e.preventDefault();
+
+  //   const isAnyFilterFilled = Object.values(formValues).some((value) => value);
+
+  //   if (!isAnyFilterFilled) {
+  //     setError("Please fill at least one filter field before applying.");
+  //     return;
+  //   }
+
+  //   // Reset error if filter fields are filled
+  //   setError("");
+
+  //   // Create query params dynamically based on the formValues
+  //   let query = [];
+
+  //   // Add conditions only if values are provided
+  //   if (formValues.enrollmentDate) {
+  //     query.push(
+  //       `q[joining_date_gteq]=${formatDate(formValues.enrollmentDate)}`
+  //     );
+  //   }
+  //   if (formValues.activatedDate) {
+  //     query.push(`q[created_at_gteq]=${formatDate(formValues.activatedDate)}`);
+  //   }
+
+  //   if (formValues.status) {
+  //     query.push(
+  //       `q[active_eq]=${formValues.status === "Active" ? "true" : "false"}`
+  //     );
+  //   }
+  //   if (formValues.gender) {
+  //     query.push(`q[user_gender_eq]=${formValues.gender}`);
+  //   }
+  //   if (formValues.tierLevel) {
+  //     query.push(`q[loyalty_tier_name_eq]=${formValues.tierLevel}`);
+  //   }
+
+  //   // Construct full query string
+  //   const queryString = query.length > 0 ? `?${query.join("&")}` : "";
+  //   const storedValue = sessionStorage.getItem("selectedId")
+  //   try {
+  //     // Call API with query string
+  //     const response = await axios.get(
+  //       `https://staging.lockated.com/loyalty/members.json${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&q[loyalty_type_id_eq]=${storedValue}`
+  //     );
+
+  //     setFilteredData(response.data); // Set the fetched data
+  //     setSelectedMemberIds(response.data.map((member) => member.id));
+
+  //     if (response.data.length > 0) {
+  //       setShowMembers(true); // Show members if data is returned
+  //     } else {
+  //       setShowMembers(false); // Hide members if no data
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching filtered data", error);
+  //   }
+  // };  
+
   const handleFilter = async (e) => {
     e.preventDefault();
-
+  
     const isAnyFilterFilled = Object.values(formValues).some((value) => value);
-
+  
     if (!isAnyFilterFilled) {
       setError("Please fill at least one filter field before applying.");
       return;
     }
-
-    // Reset error if filter fields are filled
+  
     setError("");
-
-    // Create query params dynamically based on the formValues
+  
     let query = [];
-
-    // Add conditions only if values are provided
     if (formValues.enrollmentDate) {
       query.push(
         `q[joining_date_gteq]=${formatDate(formValues.enrollmentDate)}`
@@ -209,7 +321,6 @@ const NewSegment = () => {
     if (formValues.activatedDate) {
       query.push(`q[created_at_gteq]=${formatDate(formValues.activatedDate)}`);
     }
-
     if (formValues.status) {
       query.push(
         `q[active_eq]=${formValues.status === "Active" ? "true" : "false"}`
@@ -221,28 +332,46 @@ const NewSegment = () => {
     if (formValues.tierLevel) {
       query.push(`q[loyalty_tier_name_eq]=${formValues.tierLevel}`);
     }
-
-    // Construct full query string
+  
     const queryString = query.length > 0 ? `?${query.join("&")}` : "";
-    const storedValue = sessionStorage.getItem("selectedId")
+    const storedValue = sessionStorage.getItem("selectedId");
     try {
-      // Call API with query string
       const response = await axios.get(
         `https://staging.lockated.com/loyalty/members.json${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&q[loyalty_type_id_eq]=${storedValue}`
       );
+  
+      // setFilteredData(response.data);
 
-      setFilteredData(response.data); // Set the fetched data
-      setSelectedMemberIds(response.data.map((member) => member.id));
+      const membersData = response.data;
+    
+      // Update state based on the filtered results
+      setFilteredData(membersData);
 
-      if (response.data.length > 0) {
-        setShowMembers(true); // Show members if data is returned
+      if (membersData.length > 0) {
+        setSelectedMemberIds(membersData.map((member) => member.id));
+        setShowMembers(true);
       } else {
-        setShowMembers(false); // Hide members if no data
+        setSelectedMemberIds([]); // Clear selected members if no data found
+        setShowMembers(false);
       }
+  
     } catch (error) {
       console.error("Error fetching filtered data", error);
+      setError("Failed to fetch data. Please try again.");
     }
   };
+  //     setSelectedMemberIds(response.data.map((member) => member.id)); // Only update when filter applied
+  
+  //     if (response.data.length > 0) {
+  //       setShowMembers(true);
+  //     } else {
+  //       setShowMembers(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching filtered data", error);
+  //   }
+  // };
+  
 
   const handleCheckboxChange = (id) => {
     setSelectedMemberIds((prevSelected) =>
@@ -554,8 +683,10 @@ const NewSegment = () => {
                       <option value="" disabled hidden>
                         Select status
                       </option>
+                    
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
+                      <option value=""> </option> 
                     </select>
                   </div>
 
@@ -582,8 +713,10 @@ const NewSegment = () => {
                       <option value="" disabled selected hidden>
                         Select gender 
                       </option>
+                     
                       <option value="m">Male</option>
                       <option value="f">Female</option>
+                      <option value=""> </option> {/* Blank option */}
                     </select>
                   </div> 
 
@@ -645,14 +778,15 @@ const NewSegment = () => {
                     </button>
                   </div>
 
-                  {/* <div className=" d-flex align-items-center mt-4 ml-5">
+                  <div className=" d-flex align-items-center mt-4 ml-5">
                     <button
                       type="button"
-                      className=" ml-5 purple-btn1 ms-3 "
+                      className=" ml-5 purple-btn2 ms-3 "
                       onClick={resetFilter}
                     >
                       Reset Filter
-                    </button> */}
+                    </button> 
+                    </div>
                   
                 </div>
               </div>

@@ -25,6 +25,7 @@ import {
 import SignIn from "./login/SignIn";
 import RootLayout from "./pages/Layout/RootLayout";
 import ProtectedRoute from "./login/ProtectedRoute";
+import ViewSegment from "./pages/view-segment";
 
 function App() {
   
@@ -55,6 +56,7 @@ function App() {
             <Route path="/tier-setting" element={<TierSetting />} />
             <Route path="/new-tier" element={<NewTier />} />
             <Route path="/test" element={<Test />} />
+            <Route path="/view-segment/:id" element={<ViewSegment />} />
           </Route>
         </Routes>
       </div>
