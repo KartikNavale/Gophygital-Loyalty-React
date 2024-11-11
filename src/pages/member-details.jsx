@@ -30,7 +30,7 @@ const MemberDetails = () => {
       const response = await axios.get(
         `https://staging.lockated.com/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
-      
+
       const formattedMember = {
         ...response.data,
         created_at: formatDate(response.data.created_at), // Format the created_at date
@@ -83,7 +83,7 @@ const MemberDetails = () => {
         });
       });
 
-      console.log("transaction data", transactions,response.data);
+      console.log("transaction data", transactions, response.data);
       setTransactionData(transactions);
     } catch (error) {
       console.error("Error fetching member details:", error);
@@ -113,9 +113,9 @@ const MemberDetails = () => {
             <>
               <div class="go-shadow mx-3 no-top-left-shadow ">
                 <h5 class="d-flex">
-                  <span class="title mt-3">PERSONAL DETAILS</span>
+                  <span class="title mt-3" style={{ fontSize: '20px', fontWeight: '600' }}>PERSONAL DETAILS</span>
                 </h5>
-                <div class="row px-3">
+                <div class="row px-3" style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
                   <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
                     <div class="col-6 p-1 text-muted member-detail-color">
                       Full name
@@ -152,9 +152,9 @@ const MemberDetails = () => {
               </div>
 
               {/* Membership Status */}
-              <div class="go-shadow mx-3 no-top-left-shadow ">
+              <div class="go-shadow mx-3 no-top-left-shadow " style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
                 <h5 class="d-flex">
-                  <span class="title mt-3">MEMBERSHIP STATUS</span>
+                  <span class="title mt-3" style={{ fontSize: '20px', fontWeight: '600' }}>MEMBERSHIP STATUS</span>
                 </h5>
                 <div class="row px-3">
                   <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
@@ -272,22 +272,25 @@ const MemberDetails = () => {
 
                     <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
                       <div
-                        className="content-box text-center tab-button border pt-5"
+                        className="content-box text-center tab-button border pt-4"
                         style={{
                           height: "135px",
                           width: "246px",
                           borderRadius: "20px",
                         }}
                       >
+                        <h6 className="content-box-title">
+                          {member.current_loyalty_points}
+                        </h6>
                         <h6
                           className="content-box-title"
                           style={{ heigth: "20px", width: "221px" }}
                         >
                           BALANCED POINTS
                         </h6>
-                        <h6 className="content-box-title">
+                        {/* <h6 className="content-box-title">
                           {member.current_loyalty_points}{" "}
-                        </h6>
+                        </h6> */}
                       </div>
                     </div>
                   </div>

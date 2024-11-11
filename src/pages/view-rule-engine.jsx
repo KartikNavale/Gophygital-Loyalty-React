@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
 import { useParams } from "react-router-dom";
 import axios from "axios";

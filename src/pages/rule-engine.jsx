@@ -4,6 +4,12 @@ import "../styles/style.css";
 import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
+import {
+  fetchMasterAttributes,
+  fetchSubAttributes,
+
+} from "../Confi/ruleEngineApi";
+
 
 const RuleEngine = () => {
   const [RuleEngine, setRuleEngine] = useState([]);
@@ -13,6 +19,22 @@ const RuleEngine = () => {
   const itemsPerPage = 15;
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
+
+  //
+  const [masterAttributes, setMasterAttributes] = useState([]);
+  const [subAttributes, setSubAttributes] = useState([]);
+  const [selectedMasterAttribute, setSelectedMasterAttribute] = useState('');
+  const [selectedSubAttribute, setSelectedSubAttribute] = useState('');
+  const [conditions, setConditions] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);  // Store the filtered table data
+
+  const [formValues, setFormValues] = useState({
+    name:'',
+    masterAttribute:'',
+    subAttribute:''
+    
+  });
+  
 
   useEffect(() => {
     const fetchRuleEngine = async () => {
@@ -24,6 +46,19 @@ const RuleEngine = () => {
         console.log(response.data)
         setRuleEngine(response.data);
         setFilteredItems(response.data); // Initialize with all items
+             
+
+        // const transformedData = response.data.map((item) => {
+        //   const transformedItem = {};
+        //   for (const key in item) {
+        //     if (item.hasOwnProperty(key)) {
+        //       transformedItem[key.replace(/_/g, ' ')] = item[key]; // Replace underscores with spaces in the key
+        //     }
+        //   }
+        //   return transformedItem;
+        // });
+
+        // setRuleEngine(transformedData);
       } catch (err) {
         setError("Failed to fetch rule engine.");
       } finally {
@@ -33,6 +68,135 @@ const RuleEngine = () => {
 
     fetchRuleEngine();
   }, []);
+
+  //
+
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const companyId = 44; // Set this according to your needs
+        const activeStatus = true; // Set this according to your needs
+        const masterAttrs = await fetchMasterAttributes(
+          companyId,
+          activeStatus
+        );
+        setMasterAttributes(masterAttrs.master_attributes);
+
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    };
+
+    getData();
+  }, []);
+  //
+  //selected master attribute
+  const handleMasterAttributeChange = async (e) => {
+    const selectedId = e.target.value;
+    setSelectedMasterAttribute(selectedId);
+
+    // Find the index of the selected master attribute
+    const selectedIndex = masterAttributes.findIndex(
+      (attr) => attr.id === parseInt(selectedId)
+    );
+    console.log(selectedIndex);
+
+    if (selectedIndex !== -1) {
+      // Check if the index is valid
+      try {
+        const subAttrs = await fetchSubAttributes(selectedId);
+        console.log(subAttrs.master_attributes[selectedIndex].sub_attributes);
+        const selectedSubAttributes =
+          subAttrs.master_attributes[selectedIndex].sub_attributes;
+        setSubAttributes(selectedSubAttributes);
+      } catch (error) {
+        console.error("Error fetching sub attributes:", error);
+      }
+    } else {
+      console.error("Selected ID not found in master attributes");
+    }
+  };
+
+  // Handle sub attribute change
+  const handleSubAttributeChange = (e) => {
+    setSelectedSubAttribute(e.target.value);
+
+    // Update conditions state for sub attribute
+    const updatedConditions = conditions.map((cond) => ({
+      ...cond,
+      subAttribute: e.target.value,
+    }));
+    setConditions(updatedConditions);
+  };
+
+  // Modal form submission (just an example, you can customize)
+  // const handleSubmit = () => {
+  //   // Perform the necessary actions for submitting the selected filter values
+  //   console.log('Selected Master Attribute:', selectedMasterAttribute);
+  //   console.log('Selected Sub Attribute:', selectedSubAttribute);
+  //   console.log('Conditions:', conditions);
+// };
+
+  const handleChange = (e) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+   // Handle applying the filter and fetching data
+   const handleFilter = async (e) => {
+    e.preventDefault();
+
+    const isAnyFilterFilled = Object.values(formValues).some((value) => value);
+
+    // if (!isAnyFilterFilled) {
+    //   setError("Please fill at least one filter field before applying.");
+    //   return;
+    // }
+
+    // Reset error if filter fields are filled
+    setError("");
+
+    // Create query params dynamically based on the formValues
+    let query = [];
+
+    // Add conditions only if values are provided
+    if (formValues.name) {
+      query.push(
+        `q[name_cont]=${formatDate(formValues.name)}`
+      );
+    }
+    if (formValues.masterAttribute) {
+      query.push(`q[rule_engine_conditions_rule_engine_applicable_model_rule_engine_available_model_display_name_cont]=${formatDate(formValues.masterAttribute)}`);
+    }
+
+    if (formValues.subAttribute) {
+      query.push(
+        `q[rule_engine_conditions_condition_attribute_cont]=&q[rule_engine_actions_lock_model_name_cont]=&q[rule_engine_actions_action_method_cont]=${formatDate(formValues.subAttribute)}`
+      );
+    }
+    
+
+    // Construct full query string
+    const queryString = query.length > 0 ? `?${query.join("&")}` : "";
+    const storedValue = sessionStorage.getItem("selectedId")
+    try {
+      // Call API with query string
+      const response = await axios.get(
+        `https://staging.lockated.com/rule_engine/rules.json?${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+      );
+
+      setFilteredData(response.data); // Set the fetched data;
+      // setRuleEngine(response.data)
+
+      console.log('filter',response.data)
+       
+    } catch (error) {
+      console.error("Error fetching filtered data", error);
+    }
+  };
+
 
 
 
@@ -63,8 +227,8 @@ const RuleEngine = () => {
     }
   };
 
- 
-  
+
+
   const Pagination = ({
     currentPage,
     totalPages,
@@ -174,9 +338,8 @@ const RuleEngine = () => {
           ))}
 
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -188,9 +351,8 @@ const RuleEngine = () => {
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -213,28 +375,28 @@ const RuleEngine = () => {
   const handleToggle = async (id, isActive) => {
     console.log(`Toggling rule ID: ${id} to active: ${isActive}`);
     try {
-        // Make an API call to update the rule's active state
-        const response = await axios.patch(`https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`, {rule_engine_rule:{ active: isActive }});
-        console.log("API Response:", response.data);
+      // Make an API call to update the rule's active state
+      const response = await axios.patch(`https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`, { rule_engine_rule: { active: isActive } });
+      console.log("API Response:", response.data);
 
-        // Update local state to reflect the change
-        setRuleEngine(prevRules =>
-            prevRules.map(rule =>
-                rule.id === id ? { ...rule, active: isActive } : rule
-            )
-        );
+      // Update local state to reflect the change
+      setRuleEngine(prevRules =>
+        prevRules.map(rule =>
+          rule.id === id ? { ...rule, active: isActive } : rule
+        )
+      );
 
-        // Optional: You can also update filteredItems if needed
+      // Optional: You can also update filteredItems if needed
       setFilteredItems((prevFilteredItems) =>
         prevFilteredItems.map((rule) =>
           rule.id === id ? { ...rule, active: isActive } : rule
         )
       );
-    
+
     } catch (error) {
-        console.error("Error updating rule:", error);
+      console.error("Error updating rule:", error);
     }
-};
+  };
 
 
 
@@ -250,7 +412,7 @@ const RuleEngine = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/create-rule-engine">
-              <button className="purple-btn1" style={{borderRadius:'5px'}}>
+              <button className="purple-btn1" style={{ borderRadius: '5px' }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -265,15 +427,15 @@ const RuleEngine = () => {
               </button>
             </Link>
             <div className="d-flex align-items-center">
-            <button
+              <button
                 className="purple-btn2 rounded-3 mt-2 me-3"
                 data-bs-toggle="modal"
                 data-bs-target="#viewModal"
               >
-               <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-plus mb-1" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                  </svg>
-               Filter
+                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-plus mb-1" viewBox="0 0 16 16">
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                </svg>
+                Filter
               </button>
               <div className="position-relative me-3">
                 <input
@@ -335,14 +497,14 @@ const RuleEngine = () => {
               flexDirection: "column",
               // justifyContent: "space-between",
             }}
-            >
+          >
             {loading ? (
               <p>Loading...</p>
             ) : error ? (
               <p className="text-danger">{error}</p>
             ) : (
               <>
-                <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
+                <table className="w-100" style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
                   <thead>
                     <tr>
                       <th>Rule Name</th>
@@ -356,7 +518,7 @@ const RuleEngine = () => {
                       <th>View</th>
                     </tr>
                   </thead>
-                  <tbody style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
+                  <tbody style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
                     {currentItems.map((rule) => {
                       const { id, name, conditions, active, actions } = rule;
                       return conditions.map((condition, index) => (
@@ -425,7 +587,7 @@ const RuleEngine = () => {
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header py-1 mt-1">
-                  <h5 className="modal-title" id="viewModalLabel" style={{fontSize:'16px',fontWeight:'600'}}>
+                  <h5 className="modal-title" id="viewModalLabel" style={{ fontSize: '16px', fontWeight: '600' }}>
                     Filter By
                   </h5>
                   <button
@@ -438,41 +600,102 @@ const RuleEngine = () => {
                 <div className="modal-body" >
                   {/* <p className="title" style={{fontSize:'14px',fontWeight:'400'}}>Attributes</p> */}
                   <div className="row" >
-                  <p className="title" style={{fontSize:'14px',fontWeight:'400'}}>Attributes</p>
-                  <div className="row ms-2">
-                    <fieldset className="border col-md-5 m-2 col-sm-11">
-                      <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
-                      Master Attribute<span>*</span>
-                      </legend>
-                      <select required="" className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}}>
-                        <option value="" disabled selected hidden>
-                        Select Master Attribute
-                        </option>
-                        <option value="0">User Actions</option>
-                        <option value="1">Transaction Events</option>
-                        <option value="2">Time-based Events</option>
-                        <option value="3">User Demographics/Segments</option>
-                        <option value="4">Engagement Behaviour</option>
-                        <option value="5">Milestones</option>
-                        <option value="6">Tier-based</option>
-                      </select>
-                    </fieldset>
-                    <fieldset className="border col-md-5 m-2 col-sm-11">
-                      <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
-                        Sub Attribute<span>*</span>
-                      </legend>
-                      <select required=""  className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}}>
-                        <option value="" disabled selected hidden>
-                          Select Sub Attribute
-                        </option>
-                        <option value="0">Referral</option>
-                        <option value="1">Building2</option>
-                      </select>
-                    </fieldset>
+                    <p className="title" style={{ fontSize: '14px', fontWeight: '400' }}>Attributes</p>
+                    <div className="row ms-2">
+                      <fieldset className="border col-md-5 m-2 col-sm-11">
+                        <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                          Master Attribute<span>*</span>
+                        </legend>
+                        <select required="" className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }}
+                          onChange={(e) => {
+                            // Update conditions and fetch sub attributes
+                            const updatedConditions = conditions.map((cond, idx) =>
+                              idx === 0 // Assuming you want to update the first condition
+                                ? { ...cond, masterAttribute: e.target.value }
+                                : cond
+                            );
+                            setConditions(updatedConditions);
+                            
+                            handleMasterAttributeChange(e);
+                            handleChange(e)
+                          }}
+                          value={formValues.masterAttribute}
+                          // onChange={handleChange}
+                          // value={selectedMasterAttribute}
+                          
+                        >
+                          <option value="" disabled selected hidden>
+                            Select Master Attribute
+                          </option>
+
+                          {masterAttributes.map((attr) => (
+                            <option key={attr.id} value={attr.id}>
+                              {attr.display_name}
+                            </option>
+                          ))}
+                        </select>
+                      </fieldset>
+                      <fieldset className="border col-md-5 m-2 col-sm-11">
+                        <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                          Sub Attribute<span>*</span>
+                        </legend>
+                        <select required="" className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }}
+                          // onChange={handleSubAttributeChange}
+                          value={formValues.masterAttribute}
+                      onChange={handleChange}
+                          // value={selectedSubAttribute}
+                          disabled={!selectedMasterAttribute} // Disable sub attribute dropdown if no master attribute is selected
+                        >
+                          <option value="" disabled selected hidden>
+                            Select Sub Attribute
+                          </option>
+
+                          {subAttributes.map((subAttr) => (
+                            <option key={subAttr.id} value={subAttr.attribute_name}>
+                              {subAttr.display_name}
+                            </option>
+                          ))}
+                        </select>
+                      </fieldset>
                     </div>
                   </div>
-                  {/* <p className="title mt-2" style={{fontSize:'14px',fontWeight:'400'}}>Operator</p> */}
-                  <div className="row mt-2" >
+
+                  <div className="row mt-2 justify-content-center mt-5">
+                    <div className="col-md-4">
+                      <button className="purple-btn1 w-100" onClick={handleFilter}>
+                        Submit
+                      </button>
+                    </div>
+                    <div className="col-md-4">
+                      <button
+                        className="purple-btn2 w-100"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Filter modal end */}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default RuleEngine;
+
+
+
+
+
+
+// line 472
+{/* <p className="title mt-2" style={{fontSize:'14px',fontWeight:'400'}}>Operator</p> */ }
+{/* <div className="row mt-2" >
                   <p className="title mt-2" style={{fontSize:'14px',fontWeight:'400'}}>Operator</p>
                   <div className="row ms-2">
                   <fieldset className="border col-md-5 m-2 col-sm-11">
@@ -529,32 +752,4 @@ const RuleEngine = () => {
                         <option value="1">Building2</option>
                       </select>
                     </fieldset> */}
-                  </div>
-                  <div className="row mt-2 justify-content-center mt-5">
-                    <div className="col-md-4">
-                      <button className="purple-btn1 w-100">
-                        Submit
-                      </button>
-                    </div>
-                    <div className="col-md-4">
-                      <button
-                        className="purple-btn2 w-100"
-                        data-bs-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Filter modal end */}
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default RuleEngine;
-
+{/* </div> */ } 

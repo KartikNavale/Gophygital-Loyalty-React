@@ -483,7 +483,7 @@ const Members = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="">
-              <button className="purple-btn1" style={{ borderRadius: '5px' }}>
+              {/* <button className="purple-btn1" style={{ borderRadius: '5px' }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -495,7 +495,7 @@ const Members = () => {
                   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
                 </svg>
                 <span>New Member</span>
-              </button>
+              </button> */}
             </Link>
             <div className="d-flex align-items-center">
               <div className="position-relative me-3">

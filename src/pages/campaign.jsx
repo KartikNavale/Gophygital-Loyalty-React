@@ -20,6 +20,7 @@ const Campaign = () => {
     target_audiance: "",
   });
   const [showModal, setShowModal] = useState(false);
+  const [showModalView, setShowModalView] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
@@ -52,6 +53,18 @@ const Campaign = () => {
     });
     setShowModal(true);
   };
+
+  const handleViewClick = (campaign) => {
+    setSelectedCampaign(campaign);
+    setFormData({
+      name: campaign.name,
+      target_audiance: campaign.target_audiance,
+      campaign_tag: campaign.campaign_tag,
+    });
+    setShowModalView(true);
+  };
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -101,6 +114,17 @@ const Campaign = () => {
       target_audiance: "",
     });
   };
+
+  const handleCloseModalView = () => {
+    setShowModalView(false);
+    // setSelectedCampaign(null);
+    // setFormData({
+    //   name: "",
+    //   campaign_tag: "",
+    //   target_audiance: "",
+    // });
+  };
+
 
   // Handle search
   const handleSearch = () => {
@@ -288,7 +312,7 @@ const Campaign = () => {
   // };
 
 
-  
+
   const Pagination = ({
     currentPage,
     totalPages,
@@ -398,9 +422,8 @@ const Campaign = () => {
           ))}
 
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -412,9 +435,8 @@ const Campaign = () => {
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -447,7 +469,7 @@ const Campaign = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/new-campaign">
-              <button className="purple-btn1" style={{borderRadius:'5px'}}>
+              <button className="purple-btn1" style={{ borderRadius: '5px' }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -507,16 +529,16 @@ const Campaign = () => {
             </div>
           </div>
 
-          <div className="tbl-container mx-3 mt-4" 
-          // style={{ height: "100%", overflowY: "hidden", margin: "0 100px" }}
-          style={{
-            height: "100%",
-            overflowY: "hidden",
-            // textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            // justifyContent: "space-between",
-          }}
+          <div className="tbl-container mx-3 mt-4"
+            // style={{ height: "100%", overflowY: "hidden", margin: "0 100px" }}
+            style={{
+              height: "100%",
+              overflowY: "hidden",
+              // textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              // justifyContent: "space-between",
+            }}
           >
             {loading ? (
               <p>Loading...</p>
@@ -524,28 +546,45 @@ const Campaign = () => {
               <p className="text-danger">{error}</p>
             ) : (
               <>
-                <table className="w-100" style={{color: '#000', fontWeight:'400',fontSize:'13px'}}>
+                <table className="w-100" style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
                   <thead>
                     <tr>
                       <th>Campaign Name</th>
                       <th>Campaign Tag</th>
                       <th>Target Audience</th>
                       <th>Edit</th>
+                      <th>View</th>
                     </tr>
                   </thead>
-                  <tbody style={{color: '#000', fontWeight:'400',fontSize:'13px', textAlign:"center"}}>
+                  <tbody style={{ color: '#000', fontWeight: '400', fontSize: '13px', textAlign: "center" }}>
                     {currentItems.map((campaign) => (
                       <tr key={campaign.id}>
-                        <td style={{ width: '25%' }}>{campaign.name}</td>
-                        <td style={{ width: '25%' }}>{campaign.campaign_tag}</td>
-                        <td style={{ width: '25%' }}>{campaign.target_audiance}</td>
-                        <td style={{ width: '25%' }}>
+                        <td style={{ width: '20%' }}>{campaign.name}</td>
+                        <td style={{ width: '20%' }}>{campaign.campaign_tag}</td>
+                        <td style={{ width: '20%' }}>{campaign.target_audiance}</td>
+                        <td style={{ width: '20%' }}>
                           <button className="btn btn-link" onClick={() => handleEditClick(campaign)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#667080" className="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#5e2750" className="bi bi-pencil-square" viewBox="0 0 16 16">
                               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                               <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                             </svg>
                           </button>
+                        </td>
+                        <td style={{ width: '20%' }}>
+                          <Link to={``}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="#000000"
+                              className="bi bi-eye"
+                              viewBox="0 0 16 16"
+                              onClick={() => handleViewClick(campaign)}
+                            >
+                              <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                              <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                            </svg>
+                          </Link>
                         </td>
                       </tr>
                     ))}
@@ -561,6 +600,7 @@ const Campaign = () => {
                 />
               </>
             )}
+            {/* foe edit */}
             <Modal show={showModal} onHide={handleCloseModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Edit Campaign</Modal.Title>
@@ -609,6 +649,64 @@ const Campaign = () => {
                     </select>
                   </div>
                   <button type="submit" className="purple-btn1">Save Changes</button>
+                </form>
+              </Modal.Body>
+            </Modal>
+
+
+            {/* for view */}
+
+            <Modal show={showModalView} onHide={handleCloseModalView}>
+              <Modal.Header closeButton>
+                <Modal.Title>Campaign Details</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <form>
+                  <div className="mb-3">
+                    <label htmlFor="tierName" className="form-label">Campaign Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="tierName"
+                      name="name"
+                      value={formData.name}
+                      // onChange={handleInputChange}
+                      required
+                      disabled
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="campaignTag" className="form-label">Campaign Tag</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="campaignTag"
+                      name="campaign_tag"
+                      value={formData.campaign_tag}
+                      // onChange={handleInputChange}
+                      required
+                      disabled
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="target_audience" className="form-label">Target Audience</label>
+                    <select
+                      className="form-select"
+                      id="target_audiance"
+                      name="target_audiance"
+                      disabled
+                      value={formData.target_audiance}
+                      // onChange={handleInputChange}
+                      required
+                    >
+                      <option value="">Select Target Audience</option>
+                      <option value="Recently Joined">Recently Joined</option>
+                      <option value="Suspended">Suspended</option>
+                      <option value="1 - purchase">1 - purchase</option>
+                      <option value="No purchase">No purchase</option>
+                    </select>
+                  </div>
+                  {/* <button type="submit" className="purple-btn1" closeButton>Cancle</button> */}
                 </form>
               </Modal.Body>
             </Modal>
