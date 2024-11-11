@@ -27,6 +27,7 @@ import RootLayout from "./pages/Layout/RootLayout";
 import ProtectedRoute from "./login/ProtectedRoute";
 import ViewSegment from "./pages/view-segment";
 import TierDetails from "./pages/tier-details";
+import SelectSubToMain from "./pages/SelectSubToMain";
 
 function App() {
   return (
@@ -58,6 +59,8 @@ function App() {
             <Route path="/tier-details/:id" element={<TierDetails />} />
             <Route path="/test" element={<Test />} />
             <Route path="/view-segment/:id" element={<ViewSegment />} />
+            <Route path="/SelectSubToMain" element={<SelectSubToMain/>} />
+
           </Route>
         </Routes>
       </div>

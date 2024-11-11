@@ -3550,5 +3550,11 @@ input[type="number"] {
   outline: none;
 }
 
+.search_suggestion {
+  width: 95%;
+  z-index: 53;
+  background: #ffffff;
+}
+
 /*  */
 
