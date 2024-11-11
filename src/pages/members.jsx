@@ -144,159 +144,6 @@ const Members = () => {
     currentPage * itemsPerPage
   );
 
-  // const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  //   return (
-  //     <nav>
-  //       <ul className="pagination justify-content-center">
-  //         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-  //           <button className="page-link" onClick={() => onPageChange(currentPage - 1)}>
-  //             Previous
-  //           </button>
-  //         </li>
-  //         <li className={`page-item active`}>
-  //           <button className="page-link">{currentPage}</button>
-  //         </li>
-  //         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-  //           <button className="page-link" onClick={() => onPageChange(currentPage + 1)}>
-  //             Next
-  //           </button>
-  //         </li>
-  //       </ul>
-  //     </nav>
-  //   );
-  // };
-
-  // const Pagination = ({
-  //   currentPage,
-  //   totalPages,
-  //   totalEntries,
-  // }) => {
-  //   const startEntry = (currentPage - 1) * itemsPerPage + 1;
-  //   const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
-
-  //   const renderPageNumbers = () => {
-  //     const pages = [];
-  //     for (let i = 1; i <= totalPages; i++) {
-  //       pages.push(
-  //         <li
-  //           key={i}
-  //           className={`page-item ${i === currentPage ? "active" : ""}`}
-  //           style={{ border: "1px solid #ddd", margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(i)}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: i === currentPage ? "#fff" : "#5e2750",
-  //               backgroundColor: i === currentPage ? "#5e2750" : "#fff",
-  //               fontWeight: i === currentPage ? "bold" : "normal",
-  //               border:'2px solid #5e2750',
-  //               borderRadius:'3px'
-  //             }}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //     return pages;
-  //   };
-
-  //   return (
-  //     <nav className="d-flex justify-content-between align-items-center">
-  //       <ul
-  //         className="pagination justify-content-center align-items-center"
-  //         style={{
-  //           listStyleType: "none",
-  //           padding: "0",
-  //           display: "flex",
-  //           alignItems: "center",
-  //         }}
-  //       >
-  //         <li
-  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(1)}
-  //             disabled={currentPage === 1}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             «
-  //           </button>
-  //         </li>
-  //         <li
-  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage - 1)}
-  //             disabled={currentPage === 1}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             ‹
-  //           </button>
-  //         </li>
-  //         {renderPageNumbers()}
-  //         <li
-  //           className={`page-item ${
-  //             currentPage === totalPages ? "disabled" : ""
-  //           }`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage + 1)}
-  //             disabled={currentPage === totalPages}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor:
-  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             ›
-  //           </button>
-  //         </li>
-  //         <li
-  //           className={`page-item ${
-  //             currentPage === totalPages ? "disabled" : ""
-  //           }`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(totalPages)}
-  //             disabled={currentPage === totalPages}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor:
-  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             »
-  //           </button>
-  //         </li>
-  //       </ul>
-  //       <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
-  //         Showing {startEntry} to {endEntry} of {totalEntries} entries
-  //       </p>
-  //     </nav>
-  //   );
-  // };
-
 
   const Pagination = ({
     currentPage,
@@ -453,33 +300,6 @@ const Members = () => {
             <span className="text-secondary">Members</span> &gt; Manage Members
           </p>
           <h5>Manage Members</h5>
-          {/* <div className="d-flex justify-content-between loyalty-header">
-            <div>
-              <Link to="">
-                <button className="purple-btn1 rounded-3 px-3">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="bi bi-plus mb-1" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
-                  </svg>
-                  <span>New Member</span>
-                </button>
-              </Link>
-            </div>
-            <div className="d-flex flex-wrap justify-content-end">
-              <div className="d-flex search-input w-50 p-1 ms-0 me-3">
-                <span className="material-symbols-outlined"> search </span>
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <button className="purple-btn1 rounded-3 px-3" onClick={handleSearch}>Go!</button>
-              <button className="purple-btn2 rounded-3 mt-2" onClick={handleReset}>Reset</button>
-            </div>
-          </div> */}
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="">
@@ -498,55 +318,73 @@ const Members = () => {
               </button> */}
             </Link>
             <div className="d-flex align-items-center">
-              <div className="position-relative me-3">
-                <input
-                  className="form-control"
-                  style={{
-                    height: "35px",
-                    paddingLeft: "30px",
-                    textAlign: "left",
-                  }}
-                  // autoComplete
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  value={searchTerm}
-                  // onChange={(e) => setSearchTerm(e.target.value)}
-                  onChange={handleSearchInputChange}
-                />
-                <div
-                  className="position-absolute"
-                  style={{ top: "7px", left: "10px" }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    class="bi bi-search"
-                    viewBox="0 0 16 16"
+
+              {/* search */}
+
+              <div className="d-flex align-items-center position-relative">
+                <div className="position-relative me-3" style={{ width: "100%" }}>
+                  <input
+                    className="form-control"
+                    style={{
+                      height: "35px",
+                      paddingLeft: "30px",
+                      textAlign: "left",
+                    }}
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    value={searchTerm}
+                    onChange={handleSearchInputChange}
+                  />
+                  <div
+                    className="position-absolute"
+                    style={{ top: "7px", left: "10px" }}
                   >
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                  </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-search"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                  </div>
+                  {suggestions.length > 0 && (
+                    <ul
+                      className="suggestions-list position-absolute"
+                      style={{
+                        listStyle: "none",
+                        padding: "0",
+                        marginTop: "5px",
+                        border: "1px solid #ddd",
+                        maxHeight: "200px",
+                        overflowY: "auto",
+                        width: "100%",        // Match width of input field
+                        zIndex: 1,             // Ensure it appears on top of other elements
+                        backgroundColor: "#fff", // Set solid background color
+                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
+                      }}
+                    >
+                      {suggestions.map((member) => (
+                        <li
+                          key={member.id}
+                          style={{
+                            padding: "8px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleSuggestionClick(member)}
+                        >
+                          {member.firstname} {member.lasttname}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
 
-              <div>
-              {suggestions.length > 0 && (
-                <ul className="suggestions-list" style={{ listStyle: "none", padding: "0", marginTop: "5px", border: "1px solid #ddd", maxHeight: "200px", overflowY: "auto" }}>
-                  {suggestions.map((member) => (
-                    <li
-                      key={member.id}
-                      // className="suggestion-item"
-                      style={{ padding: "8px", cursor: "pointer" }}
-                      onClick={() => handleSuggestionClick(member)} // Handle suggestion click
-                    >
-                      {member.firstname} {member.lasttname}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              </div>
+
 
               <button
                 className="purple-btn1 rounded-3 px-3"
@@ -601,7 +439,7 @@ const Members = () => {
                       <tr key={member.id}>
                         <td style={{ width: '14.2%' }}>{member.id}</td>
                         <td style={{ width: '14.2%' }}>
-                        {member.firstname} {member.lasttname}
+                          {member.firstname} {member.lasttname}
                         </td>
                         <td style={{ width: '14.2%' }}>{member.member_status.tier_level}</td>
                         <td style={{ width: '14.2%' }}>{member.current_loyalty_points}</td>
