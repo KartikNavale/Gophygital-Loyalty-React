@@ -17,8 +17,8 @@ const RuleEngine = () => {
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredItems, setFilteredItems] = useState([]);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [filteredItems, setFilteredItems] = useState([]);
 
   const [masterAttributes, setMasterAttributes] = useState([]);
   const [subAttributes, setSubAttributes] = useState([]);
@@ -29,7 +29,10 @@ const RuleEngine = () => {
     masterAttribute: '',
     subAttribute: ''
   });
-  
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredItems, setFilteredItems] = useState([]); //filter
+  const [suggestions, setSuggestions] = useState([]); // To store the search suggestions
 
   useEffect(() => {
     const fetchRuleEngine = async () => {
@@ -41,7 +44,7 @@ const RuleEngine = () => {
         console.log(response.data)
         setRuleEngine(response.data);
         setFilteredItems(response.data); // Initialize with all items
-             
+
 
         // const transformedData = response.data.map((item) => {
         //   const transformedItem = {};
@@ -131,7 +134,7 @@ const RuleEngine = () => {
   //   console.log('Selected Master Attribute:', selectedMasterAttribute);
   //   console.log('Selected Sub Attribute:', selectedSubAttribute);
   //   console.log('Conditions:', conditions);
-// };
+  // };
 
   const handleChange = (e) => {
     setFormValues({
@@ -139,8 +142,8 @@ const RuleEngine = () => {
       [e.target.name]: e.target.value,
     });
   };
-   // Handle applying the filter and fetching data
-   const handleFilter = async (e) => {
+  // Handle applying the filter and fetching data
+  const handleFilter = async (e) => {
     e.preventDefault();
     const isAnyFilterFilled = Object.values(formValues).some((value) => value);
 
@@ -192,13 +195,49 @@ const RuleEngine = () => {
     currentPage * itemsPerPage
   );
 
+  // const handleSearch = () => {
+  //   const filtered = RuleEngine.filter(rule =>
+  //     rule.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  //   setFilteredItems(filtered);
+  //   setCurrentPage(1); // Reset to first page when searching
+  // };
+
+  // Handle search submission (e.g., when pressing 'Go!')
   const handleSearch = () => {
-    const filtered = RuleEngine.filter(rule =>
-      rule.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = RuleEngine.filter((member) =>
+      `${member.name}`.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredItems(filtered);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1); // Reset to the first page of results
+    setSuggestions([]); // Clear suggestions after searching
   };
+
+  // Handle search input change
+  const handleSearchInputChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+
+    // If there's a search term, filter the members and show suggestions
+    if (term) {
+      const filteredSuggestions = RuleEngine.filter(
+        (member) =>
+          `${member.name}`
+            .toLowerCase()
+            .includes(term.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions); // Update suggestions list
+    } else {
+      setSuggestions([]); // Clear suggestions when input is empty
+    }
+  };
+
+  const handleSuggestionClick = (member) => {
+    setSearchTerm(`${member.name}`);
+    setSuggestions([]); // Clear suggestions after selection
+    setFilteredItems([member]); // Optionally, filter to show the selected member
+  };
+
 
   const handleReset = () => {
     setSearchTerm(""); // Clear search term
@@ -424,7 +463,7 @@ const RuleEngine = () => {
                 Filter
               </button>
               <div className="position-relative me-3">
-                <input
+                {/* <input
                   className="form-control"
                   style={{
                     height: "35px",
@@ -436,8 +475,8 @@ const RuleEngine = () => {
                   aria-label="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <div
+                /> */}
+                {/* <div
                   className="position-absolute"
                   style={{ top: "7px", left: "10px" }}
                 >
@@ -451,6 +490,69 @@ const RuleEngine = () => {
                   >
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                   </svg>
+                </div> */}
+
+                <div className="d-flex align-items-center position-relative">
+                  <div className="position-relative me-3" style={{ width: "100%" }}>
+                    <input
+                      className="form-control"
+                      style={{
+                        height: "35px",
+                        paddingLeft: "30px",
+                        textAlign: "left",
+                      }}
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                      value={searchTerm}
+                      onChange={handleSearchInputChange}
+                    />
+                    <div
+                      className="position-absolute"
+                      style={{ top: "7px", left: "10px" }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-search"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                      </svg>
+                    </div>
+                    {suggestions.length > 0 && (
+                      <ul
+                        className="suggestions-list position-absolute"
+                        style={{
+                          listStyle: "none",
+                          padding: "0",
+                          marginTop: "5px",
+                          border: "1px solid #ddd",
+                          maxHeight: "200px",
+                          overflowY: "auto",
+                          width: "100%",        // Match width of input field
+                          zIndex: 1,             // Ensure it appears on top of other elements
+                          backgroundColor: "#fff", // Set solid background color
+                          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
+                        }}
+                      >
+                        {suggestions.map((member) => (
+                          <li
+                            key={member.id}
+                            style={{
+                              padding: "8px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => handleSuggestionClick(member)}
+                          >
+                            {member.name}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
               </div>
               <button
@@ -595,7 +697,7 @@ const RuleEngine = () => {
                         <select required="" className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }}
                           onChange={handleMasterAttributeChange}
                           value={selectedMasterAttribute}
-                          
+
                         >
                           <option value="" disabled selected hidden>
                             Select Master Attribute
@@ -613,9 +715,9 @@ const RuleEngine = () => {
                           Sub Attribute<span>*</span>
                         </legend>
                         <select required="" className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }}
-                         onChange={handleSubAttributeChange}
-                         value={selectedSubAttribute}
-                         disabled={!selectedMasterAttribute} // Disable if no master attribute is selected
+                          onChange={handleSubAttributeChange}
+                          value={selectedSubAttribute}
+                          disabled={!selectedMasterAttribute} // Disable if no master attribute is selected
                         >
                           <option value="" disabled selected hidden>
                             Select Sub Attribute
@@ -723,6 +825,6 @@ export default RuleEngine;
                         <option value="1">Building2</option>
                       </select>
                     </fieldset> */}
-{/* </div> */ } 
+{/* </div> */ }
 
 

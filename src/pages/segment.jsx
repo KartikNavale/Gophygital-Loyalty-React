@@ -14,11 +14,15 @@ const Segment = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredItems, setFilteredItems] = useState([]);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [filteredItems, setFilteredItems] = useState([]);
   const [selectedSegment, setSelectedSegment] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredItems, setFilteredItems] = useState([]); //filter
+  const [suggestions, setSuggestions] = useState([]); // To store the search suggestions
 
 
   const navigate = useNavigate();
@@ -35,15 +39,52 @@ const handleEditClick = (segment) => {
   });
 
   
-  const handleSearch = () => {
-    const filtered = segments.filter(
-      (rule) =>
-        rule.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        rule.segment_tag.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredItems(filtered);
-    setCurrentPage(1);
-  };
+  // const handleSearch = () => {
+  //   const filtered = segments.filter(
+  //     (rule) =>
+  //       rule.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //       rule.segment_tag.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  //   setFilteredItems(filtered);
+  //   setCurrentPage(1);
+  // };
+
+    // Handle search submission (e.g., when pressing 'Go!')
+    const handleSearch = () => {
+      const filtered = segments.filter((member) =>
+        `${member.name}`.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredItems(filtered);
+      setCurrentPage(1); // Reset to the first page of results
+      setSuggestions([]); // Clear suggestions after searching
+    };
+  
+    // Handle search input change
+    const handleSearchInputChange = (e) => {
+      const term = e.target.value;
+      setSearchTerm(term);
+  
+      // If there's a search term, filter the members and show suggestions
+      if (term) {
+        const filteredSuggestions = segments.filter(
+          (member) =>
+            `${member.name}`
+              .toLowerCase()
+              .includes(term.toLowerCase())
+        );
+        setSuggestions(filteredSuggestions); // Update suggestions list
+      } else {
+        setSuggestions([]); // Clear suggestions when input is empty
+      }
+    };
+  
+    const handleSuggestionClick = (member) => {
+      setSearchTerm(`${member.name}`);
+      setSuggestions([]); // Clear suggestions after selection
+      setFilteredItems([member]); // Optionally, filter to show the selected member
+    };
+  
+  
   const handleReset = () => {
     setSearchTerm("");
     setFilteredItems(segments);
@@ -313,7 +354,7 @@ const handleEditClick = (segment) => {
                 </div>
 
                 <div className="d-flex align-items-center">
-                  <div className="position-relative me-3">
+                  {/* <div className="position-relative me-3">
                     <input
                       className="form-control"
                       style={{
@@ -341,7 +382,70 @@ const handleEditClick = (segment) => {
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                       </svg>
                     </div>
+                  </div> */}
+
+<div className="d-flex align-items-center position-relative">
+                <div className="position-relative me-3" style={{ width: "100%" }}>
+                  <input
+                    className="form-control"
+                    style={{
+                      height: "35px",
+                      paddingLeft: "30px",
+                      textAlign: "left",
+                    }}
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    value={searchTerm}
+                    onChange={handleSearchInputChange}
+                  />
+                  <div
+                    className="position-absolute"
+                    style={{ top: "7px", left: "10px" }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-search"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
                   </div>
+                  {suggestions.length > 0 && (
+                    <ul
+                      className="suggestions-list position-absolute"
+                      style={{
+                        listStyle: "none",
+                        padding: "0",
+                        marginTop: "5px",
+                        border: "1px solid #ddd",
+                        maxHeight: "200px",
+                        overflowY: "auto",
+                        width: "100%",        // Match width of input field
+                        zIndex: 1,             // Ensure it appears on top of other elements
+                        backgroundColor: "#fff", // Set solid background color
+                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
+                      }}
+                    >
+                      {suggestions.map((member) => (
+                        <li
+                          key={member.id}
+                          style={{
+                            padding: "8px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleSuggestionClick(member)}
+                        >
+                          {member.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
                 
                   <button
                     className="purple-btn1 rounded-3 px-3"
