@@ -14,6 +14,7 @@ import ViewRuleEngine from "./pages/view-rule-engine";
 import CreateRuleEngine from "./pages/create-rule-engine";
 import NewTier from "./pages/new-tier";
 import Test from "./pages/test";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import {
@@ -29,6 +30,7 @@ import ViewSegment from "./pages/view-segment";
 import TierDetails from "./pages/tier-details";
 import SelectSubToMain from "./pages/SelectSubToMain";
 import CampaignDetails from "./pages/campaign-details";
+import EditSegment from "./pages/edit-segment";
 
 function App() {
   return (
@@ -63,6 +65,7 @@ function App() {
             <Route path="/view-segment/:id" element={<ViewSegment />} />
             <Route path="/SelectSubToMain" element={<SelectSubToMain/>} />
 
+            <Route path="/edit-segment/:id" element={<EditSegment />} />
           </Route>
         </Routes>
       </div>

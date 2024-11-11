@@ -132,6 +132,54 @@ const NewSegment = () => {
   // };
 
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  
+  //   if (!name || !segment_tag || !segment_type || segment_members.length === 0) {
+  //     toast.error(
+  //       "All Mandatory fields are required, and at least one member must be selected.",
+  //       {
+  //         position: "top-center",
+  //         autoClose: 3000,
+  //       }
+  //     );
+  //     return;
+  //   }
+  
+  //   const data = {
+  //     loyalty_segment: {
+  //       name,
+  //       segment_tag,
+  //       segment_type,
+  //       loyalty_type_id: storedValue,
+  //       loyalty_members: {
+  //         member_ids: segment_members.length > 0 ? segment_members : [],
+  //          // Submit empty if no filters
+  //       },
+  //     },
+  //   };
+  
+  //   try {
+  //     const response = await axios.post(
+  //       "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+  //       data
+  //     );
+  //     if (response.statusText === "Created") {
+  //       toast.success("Segment created successfully!", {
+  //         position: "top-center",
+  //         autoClose: 3000,
+  //       });
+  //       clearForm();
+  //       navigate("/Segment");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Failed to create segment. Please try again. A segment with this Name, Tag, and Type already exists. ", {
+  //       position: "top-center",
+  //       autoClose: 3000,
+  //     });
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -154,7 +202,6 @@ const NewSegment = () => {
         loyalty_type_id: storedValue,
         loyalty_members: {
           member_ids: segment_members.length > 0 ? segment_members : [],
-           // Submit empty if no filters
         },
       },
     };
@@ -164,6 +211,7 @@ const NewSegment = () => {
         "https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
         data
       );
+  
       if (response.statusText === "Created") {
         toast.success("Segment created successfully!", {
           position: "top-center",
@@ -173,12 +221,31 @@ const NewSegment = () => {
         navigate("/Segment");
       }
     } catch (error) {
-      toast.error("Failed to create segment. Please try again.", {
-        position: "top-center",
-        autoClose: 3000,
-      });
+      if (error.response && error.response.status === 422) {
+        // Check for the specific backend validation message
+        const errorMessage = error.response.data?.name?.[0];
+        if (errorMessage === "with this name, type and tag combination must be unique") {
+          toast.error("A segment with this Name, Tag, and Type already exists.", {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else {
+          // Handle other possible 422 error messages
+          toast.error("Failed to create segment due to validation error.", {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        }
+      } else {
+        // Generic error message for other errors
+        toast.error("Failed to create segment. Please try again.", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      }
     }
   };
+  
   
   const clearForm = () => {
     setName(""); // Updated: Clear name field

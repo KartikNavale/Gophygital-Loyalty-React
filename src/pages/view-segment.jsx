@@ -314,68 +314,68 @@ const ViewSegment = () => {
                     </th>
                   </tr> */}
 
-<tr>
-          <th
-            style={{
-              width: "400px",
-              fontWeight: "400",
-              fontSize: "13px",
-              height: "40px",
-            }}
-          >
-            Name
-          </th>
-          <th
-            style={{
-              width: "400px",
-              fontWeight: "400",
-              fontSize: "13px",
-              height: "40px",
-            }}
-          >
-            Email
-          </th>
-          <th
-            style={{
-              width: "400px",
-              fontWeight: "400",
-              fontSize: "13px",
-              height: "40px",
-            }}
-          >
-            Address
-          </th>
-          <th
-            style={{
-              width: "400px",
-              fontWeight: "400",
-              fontSize: "13px",
-              height: "40px",
-            }}
-          >
-            Gender
-          </th>
-          <th
-            style={{
-              width: "400px",
-              fontWeight: "400",
-              fontSize: "13px",
-              height: "40px",
-            }}
-          >
-            Status
-          </th>
-          <th
-            style={{
-              width: "400px",
-              fontWeight: "400",
-              fontSize: "13px",
-              height: "40px",
-            }}
-          >
-            Loyalty Points
-          </th>
-        </tr>
+                  <tr>
+                    <th
+                      style={{
+                        width: "400px",
+                        fontWeight: "400",
+                        fontSize: "13px",
+                        height: "40px",
+                      }}
+                    >
+                      Name
+                    </th>
+                    <th
+                      style={{
+                        width: "400px",
+                        fontWeight: "400",
+                        fontSize: "13px",
+                        height: "40px",
+                      }}
+                    >
+                      Email
+                    </th>
+                    <th
+                      style={{
+                        width: "400px",
+                        fontWeight: "400",
+                        fontSize: "13px",
+                        height: "40px",
+                      }}
+                    >
+                      Address
+                    </th>
+                    <th
+                      style={{
+                        width: "400px",
+                        fontWeight: "400",
+                        fontSize: "13px",
+                        height: "40px",
+                      }}
+                    >
+                      Gender
+                    </th>
+                    <th
+                      style={{
+                        width: "400px",
+                        fontWeight: "400",
+                        fontSize: "13px",
+                        height: "40px",
+                      }}
+                    >
+                      Status
+                    </th>
+                    <th
+                      style={{
+                        width: "400px",
+                        fontWeight: "400",
+                        fontSize: "13px",
+                        height: "40px",
+                      }}
+                    >
+                      Loyalty Points
+                    </th>
+                  </tr>
                 </thead>
                 <tbody>
                   {paginatedMembers.length > 0 ? (
@@ -636,7 +636,9 @@ const Pagination = ({
         ))}
 
         <li
-          className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+          className={`page-item ${
+            currentPage === totalPages ? "disabled" : ""
+          }`}
         >
           <button
             className="page-link"
@@ -648,7 +650,9 @@ const Pagination = ({
           </button>
         </li>
         <li
-          className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+          className={`page-item ${
+            currentPage === totalPages ? "disabled" : ""
+          }`}
         >
           <button
             className="page-link"
@@ -666,6 +670,5 @@ const Pagination = ({
     </nav>
   );
 };
-
 
 export default ViewSegment;

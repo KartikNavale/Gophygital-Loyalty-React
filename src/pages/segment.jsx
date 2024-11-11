@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Segment = () => {
   const [segments, setSegments] = useState([]);
@@ -18,6 +19,14 @@ const Segment = () => {
   const [selectedSegment, setSelectedSegment] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+
+  const navigate = useNavigate();
+
+const handleEditClick = (segment) => {
+  // Navigate to the edit page with the segment ID
+  navigate(`/edit-segment/${segment.id}`);
+};
 
   const [formData, setFormData] = useState({
     name: "",
@@ -60,69 +69,69 @@ const Segment = () => {
     fetchSegments();
   }, []);
 
-  const handleEditClick = (segment) => {
-    setSelectedSegment(segment);
-    setFormData({
-      name: segment.name,
-      segment_tag: segment.segment_tag,
-      // segment_filters: segment?.segment_filters,
-      // segment_type: segment?.segment_type,
-      // loyalty_tier_id: segment?.loyalty_tier_id,
-    });
-    setShowModal(true); // Assuming this controls a modal for editing
-  };
+  // const handleEditClick = (segment) => {
+  //   setSelectedSegment(segment);
+  //   setFormData({
+  //     name: segment.name,
+  //     segment_tag: segment.segment_tag,
+  //     // segment_filters: segment?.segment_filters,
+  //     // segment_type: segment?.segment_type,
+  //     // loyalty_tier_id: segment?.loyalty_tier_id,
+  //   });
+  //   setShowModal(true); // Assuming this controls a modal for editing
+  // };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     [name]: value,
+  //   }));
+  // };
 
   
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    if (selectedSegment) {
-      try {
-        const response = await axios.put(
-          `https://staging.lockated.com/loyalty/segments/${selectedSegment.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-          { loyalty_segment: formData }
+  // const handleFormSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (selectedSegment) {
+  //     try {
+  //       const response = await axios.put(
+  //         `https://staging.lockated.com/loyalty/segments/${selectedSegment.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+  //         { loyalty_segment: formData }
         
-        );
-        console.log(response)
-        if (response) {
-          // Update segments state
-          const updatedSegments = segments.map((segment) =>
-            segment.id === selectedSegment.id
-              ? { ...segment, ...formData }
-              : segment
-          );
+  //       );
+  //       console.log(response)
+  //       if (response) {
+  //         // Update segments state
+  //         const updatedSegments = segments.map((segment) =>
+  //           segment.id === selectedSegment.id
+  //             ? { ...segment, ...formData }
+  //             : segment
+  //         );
 
-          // Update the segments state
-          setSegments(updatedSegments);
+  //         // Update the segments state
+  //         setSegments(updatedSegments);
 
-          // Also update the filtered items state
-          setFilteredItems(updatedSegments);
+  //         // Also update the filtered items state
+  //         setFilteredItems(updatedSegments);
 
-          // Set the current page to the first page to display updated results
-          setCurrentPage(1);
-        }
-        handleCloseModal();
-      } catch (error) {
-        alert(`Error: ${error.message}`);
-      }
-    }
-  };
+  //         // Set the current page to the first page to display updated results
+  //         setCurrentPage(1);
+  //       }
+  //       handleCloseModal();
+  //     } catch (error) {
+  //       alert(`Error: ${error.message}`);
+  //     }
+  //   }
+  // };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedSegment(null);
-    setFormData({
-      name: "",
-      segment_tag: "",
-    });
-  };
+  // const handleCloseModal = () => {
+  //   setShowModal(false);
+  //   setSelectedSegment(null);
+  //   setFormData({
+  //     name: "",
+  //     segment_tag: "",
+  //   });
+  // };
 
   
 
@@ -487,7 +496,7 @@ const Segment = () => {
           </form>
         </Modal.Body>
       </Modal> */}
-
+{/* 
 <Modal show={showModal} onHide={handleCloseModal}>
   <Modal.Header closeButton>
     <Modal.Title>Edit Segment</Modal.Title>
@@ -526,7 +535,7 @@ const Segment = () => {
       <button type="submit" className="purple-btn1">Save Changes</button>
     </form>
   </Modal.Body>
-</Modal>
+</Modal> */}
 
     </>
   );
