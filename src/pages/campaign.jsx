@@ -571,7 +571,7 @@ const Campaign = () => {
                           </button>
                         </td>
                         <td style={{ width: '20%' }}>
-                          <Link to={``}>
+                          <Link to={`/campaign-details/${campaign.id}`}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -656,7 +656,7 @@ const Campaign = () => {
 
             {/* for view */}
 
-            <Modal show={showModalView} onHide={handleCloseModalView}>
+            {/* <Modal show={showModalView} onHide={handleCloseModalView}>
               <Modal.Header closeButton>
                 <Modal.Title>Campaign Details</Modal.Title>
               </Modal.Header>
@@ -707,9 +707,9 @@ const Campaign = () => {
                     </select>
                   </div>
                   {/* <button type="submit" className="purple-btn1" closeButton>Cancle</button> */}
-                </form>
+                {/* </form>
               </Modal.Body>
-            </Modal>
+            </Modal> */} 
           </div>
         </div>
       </div>

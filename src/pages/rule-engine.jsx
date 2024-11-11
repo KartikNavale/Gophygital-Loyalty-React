@@ -20,19 +20,14 @@ const RuleEngine = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
 
-  //
   const [masterAttributes, setMasterAttributes] = useState([]);
   const [subAttributes, setSubAttributes] = useState([]);
   const [selectedMasterAttribute, setSelectedMasterAttribute] = useState('');
   const [selectedSubAttribute, setSelectedSubAttribute] = useState('');
-  const [conditions, setConditions] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);  // Store the filtered table data
-
   const [formValues, setFormValues] = useState({
-    name:'',
-    masterAttribute:'',
-    subAttribute:''
-    
+    name: '',
+    masterAttribute: '',
+    subAttribute: ''
   });
   
 
@@ -147,51 +142,42 @@ const RuleEngine = () => {
    // Handle applying the filter and fetching data
    const handleFilter = async (e) => {
     e.preventDefault();
-
     const isAnyFilterFilled = Object.values(formValues).some((value) => value);
 
-    // if (!isAnyFilterFilled) {
-    //   setError("Please fill at least one filter field before applying.");
-    //   return;
-    // }
+    if (!isAnyFilterFilled) {
+      setError("Please fill at least one filter field before applying.");
+      return;
+    }
 
-    // Reset error if filter fields are filled
     setError("");
 
-    // Create query params dynamically based on the formValues
     let query = [];
-
-    // Add conditions only if values are provided
     if (formValues.name) {
-      query.push(
-        `q[name_cont]=${formatDate(formValues.name)}`
-      );
+      query.push(`q[name_cont]=${formValues.name}`);
     }
     if (formValues.masterAttribute) {
-      query.push(`q[rule_engine_conditions_rule_engine_applicable_model_rule_engine_available_model_display_name_cont]=${formatDate(formValues.masterAttribute)}`);
+      query.push(`q[rule_engine_conditions_rule_engine_applicable_model_rule_engine_available_model_display_name_cont]=${formValues.masterAttribute}`);
     }
-
     if (formValues.subAttribute) {
-      query.push(
-        `q[rule_engine_conditions_condition_attribute_cont]=&q[rule_engine_actions_lock_model_name_cont]=&q[rule_engine_actions_action_method_cont]=${formatDate(formValues.subAttribute)}`
-      );
+      query.push(`q[rule_engine_conditions_condition_attribute_cont]=${formValues.subAttribute}`);
     }
-    
 
-    // Construct full query string
     const queryString = query.length > 0 ? `?${query.join("&")}` : "";
-    const storedValue = sessionStorage.getItem("selectedId")
+    const storedValue = sessionStorage.getItem("selectedId");
     try {
-      // Call API with query string
       const response = await axios.get(
-        `https://staging.lockated.com/rule_engine/rules.json?${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `https://staging.lockated.com/rule_engine/rules.json?${queryString}&token=bfa5004e7 b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
-
-      setFilteredData(response.data); // Set the fetched data;
-      // setRuleEngine(response.data)
-
-      console.log('filter',response.data)
-       
+      setFilteredItems(response.data); // Update filtered items with the response data
+      setSelectedMasterAttribute(''); // Reset selected master attribute
+      setSelectedSubAttribute(''); // Reset selected sub attribute
+      setFormValues({ name: '', masterAttribute: '', subAttribute: '' }); // Reset form values
+      // Close the modal after applying the filter
+      const modal = document.getElementById('viewModal');
+      if (modal) {
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+      }
     } catch (error) {
       console.error("Error fetching filtered data", error);
     }
@@ -607,32 +593,19 @@ const RuleEngine = () => {
                           Master Attribute<span>*</span>
                         </legend>
                         <select required="" className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }}
-                          onChange={(e) => {
-                            // Update conditions and fetch sub attributes
-                            const updatedConditions = conditions.map((cond, idx) =>
-                              idx === 0 // Assuming you want to update the first condition
-                                ? { ...cond, masterAttribute: e.target.value }
-                                : cond
-                            );
-                            setConditions(updatedConditions);
-                            
-                            handleMasterAttributeChange(e);
-                            handleChange(e)
-                          }}
-                          value={formValues.masterAttribute}
-                          // onChange={handleChange}
-                          // value={selectedMasterAttribute}
+                          onChange={handleMasterAttributeChange}
+                          value={selectedMasterAttribute}
                           
                         >
                           <option value="" disabled selected hidden>
                             Select Master Attribute
                           </option>
-
                           {masterAttributes.map((attr) => (
                             <option key={attr.id} value={attr.id}>
                               {attr.display_name}
                             </option>
                           ))}
+
                         </select>
                       </fieldset>
                       <fieldset className="border col-md-5 m-2 col-sm-11">
@@ -640,11 +613,9 @@ const RuleEngine = () => {
                           Sub Attribute<span>*</span>
                         </legend>
                         <select required="" className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }}
-                          // onChange={handleSubAttributeChange}
-                          value={formValues.masterAttribute}
-                      onChange={handleChange}
-                          // value={selectedSubAttribute}
-                          disabled={!selectedMasterAttribute} // Disable sub attribute dropdown if no master attribute is selected
+                         onChange={handleSubAttributeChange}
+                         value={selectedSubAttribute}
+                         disabled={!selectedMasterAttribute} // Disable if no master attribute is selected
                         >
                           <option value="" disabled selected hidden>
                             Select Sub Attribute
@@ -753,3 +724,5 @@ export default RuleEngine;
                       </select>
                     </fieldset> */}
 {/* </div> */ } 
+
+

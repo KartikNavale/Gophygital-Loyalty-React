@@ -28,6 +28,7 @@ import ProtectedRoute from "./login/ProtectedRoute";
 import ViewSegment from "./pages/view-segment";
 import TierDetails from "./pages/tier-details";
 import SelectSubToMain from "./pages/SelectSubToMain";
+import CampaignDetails from "./pages/campaign-details";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="/members" element={<Members />} />
             <Route path="/segment" element={<Segment />} />
             <Route path="/campaign" element={<Campaign />} />
+            <Route path="/campaign-details/:id" element={<CampaignDetails />} />
             <Route path="/new-segment" element={<NewSegment />} />
             <Route path="/new-campaign" element={<NewCampaign />} />
             <Route path="/member-details/:id" element={<MemberDetails />} />
