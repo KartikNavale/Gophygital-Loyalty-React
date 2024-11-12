@@ -2,14 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "react-bootstrap";
+import SubHeader from "../components/SubHeader"
 
 const EditSegment = () => {
   const { id } = useParams(); // Get the segment ID from the URL
   const [segment, setSegment] = useState(null);
+  const [segment_members, setSelectedMemberIds] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     segment_tag: "",
-    member_count: "",
+    // member_count: "",
+
+    loyalty_members: {
+      member_ids: []
+    },
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -19,13 +25,24 @@ const EditSegment = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Define the number of items per page
   // Fetch the segment details using the segment ID
-  const [updatedMemberCount, setUpdatedMemberCount] = useState(totalMembers);
-
+  
   const [selectedMembers, setSelectedMembers] = useState([]);
 
   
-  const handleCheckboxChange = (e, memberId) => {
+  // const handleCheckboxChange = (e, memberId) => {
     
+  //   const newSelectedMembers = e.target.checked
+  //     ? [...selectedMembers, memberId]
+  //     : selectedMembers.filter((id) => id !== memberId);
+
+  //   setSelectedMembers(newSelectedMembers);
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     member_count: newSelectedMembers.length,
+  //   }));
+  // };
+
+  const handleCheckboxChange = (e, memberId) => {
     const newSelectedMembers = e.target.checked
       ? [...selectedMembers, memberId]
       : selectedMembers.filter((id) => id !== memberId);
@@ -34,9 +51,13 @@ const EditSegment = () => {
     setFormData((prevData) => ({
       ...prevData,
       member_count: newSelectedMembers.length,
+      loyalty_members: {
+        member_ids: newSelectedMembers,
+      },
     }));
   };
 
+  
   useEffect(() => {
     const fetchSegment = async () => {
       try {
@@ -44,21 +65,32 @@ const EditSegment = () => {
           `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
         );
         setSegment(response.data);
+        // setFormData({
+        //   name: response.data.name,
+        //   segment_tag: response.data.segment_tag,
+        //   member_count: response.data.member_count,
+          
+        // });
+
         setFormData({
           name: response.data.name,
           segment_tag: response.data.segment_tag,
-          member_count: response.data.member_count,
+          member_count: response.data.loyalty_members.length,
+          loyalty_members: {
+            member_ids: response.data.loyalty_members.map((member) => member.id),
+          },
         });
-
+        setSelectedMembers(response.data.loyalty_members.map((member) => member.id));
         setMembers(response.data.loyalty_members);
         setTotalMembers(response.data.loyalty_members.length);
         setLoading(false);
+
+        // setMembers(response.data.loyalty_members);
+        // setTotalMembers(response.data.loyalty_members.length);
+        // setLoading(false);
         // const initialSelectedMembers = response.data.loyalty_members.map(member => member.id);
         // setSelectedMembers(initialSelectedMembers);
-        setSelectedMembers(
-          response.data.loyalty_members.map((member) => member.id)
-        );
-        setLoading(false);
+       
 
         // Update count based on selected members
       } catch (error) {
@@ -98,10 +130,7 @@ const EditSegment = () => {
         `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
         {
           loyalty_segment: {
-            ...formData, // includes name and segment_tag
-            // member_count: updatedMemberCount, // update with current selected members count
-            member_count: selectedMembers.length,
-            selected_members: selectedMembers, // send selected member IDs array
+            ...formData, // includes name and 
           },
         }
       );
@@ -124,21 +153,22 @@ const EditSegment = () => {
   }
 
   return (
-    <div>
+     <div className="w-100">
+       <SubHeader />
       <form onSubmit={handleSubmit}>
-        <div className="module-data-section mt-2">
+        <div className="module-data-section mt-2 ms-3 ">
           <p className="pointer ">
-            <span className="">Segment</span> &gt; New Segment
+            <span className="">Segment</span> &gt; Edit Segment
           </p>
           <h5
-            className="mb-1 title ms-3"
-            style={{ marginBottom: "30px", marginTop: "33px" }}
+            className="mb-1 title"
+            style={{ marginTop: "33px" }}
           >
             Edit Segment
           </h5>
           {/* <div className="go-shadow me-3 pb-4"> */}
-          <div className="row ms-2 mt-2" style={{ marginBottom: "30px" }}>
-            <fieldset className="border col-md-3 m-2 col-sm-11 ">
+          <div className="row  mt-2" style={{ marginBottom: "30px" }}>
+            <fieldset className="border col-md-3 m-2 col-sm-11 ms-3 ">
               <legend
                 className="float-none"
                 style={{
@@ -195,7 +225,7 @@ const EditSegment = () => {
             </fieldset>
           </div>
         </div>
-        <div className="form-group ms-4 "
+        {/* <div className="form-group ms-4 "
          style={{ marginBottom: "50px" }}
          >
           <label
@@ -229,11 +259,13 @@ const EditSegment = () => {
               fontWeight: "400",
             }}
           />
-        </div>
+        </div> */}
 
        
-        <div className="filtered-data-section mt-2 ms-4">
-          <h5 className="ms-3">Members List</h5>
+        <div className="filtered-data-section  ms-3">
+          <h5 className="ms-3 title"
+           
+          >Members List</h5>
 
           <div className="tbl-container mx-3 mt-4">
             <table
@@ -363,7 +395,7 @@ const EditSegment = () => {
           />
         </div>
 
-        <div className="row mt-5 justify-content-center">
+        <div className="row mt-3 justify-content-center">
           <div className="col-md-2">
             <button className="purple-btn1 w-100" type="submit">
               Submit
