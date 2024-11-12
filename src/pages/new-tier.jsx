@@ -135,7 +135,7 @@ const NewTier = () => {
           <p className="pointer">
             <span className="text-secondary">Tiers</span> &gt; Tier Setting
           </p>
-          <div className="mx-3 border-bottom" style={{fontSize:'16px'}}>
+          <div className="mx-3 border-bottom" style={{fontSize:'16px',paddingBottom:'20px'}}>
             <h5 className="d-flex">
               <span className="title mt-3" style={{fontSize:'22px'}}>TIER SETTING</span>
             </h5>

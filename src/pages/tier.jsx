@@ -125,11 +125,8 @@ const Tiers = () => {
 
     // If there's a search term, filter the members and show suggestions
     if (term) {
-      const filteredSuggestions = tiers.filter(
-        (member) =>
-          `${member.name}`
-            .toLowerCase()
-            .includes(term.toLowerCase())
+      const filteredSuggestions = tiers.filter((member) =>
+        `${member.name}`.toLowerCase().includes(term.toLowerCase())
       );
       setSuggestions(filteredSuggestions); // Update suggestions list
     } else {
@@ -143,8 +140,6 @@ const Tiers = () => {
     setFilteredItems([member]); // Optionally, filter to show the selected member
   };
 
-
-
   const handleReset = () => {
     setSearchTerm("");
     setFilteredItems(tiers);
@@ -156,133 +151,6 @@ const Tiers = () => {
       setCurrentPage(page);
     }
   };
-
-  // const Pagination = ({ currentPage, totalPages, totalEntries }) => {
-  //   const startEntry = (currentPage - 1) * itemsPerPage + 1;
-  //   const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
-
-  //   const renderPageNumbers = () => {
-  //     const pages = [];
-  //     for (let i = 1; i <= totalPages; i++) {
-  //       pages.push(
-  //         <li
-  //           key={i}
-  //           className={`page-item ${i === currentPage ? "active" : ""}`}
-  //           style={{ border: "1px solid #ddd", margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(i)}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: i === currentPage ? "#fff" : "#5e2750",
-  //               backgroundColor: i === currentPage ? "#5e2750" : "#fff",
-  //               fontWeight: i === currentPage ? "bold" : "normal",
-  //               border: "2px solid #5e2750",
-  //               borderRadius: "3px",
-  //             }}
-  //           >
-  //             {i}
-  //           </button>
-  //         </li>
-  //       );
-  //     }
-  //     return pages;
-  //   };
-
-  //   return (
-  //     <nav className="d-flex justify-content-between align-items-center mt-3">
-  //       <ul
-  //         className="pagination justify-content-center align-items-center"
-  //         style={{
-  //           listStyleType: "none",
-  //           padding: "0",
-  //           display: "flex",
-  //           alignItems: "center",
-  //         }}
-  //       >
-  //         <li
-  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(1)}
-  //             disabled={currentPage === 1}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             «
-  //           </button>
-  //         </li>
-  //         <li
-  //           className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage - 1)}
-  //             disabled={currentPage === 1}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             ‹
-  //           </button>
-  //         </li>
-  //         {renderPageNumbers()}
-  //         <li
-  //           className={`page-item ${
-  //             currentPage === totalPages ? "disabled" : ""
-  //           }`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(currentPage + 1)}
-  //             disabled={currentPage === totalPages}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor:
-  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             ›
-  //           </button>
-  //         </li>
-  //         <li
-  //           className={`page-item ${
-  //             currentPage === totalPages ? "disabled" : ""
-  //           }`}
-  //           style={{ margin: "2px" }}
-  //         >
-  //           <button
-  //             className="page-link"
-  //             onClick={() => handlePageChange(totalPages)}
-  //             disabled={currentPage === totalPages}
-  //             style={{
-  //               padding: "8px 12px",
-  //               color: "#5e2750",
-  //               backgroundColor:
-  //                 currentPage === totalPages ? "#f0f0f0" : "#fff",
-  //             }}
-  //           >
-  //             »
-  //           </button>
-  //         </li>
-  //       </ul>
-  //       <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
-  //         Showing {startEntry} to {endEntry} of {totalEntries} entries
-  //       </p>
-  //     </nav>
-  //   );
-  // };
   const Pagination = ({
     currentPage,
     totalPages,
@@ -392,8 +260,9 @@ const Tiers = () => {
           ))}
 
           <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             <button
               className="page-link"
@@ -405,8 +274,9 @@ const Tiers = () => {
             </button>
           </li>
           <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             <button
               className="page-link"
@@ -425,8 +295,10 @@ const Tiers = () => {
     );
   };
 
-  let yearlyTier = tiers.filter((item) => item.point_type === "yearly").length
-  let lifeTimeTier = tiers.filter((item) => item.point_type === "lifetime").length
+  let yearlyTier = tiers.filter((item) => item.point_type === "yearly").length;
+  let lifeTimeTier = tiers.filter(
+    (item) => item.point_type === "lifetime"
+  ).length;
 
   return (
     <>
@@ -445,7 +317,7 @@ const Tiers = () => {
             </span>{" "}
             &gt; Tier List
           </p>
-          <h5 style={{ fontSize: "22px" }}>Tiers</h5>
+          <h5 style={{ fontSize: "22px" }}>Tier List</h5>
           <div className="loyalty-header">
             <div className="d-flex justify-content-between align-items-center">
               <Link to="/new-tier">
@@ -498,67 +370,70 @@ const Tiers = () => {
                   </div>
                 </div> */}
                 <div className="d-flex align-items-center position-relative">
-                <div className="position-relative me-3" style={{ width: "100%" }}>
-                  <input
-                    className="form-control"
-                    style={{
-                      height: "35px",
-                      paddingLeft: "30px",
-                      textAlign: "left",
-                    }}
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                    value={searchTerm}
-                    onChange={handleSearchInputChange}
-                  />
                   <div
-                    className="position-absolute"
-                    style={{ top: "7px", left: "10px" }}
+                    className="position-relative me-3"
+                    style={{ width: "100%" }}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-search"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                  </div>
-                  {suggestions.length > 0 && (
-                    <ul
-                      className="suggestions-list position-absolute"
+                    <input
+                      className="form-control"
                       style={{
-                        listStyle: "none",
-                        padding: "0",
-                        marginTop: "5px",
-                        border: "1px solid #ddd",
-                        maxHeight: "200px",
-                        overflowY: "auto",
-                        width: "100%",        // Match width of input field
-                        zIndex: 1,             // Ensure it appears on top of other elements
-                        backgroundColor: "#fff", // Set solid background color
-                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
+                        height: "35px",
+                        paddingLeft: "30px",
+                        textAlign: "left",
                       }}
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                      value={searchTerm}
+                      onChange={handleSearchInputChange}
+                    />
+                    <div
+                      className="position-absolute"
+                      style={{ top: "7px", left: "10px" }}
                     >
-                      {suggestions.map((member) => (
-                        <li
-                          key={member.id}
-                          style={{
-                            padding: "8px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => handleSuggestionClick(member)}
-                        >
-                          {member.name}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-search"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                      </svg>
+                    </div>
+                    {suggestions.length > 0 && (
+                      <ul
+                        className="suggestions-list position-absolute"
+                        style={{
+                          listStyle: "none",
+                          padding: "0",
+                          marginTop: "5px",
+                          border: "1px solid #ddd",
+                          maxHeight: "200px",
+                          overflowY: "auto",
+                          width: "100%", // Match width of input field
+                          zIndex: 1, // Ensure it appears on top of other elements
+                          backgroundColor: "#fff", // Set solid background color
+                          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
+                        }}
+                      >
+                        {suggestions.map((member) => (
+                          <li
+                            key={member.id}
+                            style={{
+                              padding: "8px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => handleSuggestionClick(member)}
+                          >
+                            {member.name}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
-              </div>
                 <button
                   className="purple-btn1 rounded-3 px-3"
                   onClick={handleSearch}
