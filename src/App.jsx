@@ -31,6 +31,7 @@ import TierDetails from "./pages/tier-details";
 import SelectSubToMain from "./pages/SelectSubToMain";
 import CampaignDetails from "./pages/campaign-details";
 import EditSegment from "./pages/edit-segment";
+import EditRuleEngine from "./pages/edit-rule-engine";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             <Route path="/rule-engine" element={<RuleEngine />} />
             <Route path="/create-rule-engine" element={<CreateRuleEngine />} />
             <Route path="/view-rule-engine/:id" element={<ViewRuleEngine />} />
+            <Route path="/edit-rule-engine/:id" element={<EditRuleEngine />} />
             <Route path="/tier-setting" element={<TierSetting />} />
             <Route path="/tiers" element={<Tiers />} />
             <Route path="/new-tier" element={<NewTier />} />

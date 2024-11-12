@@ -9,6 +9,7 @@ import {
 } from "../Confi/ruleEngineApi";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SelectSubToMain from "./SelectSubToMain";
 
 const RuleEngine = () => {
   const [RuleEngine, setRuleEngine] = useState([]);
@@ -118,13 +119,13 @@ const RuleEngine = () => {
   };
 
   const handleFilter = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     let query = [];
-    if(selectedMasterAttribute){
+    if (selectedMasterAttribute) {
       query.push(`q[rule_engine_conditions_rule_engine_applicable_model_rule_engine_available_model_display_name_cont]=${selectedMasterAttribute}`)
     }
-    if(selectedSubAttribute){
+    if (selectedSubAttribute) {
       query.push(`q[rule_engine_conditions_condition_attribute_cont]=${selectedSubAttribute}`)
     }
     const queryString = query.length > 0 ? `?${query.join("&")}` : "";
@@ -133,7 +134,7 @@ const RuleEngine = () => {
       const response = await axios.get(
         `https://staging.lockated.com/rule_engine/rules.json?${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
-      if(response){        
+      if (response) {
         setFilteredItems(response.data);
         setSelectedMasterAttribute("");
         setSelectedSubAttribute("");
@@ -307,9 +308,8 @@ const RuleEngine = () => {
           ))}
 
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -321,9 +321,8 @@ const RuleEngine = () => {
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -397,7 +396,7 @@ const RuleEngine = () => {
             <div className="d-flex align-items-center">
               <button
                 className="purple-btn2 rounded-3 mt-2 me-3"
-                onClick={() => {setShowModal(true)}}
+                onClick={() => { setShowModal(true) }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -556,6 +555,7 @@ const RuleEngine = () => {
                       <th>Reward Outcome</th>
                       <th>Sub Reward Outcome</th>
                       <th>Toggle</th>
+                      <th>Edit</th>
                       <th>View</th>
                     </tr>
                   </thead>
@@ -580,36 +580,39 @@ const RuleEngine = () => {
                           )}{" "}
                           {/* Row span for the rule name */}
                           {console.log(rule.name)}
-                          <td style={{ width: "11.11%" }}>
+                          <td style={{ width: "10%" }}>
                             {condition.model_name}
                           </td>
-                          <td style={{ width: "11.11%" }}>
+                          <td style={{ width: "10%" }}>
                             {condition.condition_attribute}
                           </td>
-                          <td style={{ width: "11.11%" }}>Common Operatives</td>
-                          <td style={{ width: "11.11%" }}>
+                          <td style={{ width: "10%" }}>
+                            Common Operatives
+                            {/* <SelectSubToMain/> */}
+                          </td>
+                          <td style={{ width: "10%" }}>
                             {condition.operator}
                           </td>
                           {actions.length > 0 ? (
                             actions.map((act, actIndex) => (
                               <React.Fragment key={act.id || actIndex}>
-                                <td style={{ width: "11.11%" }}>
+                                <td style={{ width: "10%" }}>
                                   {act.lock_model_name
                                     ? act.lock_model_name
                                     : ""}
                                 </td>
-                                <td style={{ width: "11.11%" }}>
+                                <td style={{ width: "10%" }}>
                                   {act.action_method ? act.action_method : ""}
                                 </td>
                               </React.Fragment>
                             ))
                           ) : (
                             <>
-                              <td style={{ width: "11.11%" }}></td>
-                              <td style={{ width: "11.11%" }}></td>
+                              <td style={{ width: "10%" }}></td>
+                              <td style={{ width: "10%" }}></td>
                             </>
                           )}
-                          <td style={{ width: "11.11%" }}>
+                          <td style={{ width: "10%" }}>
                             <span className="form-switch ps-5">
                               <input
                                 className="on-off-toggler form-check-input my-2"
@@ -621,7 +624,25 @@ const RuleEngine = () => {
                               />
                             </span>
                           </td>
-                          <td style={{ width: "11.11%" }}>
+                          <td style={{ width: "10%" }}>
+                            <Link to={`/edit-rule-engine/${id}`}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="#5e2750"
+                              className="bi bi-pencil-square"
+                              viewBox="0 0 16 16"
+                            >
+                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                              <path
+                                fillRule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5V6.207a.5.5 0 0 0-1 0V13.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5h7.293a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                              />
+                            </svg>
+                            </Link>
+                          </td>
+                          <td style={{ width: "10%" }}>
                             <Link to={`/view-rule-engine/${id}`}>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
