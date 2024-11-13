@@ -753,10 +753,10 @@ const NewSegment = () => {
                       <option value="" disabled hidden>
                         Select status
                       </option>
-                    
+                      <option value=""> Select Status</option> 
                       <option value="Active">Active</option>
                       <option value="Inactive">Inactive</option>
-                      <option value=""> </option> 
+                     
                     </select>
                   </div>
 
@@ -783,10 +783,10 @@ const NewSegment = () => {
                       <option value="" disabled selected hidden>
                         Select gender 
                       </option>
-                     
+                      <option value=""> Select Gender</option>
                       <option value="m">Male</option>
                       <option value="f">Female</option>
-                      <option value=""> </option> {/* Blank option */}
+                      {/* <option value=""> </option> Blank option */}
                     </select>
                   </div> 
 
@@ -826,9 +826,10 @@ const NewSegment = () => {
                       value={formValues.tierLevel}
                       onChange={handleChange}
                     >
-                      <option value="" disabled hidden>
+                      {/* <option value="" disabled hidden>
                         Select Tier Level
-                      </option>
+                      </option> */}
+                       <option value=""> Select Tier Level</option> 
                       {tierLevels?.map((tier, index) => (
                         <option key={tier.name} value={tier.name}>
                           {tier.display_name}

@@ -176,10 +176,11 @@
 // export default ViewSegment;
 
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import "../styles/style.css";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
+
 
 const ViewSegment = () => {
   const { id } = useParams();
@@ -242,7 +243,11 @@ const ViewSegment = () => {
         <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
-            <span>Segment</span> &gt; Segment Details
+          <Link to='/segment'>
+            <span className="text-secondary">Segment</span>
+            </Link>{" "}
+             &gt;
+             Segment Details
           </p>
 
           {loading ? (

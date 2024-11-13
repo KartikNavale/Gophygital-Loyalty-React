@@ -2,19 +2,23 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "react-bootstrap";
-import SubHeader from "../components/SubHeader"
+import SubHeader from "../components/SubHeader";
+// import { toast } from "react-toastify"; 
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
 
 const EditSegment = () => {
   const { id } = useParams(); // Get the segment ID from the URL
   const [segment, setSegment] = useState(null);
-  const [segment_members, setSelectedMemberIds] = useState([]);
+ 
   const [formData, setFormData] = useState({
     name: "",
     segment_tag: "",
     // member_count: "",
 
     loyalty_members: {
-      member_ids: []
+      member_ids: [],
     },
   });
   const [loading, setLoading] = useState(true);
@@ -25,12 +29,11 @@ const EditSegment = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Define the number of items per page
   // Fetch the segment details using the segment ID
-  
+
   const [selectedMembers, setSelectedMembers] = useState([]);
 
-  
   // const handleCheckboxChange = (e, memberId) => {
-    
+
   //   const newSelectedMembers = e.target.checked
   //     ? [...selectedMembers, memberId]
   //     : selectedMembers.filter((id) => id !== memberId);
@@ -57,19 +60,19 @@ const EditSegment = () => {
     }));
   };
 
-  
   useEffect(() => {
     const fetchSegment = async () => {
+      const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
+          `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setSegment(response.data);
         // setFormData({
         //   name: response.data.name,
         //   segment_tag: response.data.segment_tag,
         //   member_count: response.data.member_count,
-          
+
         // });
 
         setFormData({
@@ -77,10 +80,14 @@ const EditSegment = () => {
           segment_tag: response.data.segment_tag,
           member_count: response.data.loyalty_members.length,
           loyalty_members: {
-            member_ids: response.data.loyalty_members.map((member) => member.id),
+            member_ids: response.data.loyalty_members.map(
+              (member) => member.id
+            ),
           },
         });
-        setSelectedMembers(response.data.loyalty_members.map((member) => member.id));
+        setSelectedMembers(
+          response.data.loyalty_members.map((member) => member.id)
+        );
         setMembers(response.data.loyalty_members);
         setTotalMembers(response.data.loyalty_members.length);
         setLoading(false);
@@ -90,7 +97,6 @@ const EditSegment = () => {
         // setLoading(false);
         // const initialSelectedMembers = response.data.loyalty_members.map(member => member.id);
         // setSelectedMembers(initialSelectedMembers);
-       
 
         // Update count based on selected members
       } catch (error) {
@@ -122,15 +128,23 @@ const EditSegment = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name.trim()) {
+      // Show a toast if the "name" field is empty
+      toast.error("Name is required", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return; // Prevent further execution if the name is missing
+    }
+  
 
-    
 
     try {
       const response = await axios.put(
         `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
         {
           loyalty_segment: {
-            ...formData, // includes name and 
+            ...formData, // includes name and
           },
         }
       );
@@ -153,17 +167,18 @@ const EditSegment = () => {
   }
 
   return (
-     <div className="w-100">
-       <SubHeader />
+    <div className="w-100">
+      <SubHeader />
+      <ToastContainer /> 
       <form onSubmit={handleSubmit}>
         <div className="module-data-section mt-2 ms-3 ">
           <p className="pointer ">
-            <span className="">Segment</span> &gt; Edit Segment
+          <Link to='/segment'>
+            <span className="text-secondary">Segment</span> 
+            </Link>{" "}
+            &gt; Edit Segment
           </p>
-          <h5
-            className="mb-1 title"
-            style={{ marginTop: "33px" }}
-          >
+          <h5 className="mb-1 title" style={{ marginTop: "33px" }}>
             Edit Segment
           </h5>
           {/* <div className="go-shadow me-3 pb-4"> */}
@@ -261,11 +276,8 @@ const EditSegment = () => {
           />
         </div> */}
 
-       
         <div className="filtered-data-section  ms-3">
-          <h5 className="ms-3 title"
-           
-          >Members List</h5>
+          <h5 className="ms-3 title">Members List</h5>
 
           <div className="tbl-container mx-3 mt-4">
             <table

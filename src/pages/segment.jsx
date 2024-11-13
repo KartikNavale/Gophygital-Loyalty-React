@@ -39,17 +39,7 @@ const handleEditClick = (segment) => {
   });
 
   
-  // const handleSearch = () => {
-  //   const filtered = segments.filter(
-  //     (rule) =>
-  //       rule.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       rule.segment_tag.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  //   setFilteredItems(filtered);
-  //   setCurrentPage(1);
-  // };
-
-    // Handle search submission (e.g., when pressing 'Go!')
+ 
     const handleSearch = () => {
       const filtered = segments.filter((member) =>
         `${member.name}`.toLowerCase().includes(searchTerm.toLowerCase())
@@ -110,70 +100,7 @@ const handleEditClick = (segment) => {
     fetchSegments();
   }, []);
 
-  // const handleEditClick = (segment) => {
-  //   setSelectedSegment(segment);
-  //   setFormData({
-  //     name: segment.name,
-  //     segment_tag: segment.segment_tag,
-  //     // segment_filters: segment?.segment_filters,
-  //     // segment_type: segment?.segment_type,
-  //     // loyalty_tier_id: segment?.loyalty_tier_id,
-  //   });
-  //   setShowModal(true); // Assuming this controls a modal for editing
-  // };
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     [name]: value,
-  //   }));
-  // };
-
   
-  // const handleFormSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (selectedSegment) {
-  //     try {
-  //       const response = await axios.put(
-  //         `https://staging.lockated.com/loyalty/segments/${selectedSegment.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-  //         { loyalty_segment: formData }
-        
-  //       );
-  //       console.log(response)
-  //       if (response) {
-  //         // Update segments state
-  //         const updatedSegments = segments.map((segment) =>
-  //           segment.id === selectedSegment.id
-  //             ? { ...segment, ...formData }
-  //             : segment
-  //         );
-
-  //         // Update the segments state
-  //         setSegments(updatedSegments);
-
-  //         // Also update the filtered items state
-  //         setFilteredItems(updatedSegments);
-
-  //         // Set the current page to the first page to display updated results
-  //         setCurrentPage(1);
-  //       }
-  //       handleCloseModal();
-  //     } catch (error) {
-  //       alert(`Error: ${error.message}`);
-  //     }
-  //   }
-  // };
-
-  // const handleCloseModal = () => {
-  //   setShowModal(false);
-  //   setSelectedSegment(null);
-  //   setFormData({
-  //     name: "",
-  //     segment_tag: "",
-  //   });
-  // };
-
   
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
@@ -354,35 +281,7 @@ const handleEditClick = (segment) => {
                 </div>
 
                 <div className="d-flex align-items-center">
-                  {/* <div className="position-relative me-3">
-                    <input
-                      className="form-control"
-                      style={{
-                        height: "35px",
-                        paddingLeft: "30px",
-                        textAlign: "left",
-                      }}
-                      type="search"
-                      aria-label="Search"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <div
-                      className="position-absolute"
-                      style={{ top: "7px", left: "10px" }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        class="bi bi-search"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                      </svg>
-                    </div>
-                  </div> */}
+                
 
 <div className="d-flex align-items-center position-relative">
                 <div className="position-relative me-3" style={{ width: "100%" }}>
@@ -560,87 +459,7 @@ const handleEditClick = (segment) => {
           )}
         </div>
       </div>
-      {/* <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Segment</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleFormSubmit}>
-            <div className="form-group">
-              <label htmlFor="name">Segment Name:</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="form-control"
-                value={formData.name}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="segment_tag">Segment Tag:</label>
-              <select
-                className="form-select"
-                id="segmentTag"
-                name="segment_tag"
-                value={formData.segment_tag}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Segment Tag</option>
-                <option value="Recently joined">Recently joined</option>
-                <option value="Suspended">Suspended</option>
-                <option value="1-purchase">1-purchase</option>
-                <option value="No purchase">No purchase</option>
-              </select>
-            </div>
-            <Button variant="primary" type="submit" className="mt-3">
-              Save Changes
-            </Button>
-          </form>
-        </Modal.Body>
-      </Modal> */}
-{/* 
-<Modal show={showModal} onHide={handleCloseModal}>
-  <Modal.Header closeButton>
-    <Modal.Title>Edit Segment</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <form onSubmit={handleFormSubmit}>
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label">Segment Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          className="form-control"
-          value={formData.name}
-          onChange={handleInputChange}
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="segmentTag" className="form-label">Segment Tag</label>
-        <select
-          className="form-select"
-          id="segmentTag"
-          name="segment_tag"
-          value={formData.segment_tag}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="">Select Segment Tag</option>
-          <option value="Recently joined">Recently joined</option>
-          <option value="Suspended">Suspended</option>
-          <option value="1-purchase">1-purchase</option>
-          <option value="No purchase">No purchase</option>
-        </select>
-      </div>
-      <button type="submit" className="purple-btn1">Save Changes</button>
-    </form>
-  </Modal.Body>
-</Modal> */}
-
+     
     </>
   );
 };
