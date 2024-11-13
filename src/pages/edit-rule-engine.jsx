@@ -708,8 +708,10 @@ import {
 } from "../Confi/ruleEngineApi";
 import { masterOperators } from './operatorsData'; // Import your data
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const EditRuleEngine = () => {
+    const navigate = useNavigate();
     const { id } = useParams(); // Get the member ID from the URL
     // const [ruleName, setRuleName] = useState("");
     // const [ruleName, setRuleName] = useState("");
@@ -884,6 +886,43 @@ const EditRuleEngine = () => {
         } else {
             console.error("Selected ID not found in master attributes");
         }
+    };
+
+
+    const [conditions, setConditions] = useState([
+        {
+            id: 1,
+            masterAttribute: "",
+            subAttribute: "",
+            masterOperator: "",
+            subOperator: "",
+            condition_type: "",
+            compare_value: ''
+        },
+    ]);
+
+    const [actions, setactions] = useState([
+        {
+
+            fetchMasterRewardOutcome: "",
+            fetchSubRewardOutcome: "",
+            parameters: ''
+        },
+    ]);
+
+    const addCondition = () => {
+        setConditions([
+            ...conditions,
+            {
+                id: conditions.length + 1,
+                masterAttribute: "",
+                subAttribute: "",
+                masterOperator: "",
+                subOperator: "",
+                condition_type: "",
+                compare_value: ''
+            },
+        ]);
     };
 
 
@@ -1078,77 +1117,200 @@ const EditRuleEngine = () => {
     //     }
     // };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    // console.log("Rule:", rule);
+    // console.log("Parameters:", parameters);
+    // console.log("Selected Outcome:", selectedMasterRewardOutcomes);
+    // console.log("Conditions:", conditions);
+    // console.log("ID:", id);
+
+
+    
+    // const handleSubmit = async () => {
+    //     console.log("HandleSubmit triggered");
+    //     console.log("Rule:", rule);
+    //     console.log("Parameters:", parameters);
+    //     console.log("Selected Outcome:", selectedMasterRewardOutcomes);
+    //     console.log("Conditions:", conditions);
+    //     console.log("ID:", id);
+    
+    //     // e.preventDefault()
+    //     try {
+    //         // Validation for required fields
+    //         // if (
+    //         //     !rule.name ||
+    //         //     !parameters ||
+    //         //     !selectedMasterRewardOutcomes ||
+    //         //     conditions.some(
+    //         //         (cond) =>
+    //         //             !cond.subAttribute ||
+    //         //             !cond.subOperator ||
+    //         //             !cond.compare_value ||
+    //         //             !cond.masterAttribute
+    //         //     )
+    //         // ) {
+    //         //     setError("All mandatory fields are required.");
+    //         //     return;
+    //         // }
+
+    //         // Check for unique condition values
+    //         // const values = conditions.map((cond) => cond.compare_value.trim());
+    //         // const uniqueValues = new Set(values);
+    //         // if (values.some((value) => value === "")) {
+    //         //     setError("Please enter all values.");
+    //         //     return;
+    //         // }
+    //         // if (uniqueValues.size !== values.length) {
+    //         //     setError("Each condition value must be unique.");
+    //         //     return;
+    //         // }
+
+    //         // // Ensure parameter is a valid number
+    //         // if (isNaN(parameters.trim()) || parameters.trim() === "") {
+    //         //     setError("Parameter value must be a valid number.");
+    //         //     return;
+    //         // }
+    //         console.log("Rule:", rule);
+    //         console.log("Parameters:", parameters);
+    //         console.log("Selected Outcome:", selectedMasterRewardOutcomes);
+    //         console.log("Conditions:", conditions);
+    //         console.log("ID:", id);
+        
+    //         // Prepare request payload
+    //         const data = {
+    //             rule_engine_rule: {
+    //                 name: rule.name,
+    //                 description: "This is a description of the sample rule.",
+    //                 loyalty_type_id: sessionStorage.getItem("selectedId"),
+    //                 rule_engine_conditions_attributes: conditions.map((condition) => ({
+    //                     condition_attribute: condition.subAttribute || "",
+    //                     operator: condition.subOperator || "",
+    //                     compare_value: condition.compare_value || "",
+    //                     condition_selected_model: Number(condition.masterAttribute) || 1,
+    //                     condition_type: condition.condition_type || "",
+    //                 })),
+    //                 rule_engine_actions_attributes: [
+    //                     {
+    //                         lock_model_name: selectedMasterRewardOutcomes?.name || "",
+    //                         parameters: [Number(parameters)],
+    //                         rule_engine_available_function_id: subRewardOutcomesnew || "",
+    //                         action_selected_model: Number(selectedMasterRewardOutcomes?.id) || "",
+    //                     },
+    //                 ],
+    //             },
+    //         };
+            
+
+    //         console.log("Payload to be sent data:", (data)); // Log payload for debugging
+
+    //         // Make PATCH request
+    //         const response = await axios.put(
+    //             `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+    //             data
+            
+    //         );
+
+    //         // Check response status
+    //         if (response.status === 200) {
+    //             console.log("Data updated successfully:", response.data);
+    //             navigate("/rule-engine");
+    //         } else {
+    //             setError(`Failed to update Rule Engine. Status: ${response.status}`);
+    //             console.error("Error Response:", response.data);
+    //         }
+    //     } 
+    //     // catch (error) {
+    //     //     setError("Failed to update Rule Engine. Please try again.");
+    //     //     console.error("Submission error:", error.message);
+    //         catch (error) {
+    //             setError("Failed to update Rule Engine. Please try again.");
+    //             if (error.response && error.response.data) {
+    //                 console.error("Error Response Data:", error.response.data);
+    //             } else {
+    //                 console.error("Submission error:", error.message);
+    //             }
+    //         // }
+    //     }
+    // };
+
+
+    const handleSubmit = async () => {
+        console.log("HandleSubmit triggered");
+    
+        // Log current state for debugging
+        console.log("Rule:", rule);
+        console.log("Parameters:", parameters);
+        console.log("Selected Outcome:", selectedMasterRewardOutcomes);
+        console.log("Conditions:", conditions);
+        console.log("ID:", id);
+    
         try {
-            // Validation for required fields
-            if (
-                !rule.name ||
-                !parameters ||
-                !selectedMasterRewardOutcomes ||
-                conditions.some(
-                    (cond) =>
-                        !cond.subAttribute ||
-                        !cond.subOperator ||
-                        !cond.compare_value ||
-                        !cond.masterAttribute
-                )
-            ) {
-                setError("All mandatory fields are required.");
-                return;
-            }
-
-            // Check for unique condition values
-            const values = conditions.map((cond) => cond.compare_value.trim());
-            const uniqueValues = new Set(values);
-            if (values.some((value) => value === "")) {
-                setError("Please enter all values.");
-                return;
-            }
-            if (uniqueValues.size !== values.length) {
-                setError("Each condition value must be unique.");
-                return;
-            }
-
-            // Ensure parameter is a valid number
-            if (isNaN(parameters.trim()) || parameters.trim() === "") {
-                setError("Parameter value must be a valid number.");
-                return;
-            }
-
-            // Prepare request payload
+            // Validate the rule name
+            // if (!rule.name || rule.name.trim() === "") {
+            //     setError("Rule name is required.");
+            //     return;
+            // }
+    
+            // // Validate the conditions
+            // const invalidConditions = conditions.some(
+            //     (condition) =>
+            //         !condition.subAttribute || // Check condition_attribute
+            //         !condition.subOperator || // Check operator
+            //         !condition.compare_value || // Check compare_value
+            //         !condition.masterAttribute || // Check condition_selected_model
+            //         !condition.condition_type // Check action_type
+            // );
+    
+            // if (invalidConditions) {
+            //     setError("All conditions must have valid values.");
+            //     return;
+            // }
+    
+            // // Validate the parameters (ensure it's a number)
+            // if (!parameters || isNaN(parameters)) {
+            //     setError("Parameter value must be a valid number.");
+            //     return;
+            // }
+    
+            // // Validate selected master reward outcome
+            // if (!selectedMasterRewardOutcomes?.id || !subRewardOutcomesnew) {
+            //     setError("Both master and sub reward outcomes are required.");
+            //     return;
+            // }
+    
+            // Prepare the request payload
             const data = {
                 rule_engine_rule: {
                     name: rule.name,
                     description: "This is a description of the sample rule.",
                     loyalty_type_id: sessionStorage.getItem("selectedId"),
-                    rule_engine_conditions_attributes:conditions.map((condition) => ({
-                        condition_attribute: condition.subAttribute || "",
-                        operator: condition.subOperator || "",
-                        compare_value: condition.compare_value || "",
-                        condition_selected_model: Number(condition.masterAttribute) || 1,
-                        condition_type: condition.condition_type || "",
+                    rule_engine_conditions_attributes: conditions.map((condition) => ({
+                        condition_attribute: condition.subAttribute,
+                        operator: condition.subOperator,
+                        compare_value: condition.compare_value,
+                        condition_selected_model: Number(condition.masterAttribute),
+                        condition_type: condition.condition_type, // Maps to action_type
                     })),
                     rule_engine_actions_attributes: [
                         {
-                            lock_model_name: selectedMasterRewardOutcomes?.name || "",
-                            parameters: [Number(parameters)],
-                            rule_engine_available_function_id: subRewardOutcomesnew || "",
-                            action_selected_model: Number(selectedMasterRewardOutcomes?.id) || "",
+                            lock_model_name: selectedMasterRewardOutcomes?.name,
+                            parameters: [Number(parameters)], // Convert to number
+                            rule_engine_available_function_id: subRewardOutcomesnew,
+                            action_selected_model: Number(selectedMasterRewardOutcomes?.id),
                         },
                     ],
                 },
             };
-
-            console.log("Payload to be sent:", (data)); // Log payload for debugging
-
-            // Make PATCH request
-            const response = await axios.put(
-                `http://staging.lockated/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+    
+            // Log the payload for debugging
+            console.log("Payload to be sent:", JSON.stringify(data, null, 2));
+    
+            // Make the PATCH request
+            const response = await axios.patch(
+                `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
                 data
             );
-
-            // Check response status
+    
+            // Handle successful response
             if (response.status === 200) {
                 console.log("Data updated successfully:", response.data);
                 navigate("/rule-engine");
@@ -1157,47 +1319,18 @@ const EditRuleEngine = () => {
                 console.error("Error Response:", response.data);
             }
         } catch (error) {
-            setError("Failed to update Rule Engine. Please try again.");
-            console.error("Submission error:", error.message);
+            // Handle submission errors
+            if (error.response && error.response.data) {
+                console.error("Error Response Data:", error.response.data);
+                setError("Failed to update Rule Engine. Please check the inputs and try again.");
+            } else {
+                console.error("Submission error:", error.message);
+                setError("An unexpected error occurred. Please try again.");
+            }
         }
     };
-
-    const [conditions, setConditions] = useState([
-        {
-            id: 1,
-            masterAttribute: "",
-            subAttribute: "",
-            masterOperator: "",
-            subOperator: "",
-            condition_type: "",
-            compare_value: ''
-        },
-    ]);
-
-    const [actions, setactions] = useState([
-        {
-
-            fetchMasterRewardOutcome: "",
-            fetchSubRewardOutcome: "",
-            parameters: ''
-        },
-    ]);
-
-    const addCondition = () => {
-        setConditions([
-            ...conditions,
-            {
-                id: conditions.length + 1,
-                masterAttribute: "",
-                subAttribute: "",
-                masterOperator: "",
-                subOperator: "",
-                condition_type: "",
-                compare_value: ''
-            },
-        ]);
-    };
-
+    
+    
     const removeCondition = (id) => {
         const updatedConditions = conditions.filter(condition => condition.id !== id);
         setConditions(updatedConditions);
@@ -1553,132 +1686,132 @@ const EditRuleEngine = () => {
                         </svg>
                     </h5>
                     {/* <form action="" onSubmit={handleSubmit}> */}
-                        <div className="go-shadow me-3">
-                            <div className="row ms-1">
-                                <fieldset className="border col-md-11 m-2 col-sm-11">
+                    <div className="go-shadow me-3">
+                        <div className="row ms-1">
+                            <fieldset className="border col-md-11 m-2 col-sm-11">
+                                <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                                    New Rule<span>*</span>
+                                </legend>
+                                <input type="text" placeholder="Enter Name" name={rule?.name}
+                                    value={rule.name}
+                                    // value={ruleName}
+                                    style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" onChange={(e) => setRule({ ...rule, name: e.target.value })} />
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div className="SetRuleCard">
+                        <div>
+                            <h5 className="title mt-3">Set Rule Conditions</h5>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div className="main-rule">
+                        {conditions.map(renderCondition)}
+
+                        <button
+                            className="setRuleCard2 mt-2"
+                            onClick={addCondition}
+                            style={{ color: "black", fontSize: '16px', fontWeight: "500" }}
+
+                        >
+                            <span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="18"
+                                    height="18"
+                                    fill="currentColor"
+                                    className="bi bi-plus"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                </svg>
+                            </span>
+                            Add Additional Condition
+                        </button>
+
+                        {/* THEN section */}
+                        <div className="mt-3">
+                            <h4>
+                                <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>THEN</span>
+                            </h4>
+                            <div className="row ms-1 mt-2">
+                                <fieldset className="border  col-md-3 m-2 col-sm-11">
                                     <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-                                        New Rule<span>*</span>
+                                        Master Reward Outcome<span>*</span>
                                     </legend>
-                                    <input type="text" placeholder="Enter Name" name={rule?.name}
-                                        value={rule.name}
-                                        // value={ruleName}
-                                        style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" onChange={(e) => setRule({ ...rule, name: e.target.value })} />
-                                </fieldset>
-                            </div>
-                        </div>
-                        <div className="SetRuleCard">
-                            <div>
-                                <h5 className="title mt-3">Set Rule Conditions</h5>
 
-                            </div>
-
-                        </div>
-
-
-
-                        <div className="main-rule">
-                            {conditions.map(renderCondition)}
-
-                            <button
-                                className="setRuleCard2 mt-2"
-                                onClick={addCondition}
-                                style={{ color: "black", fontSize: '16px', fontWeight: "500" }}
-
-                            >
-                                <span>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="18"
-                                        height="18"
-                                        fill="currentColor"
-                                        className="bi bi-plus"
-                                        viewBox="0 0 16 16"
+                                    <select
+                                        required=""
+                                        className="p-1 mt-1 mb-1"
+                                        style={{ fontSize: '12px', fontWeight: '400' }}
+                                        onChange={handleMasterSubRewardOutcomeChange}
+                                        value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
                                     >
-                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                                    </svg>
-                                </span>
-                                Add Additional Condition
-                            </button>
+                                        {actions.map((master) => (
+                                            <option value="" >{master.lock_model_name}</option>
 
-                            {/* THEN section */}
-                            <div className="mt-3">
-                                <h4>
-                                    <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>THEN</span>
-                                </h4>
-                                <div className="row ms-1 mt-2">
-                                    <fieldset className="border  col-md-3 m-2 col-sm-11">
-                                        <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-                                            Master Reward Outcome<span>*</span>
-                                        </legend>
+                                        ))}
+                                        {masterRewardOutcomes.map((reward) => (
+                                            <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
+                                                {reward.display_name}
+                                            </option>
+                                        ))}
+                                        {/* // <option value="">Select Master Reward Outcome</option> */}
+                                        {/* // <option value=""></option> */}
+                                    </select>
 
-                                        <select
-                                            required=""
-                                            className="p-1 mt-1 mb-1"
-                                            style={{ fontSize: '12px', fontWeight: '400' }}
-                                            onChange={handleMasterSubRewardOutcomeChange}
-                                            value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
-                                        >
-                                            {actions.map((master) => (
-                                                <option value="" >{master.lock_model_name}</option>
+                                </fieldset>
+                                <div className="col-md-1 d-flex justify-content-center align-items-center">
+                                    <h4>&</h4>
+                                </div>
+                                <fieldset className="border  col-md-3 m-2 col-sm-11">
+                                    <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                                        Sub Reward Outcome<span>*</span>
+                                    </legend>
+                                    <select
+                                        required=""
+                                        className="p-1 mt-1 mb-1"
+                                        style={{ fontSize: '12px', fontWeight: '400' }}
+                                        disabled={!selectedMasterRewardOutcomes}
+                                        onChange={(e) => {
+                                            const selectedId = e.target.value; // Get the selected sub-reward outcome ID
+                                            console.log(selectedId)
+                                            // Handle the selection as needed, e.g., update the state or construct the data object
+                                            setsubRewardOutcomesnew(selectedId);
+                                        }}
+                                        value={subRewardOutcomesnew}
+                                    >
+                                        {actions.map((master) => (
+                                            <option value="" >{master.action_method}</option>
 
-                                            ))}
-                                            {masterRewardOutcomes.map((reward) => (
-                                                <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
-                                                    {reward.display_name}
-                                                </option>
-                                            ))}
-                                            {/* // <option value="">Select Master Reward Outcome</option> */}
-                                            {/* // <option value=""></option> */}
-                                        </select>
+                                        ))}
 
-                                    </fieldset>
-                                    <div className="col-md-1 d-flex justify-content-center align-items-center">
-                                        <h4>&</h4>
-                                    </div>
-                                    <fieldset className="border  col-md-3 m-2 col-sm-11">
-                                        <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-                                            Sub Reward Outcome<span>*</span>
-                                        </legend>
-                                        <select
-                                            required=""
-                                            className="p-1 mt-1 mb-1"
-                                            style={{ fontSize: '12px', fontWeight: '400' }}
-                                            disabled={!selectedMasterRewardOutcomes}
-                                            onChange={(e) => {
-                                                const selectedId = e.target.value; // Get the selected sub-reward outcome ID
-                                                console.log(selectedId)
-                                                // Handle the selection as needed, e.g., update the state or construct the data object
-                                                setsubRewardOutcomesnew(selectedId);
-                                            }}
-                                            value={subRewardOutcomesnew}
-                                        >
-                                            {actions.map((master) => (
-                                                <option value="" >{master.action_method}</option>
-
-                                            ))}
-
-                                            {subRewardOutcomes.map((reward) => (
-                                                <option
-                                                    key={reward.id}
-                                                    // value={reward.rule_engine_available_model_id}
-                                                    value={reward.id}
-                                                >
-                                                    {reward.display_name}
-                                                </option>
-                                            ))}
-                                            {/* <option value="">Select Sub Reward Outcome</option>
+                                        {subRewardOutcomes.map((reward) => (
+                                            <option
+                                                key={reward.id}
+                                                // value={reward.rule_engine_available_model_id}
+                                                value={reward.id}
+                                            >
+                                                {reward.display_name}
+                                            </option>
+                                        ))}
+                                        {/* <option value="">Select Sub Reward Outcome</option>
 
                                                    <option value=""></option> */}
-                                        </select>
-                                    </fieldset>
-                                    {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
+                                    </select>
+                                </fieldset>
+                                {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
                                                <h4>=</h4>
                                                 </div> */}
-                                    <fieldset className="border col-md-3 m-2 col-sm-11 ">
-                                        <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-                                            Parameter {/* <span>*</span> */}
-                                        </legend>
-                                        {/* {actions.map((master) => (
+                                <fieldset className="border col-md-3 m-2 col-sm-11 ">
+                                    <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                                        Parameter {/* <span>*</span> */}
+                                    </legend>
+                                    {/* {actions.map((master) => (
                                         <input type="text" placeholder="Enter Point Value" 
                                         name='parameters'
                                         value={master.parameters}
@@ -1686,38 +1819,38 @@ const EditRuleEngine = () => {
                                         style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" onChange={handleInputChange}/>
 
                                     ))} */}
-                                        {rule.actions.map((action) => (
-                                            <input
-                                                key={action.id} // Always include a unique key
-                                                type="text"
-                                                placeholder="Enter Point Value"
-                                                value={action.parameters}
-                                                style={{ fontSize: '12px', fontWeight: '400' }}
-                                                className="mt-1 mb-1"
-                                                onChange={(e) => handleInputChange(action.id, e.target.value)} // Update specific action
-                                            />
-                                        ))}
-                                        {/* <input type="text" placeholder="Enter Point Value" value={} /> */}
-                                    </fieldset>
-                                </div>
+                                    {rule.actions.map((action) => (
+                                        <input
+                                            key={action.id} // Always include a unique key
+                                            type="text"
+                                            placeholder="Enter Point Value"
+                                            value={action.parameters}
+                                            style={{ fontSize: '12px', fontWeight: '400' }}
+                                            className="mt-1 mb-1"
+                                            onChange={(e) => handleInputChange(action.id, e.target.value)} // Update specific action
+                                        />
+                                    ))}
+                                    {/* <input type="text" placeholder="Enter Point Value" value={} /> */}
+                                </fieldset>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="row mt-2 justify-content-center">
-                            <div className="col-md-2">
-                                <button className="purple-btn1 w-100"
-                                    onClick={handleSubmit}
-                                    type="submit"
-                                >
-                                    Submit
-                                </button>
-                            </div>
-                            <div className="col-md-2">
-                                <button className="purple-btn2 w-100">
-                                    Cancel
-                                </button>
-                            </div>
+                    <div className="row mt-2 justify-content-center">
+                        <div className="col-md-2">
+                            <button className="purple-btn1 w-100"
+                                onClick={handleSubmit}
+                                type="button"
+                            >
+                                Submit
+                            </button>
                         </div>
+                        <div className="col-md-2">
+                            <button className="purple-btn2 w-100">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                     {/* </form> */}
                 </div>
 

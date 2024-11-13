@@ -528,7 +528,8 @@ const RuleEngine = () => {
             // }}
             style={{
               height: "100%",
-              overflowY: "hidden",
+              // overflowY: "hidden",
+              overflowX: "hidden",
               // textAlign: "center",
               display: "flex",
               flexDirection: "column",
