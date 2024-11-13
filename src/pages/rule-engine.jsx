@@ -700,7 +700,7 @@ const RuleEngine = () => {
           </div>
 
           {/* Filter Modal */}
-          <Modal show={showModal}>
+          <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
               <Modal.Title>Filter By</Modal.Title>
             </Modal.Header>

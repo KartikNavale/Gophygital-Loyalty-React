@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import "../styles/style.css";
 import SubHeader from "../components/SubHeader";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import axios from "axios";
 import Members from "./members";
 
@@ -101,7 +101,10 @@ const MemberDetails = () => {
         <SubHeader />
         <div className="module-data-section mt-2 mb-2">
           <p className="pointer">
-            <span className="text-secondary">Members</span> &gt; Member Details
+          <Link to='/members' >
+            <span className="text-secondary">Members</span>
+            </Link>
+             &gt; Member Details
           </p>
 
           {/* personal details */}

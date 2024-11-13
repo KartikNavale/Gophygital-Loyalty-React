@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SubHeader from "../components/SubHeader";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import axios from "axios";
 import { fetchMasterRewardOutcomes, fetchSubRewardOutcomes } from "../Confi/ruleEngineApi";
 
@@ -52,220 +52,10 @@ const ViewRuleEngine = () => {
     ]);
   };
 
-  const removeCondition = (id) => {
-    const updatedConditions = conditions.filter(condition => condition.id !== id);
-    setConditions(updatedConditions);
-  };
-
-
-  // const renderCondition = (condition, index) => (
-  //   <div key={condition.id} className="SetRuleCard">
-  //     <div>
-  //       <h6 className="mt-3">
-  //         <span>Condition {condition.id}
-
-  //         <svg
-  //                 xmlns="http://www.w3.org/2000/svg"
-  //                 width="16"
-  //                 height="16"
-  //                 fill="currentColor"
-  //                 className="bi bi-pencil-square mb-1 ms-3 text-body-secondary"
-  //                 viewBox="0 0 16 16"
-  //               >
-  //                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-  //                 <path
-  //                   fill-rule="evenodd"
-  //                   d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-  //                 />
-  //               </svg>
-
-  //               <button 
-  //           onClick={() => removeCondition(condition.id)} 
-  //           className="ms-3"
-  //           // title="Remove Condition"
-  //           style={{border:'none',backgroundColor:'white'}}
-  //         >
-  //           <svg
-  //             xmlns="http://www.w3.org/2000/svg"
-  //             width="16"
-  //             height="16"
-  //             fill="currentColor"
-  //             className="bi bi-x"
-  //             viewBox="0 0 16 16"
-  //           >
-  //             <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-  //           </svg>
-  //         </button>
-  //         </span>
-  //       </h6>
-  //     </div>
-  //     {index > 0 && ( // Only render the AND/OR section if this is not the first condition
-  //       <ul className="nav nav-tabs border-0 mt-3">
-  //         <div className="d-flex gap-3 And-btn rounded">
-  //           <li className="nav-item d-flex p-2 gap-2" role="presentation">
-  //             <input
-  //               type="radio"
-  //               className="nav-link"
-  //               id={`home-tab-${index}`}
-  //               name={`tab-${index}`}
-  //               data-bs-toggle="tab"
-  //               data-bs-target={`#home-tab-pane-${index}`}
-  //               role="tab"
-  //               aria-controls={`home-tab-pane-${index}`}
-  //               aria-selected="true"
-  //               defaultChecked
-
-  //             />
-  //             <label htmlFor={`home-tab-${index}`} className="and-or-btn">
-  //               AND
-  //             </label>
-  //           </li>
-  //           <li className="nav-item d-flex p-2 gap-2" role="presentation">
-  //             <input
-  //               type="radio"
-  //               className="nav-link"
-  //               id={`profile-tab-${index}`}
-  //               name={`tab-${index}`}
-  //               data-bs-toggle="tab"
-  //               data-bs-target={`#profile-tab-pane-${index}`}
-  //               role="tab"
-  //               aria-controls={`profile-tab-pane-${index}`}
-  //               aria-selected="false"
-
-  //             />
-  //             <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
-  //               OR
-  //             </label>
-  //           </li>
-  //         </div>
-  //       </ul>
-  //     )}
-
-  //     <div className="border-btm pb-2 mt-2">
-  //       {/* ......if ..... */}
-  //       <div>
-  //         <h4>
-  //           <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>IF</span>
-  //         </h4>
-  //         <div className="row ms-1 mt-2">
-  //           {/* Attribute section */}
-  //           <fieldset className="border col-md-3 m-2 col-sm-11">
-  //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
-  //               Master Attribute<span>*</span>
-  //             </legend>
-  //             <select
-  //               required=""
-  //               className="p-1 mt-1 mb-1"
-  //               style={{fontSize:'12px',fontWeight:'400'}}
-
-  //             >
-  //                {conditions.map((master)=>(
-  //                     <option value="">{master.model_name}</option>
-
-  //                   ))}
-  //               {/* <option value="">Select Master Attribute </option> */}
-
-  //               {/* <option value=""></option> */}
-  //             </select>
-  //           </fieldset>
-  //           <div className="col-md-1 d-flex justify-content-center align-items-center">
-  //             <h4>&</h4>
-  //           </div>
-  //           <fieldset className="border col-md-3 m-2 col-sm-11">
-  //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
-  //               Sub Attribute<span>*</span>
-  //             </legend>
-  //             <select
-  //               required=""
-  //               className="p-1 mt-1 mb-1"
-  //               style={{fontSize:'12px',fontWeight:'400'}}
-  //             >
-  //               {conditions.map((master)=>(
-  //                     <option value="">{master.condition_attribute}</option>
-
-  //                   ))}
-  //               {/* <option value="">Select Sub Attribute</option> */}
-
-  //             </select>
-  //           </fieldset>
-  //         </div>
-  //       </div>
-
-  //       {/* Operator section */}
-  //       <div className="mt-3">
-  //         <h4>
-  //           <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Operator</span>
-  //         </h4>
-  //         <div className="row ms-1 mt-2">
-  //           <fieldset className="border col-md-3 m-2 col-sm-11">
-  //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
-  //               Master Operator<span>*</span>
-  //             </legend>
-  //             <select
-  //               required=""
-  //               className="p-1 mt-1 mb-1"
-  //               style={{fontSize:'12px',fontWeight:'400'}}
-  //             >
-  //               <option value="">Select Master Operator </option>
-  //               {/* {conditions.map((condition) => (
-  //                 <option key={condition.id} value=""> {condition.masterOperator}</option>
-  //               ))} */}
-
-  //             </select>
-  //           </fieldset>
-  //           <div className="col-md-1 d-flex justify-content-center align-items-center">
-  //             <h4>&</h4>
-  //           </div>
-  //           <fieldset className="border col-md-3 m-2 col-sm-11">
-  //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
-  //               Sub Operator<span>*</span>
-  //             </legend>
-  //             <select
-  //               required=""
-  //               className="p-1 mt-1 mb-1"
-  //               style={{fontSize:'12px',fontWeight:'400'}}
-  //             >
-  //               {conditions.map((master)=>(
-  //                     <option value="" >{master.operator}</option>
-
-
-  //                   ))}
-  //               {/* <option value="">Select Sub Operator </option> */}
-  //               {/* {conditions.map((condition) => (
-  //                 <option key={condition.id} value=""> {condition.subOperator}</option>
-  //               ))} */}
-
-  //             </select>
-  //           </fieldset>
-  //         </div>
-  //       </div>
-
-  //       {/* Value section */}
-  //       <div className="mt-3">
-  //         <h4>
-  //           <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Value</span>
-  //         </h4>
-  //         <div className="row ms-1 mt-2">
-  //           <fieldset className="border col-md-3 m-2 col-sm-11">
-  //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}} >
-  //               Value<span>*</span>
-  //             </legend>
-  //             {conditions.map((master)=>(
-  //                     <input
-  //                     type="text"
-  //                     className="p-1 mt-1 mb-1"
-  //                     // placeholder="Enter Point Value"
-  //                      value={master.compare_value}
-  //                      style={{fontSize:'12px',fontWeight:'400'}}
-  //                   />
-  //                   ))}
-
-  //           </fieldset>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  // const removeCondition = (id) => {
+  //   const updatedConditions = conditions.filter(condition => condition.id !== id);
+  //   setConditions(updatedConditions);
+  // };
 
 
   const renderCondition = (condition, index) => (
@@ -288,7 +78,7 @@ const ViewRuleEngine = () => {
                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
               /> */}
             </svg>
-            <button
+            {/* <button
               onClick={() => removeCondition(condition.id)}
               className="ms-3"
               style={{ border: "none", backgroundColor: "white" }}
@@ -306,12 +96,12 @@ const ViewRuleEngine = () => {
                   d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
                 />
               </svg>
-            </button>
+            </button> */}
           </span>
         </h6>
       </div>
 
-      {index > 0 && (
+      {/* {index > 0 && (
         <ul className="nav nav-tabs border-0 mt-3">
           <div className="d-flex gap-3 And-btn rounded">
             <li className="nav-item d-flex p-2 gap-2" role="presentation">
@@ -327,7 +117,7 @@ const ViewRuleEngine = () => {
                 aria-selected="true"
                 defaultChecked
                 value={condition.action_type}
-                checked={condition.action_type_type === "AND"}
+                checked={condition.action_type=== "AND"}
               />
               <label htmlFor={`home-tab-${index}`} className="and-or-btn">
                 AND
@@ -345,7 +135,99 @@ const ViewRuleEngine = () => {
                 aria-controls={`profile-tab-pane-${index}`}
                 aria-selected="false"
                 value={condition.action_type}
-                checked={condition.action_type? condition.action_type_type==="OR": ''}
+                checked={condition.action_type? condition.action_type==="OR": ''}
+              />
+              <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
+                OR
+              </label>
+            </li>
+          </div>
+        </ul>
+      )} */}
+
+      {/* {index > 0 && condition && (
+        <ul className="nav nav-tabs border-0 mt-3">
+          <div className="d-flex gap-3 And-btn rounded">
+            <li className="nav-item d-flex p-2 gap-2" role="presentation">
+              <input
+                type="radio"
+                className="nav-link"
+                id={`home-tab-${index}`}
+                name={`tab-${index}`}
+                data-bs-toggle="tab"
+                data-bs-target={`#home-tab-pane-${index}`}
+                role="tab"
+                aria-controls={`home-tab-pane-${index}`}
+                aria-selected="true"
+                value={condition.action_type}
+                // checked={condition.action_type === "AND"}
+                readOnly
+              />
+              <label htmlFor={`home-tab-${index}`} className="and-or-btn">
+                AND
+              </label>
+            </li>
+            <li className="nav-item d-flex p-2 gap-2" role="presentation">
+              <input
+                type="radio"
+                className="nav-link"
+                id={`profile-tab-${index}`}
+                name={`tab-${index}`}
+                data-bs-toggle="tab"
+                data-bs-target={`#profile-tab-pane-${index}`}
+                role="tab"
+                aria-controls={`profile-tab-pane-${index}`}
+                aria-selected="false"
+                value={condition.action_type}
+                // checked={condition.action_type === "OR"}
+                readOnly
+              />
+              <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
+                OR
+              </label>
+            </li>
+          </div>
+        </ul>
+      )} */}
+
+       {console.log("condition:",condition)}
+
+      {index > 0 && condition && (
+        <ul className="nav nav-tabs border-0 mt-3">
+          <div className="d-flex gap-3 And-btn rounded">
+            <li className="nav-item d-flex p-2 gap-2" role="presentation">
+              <input
+                type="radio"
+                className="nav-link"
+                id={`home-tab-${index}`}
+                name={`tab-${index}`}
+                data-bs-toggle="tab"
+                data-bs-target={`#home-tab-pane-${index}`}
+                role="tab"
+                aria-controls={`home-tab-pane-${index}`}
+                aria-selected="true"
+                value="AND" // Explicit value for "AND"
+                checked={condition.condition_type === "AND"} // Maps to condition.action_type from API
+                readOnly // Prevent user changes if required
+              />
+              <label htmlFor={`home-tab-${index}`} className="and-or-btn">
+                AND
+              </label>
+            </li>
+            <li className="nav-item d-flex p-2 gap-2" role="presentation">
+              <input
+                type="radio"
+                className="nav-link"
+                id={`profile-tab-${index}`}
+                name={`tab-${index}`}
+                data-bs-toggle="tab"
+                data-bs-target={`#profile-tab-pane-${index}`}
+                role="tab"
+                aria-controls={`profile-tab-pane-${index}`}
+                aria-selected="false"
+                value="OR" // Explicit value for "OR"
+                checked={condition.condition_type === "OR"} // Maps to condition.action_type from API
+                readOnly // Prevent user changes if required
               />
               <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
                 OR
@@ -354,6 +236,9 @@ const ViewRuleEngine = () => {
           </div>
         </ul>
       )}
+
+
+
 
       <div className="border-btm pb-2 mt-2">
         {/* If section */}
@@ -382,7 +267,7 @@ const ViewRuleEngine = () => {
               <select
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: "12px", fontWeight: "400" }}
+                style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
                 disabled
               >
                 <option value="">{condition.model_name}</option>
@@ -401,7 +286,7 @@ const ViewRuleEngine = () => {
               <select
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: "12px", fontWeight: "400" }}
+                style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
                 disabled
               >
                 <option value="">{condition.condition_attribute}</option>
@@ -437,7 +322,7 @@ const ViewRuleEngine = () => {
               <select
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: "12px", fontWeight: "400" }}
+                style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
                 disabled
               >
                 <option value="">{condition.master_operator}</option>
@@ -456,7 +341,7 @@ const ViewRuleEngine = () => {
               <select
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: "12px", fontWeight: "400" }}
+                style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
                 disabled
               >
                 <option value="">{condition.operator}</option>
@@ -556,7 +441,10 @@ const ViewRuleEngine = () => {
         <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
-            <span className="text-secondary">Rule Engine</span> &gt; View Rule
+          <Link to='/rule-engine' >
+            <span className="text-secondary">Rule Engine</span> 
+            </Link>
+            &gt; View Rule
           </p>
           <h5 class="mb-3">
             <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>View Rule</span>
@@ -633,7 +521,7 @@ const ViewRuleEngine = () => {
                   <select
                     required=""
                     className="p-1 mt-1 mb-1"
-                    style={{ fontSize: '12px', fontWeight: '400' }}
+                    style={{ fontSize: '12px', fontWeight: '400', appearance: "none" }}
                     disabled
                   >
                     {actions.map((master) => (
@@ -655,7 +543,7 @@ const ViewRuleEngine = () => {
                   <select
                     required=""
                     className="p-1 mt-1 mb-1"
-                    style={{ fontSize: '12px', fontWeight: '400' }}
+                    style={{ fontSize: '12px', fontWeight: '400', appearance: "none" }}
                     disabled
                   >
                     {actions.map((master) => (

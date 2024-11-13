@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
 
@@ -60,7 +60,10 @@ export default function CampaignDetails() {
       <SubHeader />
       <div className="module-data-section mt-2 mb-2">
         <p className="pointer">
-          <span className="text-secondary">Campaign</span> &gt; Campaign Details
+        <Link to='/campaign' >
+          <span className="text-secondary">Campaign</span> 
+          </Link>
+          &gt; Campaign Details
         </p>
 
         {/* personal details */}

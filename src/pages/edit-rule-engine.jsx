@@ -698,7 +698,7 @@
 
 import React, { useEffect, useState } from "react";
 import SubHeader from "../components/SubHeader";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import axios from "axios";
 import {
     fetchMasterAttributes,
@@ -1356,6 +1356,7 @@ const EditRuleEngine = () => {
                                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
                             />
                         </svg>
+                        {index > 0 && ( // Only show the button for conditions after the first one
                         <button
                             onClick={() => removeCondition(condition.id)}
                             className="ms-3"
@@ -1375,6 +1376,7 @@ const EditRuleEngine = () => {
                                 />
                             </svg>
                         </button>
+                        )}
                     </span>
                 </h6>
             </div>
@@ -1666,7 +1668,10 @@ const EditRuleEngine = () => {
                 <SubHeader />
                 <div className="module-data-section mt-2">
                     <p className="pointer">
-                        <span className="text-secondary">Rule Engine</span> &gt; New Rule
+                    <Link to='/rule-engine' >
+                        <span className="text-secondary">Rule Engine</span> 
+                    </Link>
+                        &gt; Edit Rule
                     </p>
                     <h5 class="mb-3">
                         <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>New Rule</span>
