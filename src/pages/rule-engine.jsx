@@ -9,7 +9,6 @@ import {
 } from "../Confi/ruleEngineApi";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SelectSubToMain from "./SelectSubToMain";
 
 const RuleEngine = () => {
   const [RuleEngine, setRuleEngine] = useState([]);
@@ -123,10 +122,14 @@ const RuleEngine = () => {
 
     let query = [];
     if (selectedMasterAttribute) {
-      query.push(`q[rule_engine_conditions_rule_engine_applicable_model_rule_engine_available_model_display_name_cont]=${selectedMasterAttribute}`)
+      query.push(
+        `q[rule_engine_conditions_rule_engine_applicable_model_rule_engine_available_model_display_name_cont]=${selectedMasterAttribute}`
+      );
     }
     if (selectedSubAttribute) {
-      query.push(`q[rule_engine_conditions_condition_attribute_cont]=${selectedSubAttribute}`)
+      query.push(
+        `q[rule_engine_conditions_condition_attribute_cont]=${selectedSubAttribute}`
+      );
     }
     const queryString = query.length > 0 ? `?${query.join("&")}` : "";
 
@@ -140,6 +143,7 @@ const RuleEngine = () => {
         setSelectedSubAttribute("");
         setFormValues({ name: "", masterAttribute: "", subAttribute: "" });
         handleCloseModal();
+        console.log("currentItems", filteredItems.length, filteredItems);
       }
     } catch (error) {
       console.error("Error fetching filtered data", error);
@@ -168,11 +172,8 @@ const RuleEngine = () => {
 
     // If there's a search term, filter the members and show suggestions
     if (term) {
-      const filteredSuggestions = RuleEngine.filter(
-        (member) =>
-          `${member.name}`
-            .toLowerCase()
-            .includes(term.toLowerCase())
+      const filteredSuggestions = RuleEngine.filter((member) =>
+        `${member.name}`.toLowerCase().includes(term.toLowerCase())
       );
       setSuggestions(filteredSuggestions); // Update suggestions list
     } else {
@@ -185,7 +186,6 @@ const RuleEngine = () => {
     setSuggestions([]); // Clear suggestions after selection
     setFilteredItems([member]); // Optionally, filter to show the selected member
   };
-
 
   const handleReset = () => {
     setSearchTerm(""); // Clear search term
@@ -308,8 +308,9 @@ const RuleEngine = () => {
           ))}
 
           <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             <button
               className="page-link"
@@ -321,8 +322,9 @@ const RuleEngine = () => {
             </button>
           </li>
           <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             <button
               className="page-link"
@@ -396,7 +398,9 @@ const RuleEngine = () => {
             <div className="d-flex align-items-center">
               <button
                 className="purple-btn2 rounded-3 mt-2 me-3"
-                onClick={() => { setShowModal(true) }}
+                onClick={() => {
+                  setShowModal(true);
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -441,7 +445,10 @@ const RuleEngine = () => {
                 </div> */}
 
                 <div className="d-flex align-items-center position-relative">
-                  <div className="position-relative me-3" style={{ width: "100%" }}>
+                  <div
+                    className="position-relative me-3"
+                    style={{ width: "100%" }}
+                  >
                     <input
                       className="form-control"
                       style={{
@@ -480,8 +487,8 @@ const RuleEngine = () => {
                           border: "1px solid #ddd",
                           maxHeight: "200px",
                           overflowY: "auto",
-                          width: "100%",        // Match width of input field
-                          zIndex: 1,             // Ensure it appears on top of other elements
+                          width: "100%", // Match width of input field
+                          zIndex: 1, // Ensure it appears on top of other elements
                           backgroundColor: "#fff", // Set solid background color
                           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
                         }}
@@ -540,7 +547,7 @@ const RuleEngine = () => {
               <p>Loading...</p>
             ) : error ? (
               <p className="text-danger">{error}</p>
-            ) : (
+            ) : currentItems.length > 0 ? (
               <>
                 <table
                   className="w-100"
@@ -591,9 +598,7 @@ const RuleEngine = () => {
                             Common Operatives
                             {/* <SelectSubToMain/> */}
                           </td>
-                          <td style={{ width: "10%" }}>
-                            {condition.operator}
-                          </td>
+                          <td style={{ width: "10%" }}>{condition.operator}</td>
                           {actions.length > 0 ? (
                             actions.map((act, actIndex) => (
                               <React.Fragment key={act.id || actIndex}>
@@ -627,20 +632,20 @@ const RuleEngine = () => {
                           </td>
                           <td style={{ width: "10%" }}>
                             <Link to={`/edit-rule-engine/${id}`}>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="#5e2750"
-                              className="bi bi-pencil-square"
-                              viewBox="0 0 16 16"
-                            >
-                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                              <path
-                                fillRule="evenodd"
-                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5V6.207a.5.5 0 0 0-1 0V13.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5h7.293a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                              />
-                            </svg>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="#5e2750"
+                                className="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                              >
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path
+                                  fillRule="evenodd"
+                                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5V6.207a.5.5 0 0 0-1 0V13.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5h7.293a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
+                                />
+                              </svg>
                             </Link>
                           </td>
                           <td style={{ width: "10%" }}>
@@ -671,6 +676,26 @@ const RuleEngine = () => {
                   totalEntries={filteredItems.length}
                 />
               </>
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "16px",
+                  color: "#555",
+                  fontWeight: "500",
+                  backgroundColor: "#f9f9f9",
+                  padding: "20px",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  textAlign: "center",
+                }}
+              >
+                No matching rules found. Adjust your filters to see results.
+              </div>
             )}
           </div>
 
@@ -748,7 +773,10 @@ const RuleEngine = () => {
                   </button>
                 </div>
                 <div className="col-md-4">
-                  <button className="purple-btn2 w-100" onClick={handleCloseModal}>
+                  <button
+                    className="purple-btn2 w-100"
+                    onClick={handleCloseModal}
+                  >
                     Cancel
                   </button>
                 </div>

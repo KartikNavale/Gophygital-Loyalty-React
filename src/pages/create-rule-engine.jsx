@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -535,7 +535,10 @@ const CreateRuleEngine = () => {
         <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
-            <span className="text-secondary">Rule Engine</span> &gt; New Rule
+            <Link to='/rule-engine' >
+            <span className="text-secondary">Rule Engine</span>
+            </Link>{" "}
+             &gt; New Rule
           </p>
           <h5 className="mb-3">
             <span className="title" style={{fontSize:'20px',fontWeight:'600'}}>New Rule</span>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import SubHeader from "../components/SubHeader";
 import RoundedRadioButtonCard from "../components/RoundedRadioButtonCard";
@@ -133,7 +133,10 @@ const NewTier = () => {
           style={{ position: "relative", height: "100%" }}
         >
           <p className="pointer">
-            <span className="text-secondary">Tiers</span> &gt; Tier Setting
+            <Link to={'/tiers'}>
+            <span className="text-secondary">Tiers</span>
+            </Link>{" "}
+             &gt; Tier Setting
           </p>
           <div className="mx-3 border-bottom" style={{fontSize:'16px',paddingBottom:'20px'}}>
             <h5 className="d-flex">

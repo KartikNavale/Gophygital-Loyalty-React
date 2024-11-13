@@ -242,7 +242,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const NewCampaign = () => {
@@ -359,7 +359,10 @@ const NewCampaign = () => {
   return (
     <div className="module-data-section mt-2">
       <p className="pointer">
-        <span className="text-secondary">Campaign</span> &gt; New Campaign
+        <Link to='/campaign' >
+        <span className="text-secondary">Campaign</span> 
+        </Link>{" "}
+        &gt; New Campaign
       </p>
       <h5 className="mb-3 title" style={{fontSize:'20px',fontWeight:'600'}}>New Campaign</h5>
       <form onSubmit={handleSubmit} className="go-shadow me-3 pt-3"

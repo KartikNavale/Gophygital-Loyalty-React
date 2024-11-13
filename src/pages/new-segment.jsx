@@ -4,7 +4,7 @@ import "../styles/style.css";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
 // Import axios for making API calls
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -610,7 +610,10 @@ const NewSegment = () => {
         <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer ">
-            <span className="">Segment</span> &gt; New Segment
+            <Link to='/segment'>
+            <span className="text-secondary">Segment</span>
+            </Link>{" "}
+             &gt; New Segment
           </p>
           <h5 className="mb-1 title ms-3" style={{ marginBottom: "30px" ,marginTop: "33px" }}>New Segment</h5>
           {/* <div className="go-shadow me-3 pb-4"> */}
