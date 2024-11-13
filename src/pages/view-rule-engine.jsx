@@ -326,6 +326,8 @@ const ViewRuleEngine = () => {
                 aria-controls={`home-tab-pane-${index}`}
                 aria-selected="true"
                 defaultChecked
+                value={condition.action_type}
+                checked={condition.action_type_type === "AND"}
               />
               <label htmlFor={`home-tab-${index}`} className="and-or-btn">
                 AND
@@ -342,6 +344,8 @@ const ViewRuleEngine = () => {
                 role="tab"
                 aria-controls={`profile-tab-pane-${index}`}
                 aria-selected="false"
+                value={condition.action_type}
+                checked={condition.action_type? condition.action_type_type==="OR": ''}
               />
               <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
                 OR
@@ -552,10 +556,10 @@ const ViewRuleEngine = () => {
         <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
-            <span className="text-secondary">Rule Engine</span> &gt; New Rule
+            <span className="text-secondary">Rule Engine</span> &gt; View Rule
           </p>
           <h5 class="mb-3">
-            <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>New Rule</span>
+            <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>View Rule</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="19"
