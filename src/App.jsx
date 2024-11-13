@@ -32,6 +32,7 @@ import SelectSubToMain from "./pages/SelectSubToMain";
 import CampaignDetails from "./pages/campaign-details";
 import EditSegment from "./pages/edit-segment";
 import EditRuleEngine from "./pages/edit-rule-engine";
+import PageNotFound from "./pages/page-not-found";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
             <Route path="/SelectSubToMain" element={<SelectSubToMain/>} />
 
             <Route path="/edit-segment/:id" element={<EditSegment />} />
+            <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
       </div>
