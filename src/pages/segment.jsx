@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../styles/style.css";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+
 import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
-import { Modal, Button } from "react-bootstrap";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -100,14 +98,7 @@ const handleEditClick = (segment) => {
     fetchSegments();
   }, []);
 
-  
-  
 
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const currentItems = filteredItems.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
@@ -115,125 +106,145 @@ const handleEditClick = (segment) => {
     }
   };
 
-  
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const currentItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
-  const Pagination = ({ currentPage, totalPages, totalEntries }) => {
+
+  const Pagination = ({
+    currentPage,
+    totalPages,
+    totalEntries,
+    onPageChange, // Pass the onPageChange function as a prop
+  }) => {
     const startEntry = (currentPage - 1) * itemsPerPage + 1;
     const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
 
-    const renderPageNumbers = () => {
+    // Function to get the range of page numbers to display
+    const getPageNumbers = () => {
       const pages = [];
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(
-          <li
-            key={i}
-            className={`page-item ${i === currentPage ? "active" : ""}`}
-            style={{ border: "1px solid #ddd", margin: "2px" }}
-          >
-            <button
-              className="page-link"
-              onClick={() => handlePageChange(i)}
-              style={{
-                padding: "8px 12px",
-                color: i === currentPage ? "#fff" : "#5e2750",
-                backgroundColor: i === currentPage ? "#5e2750" : "#fff",
-                fontWeight: i === currentPage ? "bold" : "normal",
-                border: "2px solid #5e2750",
-                borderRadius: "3px",
-              }}
-            >
-              {i}
-            </button>
-          </li>
-        );
+      const maxVisiblePages = 5; // Set the maximum number of visible pages
+      const halfVisible = Math.floor(maxVisiblePages / 2);
+
+      let startPage, endPage;
+
+      if (totalPages <= maxVisiblePages) {
+        // If total pages are less than or equal to maxVisiblePages, show all
+        startPage = 1;
+        endPage = totalPages;
+      } else {
+        // Otherwise, calculate the start and end pages
+        if (currentPage <= halfVisible) {
+          startPage = 1;
+          endPage = maxVisiblePages;
+        } else if (currentPage + halfVisible >= totalPages) {
+          startPage = totalPages - maxVisiblePages + 1;
+          endPage = totalPages;
+        } else {
+          startPage = currentPage - halfVisible;
+          endPage = currentPage + halfVisible;
+        }
       }
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
       return pages;
+    };
+
+    const pageNumbers = getPageNumbers();
+
+    const handleJumpForward = () => {
+      if (currentPage + 5 <= totalPages) {
+        onPageChange(currentPage + 5);
+      } else {
+        onPageChange(totalPages); // Go to last page if jump exceeds total pages
+      }
+    };
+
+    const handleJumpBackward = () => {
+      if (currentPage - 5 >= 1) {
+        onPageChange(currentPage - 5);
+      } else {
+        onPageChange(1); // Go to first page if jump goes below 1
+      }
     };
 
     return (
       <nav className="d-flex justify-content-between align-items-center">
         <ul
           className="pagination justify-content-center align-items-center"
-          style={{
-            listStyleType: "none",
-            padding: "0",
-            display: "flex",
-            alignItems: "center",
-          }}
+          style={{ listStyleType: "none", padding: "0" }}
         >
-          <li
-            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-            style={{ margin: "2px" }}
-          >
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
             <button
               className="page-link"
-              onClick={() => handlePageChange(1)}
+              onClick={() => onPageChange(1)} // Jump to first page
               disabled={currentPage === 1}
-              style={{
-                padding: "8px 12px",
-                color: "#5e2750",
-                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-              }}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
             >
-              «
+              «« {/* Double left arrow for jumping to the first page */}
             </button>
           </li>
-          <li
-            className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-            style={{ margin: "2px" }}
-          >
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
             <button
               className="page-link"
-              onClick={() => handlePageChange(currentPage - 1)}
+              onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              style={{
-                padding: "8px 12px",
-                color: "#5e2750",
-                backgroundColor: currentPage === 1 ? "#f0f0f0" : "#fff",
-              }}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
             >
               ‹
             </button>
           </li>
-          {renderPageNumbers()}
+
+          {pageNumbers.map((page) => (
+            <li
+              key={page}
+              className={`page-item ${page === currentPage ? "active" : ""}`}
+            >
+              <button
+                className="page-link"
+                onClick={() => onPageChange(page)}
+                style={{
+                  padding: "8px 12px",
+                  color: page === currentPage ? "#fff" : "#5e2750",
+                  backgroundColor: page === currentPage ? "#5e2750" : "#fff",
+                  border: "2px solid #5e2750",
+                  borderRadius: "3px",
+                }}
+              >
+                {page}
+              </button>
+            </li>
+          ))}
+
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
-            style={{ margin: "2px" }}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
-              onClick={() => handlePageChange(currentPage + 1)}
+              onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              style={{
-                padding: "8px 12px",
-                color: "#5e2750",
-                backgroundColor:
-                  currentPage === totalPages ? "#f0f0f0" : "#fff",
-              }}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
             >
               ›
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
-            style={{ margin: "2px" }}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
-              onClick={() => handlePageChange(totalPages)}
+              onClick={handleJumpForward} // Jump forward by 7 pages
               disabled={currentPage === totalPages}
-              style={{
-                padding: "8px 12px",
-                color: "#5e2750",
-                backgroundColor:
-                  currentPage === totalPages ? "#f0f0f0" : "#fff",
-              }}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
             >
-              »
+              »» {/* Double right arrow for jumping to the last page */}
             </button>
           </li>
         </ul>
@@ -243,6 +254,7 @@ const handleEditClick = (segment) => {
       </nav>
     );
   };
+
 
   return (
     <>
