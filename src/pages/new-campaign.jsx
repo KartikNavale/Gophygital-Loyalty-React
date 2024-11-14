@@ -305,20 +305,64 @@ const NewCampaign = () => {
     // }
 
     // Validate required fields
-    if (!formValues.name ||
-      !formValues.target_audiance ||
-      !formValues.campaign_type ||
-      !formValues.loyalty_tier_id
-      // ||
-      // !formValues.campaign_reward
-    ) {
-      // setError("All fields are required.");
-      toast.error("All Mandatory field are required", {
+    // if (!formValues.name ||
+    //   !formValues.target_audiance ||
+    //   !formValues.campaign_type ||
+    //   !formValues.loyalty_tier_id
+    //   // ||
+    //   // !formValues.campaign_reward
+    // ) {
+    //   // setError("All fields are required.");
+    //   toast.error("All Mandatory field are required", {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //   });
+    //   return;
+    // }
+
+    if (!formValues.name) {
+      toast.error("Campaign Name is required.", {
         position: "top-center",
         autoClose: 3000,
       });
       return;
     }
+    
+    if (!formValues.target_audiance) {
+      toast.error("Target Audience is required.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    
+    if (!formValues.campaign_type) {
+      toast.error("Campaign Type is required.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    
+    if (!formValues.loyalty_tier_id) {
+      toast.error("Tier Level is required.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    
+    // Uncomment and use this when the reward validation is needed
+    // if (!formValues.campaign_reward) {
+    //   toast.error("Campaign Reward is required.", {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //   });
+    //   return;
+    // }
+    
+    // Proceed with further logic if all validations pass
+    
 
     const data = {
       loyalty_campaign: {

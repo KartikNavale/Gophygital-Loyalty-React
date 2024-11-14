@@ -50,7 +50,7 @@ const CreateRuleEngine = () => {
   const [parameter, setParameter] = useState('')
   const [previousValue, setPreviousValue] = useState('');
 
-  
+
   const handleMasterOperatorChange = (e) => {
     const selectedId = e.target.value; //handle master operator
     setSelectedMasterOperator(selectedId);
@@ -167,20 +167,105 @@ const CreateRuleEngine = () => {
 
   const handleSubmit = async () => {
     // Validate required fields
-    if (!ruleName || conditions.some(cond =>
-      !cond.subAttribute ||
-      !cond.subOperator ||
-      !cond.value ||
-      !cond.masterAttribute ||
-      cond.value === previousValue // Check against previous value
-    )) {
-      // setError("All fields are required.");
-      toast.error("All Mandatory field are required", {
+    // if (!ruleName || conditions.some(cond =>
+    //   !cond.subAttribute ||
+    //   !cond.subOperator ||
+    //   !cond.value ||
+    //   !cond.masterAttribute ||
+    //   cond.value === previousValue // Check against previous value
+    // )) {
+    //   // setError("All fields are required.");
+    //   toast.error("All Mandatory field are required", {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //   });
+    //   return;
+    // }
+
+
+    if (!ruleName) {
+      toast.error("Rule Name is required.", {
         position: "top-center",
         autoClose: 3000,
       });
       return;
     }
+
+    
+    conditions.forEach((cond, index) => {
+      setTimeout(() => {
+        if (!cond.masterAttribute) {
+          toast.error(`Condition ${index + 1}: Master Attribute is required.`, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else if (!cond.subAttribute) {
+          toast.error(`Condition ${index + 1}: Sub Attribute is required.`, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else if (!cond.masterOperator) {
+          toast.error(`Condition ${index + 1}: Master Operator is required.`, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else if (!cond.subOperator) {
+          toast.error(`Condition ${index + 1}: Sub Operator is required.`, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else if (!cond.value) {
+          toast.error(`Condition ${index + 1}: Value is required.`, {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        }
+      }, index * 3500); // Add a delay of 3500ms between each toast
+    });
+    
+
+    //  / / Validate Master Reward Outcome
+    // if (!selectedMasterRewardOutcomes.name) {
+    //   toast.error("Master Reward Outcome is required.", {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //   });
+    //   return;
+    // }
+    setTimeout(() => {
+      if (!selectedMasterRewardOutcomes.name) {
+        toast.error("Master Reward Outcome is required.", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+      }
+    }, conditions.length * 3500); // Delay based on the number of conditions
+
+    // Validate Sub Reward Outcome
+    // if (!subRewardOutcomesnew.id) {
+    //   toast.error("Sub Reward Outcome is required.", {
+    //     position: "top-center",
+    //     autoClose: 3000,
+    //   });
+    //   return;
+    // }
+
+
+    const isInvalid = conditions.some(
+      (cond) =>
+        !cond.masterAttribute ||
+        !cond.subAttribute ||
+        !cond.masterOperator ||
+        !cond.subOperator ||
+        !cond.value ||
+        cond.value === previousValue
+    );
+
+    if (isInvalid) {
+      return;
+    }
+
+    // Proceed with form submission or further logic
 
 
 
@@ -189,7 +274,7 @@ const CreateRuleEngine = () => {
     const uniqueValues = new Set();
     for (const value of values) {
       if (value.trim() === "") {
-        setError(" Please enter value.");
+        // setError(" Please enter value.");
         return;
       }
       uniqueValues.add(value);
@@ -281,26 +366,26 @@ const CreateRuleEngine = () => {
     <div key={condition.id} className="SetRuleCard">
       <div>
         <h6 className="mt-3">
-          <span style={{fontSize:'18px',fontWeight:'600'}}>Condition {condition.id}
-          {index > 0 && ( // Only show the button for conditions after the first one
-            <button
-              onClick={() => removeCondition(condition.id)}
-              className="ms-3"
-              // title="Remove Condition"
-              style={{ border: 'none', backgroundColor: 'white' }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-x"
-                viewBox="0 0 16 16"
+          <span style={{ fontSize: '18px', fontWeight: '600' }}>Condition {condition.id}
+            {index > 0 && ( // Only show the button for conditions after the first one
+              <button
+                onClick={() => removeCondition(condition.id)}
+                className="ms-3"
+                // title="Remove Condition"
+                style={{ border: 'none', backgroundColor: 'white' }}
               >
-                <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-              </svg>
-            </button>
-          )}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-x"
+                  viewBox="0 0 16 16"
+                >
+                  <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+              </button>
+            )}
           </span>
         </h6>
       </div>
@@ -368,18 +453,18 @@ const CreateRuleEngine = () => {
         {/* ......if ..... */}
         <div>
           <h4>
-            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>IF</span>
+            <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>IF</span>
           </h4>
           <div className="row ms-1 mt-2">
             {/* Attribute section */}
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                 Master Attribute<span>*</span>
               </legend>
               <select
                 required=""
                 className="p-1  mt-1 mb-1"
-                style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
                     idx === index
@@ -404,13 +489,13 @@ const CreateRuleEngine = () => {
               <h4>&</h4>
             </div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                 Sub Attribute<span>*</span>
               </legend>
               <select
                 required=""
                 className="p-1  mt-1 mb-1"
-                style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
                 disabled={!condition.masterAttribute}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -436,17 +521,17 @@ const CreateRuleEngine = () => {
         {/* Operator section */}
         <div className="mt-3">
           <h4>
-            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Operator</span>
+            <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>Operator</span>
           </h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                 Master Operator<span>*</span>
               </legend>
               <select
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
                 value={condition.masterOperator}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -470,13 +555,13 @@ const CreateRuleEngine = () => {
               <h4>&</h4>
             </div>
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                 Sub Operator<span>*</span>
               </legend>
               <select
                 required=""
                 className="p-1  mt-1 mb-1"
-                style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
                 disabled={!condition.masterOperator}
                 value={condition.subOperator}
                 onChange={(e) => {
@@ -502,17 +587,17 @@ const CreateRuleEngine = () => {
         {/* Value section */}
         <div className="mt-3">
           <h4>
-            <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Value</span>
+            <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>Value</span>
           </h4>
           <div className="row ms-1 mt-2">
             <fieldset className="border col-md-3 m-2 col-sm-11">
-              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+              <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                 Value<span>*</span>
               </legend>
               <input
                 type="text"
                 className="p-1 mt-1 mb-1"
-                style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
                 placeholder="Enter Point Value"
                 value={condition.value}
                 onChange={(e) => {
@@ -538,17 +623,17 @@ const CreateRuleEngine = () => {
         <div className="module-data-section mt-2">
           <p className="pointer">
             <Link to='/rule-engine' >
-            <span className="text-secondary">Rule Engine</span>
+              <span className="text-secondary">Rule Engine</span>
             </Link>{" "}
-             &gt; New Rule
+            &gt; New Rule
           </p>
           <h5 className="mb-3">
-            <span className="title" style={{fontSize:'20px',fontWeight:'600'}}>New Rule</span>
+            <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>New Rule</span>
           </h5>
           <div className="go-shadow me-3">
             <div className="row ms-1">
               <fieldset className="border col-md-11 m-2 col-sm-11">
-                <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+                <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                   New Rule<span>*</span>
                 </legend>
                 <input
@@ -557,7 +642,7 @@ const CreateRuleEngine = () => {
                   value={ruleName}
                   onChange={(e) => setRuleName(e.target.value)}
                   className="mt-1 mb-1"
-                  style={{fontSize:'12px',fontWeight:'400'}}
+                  style={{ fontSize: '12px', fontWeight: '400' }}
                 />
               </fieldset>
             </div>
@@ -569,7 +654,7 @@ const CreateRuleEngine = () => {
             <button
               className="setRuleCard2 mt-2"
               onClick={addCondition}
-              style={{ color: "black",fontSize:'16px',fontWeight:"500" }}
+              style={{ color: "black", fontSize: '16px', fontWeight: "500" }}
             >
               <span>
                 <svg
@@ -589,17 +674,17 @@ const CreateRuleEngine = () => {
             {/* THEN section */}
             <div className="mt-3">
               <h4>
-                <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>THEN</span>
+                <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>THEN</span>
               </h4>
               <div className="row ms-1 mt-2">
                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                     Master Reward Outcome<span>*</span>
                   </legend>
                   <select
                     required=""
                     className="p-1 mt-1 mb-1"
-                    style={{fontSize:'12px',fontWeight:'400'}}
+                    style={{ fontSize: '12px', fontWeight: '400' }}
                     onChange={handleMasterSubRewardOutcomeChange}
                     value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
                   >
@@ -616,13 +701,13 @@ const CreateRuleEngine = () => {
                   <h4>&</h4>
                 </div>
                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                     Sub Reward Outcome<span>*</span>
                   </legend>
                   <select
                     required=""
                     className="p-1 mt-1 mb-1"
-                    style={{fontSize:'12px',fontWeight:'400'}}
+                    style={{ fontSize: '12px', fontWeight: '400' }}
                     disabled={!selectedMasterRewardOutcomes}
                     onChange={(e) => {
                       const selectedId = e.target.value; // Get the selected sub-reward outcome ID
@@ -649,10 +734,10 @@ const CreateRuleEngine = () => {
                     <h4>=</h4>
                   </div> */}
                 <fieldset className="border col-md-3 m-2 col-sm-11 ">
-                  <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                     Parameter {/* <span>*</span> */}
                   </legend>
-                  <input type="text" placeholder="Enter Parameter Value" value={parameter} onChange={(e) => setParameter(e.target.value)} className="mt-1 mb-1" style={{fontSize:'12px',fontWeight:'400'}} />
+                  <input type="text" placeholder="Enter Parameter Value" value={parameter} onChange={(e) => setParameter(e.target.value)} className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }} />
                 </fieldset>
               </div>
             </div>
@@ -666,7 +751,23 @@ const CreateRuleEngine = () => {
               <button className="purple-btn1 w-100" onClick={handleSubmit}>Submit</button>
             </div>
             <div className="col-md-2">
-              <button className="purple-btn2 w-100">Cancel</button>
+              <button className="purple-btn2 w-100" onClick={()=>{
+                setRuleName('')
+                setConditions((prevConditions) =>
+                  prevConditions.map((condition) => ({
+                    ...condition,
+                    masterAttribute: "",
+                    subAttribute: "",
+                    masterOperator: "",
+                    subOperator: "",
+                    condition_type: "",
+                    value: "",
+                  }))
+                );
+                setSelectedMasterRewardOutcomes({ id: '', name: '' })
+                setSubRewardOutcomes([])
+                setParameter('')
+              }}>Cancel</button>
             </div>
           </div>
         </div>

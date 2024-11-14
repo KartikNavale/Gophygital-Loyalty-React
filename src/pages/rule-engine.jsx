@@ -56,6 +56,13 @@ const RuleEngine = () => {
     fetchRuleEngine();
   }, []);
 
+  //transform
+  const formatFieldName = (fieldName) => {
+    return fieldName
+      .replace(/_/g, ' ')           // Replace underscores with spaces
+      .replace(/::/g, ' ')          // Replace :: with spaces
+      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+  };
   useEffect(() => {
     const getData = async () => {
       try {
@@ -592,23 +599,25 @@ const RuleEngine = () => {
                             {condition.model_name}
                           </td>
                           <td style={{ width: "10%" }}>
-                            {condition.condition_attribute}
+                            {/* {condition.condition_attribute} */}
+                            {formatFieldName(condition.condition_attribute)}
+
                           </td>
                           <td style={{ width: "10%" }}>
                             Common Operatives
                             {/* <SelectSubToMain/> */}
                           </td>
-                          <td style={{ width: "10%" }}>{condition.operator}</td>
+                          <td style={{ width: "10%" }}>{formatFieldName(condition.operator)}</td>
                           {actions.length > 0 ? (
                             actions.map((act, actIndex) => (
                               <React.Fragment key={act.id || actIndex}>
                                 <td style={{ width: "10%" }}>
-                                  {act.lock_model_name
+                                  {formatFieldName(act.lock_model_name
                                     ? act.lock_model_name
-                                    : ""}
+                                    : "")}
                                 </td>
                                 <td style={{ width: "10%" }}>
-                                  {act.action_method ? act.action_method : ""}
+                                  {formatFieldName(act.action_method ? act.action_method : "")}
                                 </td>
                               </React.Fragment>
                             ))

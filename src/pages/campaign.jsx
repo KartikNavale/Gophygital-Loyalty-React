@@ -753,7 +753,23 @@ const Campaign = () => {
                       <option value="No purchase">No purchase</option>
                     </select>
                   </div>
-                  <button type="submit" className="purple-btn1">Save Changes</button>
+                  {/* <button type="submit" className="purple-btn1">Save Changes</button> */}
+                  <div className="row mt-2 justify-content-center align-items-center">
+                          <div className="col-4">
+                            <button type="submit" className="purple-btn1 w-100">
+                              Submit
+                            </button>
+                          </div>
+                          <div className="col-4">
+                            <button
+                              type="reset"
+                              className="purple-btn2 w-100"
+                              onClick={handleCloseModal}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
                 </form>
               </Modal.Body>
             </Modal>
