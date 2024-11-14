@@ -15,6 +15,13 @@ const ViewRuleEngine = () => {
     actions: [],
   })
   console.log(id)
+ //transform
+  const formatFieldName = (fieldName) => {
+    return fieldName
+      .replace(/_/g, ' ')           // Replace underscores with spaces
+      .replace(/::/g, ' ')          // Replace :: with spaces
+      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+  };
 
   const [conditions, setConditions] = useState([
     {

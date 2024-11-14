@@ -604,8 +604,9 @@ const RuleEngine = () => {
 
                           </td>
                           <td style={{ width: "10%" }}>
-                            Common Operatives
-                            {/* <SelectSubToMain/> */}
+                            {/* Common Operatives */}
+                            {condition.master_operator}
+                            
                           </td>
                           <td style={{ width: "10%" }}>{formatFieldName(condition.operator)}</td>
                           {actions.length > 0 ? (

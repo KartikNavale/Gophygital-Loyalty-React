@@ -25,7 +25,8 @@ const CreateRuleEngine = () => {
       masterOperator: "",
       subOperator: "",
       condition_type: "",
-      value: ''
+      value: '',
+      master_operator: ''
     },
   ]);
 
@@ -51,13 +52,27 @@ const CreateRuleEngine = () => {
   const [previousValue, setPreviousValue] = useState('');
 
 
-  const handleMasterOperatorChange = (e) => {
-    const selectedId = e.target.value; //handle master operator
-    setSelectedMasterOperator(selectedId);
+  // const handleMasterOperatorChange = (e) => {
+  //   const selectedName = e.target.value; //handle master operator
+  //   setSelectedMasterOperator(selectedId);
 
-    const selectedMaster = masterOperators.find((op) => op.id === selectedId);
+  //   const selectedMaster = masterOperators.find((op) => op.name === selectedName);
+  //   setSubOperators(selectedMaster ? selectedMaster.subOptions : []);
+  //   setSelectedSubOperator(""); // Reset sub operator selection
+  // };
+
+  const handleMasterOperatorChange = (e) => {
+    const selectedName = e.target.value; // Handle master operator change
+    setSelectedMasterOperator(selectedName); // Store selected master operator name
+
+    // Find the selected master operator by its name
+    const selectedMaster = masterOperators.find((op) => op.name === selectedName);
+
+    // Set subOperators based on the selected master operator
     setSubOperators(selectedMaster ? selectedMaster.subOptions : []);
-    setSelectedSubOperator(""); // Reset sub operator selection
+    
+    // Reset the sub operator selection
+    setSelectedSubOperator("");
   };
 
   useEffect(() => {
@@ -159,7 +174,8 @@ const CreateRuleEngine = () => {
         masterOperator: "",
         subOperator: "",
         condition_type: "",
-        value: ''
+        value: '',
+        master_operator: ''
       },
     ]);
   };
@@ -191,7 +207,7 @@ const CreateRuleEngine = () => {
       return;
     }
 
-    
+
     conditions.forEach((cond, index) => {
       setTimeout(() => {
         if (!cond.masterAttribute) {
@@ -204,7 +220,7 @@ const CreateRuleEngine = () => {
             position: "top-center",
             autoClose: 3000,
           });
-        } else if (!cond.masterOperator) {
+        } else if (!cond.master_operator) {
           toast.error(`Condition ${index + 1}: Master Operator is required.`, {
             position: "top-center",
             autoClose: 3000,
@@ -222,7 +238,7 @@ const CreateRuleEngine = () => {
         }
       }, index * 3500); // Add a delay of 3500ms between each toast
     });
-    
+
 
     //  / / Validate Master Reward Outcome
     // if (!selectedMasterRewardOutcomes.name) {
@@ -255,7 +271,7 @@ const CreateRuleEngine = () => {
       (cond) =>
         !cond.masterAttribute ||
         !cond.subAttribute ||
-        !cond.masterOperator ||
+        !cond.master_operator ||
         !cond.subOperator ||
         !cond.value ||
         cond.value === previousValue
@@ -308,6 +324,7 @@ const CreateRuleEngine = () => {
           compare_value: condition.value || "",
           condition_selected_model: Number(condition.masterAttribute) || 1,
           condition_type: condition.condition_type || "",
+          master_operator: condition.master_operator || ""
         })),
 
         rule_engine_actions_attributes: [{
@@ -532,11 +549,11 @@ const CreateRuleEngine = () => {
                 required=""
                 className="p-1 mt-1 mb-1"
                 style={{ fontSize: '12px', fontWeight: '400' }}
-                value={condition.masterOperator}
+                value={condition.master_operator}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
                     idx === index
-                      ? { ...cond, masterOperator: e.target.value }
+                      ? { ...cond, master_operator: e.target.value }
                       : cond
                   );
                   setConditions(updatedConditions);
@@ -545,7 +562,7 @@ const CreateRuleEngine = () => {
               >
                 <option value="">Select Master Operator </option>
                 {masterOperators.map((op) => (
-                  <option key={op.id} value={op.id}>
+                  <option key={op.id} value={op.name}>
                     {op.name}
                   </option>
                 ))}
@@ -562,7 +579,7 @@ const CreateRuleEngine = () => {
                 required=""
                 className="p-1  mt-1 mb-1"
                 style={{ fontSize: '12px', fontWeight: '400' }}
-                disabled={!condition.masterOperator}
+                disabled={!condition.master_operator}
                 value={condition.subOperator}
                 onChange={(e) => {
                   const updatedConditions = conditions.map((cond, idx) =>
@@ -751,7 +768,7 @@ const CreateRuleEngine = () => {
               <button className="purple-btn1 w-100" onClick={handleSubmit}>Submit</button>
             </div>
             <div className="col-md-2">
-              <button className="purple-btn2 w-100" onClick={()=>{
+              <button className="purple-btn2 w-100" onClick={() => {
                 setRuleName('')
                 setConditions((prevConditions) =>
                   prevConditions.map((condition) => ({
