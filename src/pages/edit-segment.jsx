@@ -3,15 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import SubHeader from "../components/SubHeader";
-// import { toast } from "react-toastify"; 
+// import { toast } from "react-toastify";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 
 const EditSegment = () => {
   const { id } = useParams(); // Get the segment ID from the URL
   const [segment, setSegment] = useState(null);
- 
+
   const [formData, setFormData] = useState({
     name: "",
     segment_tag: "",
@@ -44,6 +44,18 @@ const EditSegment = () => {
   //     member_count: newSelectedMembers.length,
   //   }));
   // };
+
+  const resetForm = () => {
+    setFormData({
+      name: segment.name,
+      segment_tag: segment.segment_tag,
+      member_count: segment.loyalty_members.length,
+      loyalty_members: {
+        member_ids: segment.loyalty_members.map((member) => member.id),
+      },
+    });
+    setSelectedMembers(segment.loyalty_members.map((member) => member.id));
+  };
 
   const handleCheckboxChange = (e, memberId) => {
     const newSelectedMembers = e.target.checked
@@ -136,8 +148,6 @@ const EditSegment = () => {
       });
       return; // Prevent further execution if the name is missing
     }
-  
-
 
     try {
       const response = await axios.put(
@@ -169,12 +179,12 @@ const EditSegment = () => {
   return (
     <div className="w-100">
       <SubHeader />
-      <ToastContainer /> 
+      <ToastContainer />
       <form onSubmit={handleSubmit}>
         <div className="module-data-section mt-2 ms-3 ">
           <p className="pointer ">
-          <Link to='/segment'>
-            <span className="text-secondary">Segment</span> 
+            <Link to="/segment">
+              <span className="text-secondary">Segment</span>
             </Link>{" "}
             &gt; Edit Segment
           </p>
@@ -413,12 +423,19 @@ const EditSegment = () => {
               Submit
             </button>
           </div>
-          {/* <div className="col-md-2">
-            <button className="purple-btn2 w-100" onClick={clearForm}
+
+          <div className="col-md-2">
+            <button
+              className="purple-btn2 w-100"
+              onClick={(e) => {
+                e.preventDefault(); // Prevent default button action
+                resetForm(); // Call the reset function to clear updates
+              }}
+              type="button"
             >
               Cancel
             </button>
-          </div> */}
+          </div>
         </div>
         {/* <Button variant="primary" type="submit">
           Save Changes
