@@ -15,8 +15,13 @@ const ViewRuleEngine = () => {
     actions: [],
   })
   console.log(id)
+
  //transform
   const formatFieldName = (fieldName) => {
+    if (!fieldName) {
+      // Return an empty string or a default value if fieldName is invalid
+      return '';
+  }
     return fieldName
       .replace(/_/g, ' ')           // Replace underscores with spaces
       .replace(/::/g, ' ')          // Replace :: with spaces
@@ -296,7 +301,7 @@ const ViewRuleEngine = () => {
                 style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
                 disabled
               >
-                <option value="">{condition.condition_attribute}</option>
+                <option value="">{ formatFieldName(condition.condition_attribute)}</option>
               </select>
             </fieldset>
           </div>
@@ -351,7 +356,7 @@ const ViewRuleEngine = () => {
                 style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
                 disabled
               >
-                <option value="">{condition.operator}</option>
+                <option value="">{formatFieldName(condition.operator)}</option>
               </select>
             </fieldset>
           </div>
@@ -532,7 +537,7 @@ const ViewRuleEngine = () => {
                     disabled
                   >
                     {actions.map((master) => (
-                      <option value="" >{master.lock_model_name}</option>
+                      <option value="" >{formatFieldName(master.lock_model_name)}</option>
 
                     ))}
                     {/* // <option value="">Select Master Reward Outcome</option> */}
@@ -554,7 +559,7 @@ const ViewRuleEngine = () => {
                     disabled
                   >
                     {actions.map((master) => (
-                      <option value="" >{master.action_method}</option>
+                      <option value="" >{formatFieldName(master.action_method)}</option>
 
                     ))}
                     {/* <option value="">Select Sub Reward Outcome</option>

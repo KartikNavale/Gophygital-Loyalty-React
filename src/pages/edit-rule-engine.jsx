@@ -1,720 +1,44 @@
-// import React, { useEffect, useState } from "react";
-// import SubHeader from "../components/SubHeader";
-// import { useParams } from "react-router-dom";
-// import axios from "axios";
 
-
-// const EditRuleEngine = () => {
-//   const { id } = useParams(); // Get the member ID from the URL
-//   // const [ruleName, setRuleName] = useState("");
-
-
-//   const [rule, setRule] = useState({
-//     name: '',
-//     conditions: [],
-//     actions: [],
-//   })
-//   console.log(id)
-
-//   const [conditions, setConditions] = useState([
-//     {
-//       id: 1,
-//       masterAttribute: "",
-//       subAttribute: "",
-//       masterOperator: "",
-//       subOperator: "",
-//       condition_type: "",
-//       value: ''
-//     },
-//   ]);
-
-//   const [actions, setactions] = useState([
-//     {
-
-//       fetchMasterRewardOutcome: "",
-//       fetchSubRewardOutcome: "",
-//       parameters: ''
-//     },
-//   ]);
-
-//   const addCondition = () => {
-//     setConditions([
-//       ...conditions,
-//       {
-//         id: conditions.length + 1,
-//         masterAttribute: "",
-//         subAttribute: "",
-//         masterOperator: "",
-//         subOperator: "",
-//         condition_type: "",
-//         value: ''
-//       },
-//     ]);
-//   };
-
-//   const removeCondition = (id) => {
-//     const updatedConditions = conditions.filter(condition => condition.id !== id);
-//     setConditions(updatedConditions);
-//   };
-
-
-//   // const renderCondition = (condition, index) => (
-//   //   <div key={condition.id} className="SetRuleCard">
-//   //     <div>
-//   //       <h6 className="mt-3">
-//   //         <span>Condition {condition.id}
-
-//   //         <svg
-//   //                 xmlns="http://www.w3.org/2000/svg"
-//   //                 width="16"
-//   //                 height="16"
-//   //                 fill="currentColor"
-//   //                 className="bi bi-pencil-square mb-1 ms-3 text-body-secondary"
-//   //                 viewBox="0 0 16 16"
-//   //               >
-//   //                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-//   //                 <path
-//   //                   fill-rule="evenodd"
-//   //                   d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-//   //                 />
-//   //               </svg>
-
-//   //               <button 
-//   //           onClick={() => removeCondition(condition.id)} 
-//   //           className="ms-3"
-//   //           // title="Remove Condition"
-//   //           style={{border:'none',backgroundColor:'white'}}
-//   //         >
-//   //           <svg
-//   //             xmlns="http://www.w3.org/2000/svg"
-//   //             width="16"
-//   //             height="16"
-//   //             fill="currentColor"
-//   //             className="bi bi-x"
-//   //             viewBox="0 0 16 16"
-//   //           >
-//   //             <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-//   //           </svg>
-//   //         </button>
-//   //         </span>
-//   //       </h6>
-//   //     </div>
-//   //     {index > 0 && ( // Only render the AND/OR section if this is not the first condition
-//   //       <ul className="nav nav-tabs border-0 mt-3">
-//   //         <div className="d-flex gap-3 And-btn rounded">
-//   //           <li className="nav-item d-flex p-2 gap-2" role="presentation">
-//   //             <input
-//   //               type="radio"
-//   //               className="nav-link"
-//   //               id={`home-tab-${index}`}
-//   //               name={`tab-${index}`}
-//   //               data-bs-toggle="tab"
-//   //               data-bs-target={`#home-tab-pane-${index}`}
-//   //               role="tab"
-//   //               aria-controls={`home-tab-pane-${index}`}
-//   //               aria-selected="true"
-//   //               defaultChecked
-
-//   //             />
-//   //             <label htmlFor={`home-tab-${index}`} className="and-or-btn">
-//   //               AND
-//   //             </label>
-//   //           </li>
-//   //           <li className="nav-item d-flex p-2 gap-2" role="presentation">
-//   //             <input
-//   //               type="radio"
-//   //               className="nav-link"
-//   //               id={`profile-tab-${index}`}
-//   //               name={`tab-${index}`}
-//   //               data-bs-toggle="tab"
-//   //               data-bs-target={`#profile-tab-pane-${index}`}
-//   //               role="tab"
-//   //               aria-controls={`profile-tab-pane-${index}`}
-//   //               aria-selected="false"
-
-//   //             />
-//   //             <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
-//   //               OR
-//   //             </label>
-//   //           </li>
-//   //         </div>
-//   //       </ul>
-//   //     )}
-
-//   //     <div className="border-btm pb-2 mt-2">
-//   //       {/* ......if ..... */}
-//   //       <div>
-//   //         <h4>
-//   //           <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>IF</span>
-//   //         </h4>
-//   //         <div className="row ms-1 mt-2">
-//   //           {/* Attribute section */}
-//   //           <fieldset className="border col-md-3 m-2 col-sm-11">
-//   //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
-//   //               Master Attribute<span>*</span>
-//   //             </legend>
-//   //             <select
-//   //               required=""
-//   //               className="p-1 mt-1 mb-1"
-//   //               style={{fontSize:'12px',fontWeight:'400'}}
-
-//   //             >
-//   //                {conditions.map((master)=>(
-//   //                     <option value="">{master.model_name}</option>
-
-//   //                   ))}
-//   //               {/* <option value="">Select Master Attribute </option> */}
-
-//   //               {/* <option value=""></option> */}
-//   //             </select>
-//   //           </fieldset>
-//   //           <div className="col-md-1 d-flex justify-content-center align-items-center">
-//   //             <h4>&</h4>
-//   //           </div>
-//   //           <fieldset className="border col-md-3 m-2 col-sm-11">
-//   //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
-//   //               Sub Attribute<span>*</span>
-//   //             </legend>
-//   //             <select
-//   //               required=""
-//   //               className="p-1 mt-1 mb-1"
-//   //               style={{fontSize:'12px',fontWeight:'400'}}
-//   //             >
-//   //               {conditions.map((master)=>(
-//   //                     <option value="">{master.condition_attribute}</option>
-
-//   //                   ))}
-//   //               {/* <option value="">Select Sub Attribute</option> */}
-
-//   //             </select>
-//   //           </fieldset>
-//   //         </div>
-//   //       </div>
-
-//   //       {/* Operator section */}
-//   //       <div className="mt-3">
-//   //         <h4>
-//   //           <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Operator</span>
-//   //         </h4>
-//   //         <div className="row ms-1 mt-2">
-//   //           <fieldset className="border col-md-3 m-2 col-sm-11">
-//   //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
-//   //               Master Operator<span>*</span>
-//   //             </legend>
-//   //             <select
-//   //               required=""
-//   //               className="p-1 mt-1 mb-1"
-//   //               style={{fontSize:'12px',fontWeight:'400'}}
-//   //             >
-//   //               <option value="">Select Master Operator </option>
-//   //               {/* {conditions.map((condition) => (
-//   //                 <option key={condition.id} value=""> {condition.masterOperator}</option>
-//   //               ))} */}
-
-//   //             </select>
-//   //           </fieldset>
-//   //           <div className="col-md-1 d-flex justify-content-center align-items-center">
-//   //             <h4>&</h4>
-//   //           </div>
-//   //           <fieldset className="border col-md-3 m-2 col-sm-11">
-//   //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}}>
-//   //               Sub Operator<span>*</span>
-//   //             </legend>
-//   //             <select
-//   //               required=""
-//   //               className="p-1 mt-1 mb-1"
-//   //               style={{fontSize:'12px',fontWeight:'400'}}
-//   //             >
-//   //               {conditions.map((master)=>(
-//   //                     <option value="" >{master.operator}</option>
-
-
-//   //                   ))}
-//   //               {/* <option value="">Select Sub Operator </option> */}
-//   //               {/* {conditions.map((condition) => (
-//   //                 <option key={condition.id} value=""> {condition.subOperator}</option>
-//   //               ))} */}
-
-//   //             </select>
-//   //           </fieldset>
-//   //         </div>
-//   //       </div>
-
-//   //       {/* Value section */}
-//   //       <div className="mt-3">
-//   //         <h4>
-//   //           <span className="badge setRuleCard" style={{fontSize:'16px',fontWeight:'600',color:'#E95420',backgroundColor:'#E954202E'}}>Value</span>
-//   //         </h4>
-//   //         <div className="row ms-1 mt-2">
-//   //           <fieldset className="border col-md-3 m-2 col-sm-11">
-//   //             <legend className="float-none"  style={{fontSize:'14px',fontWeight:'400'}} >
-//   //               Value<span>*</span>
-//   //             </legend>
-//   //             {conditions.map((master)=>(
-//   //                     <input
-//   //                     type="text"
-//   //                     className="p-1 mt-1 mb-1"
-//   //                     // placeholder="Enter Point Value"
-//   //                      value={master.compare_value}
-//   //                      style={{fontSize:'12px',fontWeight:'400'}}
-//   //                   />
-//   //                   ))}
-
-//   //           </fieldset>
-//   //         </div>
-//   //       </div>
-//   //     </div>
-//   //   </div>
-//   // );
-
-
-//   const renderCondition = (condition, index) => (
-//     <div key={condition.id} className="SetRuleCard">
-//       <div>
-//         <h6 className="mt-3">
-//           <span>
-//             Condition {condition.id}
-//             <svg
-//               xmlns="http://www.w3.org/2000/svg"
-//               width="16"
-//               height="16"
-//               fill="currentColor"
-//               className="bi bi-pencil-square mb-1 ms-3 text-body-secondary"
-//               viewBox="0 0 16 16"
-//             >
-//               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-//               <path
-//                 fill-rule="evenodd"
-//                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-//               />
-//             </svg>
-//             <button
-//               onClick={() => removeCondition(condition.id)}
-//               className="ms-3"
-//               style={{ border: "none", backgroundColor: "white" }}
-//             >
-//               <svg
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 width="16"
-//                 height="16"
-//                 fill="currentColor"
-//                 className="bi bi-x"
-//                 viewBox="0 0 16 16"
-//               >
-//                 <path
-//                   fillRule="evenodd"
-//                   d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-//                 />
-//               </svg>
-//             </button>
-//           </span>
-//         </h6>
-//       </div>
-
-//       {index > 0 && (
-//         <ul className="nav nav-tabs border-0 mt-3">
-//           <div className="d-flex gap-3 And-btn rounded">
-//             <li className="nav-item d-flex p-2 gap-2" role="presentation">
-//               <input
-//                 type="radio"
-//                 className="nav-link"
-//                 id={`home-tab-${index}`}
-//                 name={`tab-${index}`}
-//                 data-bs-toggle="tab"
-//                 data-bs-target={`#home-tab-pane-${index}`}
-//                 role="tab"
-//                 aria-controls={`home-tab-pane-${index}`}
-//                 aria-selected="true"
-//                 defaultChecked
-//               />
-//               <label htmlFor={`home-tab-${index}`} className="and-or-btn">
-//                 AND
-//               </label>
-//             </li>
-//             <li className="nav-item d-flex p-2 gap-2" role="presentation">
-//               <input
-//                 type="radio"
-//                 className="nav-link"
-//                 id={`profile-tab-${index}`}
-//                 name={`tab-${index}`}
-//                 data-bs-toggle="tab"
-//                 data-bs-target={`#profile-tab-pane-${index}`}
-//                 role="tab"
-//                 aria-controls={`profile-tab-pane-${index}`}
-//                 aria-selected="false"
-//               />
-//               <label htmlFor={`profile-tab-${index}`} className="and-or-btn">
-//                 OR
-//               </label>
-//             </li>
-//           </div>
-//         </ul>
-//       )}
-
-//       <div className="border-btm pb-2 mt-2">
-//         {/* If section */}
-//         <div>
-//           <h4>
-//             <span
-//               className="badge setRuleCard"
-//               style={{
-//                 fontSize: "16px",
-//                 fontWeight: "600",
-//                 color: "#E95420",
-//                 backgroundColor: "#E954202E",
-//               }}
-//             >
-//               IF
-//             </span>
-//           </h4>
-//           <div className="row ms-1 mt-2">
-//             <fieldset className="border col-md-3 m-2 col-sm-11">
-//               <legend
-//                 className="float-none"
-//                 style={{ fontSize: "14px", fontWeight: "400" }}
-//               >
-//                 Master Attribute<span>*</span>
-//               </legend>
-//               <select
-//                 required=""
-//                 className="p-1 mt-1 mb-1"
-//                 style={{ fontSize: "12px", fontWeight: "400" }}
-//               >
-//                 <option value="">{condition.model_name}</option>
-//               </select>
-//             </fieldset>
-//             <div className="col-md-1 d-flex justify-content-center align-items-center">
-//               <h4>&</h4>
-//             </div>
-//             <fieldset className="border col-md-3 m-2 col-sm-11">
-//               <legend
-//                 className="float-none"
-//                 style={{ fontSize: "14px", fontWeight: "400" }}
-//               >
-//                 Sub Attribute<span>*</span>
-//               </legend>
-//               <select
-//                 required=""
-//                 className="p-1 mt-1 mb-1"
-//                 style={{ fontSize: "12px", fontWeight: "400" }}
-//               >
-//                 <option value="">{condition.condition_attribute}</option>
-//               </select>
-//             </fieldset>
-//           </div>
-//         </div>
-
-
-//         {/* Operator Section */}
-//         <div className="mt-3">
-//           <h4>
-//             <span
-//               className="badge setRuleCard"
-//               style={{
-//                 fontSize: "16px",
-//                 fontWeight: "600",
-//                 color: "#E95420",
-//                 backgroundColor: "#E954202E",
-//               }}
-//             >
-//               Operator
-//             </span>
-//           </h4>
-//           <div className="row ms-1 mt-2">
-//             <fieldset className="border col-md-3 m-2 col-sm-11">
-//               <legend
-//                 className="float-none"
-//                 style={{ fontSize: "14px", fontWeight: "400" }}
-//               >
-//                 Master Operator<span>*</span>
-//               </legend>
-//               <select
-//                 required=""
-//                 className="p-1 mt-1 mb-1"
-//                 style={{ fontSize: "12px", fontWeight: "400" }}
-//               >
-//                 <option value="">{condition.master_operator}</option>
-//               </select>
-//             </fieldset>
-//             <div className="col-md-1 d-flex justify-content-center align-items-center">
-//               <h4>&</h4>
-//             </div>
-//             <fieldset className="border col-md-3 m-2 col-sm-11">
-//               <legend
-//                 className="float-none"
-//                 style={{ fontSize: "14px", fontWeight: "400" }}
-//               >
-//                 Sub Operator<span>*</span>
-//               </legend>
-//               <select
-//                 required=""
-//                 className="p-1 mt-1 mb-1"
-//                 style={{ fontSize: "12px", fontWeight: "400" }}
-//               >
-//                 <option value="">{condition.operator}</option>
-//               </select>
-//             </fieldset>
-//           </div>
-//         </div>
-
-
-//         {/* Value section */}
-//         <div className="mt-3">
-//           <h4>
-//             <span
-//               className="badge setRuleCard"
-//               style={{
-//                 fontSize: "16px",
-//                 fontWeight: "600",
-//                 color: "#E95420",
-//                 backgroundColor: "#E954202E",
-//               }}
-//             >
-//               Value
-//             </span>
-//           </h4>
-//           <div className="row ms-1 mt-2">
-//             <fieldset className="border col-md-3 m-2 col-sm-11">
-//               <legend
-//                 className="float-none"
-//                 style={{ fontSize: "14px", fontWeight: "400" }}
-//               >
-//                 Value<span>*</span>
-//               </legend>
-//               <input
-//                 type="text"
-//                 className="p-1 mt-1 mb-1"
-//                 value={condition.compare_value}
-//                 style={{
-//                   fontSize: "12px",
-//                   fontWeight: "400",
-//                   // height: "40px", // Set consistent height for the value box
-//                 }}
-//                 readOnly
-//               />
-//             </fieldset>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-
-
-//   // const storedValue = sessionStorage.getItem("selectedId");
-//   const getRuleEngine = async (id) => {
-//     // console.log("Stored ID in session after selection:", storedValue, id);
-//     const storedValue = sessionStorage.getItem("selectedId");
-//     try {
-//       const response = await axios.get(
-//         `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
-//       );
-//       console.log("data for id", response.data)
-//       return response.data;
-//     } catch (error) {
-//       console.error("Error fetching Rule Engine:", error);
-//       throw error;
-//     }
-//   };
-
-//   useEffect(() => {
-//     const fetchRule = async () => {
-//       try {
-//         const data = await getRuleEngine(id);
-//         console.log(data)
-//         setRule(data);
-//         if (data.conditions) {
-//           console.log(data.conditions)
-//           setConditions(data.conditions);
-//         }
-//         if (data.actions) {
-//           console.log(data.actions)
-//           setactions(data.actions)
-//         }
-//       } catch (err) {
-//         // setError(err.message);
-//       } finally {
-//         // setLoading(false);
-//       }
-//     };
-
-//     fetchRule();
-//   }, [id]);
-
-
-//   return (
-//     <>
-//       <div className="w-100">
-//         <SubHeader />
-//         <div className="module-data-section mt-2">
-//           <p className="pointer">
-//             <span className="text-secondary">Rule Engine</span> &gt; Edit Rule
-//           </p>
-//           <h5 class="mb-3">
-//             <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>Edit Rule</span>
-//             <svg
-//               xmlns="http://www.w3.org/2000/svg"
-//               width="19"
-//               height="19"
-//               fill="currentColor"
-//               className="bi bi-pencil-square mb-2 ms-3 text-body-secondary"
-//               viewBox="0 0 16 16"
-//             >
-//               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-//               <path
-//                 fill-rule="evenodd"
-//                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-//               />
-//             </svg>
-//           </h5>
-//           <div className="go-shadow me-3">
-//             <div className="row ms-1">
-//               <fieldset className="border col-md-11 m-2 col-sm-11">
-//                 <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-//                   New Rule<span>*</span>
-//                 </legend>
-//                 <input type="text" placeholder="Enter Name" name={rule?.name} value={rule.name} style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" />
-//               </fieldset>
-//             </div>
-//           </div>
-//           <div className="SetRuleCard">
-//             <div>
-//               <h5 className="title mt-3">Set Rule Conditions</h5>
-
-//             </div>
-
-//           </div>
-
-
-
-//           <div className="main-rule">
-//             {conditions.map(renderCondition)}
-
-//             <button
-//               className="setRuleCard2 mt-2"
-//               onClick={addCondition}
-//               style={{ color: "black", fontSize: '16px', fontWeight: "500" }}
-
-//             >
-//               <span>
-//                 <svg
-//                   xmlns="http://www.w3.org/2000/svg"
-//                   width="18"
-//                   height="18"
-//                   fill="currentColor"
-//                   className="bi bi-plus"
-//                   viewBox="0 0 16 16"
-//                 >
-//                   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-//                 </svg>
-//               </span>
-//               Add Additional Condition
-//             </button>
-
-//             {/* THEN section */}
-//             <div className="mt-3">
-//               <h4>
-//                 <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>THEN</span>
-//               </h4>
-//               <div className="row ms-1 mt-2">
-//                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-//                   <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-//                     Master Reward Outcome<span>*</span>
-//                   </legend>
-
-//                   <select
-//                     required=""
-//                     className="p-1 mt-1 mb-1"
-//                     style={{ fontSize: '12px', fontWeight: '400' }}
-//                   >
-//                     {actions.map((master) => (
-//                       <option value="" >{master.lock_model_name}</option>
-
-//                     ))}
-//                     {/* // <option value="">Select Master Reward Outcome</option> */}
-//                     {/* // <option value=""></option> */}
-//                   </select>
-
-//                 </fieldset>
-//                 <div className="col-md-1 d-flex justify-content-center align-items-center">
-//                   <h4>&</h4>
-//                 </div>
-//                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-//                   <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-//                     Sub Reward Outcome<span>*</span>
-//                   </legend>
-//                   <select
-//                     required=""
-//                     className="p-1 mt-1 mb-1"
-//                     style={{ fontSize: '12px', fontWeight: '400' }}
-//                   >
-//                     {actions.map((master) => (
-//                       <option value="" >{master.action_method}</option>
-
-//                     ))}
-//                     {/* <option value="">Select Sub Reward Outcome</option>
-
-//                     <option value=""></option> */}
-//                   </select>
-//                 </fieldset>
-//                 {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
-//                     <h4>=</h4>
-//                   </div> */}
-//                 <fieldset className="border col-md-3 m-2 col-sm-11 ">
-//                   <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
-//                     Parameter {/* <span>*</span> */}
-//                   </legend>
-//                   {actions.map((master) => (
-//                     <input type="text" placeholder="Enter Point Value" value={master.parameters} style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" />
-
-//                   ))}
-//                   {/* <input type="text" placeholder="Enter Point Value" value={} /> */}
-//                 </fieldset>
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="row mt-2 justify-content-center">
-//             <div className="col-md-2">
-//               <button className="purple-btn1 w-100" fdprocessedid="u33pye">
-//                 Save for Approval
-//               </button>
-//             </div>
-//             <div className="col-md-2">
-//               <button className="purple-btn2 w-100" fdprocessedid="af5l5g">
-//                 Cancel
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default EditRuleEngine;
-
-
-
-
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import SubHeader from "../components/SubHeader";
-import { useParams,Link } from "react-router-dom";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
     fetchMasterAttributes,
     fetchSubAttributes,
     fetchMasterRewardOutcomes,
     fetchSubRewardOutcomes,
 } from "../Confi/ruleEngineApi";
-import { masterOperators } from './operatorsData'; // Import your data
-import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
-const EditRuleEngine = () => {
-    const navigate = useNavigate();
+import { masterOperators } from './operatorsData'; // Import your data
+
+const CreateRuleEngine = () => {
     const { id } = useParams(); // Get the member ID from the URL
-    // const [ruleName, setRuleName] = useState("");
-    // const [ruleName, setRuleName] = useState("");
+    const navigate = useNavigate()
+    //   const [rule, setRule] = useState({
+    //     conditions: [],
+    //     actions: [],
+    //   })
+    const [conditions, setConditions] = useState([
+        {
+            id: 1,
+            masterAttribute: "",
+            subAttribute: "",
+            masterOperator: "",
+            subOperator: "",
+            condition_type: "",
+            value: '',
+            master_operator: ''
+        },
+    ]);
+
+
+
+    const [ruleName, setRuleName] = useState("");
     const [masterAttributes, setMasterAttributes] = useState([]);
     const [selectedMasterAttribute, setSelectedMasterAttribute] = useState("");
     const [subAttributes, setSubAttributes] = useState([]);
@@ -730,33 +54,45 @@ const EditRuleEngine = () => {
     const [selectedSubOperator, setSelectedSubOperator] = useState("");
 
     const [error, setError] = useState("")
-    const [parameters, setParameters] = useState('')
+    const [parameter, setParameter] = useState('')
     const [previousValue, setPreviousValue] = useState('');
+    const [actions, setActions] = useState([])
+    const [idAdd,setIdAdd]=useState(null)
+    const[subRewardOutcomesName,setsubRewardOutcomesName]=useState({name:''})
 
-    const [rule, setRule] = useState({
-        name: '',
-        conditions: [],
-        actions: [{ parameters: '' }],
-    })
-    // console.log(id)
+
+    //transform
+  const formatFieldName = (fieldName) => {
+    return fieldName
+      .replace(/_/g, ' ')           // Replace underscores with spaces
+      .replace(/::/g, ' ')          // Replace :: with spaces
+      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+  };
+
+    // const handleMasterOperatorChange = (e) => {
+    //   const selectedName = e.target.value; //handle master operator
+    //   setSelectedMasterOperator(selectedId);
+
+    //   const selectedMaster = masterOperators.find((op) => op.name === selectedName);
+    //   setSubOperators(selectedMaster ? selectedMaster.subOptions : []);
+    //   setSelectedSubOperator(""); // Reset sub operator selection
+    // };
+
     const handleMasterOperatorChange = (e) => {
-        const selectedId = e.target.value; //handle master operator
-        setSelectedMasterOperator(selectedId);
+        const selectedName = e.target.value; // Handle master operator change
+        setSelectedMasterOperator(selectedName); // Store selected master operator name
 
-        const selectedMaster = masterOperators.find((op) => op.id === selectedId);
+        // Find the selected master operator by its name
+        const selectedMaster = masterOperators.find((op) => op.name === selectedName);
+
+        // Set subOperators based on the selected master operator
         setSubOperators(selectedMaster ? selectedMaster.subOptions : []);
-        setSelectedSubOperator(""); // Reset sub operator selection
+
+        // Reset the sub operator selection
+        setSelectedSubOperator("");
     };
 
-
-    const handleInputChange = (id, value) => {
-        setRule((prevRule) => ({
-            ...prevRule,
-            actions: prevRule.actions.map((action) =>
-                action.id === id ? { ...action, parameters: value } : action
-            ),
-        }));
-    };
+    //get data 
 
 
     // const storedValue = sessionStorage.getItem("selectedId");
@@ -780,14 +116,65 @@ const EditRuleEngine = () => {
             try {
                 const data = await getRuleEngine(id);
                 // console.log(data)
-                setRule(data);
+                // setRule(data);
+                setIdAdd(data.id)
+                setRuleName(data.name)
                 if (data.conditions) {
-                    // console.log(data.conditions)
-                    setConditions(data.conditions);
+                    console.log(data.conditions)
+                    setConditions(
+                        data.conditions.map((condition) => ({
+                            id: condition.id,
+                            masterAttribute: condition.model_name,
+                            subAttribute: condition.condition_attribute,
+                            subOperator: condition.operator,
+                            condition_type: condition.condition_type,
+                            value: condition.compare_value,
+                            master_operator: condition.master_operator,
+                        }))
+                    );
+                    console.log("set con:", conditions)
                 }
                 if (data.actions) {
-                    // console.log(data.actions)
-                    setactions(data.actions)
+                    // console.log("action:",data.actions)
+                    // setactions(data.actions)
+                    // setParameter(data.actions.parameters)
+
+                    // Extract the parameters from the actions array
+                    const parameters = data.actions.map((action) => action.parameters).flat();
+                    setParameter(parameters);
+                    const lock_model_name = data.actions.map((action) => ({
+                        name: action.lock_model_name,
+                    }))
+                    console.log("....master reward", lock_model_name)
+                    // Set the parameters in state
+
+                    // setSelectedMasterRewardOutcomes({
+                    //     name:lock_model_name
+                    // })
+                    setSelectedMasterRewardOutcomes(lock_model_name[0] || { id: '', name: '' });
+                    // const action_method=data.actions.map((action) => ({
+                    //     name: action.action_method,
+                    // }))
+                    // setsubRewardOutcomesnew(action_method)
+                    const action_method = data.actions.map((action) => ({
+                        name: action.action_method, // Extract `action_method` into the `name` property
+                    }));
+
+                    console.log("Action Methods:", action_method);
+
+                    // Set the state with the array of `action_method` values
+                    setsubRewardOutcomesName(action_method[0] || {name: '' });
+                    //   const action_id = data.actions.map((action) => ({
+                    //     name: action.id, // Extract `action_method` into the `name` property
+                    // }));
+                    // console.log("action id",action_id)
+                    // setActions(action_id)
+
+                    const action_ids = data.actions.map(action => action.id).flat(); // Extract only the 'id' values
+                    console.log("Action IDs:", action_ids);
+
+                    setActions(action_ids); // Set the state as an array of IDs
+
                 }
             } catch (err) {
                 // setError(err.message);
@@ -797,8 +184,82 @@ const EditRuleEngine = () => {
         };
 
         fetchRule();
+
+      
     }, [id]);
 
+    const handleCancle= async()=>{
+        try {
+            const data = await getRuleEngine(id);
+            // console.log(data)
+            // setRule(data);
+            setIdAdd(data.id)
+            setRuleName(data.name)
+            if (data.conditions) {
+                console.log(data.conditions)
+                setConditions(
+                    data.conditions.map((condition) => ({
+                        id: condition.id,
+                        masterAttribute: condition.model_name,
+                        subAttribute: condition.condition_attribute,
+                        subOperator: condition.operator,
+                        condition_type: condition.condition_type,
+                        value: condition.compare_value,
+                        master_operator: condition.master_operator,
+                    }))
+                );
+                console.log("set con:", conditions)
+            }
+            if (data.actions) {
+                // console.log("action:",data.actions)
+                // setactions(data.actions)
+                // setParameter(data.actions.parameters)
+
+                // Extract the parameters from the actions array
+                const parameters = data.actions.map((action) => action.parameters).flat();
+                setParameter(parameters);
+                const lock_model_name = data.actions.map((action) => ({
+                    name: action.lock_model_name,
+                }))
+                console.log("....master reward", lock_model_name)
+                // Set the parameters in state
+
+                // setSelectedMasterRewardOutcomes({
+                //     name:lock_model_name
+                // })
+                setSelectedMasterRewardOutcomes(lock_model_name[0] || { id: '', name: '' });
+                // const action_method=data.actions.map((action) => ({
+                //     name: action.action_method,
+                // }))
+                // setsubRewardOutcomesnew(action_method)
+                const action_method = data.actions.map((action) => ({
+                    name: action.action_method, // Extract `action_method` into the `name` property
+                }));
+
+                console.log("Action Methods:", action_method);
+
+                // Set the state with the array of `action_method` values
+                setsubRewardOutcomesName(action_method[0] || {name: '' });
+                //   const action_id = data.actions.map((action) => ({
+                //     name: action.id, // Extract `action_method` into the `name` property
+                // }));
+                // console.log("action id",action_id)
+                // setActions(action_id)
+
+                const action_ids = data.actions.map(action => action.id).flat(); // Extract only the 'id' values
+                console.log("Action IDs:", action_ids);
+
+                setActions(action_ids); // Set the state as an array of IDs
+
+            }
+        } catch (err) {
+            // setError(err.message);
+        } finally {
+            // setLoading(false);
+        }
+    };
+    
+    // handleCancle()
 
     useEffect(() => {
         const getData = async () => {
@@ -880,6 +341,11 @@ const EditRuleEngine = () => {
                     subRewardOutcomes.master_reward_outcome[selectedIndex]
                         .sub_reward_outcome;
                 setSubRewardOutcomes(selectedSubRewardOutcomes);
+
+                // const subRewardOutcomeIds = selectedSubRewardOutcomes.map(
+                //     (subAttr) => subAttr.id
+                // );
+                // console.log("Sub Reward Outcome IDs:", subRewardOutcomeIds);
             } catch (error) {
                 console.error("Error fetching sub attributes:", error);
             }
@@ -887,28 +353,18 @@ const EditRuleEngine = () => {
             console.error("Selected ID not found in master attributes");
         }
     };
+    // console.log('sub reward ,',subRewardOutcomesnew)
 
 
-    const [conditions, setConditions] = useState([
-        {
-            id: 1,
-            masterAttribute: "",
-            subAttribute: "",
-            masterOperator: "",
-            subOperator: "",
-            condition_type: "",
-            compare_value: ''
-        },
-    ]);
+//     // Handle Sub-Reward Outcome Selection
+// const handleSubRewardOutcomeChange = (e) => {
+//     const subRewardOutcomeId = e.target.value; // Get the selected sub-reward outcome ID
+//     console.log("Selected Sub Reward Outcome ID:", subRewardOutcomeId);
 
-    const [actions, setactions] = useState([
-        {
+//     // Pass the selected ID to the required function or store it in state
+//     setSelectedSubRewardOutcomeId(subRewardOutcomeId);
+// };
 
-            fetchMasterRewardOutcome: "",
-            fetchSubRewardOutcome: "",
-            parameters: ''
-        },
-    ]);
 
     const addCondition = () => {
         setConditions([
@@ -920,468 +376,277 @@ const EditRuleEngine = () => {
                 masterOperator: "",
                 subOperator: "",
                 condition_type: "",
-                compare_value: ''
+                value: '',
+                master_operator: ''
             },
         ]);
     };
 
 
-    //submit
-    // const handleSubmit = async () => {
-    //     // Validate required fields
-    //     // if (!ruleName || conditions.some(cond =>
-    //     //     !cond.subAttribute ||
-    //     //     !cond.subOperator ||
-    //     //     !cond.value ||
-    //     //     !cond.masterAttribute ||
-    //     //     cond.value === previousValue // Check against previous value
-    //     // )) {
-    //     //     // setError("All fields are required.");
-    //     //     toast.error("All Mandatory field are required", {
-    //     //         position: "top-center",
-    //     //         autoClose: 3000,
-    //     //     });
-    //     //     return;
-    //     // }
+    const handleEdit = async (id) => {
+        // Validate required fields
+        // if (!ruleName || conditions.some(cond =>
+        //   !cond.subAttribute ||
+        //   !cond.subOperator ||
+        //   !cond.value ||
+        //   !cond.masterAttribute ||
+        //   cond.value === previousValue // Check against previous value
+        // )) {
+        //   // setError("All fields are required.");
+        //   toast.error("All Mandatory field are required", {
+        //     position: "top-center",
+        //     autoClose: 3000,
+        //   });
+        //   return;
+        // }
 
 
-
-    //     // Check for duplicate condition values and ensure they are numbers
-    //     const values = conditions.map(cond => cond.compare_value);
-    //     const uniqueValues = new Set();
-    //     for (const value of values) {
-    //         if (value.trim() === "") {
-    //             setError(" Please enter value.");
-    //             return;
-    //         }
-    //         uniqueValues.add(value);
-    //     }
-
-    //     if (isNaN(parameters) || parameters.trim() === "") {
-    //         setError("Parameter value must be a valid number.");
-    //         return;
-    //     }
-
-    //     if (uniqueValues.size !== values.length) {
-    //         setError("Each condition value must be unique.");
-    //         return;
-    //     }
-
-    //     // Update previousValue to the current value before proceeding
-    //     const newValue = conditions.map(cond => cond.value);
-    //     setPreviousValue(newValue); // Store the latest value(s) as the previous value]
-
-    //     // const storedValue = sessionStorage.getItem("selectedId")
-
-    //     const data = {
-    //         rule_engine_rule: {
-    //             name: rule.name, // Ensure ruleName is defined elsewhere in your code
-    //             description: "This is a description of the sample rule.",
-    //             loyalty_type_id: sessionStorage.getItem("selectedId"),//type id
-    //             // Mapping conditions dynamically
-    //             rule_engine_conditions_attributes: conditions.map((condition) => ({
-    //                 condition_attribute: condition.subAttribute || "", // Handle blank cases if needed
-    //                 operator: condition.subOperator || "",
-    //                 compare_value: condition.compare_value || "",
-    //                 condition_selected_model: Number(condition.masterAttribute) || 1,
-    //                 condition_type: condition.condition_type || "",
-    //             })),
-
-    //             rule_engine_actions_attributes: [{
-    //                 lock_model_name: selectedMasterRewardOutcomes.name || "",
-    //                 parameters: [Number(parameters) || ""],
-    //                 rule_engine_available_function_id: subRewardOutcomesnew || "",
-    //                 action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
-    //             }
-    //             ]
-    //         }
-    //     }
+        if (!ruleName) {
+            toast.error("Rule Name is required.", {
+                position: "top-center",
+                autoClose: 3000,
+            });
+            return;
+        }
 
 
-    //     // console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
-    //     console.log('data patch',data)
-
-    //     try {
-    //         if (rule.name !== "" && parameters !== "" && selectedMasterRewardOutcomes !== "" && conditions !== null) {
-
-    //             const response = await axios.patch(
-    //                 `http://localhost:3000/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-
-    //                 data
-    //             );
-    //              console.log("data value",response.data)
-    //             if (response.ok) {
-    //                 const responseData = await response.json(); // Parse the JSON response
-    //                 // alert("Rule Engine created successfully!");
-    //                 navigate("/rule-engine")
-    //                 console.log("Data created successfully:", responseData);
-    //                 // clearInputs(); // Clear form inputs if needed
-    //             } else {
-    //                 const errorData = await response.json(); // Parse error response
-    //                 setError(`Failed to create Rule Engine: ${errorData.message}`);
-    //                 console.error("Submission error:", errorData);
-    //             }
-    //         }
-    //     } catch (error) {
-    //         setError("Failed to create Rule Engine. Please try again.");
-    //         console.error("Submission error:", error);
-    //     }
-    // };
-
-    // const handleSubmit = async () => {
-    //     // Validate required fields
-    //     // if (!rule.name ||
-    //     //     !parameters ||
-    //     //     !selectedMasterRewardOutcomes ||
-    //     //     conditions.some((cond) =>
-    //     //         !cond.subAttribute ||
-    //     //         !cond.subOperator ||
-    //     //         !cond.compare_value ||
-    //     //         !cond.masterAttribute
-    //     //     )
-    //     // ) {
-    //     //     toast.error("All mandatory fields are required.", {
-    //     //         position: "top-center",
-    //     //         autoClose: 3000,
-    //     //     });
-    //     //     return;
-    //     // }
-
-    //     // Validate condition values for uniqueness and numerical values
-    //     const values = conditions.map((cond) => cond.compare_value);
-    //     const uniqueValues = new Set(values);
-
-    //     if (uniqueValues.size !== values.length) {
-    //         setError("Each condition value must be unique.");
-    //         return;
-    //     }
-
-    //     if (isNaN(parameters) || parameters.trim() === "") {
-    //         setError("Parameter value must be a valid number.");
-    //         return;
-    //     }
-
-    //     // Update previous values
-    //     const newValue = conditions.map((cond) => cond.compare_value);
-    //     setPreviousValue(newValue);
-
-    //     // Prepare the data payload
-    //     const data = {
-    //         rule_engine_rule: {
-    //             name: rule.name,
-    //             description: "This is a description of the sample rule.",
-    //             loyalty_type_id: sessionStorage.getItem("selectedId"), // Replace with correct ID logic
-    //             rule_engine_conditions_attributes: conditions.map((condition) => ({
-    //                 condition_attribute: condition.subAttribute || "",
-    //                 operator: condition.subOperator || "",
-    //                 compare_value: condition.compare_value || "",
-    //                 condition_selected_model: Number(condition.masterAttribute) || 1,
-    //                 condition_type: condition.condition_type || "",
-    //             })),
-    //             rule_engine_actions_attributes: [{
-    //                 lock_model_name: selectedMasterRewardOutcomes.name || "",
-    //                 parameters: [Number(parameters) || 0],
-    //                 rule_engine_available_function_id: subRewardOutcomesnew || "",
-    //                 action_selected_model: Number(selectedMasterRewardOutcomes.id) || 0,
-    //             }]
-    //         }
-    //     };
-
-    //     // console.log('Data payload:', JSON.stringify(data, null, 2)); // Log for debugging
-    //     console.log("data here",data)
-
-    //     try {
-    //         // Ensure all required fields are filled before submitting
-    //         if (rule.name && parameters && selectedMasterRewardOutcomes && conditions) {
-    //             const response = await axios.patch(
-    //                 `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-    //                 data
-    //             );
-
-    //             if (response.status === 200) {
-    //                 toast.success("Rule Engine updated successfully!", {
-    //                     position: "top-center",
-    //                     autoClose: 3000,
-    //                 });
-    //                 navigate("/rule-engine");
-    //                 console.log("Data updated successfully:", response.data);
-    //             } else {
-    //                 const errorData = response.data; // Use response data for error feedback
-    //                 setError(`Failed to update Rule Engine: ${errorData.message}`);
-    //                 console.error("Update error:", errorData);
-    //             }
-    //         }
-    //     } catch (error) {
-    //         setError("Failed to update Rule Engine. Please try again.");
-    //         console.error("Submission error:", error);
-    //     }
-    // };
-
-    // console.log("Rule:", rule);
-    // console.log("Parameters:", parameters);
-    // console.log("Selected Outcome:", selectedMasterRewardOutcomes);
-    // console.log("Conditions:", conditions);
-    // console.log("ID:", id);
+        conditions.forEach((cond, index) => {
+            setTimeout(() => {
+                if (!cond.masterAttribute) {
+                    toast.error(`Condition ${index + 1}: Master Attribute is required.`, {
+                        position: "top-center",
+                        autoClose: 3000,
+                    });
+                } else if (!cond.subAttribute) {
+                    toast.error(`Condition ${index + 1}: Sub Attribute is required.`, {
+                        position: "top-center",
+                        autoClose: 3000,
+                    });
+                } else if (!cond.master_operator) {
+                    toast.error(`Condition ${index + 1}: Master Operator is required.`, {
+                        position: "top-center",
+                        autoClose: 3000,
+                    });
+                } else if (!cond.subOperator) {
+                    toast.error(`Condition ${index + 1}: Sub Operator is required.`, {
+                        position: "top-center",
+                        autoClose: 3000,
+                    });
+                } else if (!cond.value) {
+                    toast.error(`Condition ${index + 1}: Value is required.`, {
+                        position: "top-center",
+                        autoClose: 3000,
+                    });
+                }
+            }, index * 3500); // Add a delay of 3500ms between each toast
+        });
 
 
-    
-    // const handleSubmit = async () => {
-    //     console.log("HandleSubmit triggered");
-    //     console.log("Rule:", rule);
-    //     console.log("Parameters:", parameters);
-    //     console.log("Selected Outcome:", selectedMasterRewardOutcomes);
-    //     console.log("Conditions:", conditions);
-    //     console.log("ID:", id);
-    
-    //     // e.preventDefault()
-    //     try {
-    //         // Validation for required fields
-    //         // if (
-    //         //     !rule.name ||
-    //         //     !parameters ||
-    //         //     !selectedMasterRewardOutcomes ||
-    //         //     conditions.some(
-    //         //         (cond) =>
-    //         //             !cond.subAttribute ||
-    //         //             !cond.subOperator ||
-    //         //             !cond.compare_value ||
-    //         //             !cond.masterAttribute
-    //         //     )
-    //         // ) {
-    //         //     setError("All mandatory fields are required.");
-    //         //     return;
-    //         // }
-
-    //         // Check for unique condition values
-    //         // const values = conditions.map((cond) => cond.compare_value.trim());
-    //         // const uniqueValues = new Set(values);
-    //         // if (values.some((value) => value === "")) {
-    //         //     setError("Please enter all values.");
-    //         //     return;
-    //         // }
-    //         // if (uniqueValues.size !== values.length) {
-    //         //     setError("Each condition value must be unique.");
-    //         //     return;
-    //         // }
-
-    //         // // Ensure parameter is a valid number
-    //         // if (isNaN(parameters.trim()) || parameters.trim() === "") {
-    //         //     setError("Parameter value must be a valid number.");
-    //         //     return;
-    //         // }
-    //         console.log("Rule:", rule);
-    //         console.log("Parameters:", parameters);
-    //         console.log("Selected Outcome:", selectedMasterRewardOutcomes);
-    //         console.log("Conditions:", conditions);
-    //         console.log("ID:", id);
-        
-    //         // Prepare request payload
-    //         const data = {
-    //             rule_engine_rule: {
-    //                 name: rule.name,
-    //                 description: "This is a description of the sample rule.",
-    //                 loyalty_type_id: sessionStorage.getItem("selectedId"),
-    //                 rule_engine_conditions_attributes: conditions.map((condition) => ({
-    //                     condition_attribute: condition.subAttribute || "",
-    //                     operator: condition.subOperator || "",
-    //                     compare_value: condition.compare_value || "",
-    //                     condition_selected_model: Number(condition.masterAttribute) || 1,
-    //                     condition_type: condition.condition_type || "",
-    //                 })),
-    //                 rule_engine_actions_attributes: [
-    //                     {
-    //                         lock_model_name: selectedMasterRewardOutcomes?.name || "",
-    //                         parameters: [Number(parameters)],
-    //                         rule_engine_available_function_id: subRewardOutcomesnew || "",
-    //                         action_selected_model: Number(selectedMasterRewardOutcomes?.id) || "",
-    //                     },
-    //                 ],
-    //             },
-    //         };
-            
-
-    //         console.log("Payload to be sent data:", (data)); // Log payload for debugging
-
-    //         // Make PATCH request
-    //         const response = await axios.put(
-    //             `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-    //             data
-            
-    //         );
-
-    //         // Check response status
-    //         if (response.status === 200) {
-    //             console.log("Data updated successfully:", response.data);
-    //             navigate("/rule-engine");
-    //         } else {
-    //             setError(`Failed to update Rule Engine. Status: ${response.status}`);
-    //             console.error("Error Response:", response.data);
-    //         }
-    //     } 
-    //     // catch (error) {
-    //     //     setError("Failed to update Rule Engine. Please try again.");
-    //     //     console.error("Submission error:", error.message);
-    //         catch (error) {
-    //             setError("Failed to update Rule Engine. Please try again.");
-    //             if (error.response && error.response.data) {
-    //                 console.error("Error Response Data:", error.response.data);
-    //             } else {
-    //                 console.error("Submission error:", error.message);
-    //             }
-    //         // }
-    //     }
-    // };
-
-
-    const handleSubmit = async () => {
-        console.log("HandleSubmit triggered");
-    
-        // Log current state for debugging
-        console.log("Rule:", rule);
-        console.log("Parameters:", parameters);
-        console.log("Selected Outcome:", selectedMasterRewardOutcomes);
-        console.log("Conditions:", conditions);
-        console.log("ID:", id);
-    
-        try {
-            // Validate the rule name
-            // if (!rule.name || rule.name.trim() === "") {
-            //     setError("Rule name is required.");
-            //     return;
-            // }
-    
-            // // Validate the conditions
-            // const invalidConditions = conditions.some(
-            //     (condition) =>
-            //         !condition.subAttribute || // Check condition_attribute
-            //         !condition.subOperator || // Check operator
-            //         !condition.compare_value || // Check compare_value
-            //         !condition.masterAttribute || // Check condition_selected_model
-            //         !condition.condition_type // Check action_type
-            // );
-    
-            // if (invalidConditions) {
-            //     setError("All conditions must have valid values.");
-            //     return;
-            // }
-    
-            // // Validate the parameters (ensure it's a number)
-            // if (!parameters || isNaN(parameters)) {
-            //     setError("Parameter value must be a valid number.");
-            //     return;
-            // }
-    
-            // // Validate selected master reward outcome
-            // if (!selectedMasterRewardOutcomes?.id || !subRewardOutcomesnew) {
-            //     setError("Both master and sub reward outcomes are required.");
-            //     return;
-            // }
-    
-            // Prepare the request payload
-            const data = {
-                rule_engine_rule: {
-                    name: rule.name,
-                    description: "This is a description of the sample rule.",
-                    loyalty_type_id: sessionStorage.getItem("selectedId"),
-                    rule_engine_conditions_attributes: conditions.map((condition) => ({
-                        condition_attribute: condition.subAttribute,
-                        operator: condition.subOperator,
-                        compare_value: condition.compare_value,
-                        condition_selected_model: Number(condition.masterAttribute),
-                        condition_type: condition.condition_type, // Maps to action_type
-                    })),
-                    rule_engine_actions_attributes: [
-                        {
-                            lock_model_name: selectedMasterRewardOutcomes?.name,
-                            parameters: [Number(parameters)], // Convert to number
-                            rule_engine_available_function_id: subRewardOutcomesnew,
-                            action_selected_model: Number(selectedMasterRewardOutcomes?.id),
-                        },
-                    ],
-                },
-            };
-    
-            // Log the payload for debugging
-            console.log("Payload to be sent:", JSON.stringify(data, null, 2));
-    
-            // Make the PATCH request
-            const response = await axios.patch(
-                `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
-                data
-            );
-    
-            // Handle successful response
-            if (response.status === 200) {
-                console.log("Data updated successfully:", response.data);
-                navigate("/rule-engine");
-            } else {
-                setError(`Failed to update Rule Engine. Status: ${response.status}`);
-                console.error("Error Response:", response.data);
+        //  / / Validate Master Reward Outcome
+        // if (!selectedMasterRewardOutcomes.name) {
+        //   toast.error("Master Reward Outcome is required.", {
+        //     position: "top-center",
+        //     autoClose: 3000,
+        //   });
+        //   return;
+        // }
+        setTimeout(() => {
+            if (!selectedMasterRewardOutcomes.name) {
+                toast.error("Master Reward Outcome is required.", {
+                    position: "top-center",
+                    autoClose: 3000,
+                });
             }
-        } catch (error) {
-            // Handle submission errors
-            if (error.response && error.response.data) {
-                console.error("Error Response Data:", error.response.data);
-                setError("Failed to update Rule Engine. Please check the inputs and try again.");
-            } else {
-                console.error("Submission error:", error.message);
-                setError("An unexpected error occurred. Please try again.");
+        }, conditions.length * 3500); // Delay based on the number of conditions
+
+        // Validate Sub Reward Outcome
+        // if (!subRewardOutcomesnew.id) {
+        //   toast.error("Sub Reward Outcome is required.", {
+        //     position: "top-center",
+        //     autoClose: 3000,
+        //   });
+        //   return;
+        // }
+
+
+        const isInvalid = conditions.some(
+            (cond) =>
+                !cond.masterAttribute ||
+                !cond.subAttribute ||
+                !cond.master_operator ||
+                !cond.subOperator ||
+                !cond.value ||
+                cond.value === previousValue
+        );
+
+        if (isInvalid) {
+            return;
+        }
+
+        // Proceed with form submission or further logic
+
+
+
+        // Check for duplicate condition values and ensure they are numbers
+        const values = conditions.map(cond => cond.value);
+        const uniqueValues = new Set();
+        for (const value of values) {
+            if (value.trim() === "") {
+                // setError(" Please enter value.");
+                return;
+            }
+            uniqueValues.add(value);
+        }
+
+        if (isNaN(parameter)) {
+            setError("Parameter value must be a valid number.");
+            return;
+        }
+
+        if (uniqueValues.size !== values.length) {
+            setError("Each condition value must be unique.");
+            return;
+        }
+
+        // Update previousValue to the current value before proceeding
+        const newValue = conditions.map(cond => cond.value);
+        setPreviousValue(newValue); // Store the latest value(s) as the previous value]
+
+        // const storedValue = sessionStorage.getItem("selectedId")
+
+        const data = {
+            rule_engine_rule: {
+                id:idAdd,
+                name: ruleName, // Ensure ruleName is defined elsewhere in your code
+                description: "This is a description of the sample rule.",
+                loyalty_type_id: sessionStorage.getItem("selectedId"),//type id
+                // Mapping conditions dynamically
+                rule_engine_conditions_attributes: conditions.map((condition) => ({
+                    id: condition.id,
+                    condition_attribute: condition.subAttribute || "", // Handle blank cases if needed
+                    operator: condition.subOperator || "",
+                    compare_value: condition.value || "",
+                    condition_selected_model: Number(condition.masterAttribute) || 1,
+                    condition_type: condition.condition_type || "",
+                    master_operator: condition.master_operator || ""
+                })),
+
+                rule_engine_actions_attributes: [{
+                    id: actions[0],
+                    lock_model_name: selectedMasterRewardOutcomes.name || "",
+                    parameters: [Number(parameter) || ""],
+                    rule_engine_available_function_id: Number(subRewardOutcomesnew),
+                    action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
+                }
+                ]
+
+                // id: 288,
+                // name: "Test 666666666666666",
+                // description: "This is a descrsssssssiption of the sample rule.",
+                // rule_engine_conditions_attributes: [
+                //     {
+                //         id: 267,
+                //         condition_attribute: "creassssated_at",
+                //         operator: "equals",
+                //         compare_value: "input vsssaalue",
+                //         condition_selected_model: 1,
+                //         condition_type: "",
+                //         action_type: "updassstae"
+                //     },
+                //     {
+                //         id: 268,
+                //         condition_attribute: "createdsss_aat",
+                //         operator: "greater_than",
+                //         compare_value: "a",
+                //         condition_selected_model: 1,
+                //         condition_type: "",
+                //         action_type: "updatsae"
+
+                //     }
+                // ],
+                // rule_engine_actions_attributes: [
+                //     {
+                //         id: 185,
+                //         lock_model_name: "555",
+                //         parameters: [1000010000010],
+                //         rule_engine_available_function_id: 1,
+                //         action_selected_model: 1
+                //     }
+                // ]
             }
         }
+
+
+        console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
+        console.log("id...", id)
+        try {
+            if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && conditions !== null) {
+                const response = await fetch(
+                    `https://staging.lockated.com/rule_engine/rules/loyalty_re_update.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+                    {
+                        method: "PUT", // Specify the request method
+                        headers: {
+                            "Content-Type": "application/json", // Set content type to JSON
+                        },
+                        body: JSON.stringify(data), // Convert the data to JSON
+                    }
+                );
+
+                if (response.ok) {
+                    const responseData = await response.json(); // Parse the JSON response
+                    // alert("Rule Engine created successfully!");
+                    navigate("/rule-engine")
+                    console.log("Data created successfully:", responseData);
+                    // clearInputs(); // Clear form inputs if needed
+                } else {
+                    const errorData = await response.json(); // Parse error response
+                    // setError(`Failed to create Rule Engine: ${errorData.message}`);
+                    setError(`Please select master and sub reward outcome.`);
+                    console.error("Submission error:", errorData);
+                }
+            }
+        } catch (error) {
+            setError("Failed to create Rule Engine. Please try again.");
+            console.error("Submission error:", error);
+        }
     };
-    
-    
+
+    //cross button
     const removeCondition = (id) => {
         const updatedConditions = conditions.filter(condition => condition.id !== id);
         setConditions(updatedConditions);
     };
 
+
+
     const renderCondition = (condition, index) => (
         <div key={condition.id} className="SetRuleCard">
             <div>
                 <h6 className="mt-3">
-                    <span>
-                        Condition {condition.id}
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-pencil-square mb-1 ms-3 text-body-secondary"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                            <path
-                                fill-rule="evenodd"
-                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                            />
-                        </svg>
+                    <span style={{ fontSize: '18px', fontWeight: '600' }}>Condition {condition.id}
                         {index > 0 && ( // Only show the button for conditions after the first one
-                        <button
-                            onClick={() => removeCondition(condition.id)}
-                            className="ms-3"
-                            style={{ border: "none", backgroundColor: "white" }}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-x"
-                                viewBox="0 0 16 16"
+                            <button
+                                onClick={() => removeCondition(condition.id)}
+                                className="ms-3"
+                                // title="Remove Condition"
+                                style={{ border: 'none', backgroundColor: 'white' }}
                             >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                                />
-                            </svg>
-                        </button>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-x"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path fillRule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </button>
                         )}
                     </span>
                 </h6>
             </div>
-
-            {index > 0 && (
+            {index > 0 && ( // Only render the AND/OR section if this is not the first condition
                 <ul className="nav nav-tabs border-0 mt-3">
                     <div className="d-flex gap-3 And-btn rounded">
                         <li className="nav-item d-flex p-2 gap-2" role="presentation">
@@ -1442,33 +707,21 @@ const EditRuleEngine = () => {
             )}
 
             <div className="border-btm pb-2 mt-2">
-                {/* If section */}
+                {/* ......if ..... */}
                 <div>
                     <h4>
-                        <span
-                            className="badge setRuleCard"
-                            style={{
-                                fontSize: "16px",
-                                fontWeight: "600",
-                                color: "#E95420",
-                                backgroundColor: "#E954202E",
-                            }}
-                        >
-                            IF
-                        </span>
+                        <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>IF</span>
                     </h4>
                     <div className="row ms-1 mt-2">
+                        {/* Attribute section */}
                         <fieldset className="border col-md-3 m-2 col-sm-11">
-                            <legend
-                                className="float-none"
-                                style={{ fontSize: "14px", fontWeight: "400" }}
-                            >
+                            <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                                 Master Attribute<span>*</span>
                             </legend>
                             <select
                                 required=""
-                                className="p-1 mt-1 mb-1"
-                                style={{ fontSize: "12px", fontWeight: "400" }}
+                                className="p-1  mt-1 mb-1"
+                                style={{ fontSize: '12px', fontWeight: '400' }}
                                 onChange={(e) => {
                                     const updatedConditions = conditions.map((cond, idx) =>
                                         idx === index
@@ -1479,29 +732,30 @@ const EditRuleEngine = () => {
                                     handleMasterAttributeChange(e); // If needed to fetch sub attributes
                                 }}
                                 value={condition.masterAttribute}
+
                             >
+                                <option value="">{condition.masterAttribute}</option>
+                                <option value="">Select Master Attribute </option>
                                 {masterAttributes.map((attr) => (
                                     <option key={attr.id} value={attr.id}>
+
                                         {attr.display_name}
                                     </option>
                                 ))}
-                                <option value="">{condition.model_name}</option>
                             </select>
                         </fieldset>
                         <div className="col-md-1 d-flex justify-content-center align-items-center">
                             <h4>&</h4>
                         </div>
                         <fieldset className="border col-md-3 m-2 col-sm-11">
-                            <legend
-                                className="float-none"
-                                style={{ fontSize: "14px", fontWeight: "400" }}
-                            >
+                            <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                                 Sub Attribute<span>*</span>
                             </legend>
                             <select
                                 required=""
-                                className="p-1 mt-1 mb-1"
-                                style={{ fontSize: "12px", fontWeight: "400" }}
+                                className="p-1  mt-1 mb-1"
+                                style={{ fontSize: '12px', fontWeight: '400' }}
+                                disabled={!condition.masterAttribute}
                                 onChange={(e) => {
                                     const updatedConditions = conditions.map((cond, idx) =>
                                         idx === index
@@ -1512,7 +766,8 @@ const EditRuleEngine = () => {
                                 }}
                                 value={condition.subAttribute}
                             >
-                                <option value="">{condition.condition_attribute}</option>
+                                <option value="">{formatFieldName(condition.subAttribute)}</option>
+                                <option value="">Select Sub Attribute</option>
                                 {subAttributes.map((subAttr) => (
                                     <option key={subAttr.id} value={subAttr.attribute_name}>
                                         {subAttr.display_name}
@@ -1523,39 +778,25 @@ const EditRuleEngine = () => {
                     </div>
                 </div>
 
-
-                {/* Operator Section */}
+                {/* Operator section */}
                 <div className="mt-3">
                     <h4>
-                        <span
-                            className="badge setRuleCard"
-                            style={{
-                                fontSize: "16px",
-                                fontWeight: "600",
-                                color: "#E95420",
-                                backgroundColor: "#E954202E",
-                            }}
-                        >
-                            Operator
-                        </span>
+                        <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>Operator</span>
                     </h4>
                     <div className="row ms-1 mt-2">
                         <fieldset className="border col-md-3 m-2 col-sm-11">
-                            <legend
-                                className="float-none"
-                                style={{ fontSize: "14px", fontWeight: "400" }}
-                            >
+                            <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                                 Master Operator<span>*</span>
                             </legend>
                             <select
                                 required=""
                                 className="p-1 mt-1 mb-1"
-                                style={{ fontSize: "12px", fontWeight: "400" }}
-                                value={condition.masterOperator}
+                                style={{ fontSize: '12px', fontWeight: '400' }}
+                                value={condition.master_operator}
                                 onChange={(e) => {
                                     const updatedConditions = conditions.map((cond, idx) =>
                                         idx === index
-                                            ? { ...cond, masterOperator: e.target.value }
+                                            ? { ...cond, master_operator: e.target.value }
                                             : cond
                                     );
                                     setConditions(updatedConditions);
@@ -1563,8 +804,9 @@ const EditRuleEngine = () => {
                                 }}
                             >
                                 <option value="">{condition.master_operator}</option>
+                                <option value="">Select Master Operator </option>
                                 {masterOperators.map((op) => (
-                                    <option key={op.id} value={op.id}>
+                                    <option key={op.id} value={op.name}>
                                         {op.name}
                                     </option>
                                 ))}
@@ -1574,17 +816,14 @@ const EditRuleEngine = () => {
                             <h4>&</h4>
                         </div>
                         <fieldset className="border col-md-3 m-2 col-sm-11">
-                            <legend
-                                className="float-none"
-                                style={{ fontSize: "14px", fontWeight: "400" }}
-                            >
+                            <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                                 Sub Operator<span>*</span>
                             </legend>
                             <select
                                 required=""
-                                className="p-1 mt-1 mb-1"
-                                style={{ fontSize: "12px", fontWeight: "400" }}
-                                disabled={!condition.masterOperator}
+                                className="p-1  mt-1 mb-1"
+                                style={{ fontSize: '12px', fontWeight: '400' }}
+                                disabled={!condition.master_operator}
                                 value={condition.subOperator}
                                 onChange={(e) => {
                                     const updatedConditions = conditions.map((cond, idx) =>
@@ -1595,7 +834,7 @@ const EditRuleEngine = () => {
                                     setConditions(updatedConditions);
                                 }}
                             >
-                                <option value="">{condition.operator}</option>
+                                <option value="">{formatFieldName(condition.subOperator)}</option>
                                 <option value="">Select Sub Operator </option>
                                 {subOperators.map((subOp) => (
                                     <option key={subOp.id} value={subOp.value}>
@@ -1607,45 +846,26 @@ const EditRuleEngine = () => {
                     </div>
                 </div>
 
-
                 {/* Value section */}
                 <div className="mt-3">
                     <h4>
-                        <span
-                            className="badge setRuleCard"
-                            style={{
-                                fontSize: "16px",
-                                fontWeight: "600",
-                                color: "#E95420",
-                                backgroundColor: "#E954202E",
-                            }}
-                        >
-                            Value
-                        </span>
+                        <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>Value</span>
                     </h4>
                     <div className="row ms-1 mt-2">
                         <fieldset className="border col-md-3 m-2 col-sm-11">
-                            <legend
-                                className="float-none"
-                                style={{ fontSize: "14px", fontWeight: "400" }}
-                            >
+                            <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                                 Value<span>*</span>
                             </legend>
                             <input
                                 type="text"
                                 className="p-1 mt-1 mb-1"
-                                value={condition.compare_value}
-                                style={{
-                                    fontSize: "12px",
-                                    fontWeight: "400",
-                                    // height: "40px", // Set consistent height for the value box
-                                }}
-                                // readOnly
-
+                                style={{ fontSize: '12px', fontWeight: '400' }}
+                                placeholder="Enter Point Value"
+                                value={condition.value}
                                 onChange={(e) => {
                                     const updatedConditions = conditions.map((cond, idx) =>
                                         idx === index
-                                            ? { ...cond, compare_value: e.target.value }
+                                            ? { ...cond, value: e.target.value }
                                             : cond
                                     );
                                     setConditions(updatedConditions);
@@ -1658,61 +878,38 @@ const EditRuleEngine = () => {
         </div>
     );
 
-
-
-
-
     return (
         <>
             <div className="w-100">
                 <SubHeader />
                 <div className="module-data-section mt-2">
                     <p className="pointer">
-                    <Link to='/rule-engine' >
-                        <span className="text-secondary">Rule Engine</span> 
-                    </Link>
-                        &gt; Edit Rule
+                        <Link to='/rule-engine' >
+                            <span className="text-secondary">Rule Engine</span>
+                        </Link>{" "}
+                        &gt; New Rule
                     </p>
-                    <h5 class="mb-3">
+                    <h5 className="mb-3">
                         <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>New Rule</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="19"
-                            height="19"
-                            fill="currentColor"
-                            className="bi bi-pencil-square mb-2 ms-3 text-body-secondary"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                            <path
-                                fill-rule="evenodd"
-                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                            />
-                        </svg>
                     </h5>
-                    {/* <form action="" onSubmit={handleSubmit}> */}
                     <div className="go-shadow me-3">
                         <div className="row ms-1">
                             <fieldset className="border col-md-11 m-2 col-sm-11">
                                 <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                                     New Rule<span>*</span>
                                 </legend>
-                                <input type="text" placeholder="Enter Name" name={rule?.name}
-                                    value={rule.name}
-                                    // value={ruleName}
-                                    style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" onChange={(e) => setRule({ ...rule, name: e.target.value })} />
+                                <input
+                                    type="text"
+                                    placeholder="Enter Name"
+
+                                    value={ruleName}
+                                    onChange={(e) => setRuleName(e.target.value)}
+                                    className="mt-1 mb-1"
+                                    style={{ fontSize: '12px', fontWeight: '400' }}
+                                />
                             </fieldset>
                         </div>
                     </div>
-                    <div className="SetRuleCard">
-                        <div>
-                            <h5 className="title mt-3">Set Rule Conditions</h5>
-
-                        </div>
-
-                    </div>
-
-
 
                     <div className="main-rule">
                         {conditions.map(renderCondition)}
@@ -1721,7 +918,6 @@ const EditRuleEngine = () => {
                             className="setRuleCard2 mt-2"
                             onClick={addCondition}
                             style={{ color: "black", fontSize: '16px', fontWeight: "500" }}
-
                         >
                             <span>
                                 <svg
@@ -1748,7 +944,6 @@ const EditRuleEngine = () => {
                                     <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                                         Master Reward Outcome<span>*</span>
                                     </legend>
-
                                     <select
                                         required=""
                                         className="p-1 mt-1 mb-1"
@@ -1756,17 +951,13 @@ const EditRuleEngine = () => {
                                         onChange={handleMasterSubRewardOutcomeChange}
                                         value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
                                     >
-                                        {actions.map((master) => (
-                                            <option value="" >{master.lock_model_name}</option>
-
-                                        ))}
+                                        <option value="">{formatFieldName(selectedMasterRewardOutcomes.name||"")}</option>
+                                        <option value="" disabled>Select Master Reward Outcome</option>
                                         {masterRewardOutcomes.map((reward) => (
                                             <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
                                                 {reward.display_name}
                                             </option>
                                         ))}
-                                        {/* // <option value="">Select Master Reward Outcome</option> */}
-                                        {/* // <option value=""></option> */}
                                     </select>
 
                                 </fieldset>
@@ -1788,12 +979,12 @@ const EditRuleEngine = () => {
                                             // Handle the selection as needed, e.g., update the state or construct the data object
                                             setsubRewardOutcomesnew(selectedId);
                                         }}
-                                        value={subRewardOutcomesnew}
+                                        value={subRewardOutcomesnew|| ""} // Ensure this reflects the selected sub-reward outcome
                                     >
-                                        {actions.map((master) => (
-                                            <option value="" >{master.action_method}</option>
+                                        <option value="">{ formatFieldName(subRewardOutcomesName.name|| "")}</option>
 
-                                        ))}
+
+                                        <option value="">Select Sub Reward Outcome</option>
 
                                         {subRewardOutcomes.map((reward) => (
                                             <option
@@ -1804,69 +995,43 @@ const EditRuleEngine = () => {
                                                 {reward.display_name}
                                             </option>
                                         ))}
-                                        {/* <option value="">Select Sub Reward Outcome</option>
-
-                                                   <option value=""></option> */}
                                     </select>
                                 </fieldset>
                                 {/* <div className="col-md-1 d-flex justify-content-center align-items-center">
-                                               <h4>=</h4>
-                                                </div> */}
+                    <h4>=</h4>
+                  </div> */}
                                 <fieldset className="border col-md-3 m-2 col-sm-11 ">
                                     <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
                                         Parameter {/* <span>*</span> */}
                                     </legend>
-                                    {/* {actions.map((master) => (
-                                        <input type="text" placeholder="Enter Point Value" 
-                                        name='parameters'
-                                        value={master.parameters}
-                                        // value={parameters} 
-                                        style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" onChange={handleInputChange}/>
-
-                                    ))} */}
-                                    {rule.actions.map((action) => (
-                                        <input
-                                            key={action.id} // Always include a unique key
-                                            type="text"
-                                            placeholder="Enter Point Value"
-                                            value={action.parameters}
-                                            style={{ fontSize: '12px', fontWeight: '400' }}
-                                            className="mt-1 mb-1"
-                                            onChange={(e) => handleInputChange(action.id, e.target.value)} // Update specific action
-                                        />
-                                    ))}
-                                    {/* <input type="text" placeholder="Enter Point Value" value={} /> */}
+                                    <input type="text" placeholder="Enter Parameter Value" value={parameter} onChange={(e) => setParameter(e.target.value)} className="mt-1 mb-1" style={{ fontSize: '12px', fontWeight: '400' }} />
                                 </fieldset>
                             </div>
                         </div>
                     </div>
 
+                    {error && <div className="error" style={{ color: 'red' }}>{error}</div>}
+
+                    {/* ..... */}
                     <div className="row mt-2 justify-content-center">
                         <div className="col-md-2">
-                            <button className="purple-btn1 w-100"
-                                onClick={handleSubmit}
-                                type="button"
-                            >
-                                Submit
-                            </button>
+                            <button className="purple-btn1 w-100" onClick={() => handleEdit(id)}>Submit</button>
                         </div>
                         <div className="col-md-2">
-                            <button className="purple-btn2 w-100">
-                                Cancel
-                            </button>
+                            <button className="purple-btn2 w-100" 
+                            onClick={handleCancle}
+                            
+                            >Cancel</button>
                         </div>
                     </div>
-                    {/* </form> */}
                 </div>
-
             </div>
             <ToastContainer />
         </>
     );
 };
 
-export default EditRuleEngine;
-
+export default CreateRuleEngine;
 
 
 

@@ -327,7 +327,7 @@ const NewCampaign = () => {
       });
       return;
     }
-    
+
     if (!formValues.target_audiance) {
       toast.error("Target Audience is required.", {
         position: "top-center",
@@ -335,7 +335,7 @@ const NewCampaign = () => {
       });
       return;
     }
-    
+
     if (!formValues.campaign_type) {
       toast.error("Campaign Type is required.", {
         position: "top-center",
@@ -343,7 +343,7 @@ const NewCampaign = () => {
       });
       return;
     }
-    
+
     if (!formValues.loyalty_tier_id) {
       toast.error("Tier Level is required.", {
         position: "top-center",
@@ -351,7 +351,7 @@ const NewCampaign = () => {
       });
       return;
     }
-    
+
     // Uncomment and use this when the reward validation is needed
     // if (!formValues.campaign_reward) {
     //   toast.error("Campaign Reward is required.", {
@@ -360,9 +360,9 @@ const NewCampaign = () => {
     //   });
     //   return;
     // }
-    
+
     // Proceed with further logic if all validations pass
-    
+
 
     const data = {
       loyalty_campaign: {
@@ -404,11 +404,11 @@ const NewCampaign = () => {
     <div className="module-data-section mt-2">
       <p className="pointer">
         <Link to='/campaign' >
-        <span className="text-secondary">Campaign</span> 
+          <span className="text-secondary">Campaign</span>
         </Link>{" "}
         &gt; New Campaign
       </p>
-      <h5 className="mb-3 title" style={{fontSize:'20px',fontWeight:'600'}}>New Campaign</h5>
+      <h5 className="mb-3 title" style={{ fontSize: '20px', fontWeight: '600' }}>New Campaign</h5>
       <form onSubmit={handleSubmit} className="go-shadow me-3 pt-3"
       // style={{
       //   height: "100%",
@@ -416,7 +416,7 @@ const NewCampaign = () => {
       //   marginRight: "26px",
       // }}
       >
-        <div className="border-bottom pb-2">
+        <div className="border-bottom pb-5 pb-2" style={{border:'border: 0.5px solid #3A3A33'}}>
           <div className="row">
             <div className="col-md-11">
               <input
@@ -425,18 +425,24 @@ const NewCampaign = () => {
                 name="name"
                 value={formValues.name}
                 onChange={handleChange}
-                style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
               />
               {errors.name && <p className="text-danger">{errors.name}</p>}
             </div>
           </div>
           <div className="row ms-1 mt-4">
             <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
-              <legend className="float-none" ClassName="" style={{fontSize:'14px',fontWeight:'400'}}>
+              <legend className="float-none" ClassName="" style={{
+                fontSize: "14px", // Adjust font size for visibility
+                fontWeight: '400',
+                padding: "6px", // Padding to ensure full visibility of text
+                lineHeight: "1.2", // Adjust line-height for better readability
+                marginBottom: "-8px", // Slight negative margin if legend is too high
+              }}>
                 Target Audience<span>*</span>
               </legend>
               <select
-              style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
                 name="target_audiance"
                 value={formValues.target_audiance}
                 onChange={handleChange}
@@ -453,11 +459,19 @@ const NewCampaign = () => {
             </fieldset>
 
             <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
-              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+              <legend className="float-none" style={{
+                fontWeight: '400',
+
+                fontSize: "14px", // Adjust font size for visibility
+
+                padding: "6px", // Padding to ensure full visibility of text
+                lineHeight: "1.2", // Adjust line-height for better readability
+                marginBottom: "-8px", // Slight negative margin if legend is too high
+              }}>
                 Campaign Type<span>*</span>
               </legend>
               <select
-              style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
                 name="campaign_type"
                 value={formValues.campaign_type}
                 onChange={handleChange}
@@ -475,11 +489,20 @@ const NewCampaign = () => {
             </fieldset>
 
             <fieldset className="border col-lg-3 col-md-5 col-sm-11">
-              <legend className="float-none" style={{fontSize:'14px',fontWeight:'400'}}>
+              <legend className="float-none" style={{
+                fontSize: '14px', fontWeight: '400',
+
+                fontSize: "14px", // Adjust font size for visibility
+
+                padding: "6px", // Padding to ensure full visibility of text
+                lineHeight: "1.2", // Adjust line-height for better readability
+                marginBottom: "-8px", // Slight negative margin if legend is too high
+
+              }}>
                 Tier Level<span>*</span>
               </legend>
               <select
-              style={{fontSize:'12px',fontWeight:'400'}}
+                style={{ fontSize: '12px', fontWeight: '400' }}
                 name="loyalty_tier_id"
                 value={formValues.loyalty_tier_id}
                 onChange={handleChange}
@@ -494,10 +517,10 @@ const NewCampaign = () => {
               {errors.loyalty_tier_id && <p className="text-danger">{errors.loyalty_tier_id}</p>}
             </fieldset>
           </div>
-        </div>
-       
+        </div >
+
         <div className="mt-2">
-          <p className="fw-bold" style={{fontSize:'16px',fontWeight:'500'}}>
+          <p className="fw-bold" style={{ fontSize: '16px', fontWeight: '500' }}>
             Points Criteria<span style={{ color: "#E95420" }}>*</span>
           </p>
           <p>
@@ -508,12 +531,12 @@ const NewCampaign = () => {
               checked={formValues.campaign_reward}
               onChange={handleChange}
             />
-            <span className="align-middle" style={{color:'#00000099',fontSize:'13.63px',fontWeight:'400'}}>Send points to existing members.</span>
+            <span className="align-middle" style={{ color: '#00000099', fontSize: '13.63px', fontWeight: '400' }}>Send points to existing members.</span>
           </p>
         </div>
 
         <div className="mt-5">
-          <p className="fw-bold" style={{fontSize:'16px',fontWeight:'600'}}>
+          <p className="fw-bold" style={{ fontSize: '16px', fontWeight: '600' }}>
             Campaign Rewards<span style={{ color: '#E95420' }}>*</span>
           </p>
         </div>
@@ -534,9 +557,9 @@ const NewCampaign = () => {
             </button>
           </div>
         </div>
-      </form>
+      </form >
       <ToastContainer />
-    </div>
+    </div >
   );
 };
 
