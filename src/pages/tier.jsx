@@ -339,36 +339,6 @@ const Tiers = () => {
                 </button>
               </Link>
               <div className="d-flex align-items-center">
-                {/* <div className="position-relative me-3">
-                  <input
-                    className="form-control"
-                    style={{
-                      height: "35px",
-                      paddingLeft: "30px",
-                      textAlign: "left",
-                    }}
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <div
-                    className="position-absolute"
-                    style={{ top: "7px", left: "10px" }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      class="bi bi-search"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                    </svg>
-                  </div>
-                </div> */}
                 <div className="d-flex align-items-center position-relative">
                   <div
                     className="position-relative me-3"
@@ -450,18 +420,18 @@ const Tiers = () => {
             </div>
 
             <div
-              className="row justify-content-start gap-3 mt-2 mx-3"
-              style={{ color: "#fff" }}
+              className="d-flex justify-content-start gap-3 mt-2 mx-3"
+              style={{ color: "#fff", flexWrap: "nowrap" }}
             >
-              <div className="col-md-3 col-sm-8 violet-red p-2 rounded-1">
+              <div className="flex-grow-1 violet-red p-2 rounded-1">
                 <p>{tiers.length}</p>
                 <p>Total Tiers</p>
               </div>
-              <div className="col-md-3 col-sm-8 green p-2 rounded-1">
+              <div className="flex-grow-1 green p-2 rounded-1">
                 <p>{yearlyTier}</p>
                 <p>Rolling Year Tiers</p>
               </div>
-              <div className="col-md-3 col-sm-8 pink p-2 rounded-1">
+              <div className="flex-grow-1 pink p-2 rounded-1">
                 <p>{lifeTimeTier}</p>
                 <p>Life Time Tiers</p>
               </div>
