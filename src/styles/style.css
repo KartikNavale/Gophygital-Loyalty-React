@@ -3556,5 +3556,31 @@ input[type="number"] {
   background: #ffffff;
 }
 
+
+
+
+.purple-btn1:hover {
+  background-color: #7b3a6d;
+  /* background-color: #5e2750; */
+   /* Highlighted background color */
+  color: white; /* Text color on hover */
+  border-color: #7b3a6d; /* Border color on hover */
+  box-shadow: 0px 4px 10px rgba(123, 58, 109, 0.4); /* Subtle shadow for highlight effect */
+}
+
+.purple-btn2:hover {
+  /* background-color: #5e2750; */
+  background-color: white;
+  
+  
+   /* Change background color on hover */
+  /* background-color: white; */
+  /* color: white; */
+   /* Change text color on hover */
+  box-shadow: 0px 5px 10px rgba(94, 39, 80, 0.4); /* Add a subtle shadow */
+  border-color: #5e2750; /* Ensure border matches the hover state */
+}
+
+
 /*  */
 
