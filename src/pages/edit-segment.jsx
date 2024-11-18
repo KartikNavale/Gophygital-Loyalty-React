@@ -176,6 +176,133 @@ const EditSegment = () => {
     return <p className="text-danger">{error}</p>;
   }
 
+
+  const Pagination = ({
+    currentPage,
+    totalPages,
+    totalEntries,
+    onPageChange,
+  }) => {
+    const itemsPerPage = 10; // Items per page should match the main component
+    const startEntry = (currentPage - 1) * itemsPerPage + 1;
+    const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+  
+    const getPageNumbers = () => {
+      const pages = [];
+      const maxVisiblePages = 5;
+      const halfVisible = Math.floor(maxVisiblePages / 2);
+      let startPage, endPage;
+  
+      if (totalPages <= maxVisiblePages) {
+        startPage = 1;
+        endPage = totalPages;
+      } else {
+        if (currentPage <= halfVisible) {
+          startPage = 1;
+          endPage = maxVisiblePages;
+        } else if (currentPage + halfVisible >= totalPages) {
+          startPage = totalPages - maxVisiblePages + 1;
+          endPage = totalPages;
+        } else {
+          startPage = currentPage - halfVisible;
+          endPage = currentPage + halfVisible;
+        }
+      }
+  
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+  
+      return pages;
+    };
+  
+    const pageNumbers = getPageNumbers();
+  
+    return (
+      <nav className="d-flex justify-content-between align-items-center">
+        <ul
+          className="pagination justify-content-center align-items-center"
+          style={{ listStyleType: "none", padding: "0" }}
+        >
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => onPageChange(Math.max(currentPage - 10, 1))}
+              disabled={currentPage === 1}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              ««
+            </button>
+          </li>
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              className="page-link"
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              ‹
+            </button>
+          </li>
+  
+          {pageNumbers.map((page) => (
+            <li
+              key={page}
+              className={`page-item ${page === currentPage ? "active" : ""}`}
+            >
+              <button
+                className="page-link"
+                onClick={() => onPageChange(page)}
+                style={{
+                  padding: "8px 12px",
+                  color: page === currentPage ? "#fff" : "#5e2750",
+                  backgroundColor: page === currentPage ? "#5e2750" : "#fff",
+                  border: "2px solid #5e2750",
+                  borderRadius: "3px",
+                }}
+              >
+                {page}
+              </button>
+            </li>
+          ))}
+  
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link"
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              ›
+            </button>
+          </li>
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link"
+              onClick={() => onPageChange(Math.min(currentPage + 10, totalPages))}
+              disabled={currentPage === totalPages}
+              style={{ padding: "8px 12px", color: "#5e2750" }}
+            >
+              »»
+            </button>
+          </li>
+        </ul>
+        <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+          Showing {startEntry} to {endEntry} of {totalEntries} entries
+        </p>
+      </nav>
+    );
+  };
+  
+
   return (
     <div className="w-100">
       <SubHeader />
@@ -423,6 +550,7 @@ const EditSegment = () => {
               Submit
             </button>
           </div>
+          
 
           <div className="col-md-2">
             <button
@@ -447,127 +575,3 @@ const EditSegment = () => {
 
 export default EditSegment;
 
-const Pagination = ({
-  currentPage,
-  totalPages,
-  totalEntries,
-  onPageChange,
-}) => {
-  const itemsPerPage = 10; // Items per page should match the main component
-  const startEntry = (currentPage - 1) * itemsPerPage + 1;
-  const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
-
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 5;
-    const halfVisible = Math.floor(maxVisiblePages / 2);
-    let startPage, endPage;
-
-    if (totalPages <= maxVisiblePages) {
-      startPage = 1;
-      endPage = totalPages;
-    } else {
-      if (currentPage <= halfVisible) {
-        startPage = 1;
-        endPage = maxVisiblePages;
-      } else if (currentPage + halfVisible >= totalPages) {
-        startPage = totalPages - maxVisiblePages + 1;
-        endPage = totalPages;
-      } else {
-        startPage = currentPage - halfVisible;
-        endPage = currentPage + halfVisible;
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-
-    return pages;
-  };
-
-  const pageNumbers = getPageNumbers();
-
-  return (
-    <nav className="d-flex justify-content-between align-items-center">
-      <ul
-        className="pagination justify-content-center align-items-center"
-        style={{ listStyleType: "none", padding: "0" }}
-      >
-        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-          <button
-            className="page-link"
-            onClick={() => onPageChange(Math.max(currentPage - 10, 1))}
-            disabled={currentPage === 1}
-            style={{ padding: "8px 12px", color: "#5e2750" }}
-          >
-            ««
-          </button>
-        </li>
-        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-          <button
-            className="page-link"
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            style={{ padding: "8px 12px", color: "#5e2750" }}
-          >
-            ‹
-          </button>
-        </li>
-
-        {pageNumbers.map((page) => (
-          <li
-            key={page}
-            className={`page-item ${page === currentPage ? "active" : ""}`}
-          >
-            <button
-              className="page-link"
-              onClick={() => onPageChange(page)}
-              style={{
-                padding: "8px 12px",
-                color: page === currentPage ? "#fff" : "#5e2750",
-                backgroundColor: page === currentPage ? "#5e2750" : "#fff",
-                border: "2px solid #5e2750",
-                borderRadius: "3px",
-              }}
-            >
-              {page}
-            </button>
-          </li>
-        ))}
-
-        <li
-          className={`page-item ${
-            currentPage === totalPages ? "disabled" : ""
-          }`}
-        >
-          <button
-            className="page-link"
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            style={{ padding: "8px 12px", color: "#5e2750" }}
-          >
-            ›
-          </button>
-        </li>
-        <li
-          className={`page-item ${
-            currentPage === totalPages ? "disabled" : ""
-          }`}
-        >
-          <button
-            className="page-link"
-            onClick={() => onPageChange(Math.min(currentPage + 10, totalPages))}
-            disabled={currentPage === totalPages}
-            style={{ padding: "8px 12px", color: "#5e2750" }}
-          >
-            »»
-          </button>
-        </li>
-      </ul>
-      <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
-        Showing {startEntry} to {endEntry} of {totalEntries} entries
-      </p>
-    </nav>
-  );
-};
