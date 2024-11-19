@@ -14,6 +14,8 @@ const SignIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset error state
@@ -49,6 +51,8 @@ const SignIn = () => {
       // Handling response and storing session details
       if (response.data.spree_api_key) {
         sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
+              localStorage.setItem("spree_api_key", response.data.spree_api_key);
+
         sessionStorage.setItem("email", response.data.email);
         sessionStorage.setItem("firstname", response.data.firstname);
         

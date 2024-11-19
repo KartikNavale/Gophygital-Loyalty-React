@@ -19,6 +19,8 @@ const Header = ({ noTier }) => {
   const signout = () => {
     console.log("Signing out...");
     sessionStorage.clear(); // Clear session storage
+    localStorage.removeItem("spree_api_key");
+
     setShowModal(false);
   
     // Remove any existing modal backdrop elements
