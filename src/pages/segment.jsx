@@ -84,8 +84,8 @@ const handleEditClick = (segment) => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        // `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
-        `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&page=${page}&per_page=${itemsPerPage}&&q[loyalty_type_id_eq]=${storedValue}`
+        `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        // `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&page=${page}&per_page=${itemsPerPage}&&q[loyalty_type_id_eq]=${storedValue}`
       );
 
 
@@ -107,13 +107,16 @@ const handleEditClick = (segment) => {
   }, [currentPage]);
 
   
-  // const currentItems = filteredItems.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
+  const currentItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   
-  const totalPages = Math.ceil(totalEntries / itemsPerPage);
+  // const totalPages = Math.ceil(totalEntries / itemsPerPage);
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+ 
 
   const handlePageChange = (page) => {
     if (page !== currentPage) {
@@ -168,31 +171,31 @@ const handleEditClick = (segment) => {
 
     const pageNumbers = getPageNumbers();
 
-    // const handleJumpForward = () => {
-    //   if (currentPage + 5 <= totalPages) {
-    //     onPageChange(currentPage + 5);
-    //   } else {
-    //     onPageChange(totalPages); // Go to last page if jump exceeds total pages
-    //   }
-    // };
-
-    // const handleJumpBackward = () => {
-    //   if (currentPage - 5 >= 1) {
-    //     onPageChange(currentPage - 5);
-    //   } else {
-    //     onPageChange(1); // Go to first page if jump goes below 1
-    //   }
-    // };
-
     const handleJumpForward = () => {
-      const newPage = Math.min(currentPage + 5, totalPages); // Ensure it doesn't exceed totalPages
-      // onPageChange(newPage);
+      if (currentPage + 5 <= totalPages) {
+        onPageChange(currentPage + 5);
+      } else {
+        onPageChange(totalPages); // Go to last page if jump exceeds total pages
+      }
     };
-    
+
     const handleJumpBackward = () => {
-      const newPage = Math.max(currentPage - 5, 1); // Ensure it doesn't go below 1
-      onPageChange(newPage);
+      if (currentPage - 5 >= 1) {
+        onPageChange(currentPage - 5);
+      } else {
+        onPageChange(1); // Go to first page if jump goes below 1
+      }
     };
+
+    // const handleJumpForward = () => {
+    //   const newPage = Math.min(currentPage + 5, totalPages); // Ensure it doesn't exceed totalPages
+    //   // onPageChange(newPage);
+    // };
+    
+    // const handleJumpBackward = () => {
+    //   const newPage = Math.max(currentPage - 5, 1); // Ensure it doesn't go below 1
+    //   onPageChange(newPage);
+    // };
 
     
   
@@ -410,8 +413,8 @@ return (
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredItems.length > 0 ? (
-                    filteredItems.map((segment, index) => (
+                  {currentItems.length > 0 ? (
+                    currentItems.map((segment, index) => (
                       <tr key={segment.id || index}>
                         <td
                           style={{ align: "center", verticalAlign: "middle" }}
