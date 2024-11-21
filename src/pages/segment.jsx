@@ -31,11 +31,11 @@ const handleEditClick = (segment) => {
   navigate(`/edit-segment/${segment.id}`);
 };
 
-  const [formData, setFormData] = useState({
-    name: "",
-    segment_tag: "",
-    member_count: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   segment_tag: "",
+  //   member_count: "",
+  // });
 
   
  
@@ -88,10 +88,13 @@ const handleEditClick = (segment) => {
         `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&page=${page}&per_page=${itemsPerPage}&&q[loyalty_type_id_eq]=${storedValue}`
       );
 
+
+      console.log(response.data)
      
       setSegments(response.data);
       setFilteredItems(response.data);
-      setTotalEntries(response.total); 
+      setTotalEntries(response.data.total); 
+      
       setLoading(false);
     } catch (error) {
       setError("Failed to fetch segments. Please try again.");
@@ -119,8 +122,8 @@ const handleEditClick = (segment) => {
     }
   };
 
-  
  
+
   const Pagination = ({
     currentPage,
     totalPages,
@@ -137,7 +140,7 @@ const handleEditClick = (segment) => {
       const halfVisible = Math.floor(maxVisiblePages / 2);
 
       let startPage, endPage;
-
+    
       if (totalPages <= maxVisiblePages) {
         // If total pages are less than or equal to maxVisiblePages, show all
         startPage = 1;
@@ -183,13 +186,16 @@ const handleEditClick = (segment) => {
 
     const handleJumpForward = () => {
       const newPage = Math.min(currentPage + 5, totalPages); // Ensure it doesn't exceed totalPages
-      onPageChange(newPage);
+      // onPageChange(newPage);
     };
     
     const handleJumpBackward = () => {
       const newPage = Math.max(currentPage - 5, 1); // Ensure it doesn't go below 1
       onPageChange(newPage);
     };
+
+    
+  
 
     return (
       <nav className="d-flex justify-content-between align-items-center">
@@ -247,6 +253,7 @@ const handleEditClick = (segment) => {
               className="page-link"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
+              
               style={{ padding: "8px 12px", color: "#5e2750" }}
             >
               ›
