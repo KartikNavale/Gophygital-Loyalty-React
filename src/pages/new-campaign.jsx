@@ -416,7 +416,7 @@ const NewCampaign = () => {
       //   marginRight: "26px",
       // }}
       >
-        <div className="border-bottom pb-5 pb-2" style={{border:'border: 0.5px solid #3A3A33'}}>
+        <div className="border-bottom pb-5 " style={{border:'border: 0.5px solid #3A3A33'}}>
           <div className="row">
             <div className="col-md-11">
               <input
@@ -535,12 +535,12 @@ const NewCampaign = () => {
           </p>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 border-bottom" style={{border:'border: 0.5px solid #3A3A33',paddingBottom:'50px'}}>
           <p className="fw-bold" style={{ fontSize: '16px', fontWeight: '600' }}>
             Campaign Rewards<span style={{ color: '#E95420' }}>*</span>
           </p>
         </div>
-        <div className="row  justify-content-center" style={{ marginTop: '150px' }}>
+        <div className="row  justify-content-center" style={{ marginTop: '100px' }}>
           <div className="col-md-2">
             <button type="submit" className="purple-btn1 w-100">Submit</button>
           </div>

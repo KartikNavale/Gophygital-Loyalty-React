@@ -16,7 +16,7 @@ import {
 
 import { masterOperators } from './operatorsData'; // Import your data
 
-const CreateRuleEngine = () => {
+const EditRuleEngine = () => {
     const { id } = useParams(); // Get the member ID from the URL
     const navigate = useNavigate()
     //   const [rule, setRule] = useState({
@@ -57,17 +57,23 @@ const CreateRuleEngine = () => {
     const [parameter, setParameter] = useState('')
     const [previousValue, setPreviousValue] = useState('');
     const [actions, setActions] = useState([])
-    const [idAdd,setIdAdd]=useState(null)
-    const[subRewardOutcomesName,setsubRewardOutcomesName]=useState({name:''})
-
+    const [idAdd, setIdAdd] = useState(null)
+    const [subRewardOutcomesName, setsubRewardOutcomesName] = useState({ id: '', name: '' })
+    const[funId,setFunId]=useState(null)
+    const [masterRewardOutcomesLockModal, setMasterRewardOutcomesLockModal] = useState({ id: '', name: '' });
+    const[lockModel,setLockModel]=useState('')
 
     //transform
-  const formatFieldName = (fieldName) => {
-    return fieldName
-      .replace(/_/g, ' ')           // Replace underscores with spaces
-      .replace(/::/g, ' ')          // Replace :: with spaces
-      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
-  };
+    const formatFieldName = (fieldName) => {
+        if (!fieldName) {
+            // Return an empty string or a default value if fieldName is invalid
+            return '';
+        }
+        return fieldName
+            .replace(/_/g, ' ')           // Replace underscores with spaces
+            .replace(/::/g, ' ')          // Replace :: with spaces
+            .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
+    };
 
     // const handleMasterOperatorChange = (e) => {
     //   const selectedName = e.target.value; //handle master operator
@@ -143,7 +149,9 @@ const CreateRuleEngine = () => {
                     const parameters = data.actions.map((action) => action.parameters).flat();
                     setParameter(parameters);
                     const lock_model_name = data.actions.map((action) => ({
+                        id:action.action_selected_model,
                         name: action.lock_model_name,
+                
                     }))
                     console.log("....master reward", lock_model_name)
                     // Set the parameters in state
@@ -151,19 +159,22 @@ const CreateRuleEngine = () => {
                     // setSelectedMasterRewardOutcomes({
                     //     name:lock_model_name
                     // })
-                    setSelectedMasterRewardOutcomes(lock_model_name[0] || { id: '', name: '' });
+                    setMasterRewardOutcomesLockModal(lock_model_name[0] || { id: lock_model_name.id, name: lock_model_name.name });
                     // const action_method=data.actions.map((action) => ({
                     //     name: action.action_method,
                     // }))
                     // setsubRewardOutcomesnew(action_method)
                     const action_method = data.actions.map((action) => ({
+                        id:action.rule_engine_available_function_id,
                         name: action.action_method, // Extract `action_method` into the `name` property
                     }));
 
                     console.log("Action Methods:", action_method);
-
+                      
                     // Set the state with the array of `action_method` values
-                    setsubRewardOutcomesName(action_method[0] || {name: '' });
+                    // setSelectedMasterRewardOutcomes(action_method[0] || { id:action_method.id,name: action_method.name })
+                    setsubRewardOutcomesName(action_method[0] || { id:action_method.id,name: action_method.name });
+                    console.log("sub action function id",subRewardOutcomesName)
                     //   const action_id = data.actions.map((action) => ({
                     //     name: action.id, // Extract `action_method` into the `name` property
                     // }));
@@ -174,8 +185,19 @@ const CreateRuleEngine = () => {
                     console.log("Action IDs:", action_ids);
 
                     setActions(action_ids); // Set the state as an array of IDs
+                //    const selectedModatID=data.actions.map((action) => (
+                //     action.action_selected_model// Extract `action_method` into the `name` property
+                // ));
+                //    console.log("selected modal id :",selectedModatID)
+                //     setActionSelectedModal(selectedModatID[0])
 
-                }
+                const functionId = data.actions[0]?.rule_engine_available_function_id
+                console.log("function id :",functionId)
+                setFunId(functionId)
+
+                const lock_model=data.actions[0]?.rule_engine_available_function_id
+                setLockModel(lock_model)
+                 }
             } catch (err) {
                 // setError(err.message);
             } finally {
@@ -185,10 +207,10 @@ const CreateRuleEngine = () => {
 
         fetchRule();
 
-      
+
     }, [id]);
 
-    const handleCancle= async()=>{
+    const handleCancle = async () => {
         try {
             const data = await getRuleEngine(id);
             // console.log(data)
@@ -212,53 +234,48 @@ const CreateRuleEngine = () => {
             }
             if (data.actions) {
                 // console.log("action:",data.actions)
-                // setactions(data.actions)
-                // setParameter(data.actions.parameters)
-
+                
                 // Extract the parameters from the actions array
                 const parameters = data.actions.map((action) => action.parameters).flat();
                 setParameter(parameters);
                 const lock_model_name = data.actions.map((action) => ({
+                    id:action.action_selected_model,
                     name: action.lock_model_name,
+            
                 }))
                 console.log("....master reward", lock_model_name)
-                // Set the parameters in state
-
-                // setSelectedMasterRewardOutcomes({
-                //     name:lock_model_name
-                // })
-                setSelectedMasterRewardOutcomes(lock_model_name[0] || { id: '', name: '' });
-                // const action_method=data.actions.map((action) => ({
-                //     name: action.action_method,
-                // }))
-                // setsubRewardOutcomesnew(action_method)
+               
+                setMasterRewardOutcomesLockModal(lock_model_name[0] || { id: "", name: ""});
+                
                 const action_method = data.actions.map((action) => ({
+                    id:action.rule_engine_available_function_id,
                     name: action.action_method, // Extract `action_method` into the `name` property
                 }));
 
                 console.log("Action Methods:", action_method);
-
+                  
                 // Set the state with the array of `action_method` values
-                setsubRewardOutcomesName(action_method[0] || {name: '' });
-                //   const action_id = data.actions.map((action) => ({
-                //     name: action.id, // Extract `action_method` into the `name` property
-                // }));
-                // console.log("action id",action_id)
-                // setActions(action_id)
-
+                setSelectedMasterRewardOutcomes(action_method[0] || { id:"",name: "" })
+                setsubRewardOutcomesName(action_method[0] || {name: "" });
+                console.log("sub action function id",subRewardOutcomesName)
                 const action_ids = data.actions.map(action => action.id).flat(); // Extract only the 'id' values
                 console.log("Action IDs:", action_ids);
 
                 setActions(action_ids); // Set the state as an array of IDs
+           
+            const functionId = data.actions[0]?.rule_engine_available_function_id
+            console.log("function id :",functionId)
+            setFunId(functionId)
 
-            }
+            const lock_model=data.actions[0]?.rule_engine_available_function_id
+            setLockModel(lock_model)
+             }
         } catch (err) {
             // setError(err.message);
         } finally {
             // setLoading(false);
         }
-    };
-    
+    }
     // handleCancle()
 
     useEffect(() => {
@@ -356,14 +373,14 @@ const CreateRuleEngine = () => {
     // console.log('sub reward ,',subRewardOutcomesnew)
 
 
-//     // Handle Sub-Reward Outcome Selection
-// const handleSubRewardOutcomeChange = (e) => {
-//     const subRewardOutcomeId = e.target.value; // Get the selected sub-reward outcome ID
-//     console.log("Selected Sub Reward Outcome ID:", subRewardOutcomeId);
+    //     // Handle Sub-Reward Outcome Selection
+    // const handleSubRewardOutcomeChange = (e) => {
+    //     const subRewardOutcomeId = e.target.value; // Get the selected sub-reward outcome ID
+    //     console.log("Selected Sub Reward Outcome ID:", subRewardOutcomeId);
 
-//     // Pass the selected ID to the required function or store it in state
-//     setSelectedSubRewardOutcomeId(subRewardOutcomeId);
-// };
+    //     // Pass the selected ID to the required function or store it in state
+    //     setSelectedSubRewardOutcomeId(subRewardOutcomeId);
+    // };
 
 
     const addCondition = () => {
@@ -516,7 +533,7 @@ const CreateRuleEngine = () => {
 
         const data = {
             rule_engine_rule: {
-                id:idAdd,
+                id: idAdd,
                 name: ruleName, // Ensure ruleName is defined elsewhere in your code
                 description: "This is a description of the sample rule.",
                 loyalty_type_id: sessionStorage.getItem("selectedId"),//type id
@@ -533,10 +550,11 @@ const CreateRuleEngine = () => {
 
                 rule_engine_actions_attributes: [{
                     id: actions[0],
-                    lock_model_name: selectedMasterRewardOutcomes.name || "",
+                    lock_model_name: (selectedMasterRewardOutcomes.name )||lockModel|| "",
                     parameters: [Number(parameter) || ""],
-                    rule_engine_available_function_id: Number(subRewardOutcomesnew),
-                    action_selected_model: Number(selectedMasterRewardOutcomes.id) || "",
+                    rule_engine_available_function_id: Number(subRewardOutcomesnew)|| funId||"",
+                    action_selected_model: Number(selectedMasterRewardOutcomes.id||masterRewardOutcomesLockModal.id) || "",
+                    // action_method:(subRewardOutcomesName.name)
                 }
                 ]
 
@@ -624,6 +642,20 @@ const CreateRuleEngine = () => {
             <div>
                 <h6 className="mt-3">
                     <span style={{ fontSize: '18px', fontWeight: '600' }}>Condition {condition.id}
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-pencil-square mb-1 ms-3 text-body-secondary"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path
+                                fill-rule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                            />
+                        </svg>
                         {index > 0 && ( // Only show the button for conditions after the first one
                             <button
                                 onClick={() => removeCondition(condition.id)}
@@ -734,7 +766,7 @@ const CreateRuleEngine = () => {
                                 value={condition.masterAttribute}
 
                             >
-                                <option value="">{condition.masterAttribute}</option>
+                                <option value="" disabled>{condition.masterAttribute}</option>
                                 <option value="">Select Master Attribute </option>
                                 {masterAttributes.map((attr) => (
                                     <option key={attr.id} value={attr.id}>
@@ -766,7 +798,7 @@ const CreateRuleEngine = () => {
                                 }}
                                 value={condition.subAttribute}
                             >
-                                <option value="">{formatFieldName(condition.subAttribute)}</option>
+                                <option value="" disabled>{formatFieldName(condition.subAttribute)}</option>
                                 <option value="">Select Sub Attribute</option>
                                 {subAttributes.map((subAttr) => (
                                     <option key={subAttr.id} value={subAttr.attribute_name}>
@@ -803,7 +835,7 @@ const CreateRuleEngine = () => {
                                     handleMasterOperatorChange(e); // If needed to update sub operators
                                 }}
                             >
-                                <option value="">{condition.master_operator}</option>
+                                <option value="" disabled>{condition.master_operator}</option>
                                 <option value="">Select Master Operator </option>
                                 {masterOperators.map((op) => (
                                     <option key={op.id} value={op.name}>
@@ -834,7 +866,7 @@ const CreateRuleEngine = () => {
                                     setConditions(updatedConditions);
                                 }}
                             >
-                                <option value="">{formatFieldName(condition.subOperator)}</option>
+                                <option value="" disabled>{formatFieldName(condition.subOperator)}</option>
                                 <option value="">Select Sub Operator </option>
                                 {subOperators.map((subOp) => (
                                     <option key={subOp.id} value={subOp.value}>
@@ -887,10 +919,24 @@ const CreateRuleEngine = () => {
                         <Link to='/rule-engine' >
                             <span className="text-secondary">Rule Engine</span>
                         </Link>{" "}
-                        &gt; New Rule
+                        &gt; Edit Rule
                     </p>
                     <h5 className="mb-3">
                         <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>New Rule</span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="19"
+                            height="19"
+                            fill="currentColor"
+                            className="bi bi-pencil-square mb-2 ms-3 text-body-secondary"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path
+                                fill-rule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                            />
+                        </svg>
                     </h5>
                     <div className="go-shadow me-3">
                         <div className="row ms-1">
@@ -949,12 +995,14 @@ const CreateRuleEngine = () => {
                                         className="p-1 mt-1 mb-1"
                                         style={{ fontSize: '12px', fontWeight: '400' }}
                                         onChange={handleMasterSubRewardOutcomeChange}
-                                        value={selectedMasterRewardOutcomes.id || ""} // Use the id directly from state
+                                        value={selectedMasterRewardOutcomes.id ||masterRewardOutcomesLockModal.id|| ""} // Use the id directly from state
                                     >
-                                        <option value="">{formatFieldName(selectedMasterRewardOutcomes.name||"")}</option>
+                                        <option value={masterRewardOutcomesLockModal.id} disabled>{formatFieldName(masterRewardOutcomesLockModal.name)}</option>
                                         <option value="" disabled>Select Master Reward Outcome</option>
                                         {masterRewardOutcomes.map((reward) => (
+                                            // {/* <option value="">{formatFieldName(selectedMasterRewardOutcomes.name || "")}</option> */}
                                             <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
+                                                 {/* <option value="">{formatFieldName(selectedMasterRewardOutcomes.name || "")}</option> */}
                                                 {reward.display_name}
                                             </option>
                                         ))}
@@ -979,9 +1027,9 @@ const CreateRuleEngine = () => {
                                             // Handle the selection as needed, e.g., update the state or construct the data object
                                             setsubRewardOutcomesnew(selectedId);
                                         }}
-                                        value={subRewardOutcomesnew|| ""} // Ensure this reflects the selected sub-reward outcome
+                                        value={subRewardOutcomesnew ||""} // Ensure this reflects the selected sub-reward outcome
                                     >
-                                        <option value="">{ formatFieldName(subRewardOutcomesName.name|| "")}</option>
+                                        <option value="" disabled>{formatFieldName(subRewardOutcomesName.name)}</option>
 
 
                                         <option value="">Select Sub Reward Outcome</option>
@@ -1018,9 +1066,9 @@ const CreateRuleEngine = () => {
                             <button className="purple-btn1 w-100" onClick={() => handleEdit(id)}>Submit</button>
                         </div>
                         <div className="col-md-2">
-                            <button className="purple-btn2 w-100" 
-                            onClick={handleCancle}
-                            
+                            <button className="purple-btn2 w-100"
+                                onClick={handleCancle}
+
                             >Cancel</button>
                         </div>
                     </div>
@@ -1031,7 +1079,7 @@ const CreateRuleEngine = () => {
     );
 };
 
-export default CreateRuleEngine;
+export default EditRuleEngine;
 
 
 
