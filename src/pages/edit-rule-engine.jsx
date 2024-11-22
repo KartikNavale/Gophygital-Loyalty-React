@@ -766,8 +766,8 @@ const EditRuleEngine = () => {
                                 value={condition.masterAttribute}
 
                             >
-                                <option value="" disabled>{condition.masterAttribute}</option>
-                                <option value="">Select Master Attribute </option>
+                                <option value="" >{condition.masterAttribute}</option>
+                                <option value="" disabled>Select Master Attribute </option>
                                 {masterAttributes.map((attr) => (
                                     <option key={attr.id} value={attr.id}>
 
@@ -798,8 +798,8 @@ const EditRuleEngine = () => {
                                 }}
                                 value={condition.subAttribute}
                             >
-                                <option value="" disabled>{formatFieldName(condition.subAttribute)}</option>
-                                <option value="">Select Sub Attribute</option>
+                                <option value="">{formatFieldName(condition.subAttribute)}</option>
+                                <option value="" disabled>Select Sub Attribute</option>
                                 {subAttributes.map((subAttr) => (
                                     <option key={subAttr.id} value={subAttr.attribute_name}>
                                         {subAttr.display_name}
@@ -835,8 +835,8 @@ const EditRuleEngine = () => {
                                     handleMasterOperatorChange(e); // If needed to update sub operators
                                 }}
                             >
-                                <option value="" disabled>{condition.master_operator}</option>
-                                <option value="">Select Master Operator </option>
+                                <option value="" >{condition.master_operator}</option>
+                                <option value="" disabled>Select Master Operator </option>
                                 {masterOperators.map((op) => (
                                     <option key={op.id} value={op.name}>
                                         {op.name}
@@ -866,8 +866,8 @@ const EditRuleEngine = () => {
                                     setConditions(updatedConditions);
                                 }}
                             >
-                                <option value="" disabled>{formatFieldName(condition.subOperator)}</option>
-                                <option value="">Select Sub Operator </option>
+                                <option value="">{formatFieldName(condition.subOperator)}</option>
+                                <option value="" disabled>Select Sub Operator </option>
                                 {subOperators.map((subOp) => (
                                     <option key={subOp.id} value={subOp.value}>
                                         {subOp.name}
@@ -997,7 +997,7 @@ const EditRuleEngine = () => {
                                         onChange={handleMasterSubRewardOutcomeChange}
                                         value={selectedMasterRewardOutcomes.id ||masterRewardOutcomesLockModal.id|| ""} // Use the id directly from state
                                     >
-                                        <option value={masterRewardOutcomesLockModal.id} disabled>{formatFieldName(masterRewardOutcomesLockModal.name)}</option>
+                                        <option value="">{formatFieldName(masterRewardOutcomesLockModal.name)}</option>
                                         <option value="" disabled>Select Master Reward Outcome</option>
                                         {masterRewardOutcomes.map((reward) => (
                                             // {/* <option value="">{formatFieldName(selectedMasterRewardOutcomes.name || "")}</option> */}
@@ -1029,10 +1029,10 @@ const EditRuleEngine = () => {
                                         }}
                                         value={subRewardOutcomesnew ||""} // Ensure this reflects the selected sub-reward outcome
                                     >
-                                        <option value="" disabled>{formatFieldName(subRewardOutcomesName.name)}</option>
+                                        <option value="" >{formatFieldName(subRewardOutcomesName.name)}</option>
 
 
-                                        <option value="">Select Sub Reward Outcome</option>
+                                        <option value="" disabled>Select Sub Reward Outcome</option>
 
                                         {subRewardOutcomes.map((reward) => (
                                             <option
