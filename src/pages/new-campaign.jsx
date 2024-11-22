@@ -353,13 +353,13 @@ const NewCampaign = () => {
     }
 
     // Uncomment and use this when the reward validation is needed
-    // if (!formValues.campaign_reward) {
-    //   toast.error("Campaign Reward is required.", {
-    //     position: "top-center",
-    //     autoClose: 3000,
-    //   });
-    //   return;
-    // }
+    if (!formValues.campaign_reward) {
+      toast.error("Points Criteria & Campaign Reward is required.", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
 
     // Proceed with further logic if all validations pass
 
