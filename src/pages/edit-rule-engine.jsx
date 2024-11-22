@@ -267,7 +267,8 @@ const EditRuleEngine = () => {
             console.log("function id :",functionId)
             setFunId(functionId)
 
-            const lock_model=data.actions[0]?.rule_engine_available_function_id
+            const lock_model=data.actions[0]?.lock_model_name
+            console.log("lock model :",lock_model)
             setLockModel(lock_model)
              }
         } catch (err) {

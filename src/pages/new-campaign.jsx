@@ -540,7 +540,7 @@ const NewCampaign = () => {
             Campaign Rewards<span style={{ color: '#E95420' }}>*</span>
           </p>
         </div>
-        <div className="row  justify-content-center" style={{ marginTop: '100px' }}>
+        <div className="row  justify-content-center" style={{ marginTop: '55px' }}>
           <div className="col-md-2">
             <button type="submit" className="purple-btn1 w-100">Submit</button>
           </div>
