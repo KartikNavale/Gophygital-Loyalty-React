@@ -64,6 +64,7 @@ const RuleEngine = () => {
       .replace(/::/g, ' ')          // Replace :: with spaces
       .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
   };
+  
   useEffect(() => {
     const getData = async () => {
       try {
@@ -404,7 +405,7 @@ const RuleEngine = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/create-rule-engine">
-              <button className="purple-btn1" style={{ borderRadius: "5px" }}>
+              <button className="purple-btn1" style={{ borderRadius: "5px",paddingRight: "50px" }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"

@@ -8,6 +8,10 @@ const Sidebar = () => {
 
   const location = useLocation(); // Get the current location
 
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed); // Toggle collapse state
+  };
+
   // Only set the active item if it is the first load
   useEffect(() => {
     // Only set the active item if it's the initial render
@@ -145,7 +149,7 @@ const Sidebar = () => {
             </span>
           </NavLink>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <a
             className="text nav-link d-flex justify-content-between"
             data-bs-toggle="collapse"
@@ -196,7 +200,60 @@ const Sidebar = () => {
               </NavLink>
             </li>
           </ul>
+        </li> */}
+
+<li className="nav-item">
+      <a
+        className="text nav-link d-flex justify-content-between"
+        onClick={toggleCollapse} // Use React's state to handle collapse
+        style={{ cursor: "pointer" }}
+      >
+        <span className="text">Engage</span>
+        {isCollapsed ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-caret-down-fill"
+            viewBox="0 0 16 16"
+          >
+            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-caret-right-fill"
+            viewBox="0 0 16 16"
+          >
+            <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+          </svg>
+        )}
+      </a>
+      <ul className={`collapse p-0 ${isCollapsed ? "show" : ""}`} id="userRoleCollapse">
+        <li>
+          <NavLink
+            className={`ps-4 ${activeItem === "/Segment" ? "active" : ""}`}
+            to="/Segment"
+            onClick={() => handleNavLinkClick("/Segment")}
+          >
+            Segment
+          </NavLink>
         </li>
+        <li>
+          <NavLink
+            className={`ps-4 ${activeItem === "/Campaign" ? "active" : ""}`}
+            to="/Campaign"
+            onClick={() => handleNavLinkClick("/Campaign")}
+          >
+            Campaign
+          </NavLink>
+        </li>
+      </ul>
+    </li>
         <li className="nav-item">
           <NavLink
             to="/test"

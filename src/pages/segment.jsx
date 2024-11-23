@@ -33,12 +33,11 @@ const handleEditClick = (segment) => {
   navigate(`/edit-segment/${segment.id}`);
 };
 
-  // @ts-ignore
-  const [formData, setFormData] = useState({
-    name: "",
-    segment_tag: "",
-    member_count: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   segment_tag: "",
+  //   member_count: "",
+  // });
 
   
  
@@ -88,19 +87,21 @@ const handleEditClick = (segment) => {
     setCurrentPage(1);
   };
 
-  const fetchSegments = async (page) => { 
+  const fetchSegments = async () => { 
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        // `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
-        `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&page=${page}&per_page=${itemsPerPage}&&q[loyalty_type_id_eq]=${storedValue}`
+        `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        // `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&page=${page}&per_page=${itemsPerPage}&&q[loyalty_type_id_eq]=${storedValue}`
       );
 
+
+      console.log(response.data)
      
       setSegments(response.data);
       setFilteredItems(response.data);
-      // @ts-ignore
-      setTotalEntries(response.total); 
+      // setTotalEntries(response.data.total); 
+      
       setLoading(false);
     } catch (error) {
       setError("Failed to fetch segments. Please try again.");
@@ -109,27 +110,196 @@ const handleEditClick = (segment) => {
   };
 
   useEffect(() => {
+    // @ts-ignore
     fetchSegments(currentPage);
   }, [currentPage]);
 
   
-  // const currentItems = filteredItems.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
 
   
-  const totalPages = Math.ceil(totalEntries / itemsPerPage);
+  // const totalPages = Math.ceil(totalEntries / itemsPerPage);
 
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const currentItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+ 
+
+  // const handlePageChange = (page) => {
+  //   if (page !== currentPage) {
+  //     setCurrentPage(page);
+  //     setLoading(true); // Show loading when changing page
+  //   }
+  // };
+
+  
   const handlePageChange = (page) => {
-    if (page !== currentPage) {
+    if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
-      setLoading(true); // Show loading when changing page
     }
   };
 
-  
  
+
+  // const Pagination = ({
+  //   currentPage,
+  //   totalPages,
+  //   totalEntries,
+  //   onPageChange, // Pass the onPageChange function as a prop
+  // }) => {
+  //   const startEntry = (currentPage - 1) * itemsPerPage + 1;
+  //   const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+
+  //   // Function to get the range of page numbers to display
+  //   const getPageNumbers = () => {
+  //     const pages = [];
+  //     const maxVisiblePages = 5; // Set the maximum number of visible pages
+  //     const halfVisible = Math.floor(maxVisiblePages / 2);
+
+  //     let startPage, endPage;
+    
+  //     if (totalPages <= maxVisiblePages) {
+  //       // If total pages are less than or equal to maxVisiblePages, show all
+  //       startPage = 1;
+  //       endPage = totalPages;
+  //     } else {
+  //       // Otherwise, calculate the start and end pages
+  //       if (currentPage <= halfVisible) {
+  //         startPage = 1;
+  //         endPage = maxVisiblePages;
+  //       } else if (currentPage + halfVisible >= totalPages) {
+  //         startPage = totalPages - maxVisiblePages + 1;
+  //         endPage = totalPages;
+  //       } else {
+  //         startPage = currentPage - halfVisible;
+  //         endPage = currentPage + halfVisible;
+  //       }
+  //     }
+
+  //     for (let i = startPage; i <= endPage; i++) {
+  //       pages.push(i);
+  //     }
+
+  //     return pages;
+  //   };
+
+  //   const pageNumbers = getPageNumbers();
+
+  //   const handleJumpForward = () => {
+  //     if (currentPage + 5 <= totalPages) {
+  //       onPageChange(currentPage + 5);
+  //     } else {
+  //       onPageChange(totalPages); // Go to last page if jump exceeds total pages
+  //     }
+  //   };
+
+  //   const handleJumpBackward = () => {
+  //     if (currentPage - 5 >= 1) {
+  //       onPageChange(currentPage - 5);
+  //     } else {
+  //       onPageChange(1); // Go to first page if jump goes below 1
+  //     }
+  //   };
+
+  //   // const handleJumpForward = () => {
+  //   //   const newPage = Math.min(currentPage + 5, totalPages); // Ensure it doesn't exceed totalPages
+  //   //   // onPageChange(newPage);
+  //   // };
+    
+  //   // const handleJumpBackward = () => {
+  //   //   const newPage = Math.max(currentPage - 5, 1); // Ensure it doesn't go below 1
+  //   //   onPageChange(newPage);
+  //   // };
+
+    
+  
+
+  //   return (
+  //     <nav className="d-flex justify-content-between align-items-center">
+  //       <ul
+  //         className="pagination justify-content-center align-items-center"
+  //         style={{ listStyleType: "none", padding: "0" }}
+  //       >
+  //         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+  //           <button
+  //             className="page-link"
+  //             onClick={() => onPageChange(1)} // Jump to first page
+  //             disabled={currentPage === 1}
+  //             style={{ padding: "8px 12px", color: "#5e2750" }}
+  //           >
+  //             «« {/* Double left arrow for jumping to the first page */}
+  //           </button>
+  //         </li>
+  //         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+  //           <button
+  //             className="page-link"
+  //             onClick={() => onPageChange(currentPage - 1)}
+  //             disabled={currentPage === 1}
+  //             style={{ padding: "8px 12px", color: "#5e2750" }}
+  //           >
+  //             ‹
+  //           </button>
+  //         </li>
+
+  //         {pageNumbers.map((page) => (
+  //           <li
+  //             key={page}
+  //             className={`page-item ${page === currentPage ? "active" : ""}`}
+  //           >
+  //             <button
+  //               className="page-link"
+  //               onClick={() => onPageChange(page)}
+  //               style={{
+  //                 padding: "8px 12px",
+  //                 color: page === currentPage ? "#fff" : "#5e2750",
+  //                 backgroundColor: page === currentPage ? "#5e2750" : "#fff",
+  //                 border: "2px solid #5e2750",
+  //                 borderRadius: "3px",
+  //               }}
+  //             >
+  //               {page}
+  //             </button>
+  //           </li>
+  //         ))}
+
+  //         <li
+  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""
+  //             }`}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={() => onPageChange(currentPage + 1)}
+  //             disabled={currentPage === totalPages}
+              
+  //             style={{ padding: "8px 12px", color: "#5e2750" }}
+  //           >
+  //             ›
+  //           </button>
+  //         </li>
+  //         <li
+  //           className={`page-item ${currentPage === totalPages ? "disabled" : ""
+  //             }`}
+  //         >
+  //           <button
+  //             className="page-link"
+  //             onClick={handleJumpForward} // Jump forward by 7 pages
+  //             disabled={currentPage === totalPages}
+  //             style={{ padding: "8px 12px", color: "#5e2750" }}
+  //           >
+  //             »» {/* Double right arrow for jumping to the last page */}
+  //           </button>
+  //         </li>
+  //       </ul>
+  //       <p className="text-center" style={{ marginTop: "10px", color: "#555" }}>
+  //         Showing {startEntry} to {endEntry} of {totalEntries} entries
+  //       </p>
+  //     </nav>
+  //   );
+  // };
+
+
   const Pagination = ({
     currentPage,
     totalPages,
@@ -174,31 +344,19 @@ const handleEditClick = (segment) => {
 
     const pageNumbers = getPageNumbers();
 
-    // const handleJumpForward = () => {
-    //   if (currentPage + 5 <= totalPages) {
-    //     onPageChange(currentPage + 5);
-    //   } else {
-    //     onPageChange(totalPages); // Go to last page if jump exceeds total pages
-    //   }
-    // };
-
-    // const handleJumpBackward = () => {
-    //   if (currentPage - 5 >= 1) {
-    //     onPageChange(currentPage - 5);
-    //   } else {
-    //     onPageChange(1); // Go to first page if jump goes below 1
-    //   }
-    // };
-
     const handleJumpForward = () => {
-      const newPage = Math.min(currentPage + 5, totalPages); // Ensure it doesn't exceed totalPages
-      onPageChange(newPage);
+      if (currentPage + 5 <= totalPages) {
+        onPageChange(currentPage + 5);
+      } else {
+        onPageChange(totalPages); // Go to last page if jump exceeds total pages
+      }
     };
-    
-    // @ts-ignore
     const handleJumpBackward = () => {
-      const newPage = Math.max(currentPage - 5, 1); // Ensure it doesn't go below 1
-      onPageChange(newPage);
+      if (currentPage - 5 >= 1) {
+        onPageChange(currentPage - 5);
+      } else {
+        onPageChange(1); // Go to first page if jump goes below 1
+      }
     };
 
     return (
@@ -282,6 +440,7 @@ const handleEditClick = (segment) => {
       </nav>
     );
   };
+
 
 
 return (
@@ -416,11 +575,9 @@ return (
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredItems.length > 0 ? (
-                    filteredItems.map((segment, index) => (
-                      <tr key={segment.
-// @ts-ignore
-                      id || index}>
+                  {currentItems.length > 0 ? (
+                    currentItems.map((segment, index) => (
+                      <tr key={segment.id || index}>
                         <td
                           // @ts-ignore
                           style={{ align: "center", verticalAlign: "middle" }}
