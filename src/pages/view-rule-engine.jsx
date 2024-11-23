@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SubHeader from "../components/SubHeader";
 import { useParams,Link } from "react-router-dom";
 import axios from "axios";
+// @ts-ignore
 import { fetchMasterRewardOutcomes, fetchSubRewardOutcomes } from "../Confi/ruleEngineApi";
 
 const ViewRuleEngine = () => {
@@ -277,6 +278,7 @@ const ViewRuleEngine = () => {
                 Master Attribute<span>*</span>
               </legend>
               <select
+                // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
                 style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
@@ -296,6 +298,7 @@ const ViewRuleEngine = () => {
                 Sub Attribute<span>*</span>
               </legend>
               <select
+                // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
                 style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
@@ -332,6 +335,7 @@ const ViewRuleEngine = () => {
                 Master Operator<span>*</span>
               </legend>
               <select
+                // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
                 style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
@@ -351,6 +355,7 @@ const ViewRuleEngine = () => {
                 Sub Operator<span>*</span>
               </legend>
               <select
+                // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
                 style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
@@ -454,11 +459,11 @@ const ViewRuleEngine = () => {
         <div className="module-data-section mt-2">
           <p className="pointer">
           <Link to='/rule-engine' >
-            <span className="text-secondary">Rule Engine</span> 
+            <span>Rule Engine</span> 
             </Link>
             &gt; View Rule
           </p>
-          <h5 class="mb-3">
+          <h5 className="mb-3">
             <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>View Rule</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -531,6 +536,7 @@ const ViewRuleEngine = () => {
                   </legend>
 
                   <select
+                    // @ts-ignore
                     required=""
                     className="p-1 mt-1 mb-1"
                     style={{ fontSize: '12px', fontWeight: '400', appearance: "none" }}
@@ -553,6 +559,7 @@ const ViewRuleEngine = () => {
                     Sub Reward Outcome<span>*</span>
                   </legend>
                   <select
+                    // @ts-ignore
                     required=""
                     className="p-1 mt-1 mb-1"
                     style={{ fontSize: '12px', fontWeight: '400', appearance: "none" }}

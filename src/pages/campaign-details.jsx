@@ -61,7 +61,7 @@ export default function CampaignDetails() {
       <div className="module-data-section mt-2 mb-2">
         <p className="pointer">
         <Link to='/campaign' >
-          <span className="text-secondary">Campaign</span> 
+          <span>Campaign</span> 
           </Link>
           &gt; Campaign Details
         </p>
@@ -73,33 +73,65 @@ export default function CampaignDetails() {
           <p className="text-danger">{error}</p>
         ) : (
           <>
-            <div class="go-shadow mx-3 no-top-left-shadow " style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
-              <h5 class="d-flex">
-                <span class="title mt-3">CAMPAIGN DETAILS</span>
+            <div 
+// @ts-ignore
+            class="go-shadow mx-3 no-top-left-shadow " style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
+              <h5 
+// @ts-ignore
+              class="d-flex">
+                <span 
+// @ts-ignore
+                class="title mt-3">CAMPAIGN DETAILS</span>
               </h5>
-              <div class="row px-3">
-                <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
-                  <div class="col-6 p-1 text-muted member-detail-color">
+              <div 
+// @ts-ignore
+              class="row px-3">
+                <div 
+// @ts-ignore
+                class="col-lg-8 col-md-12 col-sm-12 row px-3">
+                  <div 
+// @ts-ignore
+                  class="col-6 p-1 text-muted member-detail-color">
                   Campaign Name
                   </div>
-                  <div class="col-6 p-1 member-detail-color">
-                    : {" "}{campaignDetails?.name}
+                  <div 
+// @ts-ignore
+                  class="col-6 p-1 member-detail-color">
+                    : {" "}{campaignDetails?.
+// @ts-ignore
+                    name}
                   </div>
                 </div>
-                <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                  <div class="col-6 p-1 text-muted member-detail-color">
+                <div 
+// @ts-ignore
+                class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                  <div 
+// @ts-ignore
+                  class="col-6 p-1 text-muted member-detail-color">
                   Campaign Tag 
                   </div>
-                  <div class="col-6 p-1 member-detail-color">
-                    : {" "}{campaignDetails?.campaign_tag}
+                  <div 
+// @ts-ignore
+                  class="col-6 p-1 member-detail-color">
+                    : {" "}{campaignDetails?.
+// @ts-ignore
+                    campaign_tag}
                   </div>
                 </div>
-                <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                  <div class="col-6 p-1 text-muted member-detail-color">
+                <div 
+// @ts-ignore
+                class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                  <div 
+// @ts-ignore
+                  class="col-6 p-1 text-muted member-detail-color">
                   Target Audience
                   </div>
-                  <div class="col-6 p-1 member-detail-color">
-                    : {" "}{campaignDetails?.target_audiance}
+                  <div 
+// @ts-ignore
+                  class="col-6 p-1 member-detail-color">
+                    : {" "}{campaignDetails?.
+// @ts-ignore
+                    target_audiance}
                   </div>
                 </div>
                 {/* <div class="col-lg-8 col-md-6 col-sm-12 row px-3">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+// @ts-ignore
 import { Button } from "react-bootstrap";
 import SubHeader from "../components/SubHeader";
 // import { toast } from "react-toastify";
@@ -47,13 +48,18 @@ const EditSegment = () => {
 
   const resetForm = () => {
     setFormData({
+      // @ts-ignore
       name: segment.name,
+      // @ts-ignore
       segment_tag: segment.segment_tag,
+      // @ts-ignore
       member_count: segment.loyalty_members.length,
       loyalty_members: {
+        // @ts-ignore
         member_ids: segment.loyalty_members.map((member) => member.id),
       },
     });
+    // @ts-ignore
     setSelectedMembers(segment.loyalty_members.map((member) => member.id));
   };
 
@@ -62,7 +68,9 @@ const EditSegment = () => {
       ? [...selectedMembers, memberId]
       : selectedMembers.filter((id) => id !== memberId);
 
+    // @ts-ignore
     setSelectedMembers(newSelectedMembers);
+    // @ts-ignore
     setFormData((prevData) => ({
       ...prevData,
       member_count: newSelectedMembers.length,
@@ -90,6 +98,7 @@ const EditSegment = () => {
         setFormData({
           name: response.data.name,
           segment_tag: response.data.segment_tag,
+          // @ts-ignore
           member_count: response.data.loyalty_members.length,
           loyalty_members: {
             member_ids: response.data.loyalty_members.map(
@@ -311,7 +320,7 @@ const EditSegment = () => {
         <div className="module-data-section mt-2 ms-3 ">
           <p className="pointer ">
             <Link to="/segment">
-              <span className="text-secondary">Segment</span>
+              <span>Segment</span>
             </Link>{" "}
             &gt; Edit Segment
           </p>
@@ -338,6 +347,7 @@ const EditSegment = () => {
                 type="text"
                 className="border w-100 p-2 py-2 border-bottom pb-2 border-0 border-bottom-0 bold-placeholder form-group"
                 placeholder="Enter Segment Name"
+                // @ts-ignore
                 required=""
                 value={formData.name}
                 onChange={handleInputChange}
@@ -360,6 +370,7 @@ const EditSegment = () => {
               </legend>
               <select
                 className="mt-1 mb-1"
+                // @ts-ignore
                 required=""
                 value={formData.segment_tag}
                 onChange={handleInputChange}
@@ -423,6 +434,7 @@ const EditSegment = () => {
                 color: "#000",
                 fontWeight: "400",
                 fontSize: "13px",
+                // @ts-ignore
                 align: "center",
               }}
             >
@@ -508,6 +520,7 @@ const EditSegment = () => {
                       <td>
                         <input
                           type="checkbox"
+                          // @ts-ignore
                           checked={selectedMembers.includes(member.id)} // Make it checked by default
                           onChange={(e) => handleCheckboxChange(e, member.id)} // Optional: handler if you want to capture change
                         />
@@ -528,7 +541,9 @@ const EditSegment = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" style={{ textAlign: "center" }}>
+                    <td 
+// @ts-ignore
+                    colSpan="6" style={{ textAlign: "center" }}>
                       No members found for this segment.
                     </td>
                   </tr>

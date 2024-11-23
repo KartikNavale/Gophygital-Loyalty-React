@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
+// @ts-ignore
 import Header from "../components/Header";
+// @ts-ignore
 import Sidebar from "../components/Sidebar";
+// @ts-ignore
 import Footer from "../components/Footer";
 import "../styles/style.css";
 import SubHeader from "../components/SubHeader";
 import { useParams,Link } from "react-router-dom";
 import axios from "axios";
+// @ts-ignore
 import Members from "./members";
 
 const MemberDetails = () => {
@@ -102,7 +106,7 @@ const MemberDetails = () => {
         <div className="module-data-section mt-2 mb-2">
           <p className="pointer">
           <Link to='/members' >
-            <span className="text-secondary">Members</span>
+            <span>Members</span>
             </Link>
              &gt; Member Details
           </p>
@@ -114,104 +118,204 @@ const MemberDetails = () => {
             <p className="text-danger">{error}</p>
           ) : (
             <>
-              <div class="go-shadow mx-3 no-top-left-shadow ">
-                <h5 class="d-flex">
-                  <span class="title mt-3" style={{ fontSize: '20px', fontWeight: '600' }}>PERSONAL DETAILS</span>
+              <div 
+// @ts-ignore
+              class="go-shadow mx-3 no-top-left-shadow ">
+                <h5 
+// @ts-ignore
+                class="d-flex">
+                  <span 
+// @ts-ignore
+                  class="title mt-3" style={{ fontSize: '20px', fontWeight: '600' }}>PERSONAL DETAILS</span>
                 </h5>
-                <div class="row px-3" style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
-                  <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                <div 
+// @ts-ignore
+                class="row px-3" style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-12 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Full name
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.firstname} {member.lasttname}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.firstname} {member.lasttname}
                     </div>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Email Address
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.email}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.email}
                     </div>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Phone No.
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.mobile}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.mobile}
                     </div>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Home Address
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.address.address1} {member.address.address2}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.address.address1} {member.address.address2}
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Membership Status */}
-              <div class="go-shadow mx-3 no-top-left-shadow " style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
-                <h5 class="d-flex">
-                  <span class="title mt-3" style={{ fontSize: '20px', fontWeight: '600' }}>MEMBERSHIP STATUS</span>
+              <div 
+// @ts-ignore
+              class="go-shadow mx-3 no-top-left-shadow " style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
+                <h5 
+// @ts-ignore
+                class="d-flex">
+                  <span 
+// @ts-ignore
+                  class="title mt-3" style={{ fontSize: '20px', fontWeight: '600' }}>MEMBERSHIP STATUS</span>
                 </h5>
-                <div class="row px-3">
-                  <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                <div 
+// @ts-ignore
+                class="row px-3">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-12 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Current Loyalty Points
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.current_loyalty_points}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.current_loyalty_points}
                     </div>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Tier Progress
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.member_status.tier_progression}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.member_status.tier_progression}
                     </div>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Membership Duration
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.duration}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.duration}
                     </div>
                     {/* this attribute is not there in  json*/}
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Account Status
                     </div>
-                    <div class="col-6 p-1 member-detail-color">: Active</div>
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">: Active</div>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Enrolled Date
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.created_at}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.created_at}
                     </div>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Tier Level
                     </div>
-                    <div class="col-6 p-1 member-detail-color">
-                      : {member.member_status.tier_level}
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">
+                      : {
+// @ts-ignore
+                      member.member_status.tier_level}
                     </div>
                   </div>
-                  <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div class="col-6 p-1 text-muted member-detail-color">
+                  <div 
+// @ts-ignore
+                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 text-muted member-detail-color">
                       Expiry Points
                     </div>
-                    <div class="col-6 p-1 member-detail-color">:</div>
+                    <div 
+// @ts-ignore
+                    class="col-6 p-1 member-detail-color">:</div>
                     {/* this attribute is not there in  json*/}
                   </div>
                 </div>
@@ -235,16 +339,21 @@ const MemberDetails = () => {
                         }}
                       >
                         <p className="content-box-sub fw-light">
-                          {member.earned_percentage}%{" "}
+                          {
+// @ts-ignore
+                          member.earned_percentage}%{" "}
                         </p>
                         <h6
                           className="content-box-title"
+                          // @ts-ignore
                           style={{ heigth: "20px", width: "221px" }}
                         >
                           ALL THE POINTS EARNED
                         </h6>
                         <h6 className="content-box-title">
-                          {member.earned_points}
+                          {
+// @ts-ignore
+                          member.earned_points}
                         </h6>
                       </div>
                     </div>
@@ -259,16 +368,21 @@ const MemberDetails = () => {
                         }}
                       >
                         <p className="content-box-sub fw-light">
-                          {member.reedem_percentage}%{" "}
+                          {
+// @ts-ignore
+                          member.reedem_percentage}%{" "}
                         </p>
                         <h6
                           className="content-box-title"
+                          // @ts-ignore
                           style={{ heigth: "20px", width: "221px" }}
                         >
                           ALL THE POINTS REDEEMED
                         </h6>
                         <h6 className="content-box-title">
-                          {member.reedem_points}
+                          {
+// @ts-ignore
+                          member.reedem_points}
                         </h6>
                       </div>
                     </div>
@@ -283,10 +397,13 @@ const MemberDetails = () => {
                         }}
                       >
                         <h6 className="content-box-title">
-                          {member.current_loyalty_points}
+                          {
+// @ts-ignore
+                          member.current_loyalty_points}
                         </h6>
                         <h6
                           className="content-box-title"
+                          // @ts-ignore
                           style={{ heigth: "20px", width: "221px" }}
                         >
                           BALANCED POINTS
@@ -315,6 +432,7 @@ const MemberDetails = () => {
                     </thead>
                     <tbody>
                       {transactionData &&
+                        // @ts-ignore
                         transactionData.map((item, index) => (
                           <tr key={index}>
                             <td

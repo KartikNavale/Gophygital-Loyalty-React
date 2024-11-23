@@ -134,7 +134,7 @@ const NewTier = () => {
         >
           <p className="pointer">
             <Link to={'/tiers'}>
-            <span className="text-secondary">Tiers</span>
+            <span>Tiers</span>
             </Link>{" "}
              &gt; Tier Setting
           </p>
@@ -177,7 +177,7 @@ const NewTier = () => {
       {step === 2 && (
         <div className="module-data-section mt-2" style={{ height: "85%" }}>
           <p className="pointer">
-            <span className="text-secondary">Tier</span> &gt; New Tier
+            <span>Tier</span> &gt; New Tier
           </p>
           <h5 className="mb-3">
             <span className="title">New Tier</span>
@@ -374,7 +374,7 @@ const NewTier = () => {
                                     width="16"
                                     height="16"
                                     fill="currentColor"
-                                    class="bi bi-x"
+                                    className="bi bi-x"
                                     viewBox="0 0 16 16"
                                   >
                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />

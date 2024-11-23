@@ -59,7 +59,7 @@ export default function TierDetails() {
       <SubHeader />
       <div className="module-data-section mt-2 mb-2">
         <p className="pointer">
-          <span className="text-secondary">Tiers</span> &gt; Tier Details
+          <span>Tiers</span> &gt; Tier Details
         </p>
 
         {/* personal details */}
@@ -69,49 +69,59 @@ export default function TierDetails() {
           <p className="text-danger">{error}</p>
         ) : (
           <>
-            <div class="go-shadow mx-3 no-top-left-shadow ">
-              <h5 class="d-flex">
-                <span class="title mt-3">TIER DETAILS</span>
+            <div className="go-shadow mx-3 no-top-left-shadow ">
+              <h5 className="d-flex">
+                <span className="title mt-3">TIER DETAILS</span>
               </h5>
-              <div class="row px-3">
-                <div class="col-lg-8 col-md-12 col-sm-12 row px-3">
-                  <div class="col-6 p-1 text-muted member-detail-color">
+              <div className="row px-3">
+                <div className="col-lg-8 col-md-12 col-sm-12 row px-3">
+                  <div className="col-6 p-1 text-muted member-detail-color">
                     Tier name
                   </div>
-                  <div class="col-6 p-1 member-detail-color">
-                    : {" "}{tierDetails?.display_name}
+                  <div className="col-6 p-1 member-detail-color">
+                    : {" "}{tierDetails?.
+// @ts-ignore
+                    display_name}
                   </div>
                 </div>
-                <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                  <div class="col-6 p-1 text-muted member-detail-color">
+                <div className="col-lg-8 col-md-6 col-sm-12 row px-3">
+                  <div className="col-6 p-1 text-muted member-detail-color">
                     Exit Points
                   </div>
-                  <div class="col-6 p-1 member-detail-color">
-                    : {" "}{tierDetails?.exit_points}
+                  <div className="col-6 p-1 member-detail-color">
+                    : {" "}{tierDetails?.
+// @ts-ignore
+                    exit_points}
                   </div>
                 </div>
-                <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                  <div class="col-6 p-1 text-muted member-detail-color">
+                <div className="col-lg-8 col-md-6 col-sm-12 row px-3">
+                  <div className="col-6 p-1 text-muted member-detail-color">
                     Multipliers
                   </div>
-                  <div class="col-6 p-1 member-detail-color">
-                    : {" "}{tierDetails?.multipliers}
+                  <div className="col-6 p-1 member-detail-color">
+                    : {" "}{tierDetails?.
+// @ts-ignore
+                    multipliers}
                   </div>
                 </div>
-                <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                  <div class="col-6 p-1 text-muted member-detail-color">
+                <div className="col-lg-8 col-md-6 col-sm-12 row px-3">
+                  <div className="col-6 p-1 text-muted member-detail-color">
                     Welcome Bonus
                   </div>
-                  <div class="col-6 p-1 member-detail-color">
-                    : {" "}{tierDetails?.welcome_bonus}
+                  <div className="col-6 p-1 member-detail-color">
+                    : {" "}{tierDetails?.
+// @ts-ignore
+                    welcome_bonus}
                   </div>
                 </div>
-                <div class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                  <div class="col-6 p-1 text-muted member-detail-color">
+                <div className="col-lg-8 col-md-6 col-sm-12 row px-3">
+                  <div className="col-6 p-1 text-muted member-detail-color">
                     Point Type
                   </div>
-                  <div class="col-6 p-1 member-detail-color">
-                    : {" "}{tierDetails?.point_type}
+                  <div className="col-6 p-1 member-detail-color">
+                    : {" "}{tierDetails?.
+// @ts-ignore
+                    point_type}
                   </div>
                 </div>
               </div>

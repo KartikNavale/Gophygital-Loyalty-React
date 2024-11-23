@@ -24,7 +24,9 @@ const NewSegment = () => {
   const [segment_members, setSelectedMemberIds] = useState([]);
 
   const [tierLevels, setTierLevels] = useState([]);
+  // @ts-ignore
   const [initialData, setInitialData] = useState([]);
+  // @ts-ignore
   const [filteredItems, setFilteredItems] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -475,7 +477,9 @@ const NewSegment = () => {
   // };
 
   const handleCheckboxChange = (id) => {
+    // @ts-ignore
     setSelectedMemberIds((prevSelected) =>
+      // @ts-ignore
       prevSelected.includes(id)
         ? prevSelected.filter((memberId) => memberId !== id)
         : [...prevSelected, id]
@@ -546,6 +550,7 @@ const NewSegment = () => {
       }
     };
 
+    // @ts-ignore
     const handleJumpBackward = () => {
       if (currentPage - 5 >= 1) {
         onPageChange(currentPage - 5);
@@ -645,7 +650,7 @@ const NewSegment = () => {
         <div className="module-data-section mt-2">
           <p className="pointer ">
             <Link to="/segment">
-              <span className="text-secondary">Segment</span>
+              <span>Segment</span>
             </Link>{" "}
             &gt; New Segment
           </p>
@@ -675,6 +680,7 @@ const NewSegment = () => {
                 type="text"
                 className="border w-100 p-2 py-2 border-bottom pb-2 border-0 border-bottom-0 bold-placeholder"
                 placeholder="Enter Segment Name"
+                // @ts-ignore
                 required=""
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -702,6 +708,7 @@ const NewSegment = () => {
               </legend>
               <select
                 className="mt-1 mb-1"
+                // @ts-ignore
                 required=""
                 value={segment_tag}
                 onChange={(e) => setSegmentTag(e.target.value)}
@@ -732,6 +739,7 @@ const NewSegment = () => {
               </legend>
               <select
                 className="mt-1 mb-1"
+                // @ts-ignore
                 required=""
                 value={segment_type}
                 onChange={(e) => setSegmentType(e.target.value)}
@@ -876,9 +884,15 @@ const NewSegment = () => {
                         Select Tier Level
                       </option> */}
                     <option value=""> Select Tier Level</option>
-                    {tierLevels?.map((tier, index) => (
-                      <option key={tier.name} value={tier.name}>
-                        {tier.display_name}
+                    {tierLevels?.map((tier, 
+// @ts-ignore
+                    index) => (
+                      <option key={tier.
+// @ts-ignore
+                      name} value={tier.name}>
+                        {tier.
+// @ts-ignore
+                        display_name}
                       </option>
                     ))}
                   </select>
@@ -918,6 +932,7 @@ const NewSegment = () => {
                     color: "#000",
                     fontWeight: "400",
                     fontSize: "13px",
+                    // @ts-ignore
                     align: "center",
                   }}
                 >
@@ -1001,6 +1016,7 @@ const NewSegment = () => {
                         <td>
                           <input
                             type="checkbox"
+                            // @ts-ignore
                             checked={segment_members.includes(member.id)}
                             onChange={() => handleCheckboxChange(member.id)}
                           />

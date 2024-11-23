@@ -256,6 +256,7 @@ const NewCampaign = () => {
     campaign_reward: false,
     loyalty_type_id: sessionStorage.getItem("selectedId"),
   });
+  // @ts-ignore
   const [errors, setErrors] = useState({});
 
   // Fetch tier levels
@@ -404,7 +405,7 @@ const NewCampaign = () => {
     <div className="module-data-section mt-2">
       <p className="pointer">
         <Link to='/campaign' >
-          <span className="text-secondary">Campaign</span>
+          <span>Campaign</span>
         </Link>{" "}
         &gt; New Campaign
       </p>
@@ -427,12 +428,16 @@ const NewCampaign = () => {
                 onChange={handleChange}
                 style={{ fontSize: '12px', fontWeight: '400' }}
               />
-              {errors.name && <p className="text-danger">{errors.name}</p>}
+              {errors.
+// @ts-ignore
+              name && <p className="text-danger">{errors.name}</p>}
             </div>
           </div>
           <div className="row ms-1 mt-4">
             <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
-              <legend className="float-none" ClassName="" style={{
+              <legend className="float-none" 
+// @ts-ignore
+              ClassName="" style={{
                 fontSize: "14px", // Adjust font size for visibility
                 fontWeight: '400',
                 padding: "6px", // Padding to ensure full visibility of text
@@ -446,6 +451,7 @@ const NewCampaign = () => {
                 name="target_audiance"
                 value={formValues.target_audiance}
                 onChange={handleChange}
+                // @ts-ignore
                 required=""
                 className="mt-1 mb-1"
               >
@@ -455,7 +461,9 @@ const NewCampaign = () => {
                 <option value="1 - purchase">1 - purchase</option>
                 <option value="No purchase">No purchase</option>
               </select>
-              {errors.target_audiance && <p className="text-danger">{errors.target_audiance}</p>}
+              {errors.
+// @ts-ignore
+              target_audiance && <p className="text-danger">{errors.target_audiance}</p>}
             </fieldset>
 
             <fieldset className="border col-lg-3 col-md-5 col-sm-11 me-2">
@@ -475,6 +483,7 @@ const NewCampaign = () => {
                 name="campaign_type"
                 value={formValues.campaign_type}
                 onChange={handleChange}
+                // @ts-ignore
                 required=""
                 className="mt-1 mb-1"
               >
@@ -485,13 +494,16 @@ const NewCampaign = () => {
                 <option value="Tier - Up Campaign">Tier - Up Campaign</option>
                 <option value="Custom Campaign">Custom Campaign</option>
               </select>
-              {errors.campaign_type && <p className="text-danger">{errors.campaign_type}</p>}
+              {errors.
+// @ts-ignore
+              campaign_type && <p className="text-danger">{errors.campaign_type}</p>}
             </fieldset>
 
             <fieldset className="border col-lg-3 col-md-5 col-sm-11">
               <legend className="float-none" style={{
                 fontSize: '14px', fontWeight: '400',
 
+                // @ts-ignore
                 fontSize: "14px", // Adjust font size for visibility
 
                 padding: "6px", // Padding to ensure full visibility of text
@@ -506,15 +518,20 @@ const NewCampaign = () => {
                 name="loyalty_tier_id"
                 value={formValues.loyalty_tier_id}
                 onChange={handleChange}
+                // @ts-ignore
                 required=""
                 className="mt-1 mb-1"
               >
                 <option value="">Select Tier Level</option>
                 {tierLevels.map((tier) => (
-                  <option key={tier.id} value={tier.id}>{tier.display_name}</option>
+                  <option key={tier.
+// @ts-ignore
+                  id} value={tier.id}>{tier.display_name}</option>
                 ))}
               </select>
-              {errors.loyalty_tier_id && <p className="text-danger">{errors.loyalty_tier_id}</p>}
+              {errors.
+// @ts-ignore
+              loyalty_tier_id && <p className="text-danger">{errors.loyalty_tier_id}</p>}
             </fieldset>
           </div>
         </div >

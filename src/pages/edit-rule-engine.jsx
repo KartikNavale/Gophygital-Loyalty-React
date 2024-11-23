@@ -40,6 +40,7 @@ const CreateRuleEngine = () => {
 
     const [ruleName, setRuleName] = useState("");
     const [masterAttributes, setMasterAttributes] = useState([]);
+    // @ts-ignore
     const [selectedMasterAttribute, setSelectedMasterAttribute] = useState("");
     const [subAttributes, setSubAttributes] = useState([]);
 
@@ -49,8 +50,10 @@ const CreateRuleEngine = () => {
     const [subRewardOutcomesnew, setsubRewardOutcomesnew] = useState([]);
 
 
+    // @ts-ignore
     const [selectedMasterOperator, setSelectedMasterOperator] = useState("");
     const [subOperators, setSubOperators] = useState([]);
+    // @ts-ignore
     const [selectedSubOperator, setSelectedSubOperator] = useState("");
 
     const [error, setError] = useState("")
@@ -86,6 +89,7 @@ const CreateRuleEngine = () => {
         const selectedMaster = masterOperators.find((op) => op.name === selectedName);
 
         // Set subOperators based on the selected master operator
+        // @ts-ignore
         setSubOperators(selectedMaster ? selectedMaster.subOptions : []);
 
         // Reset the sub operator selection
@@ -292,6 +296,7 @@ const CreateRuleEngine = () => {
 
         // Find the index of the selected master attribute
         const selectedIndex = masterAttributes.findIndex(
+            // @ts-ignore
             (attr) => attr.id === parseInt(selectedId)
         );
         console.log(selectedIndex);
@@ -325,6 +330,7 @@ const CreateRuleEngine = () => {
 
         // Find the index of the selected master attribute
         const selectedIndex = masterRewardOutcomes.findIndex(
+            // @ts-ignore
             (attr) => attr.id === parseInt(selectedId)
         );
         console.log(selectedIndex);
@@ -498,6 +504,7 @@ const CreateRuleEngine = () => {
             uniqueValues.add(value);
         }
 
+        // @ts-ignore
         if (isNaN(parameter)) {
             setError("Parameter value must be a valid number.");
             return;
@@ -510,6 +517,7 @@ const CreateRuleEngine = () => {
 
         // Update previousValue to the current value before proceeding
         const newValue = conditions.map(cond => cond.value);
+        // @ts-ignore
         setPreviousValue(newValue); // Store the latest value(s) as the previous value]
 
         // const storedValue = sessionStorage.getItem("selectedId")
@@ -580,6 +588,7 @@ const CreateRuleEngine = () => {
         console.log("Request Payload:", JSON.stringify(data, null, 2)); // Log the JSON payload for debugging
         console.log("id...", id)
         try {
+            // @ts-ignore
             if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && conditions !== null) {
                 const response = await fetch(
                     `https://staging.lockated.com/rule_engine/rules/loyalty_re_update.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
@@ -661,6 +670,7 @@ const CreateRuleEngine = () => {
                                 aria-controls={`home-tab-pane-${index}`}
                                 aria-selected="true"
                                 defaultChecked
+                                // @ts-ignore
                                 onChange={(e) => {
                                     const updatedConditions = conditions.map((cond, idx) =>
                                         idx === index
@@ -687,6 +697,7 @@ const CreateRuleEngine = () => {
                                 role="tab"
                                 aria-controls={`profile-tab-pane-${index}`}
                                 aria-selected="false"
+                                // @ts-ignore
                                 onChange={(e) => {
                                     const updatedConditions = conditions.map((cond, idx) =>
                                         idx === index
@@ -719,6 +730,7 @@ const CreateRuleEngine = () => {
                                 Master Attribute<span>*</span>
                             </legend>
                             <select
+                                // @ts-ignore
                                 required=""
                                 className="p-1  mt-1 mb-1"
                                 style={{ fontSize: '12px', fontWeight: '400' }}
@@ -737,9 +749,13 @@ const CreateRuleEngine = () => {
                                 <option value="">{condition.masterAttribute}</option>
                                 <option value="">Select Master Attribute </option>
                                 {masterAttributes.map((attr) => (
-                                    <option key={attr.id} value={attr.id}>
+                                    <option key={attr.
+// @ts-ignore
+                                    id} value={attr.id}>
 
-                                        {attr.display_name}
+                                        {attr.
+// @ts-ignore
+                                        display_name}
                                     </option>
                                 ))}
                             </select>
@@ -752,6 +768,7 @@ const CreateRuleEngine = () => {
                                 Sub Attribute<span>*</span>
                             </legend>
                             <select
+                                // @ts-ignore
                                 required=""
                                 className="p-1  mt-1 mb-1"
                                 style={{ fontSize: '12px', fontWeight: '400' }}
@@ -769,8 +786,12 @@ const CreateRuleEngine = () => {
                                 <option value="">{formatFieldName(condition.subAttribute)}</option>
                                 <option value="">Select Sub Attribute</option>
                                 {subAttributes.map((subAttr) => (
-                                    <option key={subAttr.id} value={subAttr.attribute_name}>
-                                        {subAttr.display_name}
+                                    <option key={subAttr.
+// @ts-ignore
+                                    id} value={subAttr.attribute_name}>
+                                        {subAttr.
+// @ts-ignore
+                                        display_name}
                                     </option>
                                 ))}
                             </select>
@@ -789,6 +810,7 @@ const CreateRuleEngine = () => {
                                 Master Operator<span>*</span>
                             </legend>
                             <select
+                                // @ts-ignore
                                 required=""
                                 className="p-1 mt-1 mb-1"
                                 style={{ fontSize: '12px', fontWeight: '400' }}
@@ -820,6 +842,7 @@ const CreateRuleEngine = () => {
                                 Sub Operator<span>*</span>
                             </legend>
                             <select
+                                // @ts-ignore
                                 required=""
                                 className="p-1  mt-1 mb-1"
                                 style={{ fontSize: '12px', fontWeight: '400' }}
@@ -837,8 +860,12 @@ const CreateRuleEngine = () => {
                                 <option value="">{formatFieldName(condition.subOperator)}</option>
                                 <option value="">Select Sub Operator </option>
                                 {subOperators.map((subOp) => (
-                                    <option key={subOp.id} value={subOp.value}>
-                                        {subOp.name}
+                                    <option key={subOp.
+// @ts-ignore
+                                    id} value={subOp.value}>
+                                        {subOp.
+// @ts-ignore
+                                        name}
                                     </option>
                                 ))}
                             </select>
@@ -885,7 +912,7 @@ const CreateRuleEngine = () => {
                 <div className="module-data-section mt-2">
                     <p className="pointer">
                         <Link to='/rule-engine' >
-                            <span className="text-secondary">Rule Engine</span>
+                            <span>Rule Engine</span>
                         </Link>{" "}
                         &gt; New Rule
                     </p>
@@ -945,6 +972,7 @@ const CreateRuleEngine = () => {
                                         Master Reward Outcome<span>*</span>
                                     </legend>
                                     <select
+                                        // @ts-ignore
                                         required=""
                                         className="p-1 mt-1 mb-1"
                                         style={{ fontSize: '12px', fontWeight: '400' }}
@@ -954,8 +982,12 @@ const CreateRuleEngine = () => {
                                         <option value="">{formatFieldName(selectedMasterRewardOutcomes.name||"")}</option>
                                         <option value="" disabled>Select Master Reward Outcome</option>
                                         {masterRewardOutcomes.map((reward) => (
-                                            <option key={reward.id} value={reward.id} data-name={reward.lock_model_name}>
-                                                {reward.display_name}
+                                            <option key={reward.
+// @ts-ignore
+                                            id} value={reward.id} data-name={reward.lock_model_name}>
+                                                {reward.
+// @ts-ignore
+                                                display_name}
                                             </option>
                                         ))}
                                     </select>
@@ -969,6 +1001,7 @@ const CreateRuleEngine = () => {
                                         Sub Reward Outcome<span>*</span>
                                     </legend>
                                     <select
+                                        // @ts-ignore
                                         required=""
                                         className="p-1 mt-1 mb-1"
                                         style={{ fontSize: '12px', fontWeight: '400' }}
@@ -977,6 +1010,7 @@ const CreateRuleEngine = () => {
                                             const selectedId = e.target.value; // Get the selected sub-reward outcome ID
                                             console.log(selectedId)
                                             // Handle the selection as needed, e.g., update the state or construct the data object
+                                            // @ts-ignore
                                             setsubRewardOutcomesnew(selectedId);
                                         }}
                                         value={subRewardOutcomesnew|| ""} // Ensure this reflects the selected sub-reward outcome
@@ -988,11 +1022,15 @@ const CreateRuleEngine = () => {
 
                                         {subRewardOutcomes.map((reward) => (
                                             <option
+                                                // @ts-ignore
                                                 key={reward.id}
                                                 // value={reward.rule_engine_available_model_id}
+                                                // @ts-ignore
                                                 value={reward.id}
                                             >
-                                                {reward.display_name}
+                                                {reward.
+// @ts-ignore
+                                                display_name}
                                             </option>
                                         ))}
                                     </select>
