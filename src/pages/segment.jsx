@@ -24,6 +24,7 @@ const Segment = () => {
   const [filteredItems, setFilteredItems] = useState([]); //filter
   const [suggestions, setSuggestions] = useState([]); // To store the search suggestions
   const [totalEntries, setTotalEntries] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(-1); 
 
 
   const navigate = useNavigate();
@@ -53,25 +54,60 @@ const handleEditClick = (segment) => {
     };
   
     // Handle search input change
+    // const handleSearchInputChange = (e) => {
+    //   const term = e.target.value;
+    //   setSearchTerm(term);
+  
+    //   // If there's a search term, filter the members and show suggestions
+    //   if (term) {
+    //     const filteredSuggestions = segments.filter(
+    //       (member) =>
+    //         // @ts-ignore
+    //         `${member.name}`
+    //           .toLowerCase()
+    //           .includes(term.toLowerCase())
+    //     );
+    //     // @ts-ignore
+    //     setSuggestions(filteredSuggestions); // Update suggestions list
+    //     setSelectedIndex(-1); // Reset the selected index
+    //   } else {
+    //     setSuggestions([]); // Clear suggestions when input is empty
+    //   }
+    // };
+
     const handleSearchInputChange = (e) => {
       const term = e.target.value;
       setSearchTerm(term);
   
-      // If there's a search term, filter the members and show suggestions
       if (term) {
-        const filteredSuggestions = segments.filter(
-          (member) =>
-            // @ts-ignore
-            `${member.name}`
-              .toLowerCase()
-              .includes(term.toLowerCase())
+        const filteredSuggestions = segments.filter((member) =>
+          member.name.toLowerCase().includes(term.toLowerCase())
         );
-        // @ts-ignore
-        setSuggestions(filteredSuggestions); // Update suggestions list
+        setSuggestions(filteredSuggestions);
       } else {
-        setSuggestions([]); // Clear suggestions when input is empty
+        setSuggestions([]);
+      }
+  
+      setSelectedIndex(-1); // Reset selected index on new input
+    };
+  
+
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowDown") {
+        setSelectedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : prev
+        );
+      } else if (e.key === "ArrowUp") {
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+      } else if (e.key === "Enter" && selectedIndex >= 0) {
+        const selectedItem = suggestions[selectedIndex];
+        setSearchTerm(selectedItem.name); // Set search term
+        setSuggestions([]); // Clear suggestions
       }
     };
+  
+
+
   
     const handleSuggestionClick = (member) => {
       setSearchTerm(`${member.name}`);
@@ -446,23 +482,23 @@ const handleEditClick = (segment) => {
 return (
   <>
     <div className="w-100">
-      <SubHeader />
+      <SubHeader />  
       <div className="module-data-section mt-2">
         <p className="pointer">
           <span>Segment</span> &gt; Segment List
         </p>
-        <h5>Segment</h5>
+        <h5>Segment</h5>  
 
         {/* Top Section for Buttons */}
-        <div className="d-flex justify-content-between loyalty-header mb-3">
+        <div className="d-flex justify-content-between loyalty-header mb-3"> 
           <div>
-            <Link to="/new-segment">
+            <Link to="/new-segment">  
               <button
                 className="purple-btn1 px-3 rounded-1"
-                style={{ paddingRight: "50px" }}
-              >
+                style={{ paddingRight: "50px" }} 
+              >  
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns="http://www.w3.org/2000/svg" 
                   width="19"
                   height="19"
                   fill="currentColor"
@@ -491,6 +527,7 @@ return (
                   aria-label="Search"
                   value={searchTerm}
                   onChange={handleSearchInputChange}
+                  onKeyDown={handleKeyDown} 
                 />
                 <div
                   className="position-absolute"
@@ -507,7 +544,7 @@ return (
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                   </svg>
                 </div>
-                {suggestions.length > 0 && (
+                {/* {suggestions.length > 0 && (
                   <ul
                     className="suggestions-list position-absolute"
                     style={{
@@ -539,7 +576,41 @@ return (
                       </li>
                     ))}
                   </ul>
-                )}
+                )} */}
+
+{suggestions.length > 0 && (
+                    <ul
+                      className="suggestions-list position-absolute"
+                      style={{
+                        listStyle: "none",
+                        padding: "0",
+                        marginTop: "5px",
+                        border: "1px solid #ddd",
+                        maxHeight: "200px",
+                        overflowY: "auto",
+                        width: "100%",        // Match width of input field
+                        zIndex: 1,             // Ensure it appears on top of other elements
+                        backgroundColor: "#fff", // Set solid background color
+                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
+                      }}
+                    >
+                      {suggestions.map((member,index) => (
+                        <li
+                          // @ts-ignore
+                          key={member.id}
+                          style={{
+                            padding: "8px",
+                            cursor: "pointer",
+                          }}
+                          className={selectedIndex === index ? "highlight" : ""}
+                          onClick={() => handleSuggestionClick(member)}
+                        >
+                          {member.
+                          name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
               </div>
             </div>
 
