@@ -3535,14 +3535,15 @@ input[type="number"] {
   position: relative;
   width: 18px;
   height: 18px;
-  border: 1px solid #8B0203 !important;
+  border: 2px solid #8B0203 !important;
   border-radius: 4px;
   /* transition: border-color 0.3s ease, background-color 0.3s ease; */
 }
 
 .custom-checkbox:checked {
-  border-color: #8B0203; /* Border color when checked */
+  border-color: #8B0203 !important; /* Border color when checked */
   background-color:  #5e2750!important; /* Background color when checked */
+  /* border: 2px solid; */
 }
 
 
@@ -3583,4 +3584,10 @@ input[type="number"] {
 
 
 /*  */
+
+/* for search bar campaign  */
+.highlight {
+  background-color: #F6EFF4;
+  cursor: pointer;
+}
 

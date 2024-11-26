@@ -23,7 +23,6 @@ const RuleEngine = () => {
   const [subAttributes, setSubAttributes] = useState([]);
   const [selectedMasterAttribute, setSelectedMasterAttribute] = useState("");
   const [selectedSubAttribute, setSelectedSubAttribute] = useState("");
-  // @ts-ignore
   const [formValues, setFormValues] = useState({
     name: "",
     masterAttribute: "",
@@ -33,6 +32,7 @@ const RuleEngine = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]); //filter
   const [suggestions, setSuggestions] = useState([]); // To store the search suggestions
+  const [selectedIndex, setSelectedIndex] = useState(-1); // Track the selected suggestion index
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -64,7 +64,7 @@ const RuleEngine = () => {
       .replace(/::/g, ' ')          // Replace :: with spaces
       .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
   };
-  
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -188,20 +188,39 @@ const RuleEngine = () => {
     // If there's a search term, filter the members and show suggestions
     if (term) {
       const filteredSuggestions = RuleEngine.filter((member) =>
-        // @ts-ignore
+        
         `${member.name}`.toLowerCase().includes(term.toLowerCase())
       );
-      // @ts-ignore
+     
       setSuggestions(filteredSuggestions); // Update suggestions list
+      setSelectedIndex(-1); // Reset the selected index
     } else {
       setSuggestions([]); // Clear suggestions when input is empty
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      // Move down in the suggestion list
+      setSelectedIndex((prev) =>
+        prev < suggestions.length - 1 ? prev + 1 : prev
+      );
+    } else if (e.key === "ArrowUp") {
+      // Move up in the suggestion list
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+    } else if (e.key === "Enter" && selectedIndex >= 0) {
+      // Select the current suggestion
+      const selectedItem = suggestions[selectedIndex];
+      // handleSuggestionClick(selectedMember);
+      setSearchTerm(selectedItem.name); // Update search term
+        setFilteredItems([selectedItem]); // Filter items
+        setSuggestions([]); // Clear suggestions
     }
   };
 
   const handleSuggestionClick = (member) => {
     setSearchTerm(`${member.name}`);
     setSuggestions([]); // Clear suggestions after selection
-    // @ts-ignore
     setFilteredItems([member]); // Optionally, filter to show the selected member
   };
 
@@ -327,9 +346,8 @@ const RuleEngine = () => {
           ))}
 
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -341,9 +359,8 @@ const RuleEngine = () => {
             </button>
           </li>
           <li
-            className={`page-item ${
-              currentPage === totalPages ? "disabled" : ""
-            }`}
+            className={`page-item ${currentPage === totalPages ? "disabled" : ""
+              }`}
           >
             <button
               className="page-link"
@@ -405,7 +422,7 @@ const RuleEngine = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/create-rule-engine">
-              <button className="purple-btn1" style={{ borderRadius: "5px",paddingRight: "50px" }}>
+              <button className="purple-btn1" style={{ borderRadius: "5px", paddingRight: "50px" }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -485,6 +502,7 @@ const RuleEngine = () => {
                       aria-label="Search"
                       value={searchTerm}
                       onChange={handleSearchInputChange}
+                      onKeyDown={handleKeyDown}
                     />
                     <div
                       className="position-absolute"
@@ -517,7 +535,7 @@ const RuleEngine = () => {
                           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
                         }}
                       >
-                        {suggestions.map((member) => (
+                        {suggestions.map((member,index) => (
                           <li
                             // @ts-ignore
                             key={member.id}
@@ -525,11 +543,10 @@ const RuleEngine = () => {
                               padding: "8px",
                               cursor: "pointer",
                             }}
+                            className={selectedIndex === index ? "highlight" : ""}
                             onClick={() => handleSuggestionClick(member)}
                           >
-                            {member.
-// @ts-ignore
-                            name}
+                            {member.name}
                           </li>
                         ))}
                       </ul>
@@ -626,7 +643,7 @@ const RuleEngine = () => {
                           <td style={{ width: "10%" }}>
                             {/* Common Operatives */}
                             {condition.master_operator}
-                            
+
                           </td>
                           <td style={{ width: "10%" }}>{formatFieldName(condition.operator)}</td>
                           {actions.length > 0 ? (
@@ -649,16 +666,27 @@ const RuleEngine = () => {
                             </>
                           )}
                           <td style={{ width: "10%" }}>
-                            <span className="form-switch ps-5">
+                            {/* <span className="form-switch ps-5">
                               <input
                                 className="on-off-toggler form-check-input my-2"
                                 type="checkbox"
                                 checked={active}
                                 onChange={(e) =>
                                   handleToggle(id, e.target.checked)
-                                } // Handle toggle change
+                                }  Handle toggle change
                               />
-                            </span>
+                            </span> */}
+                            <div className="form-check form-switch mt-1">
+                              <input
+                                className="form-check-input custom-checkbox"
+                                type="checkbox"
+                                role="switch"
+                                checked={active}
+                                onChange={(e) =>
+                                  handleToggle(id, e.target.checked)
+                                }  //Handle toggle change
+                              />
+                            </div>
                           </td>
                           <td style={{ width: "10%" }}>
                             <Link to={`/edit-rule-engine/${id}`}>
@@ -762,12 +790,8 @@ const RuleEngine = () => {
                         Select Master Attribute
                       </option>
                       {masterAttributes.map((attr) => (
-                        <option key={attr.
-// @ts-ignore
-                        id} value={attr.id}>
-                          {attr.
-// @ts-ignore
-                          display_name}
+                        <option key={attr.id} value={attr.id}>
+                          {attr.display_name}
                         </option>
                       ))}
                     </select>
@@ -780,7 +804,7 @@ const RuleEngine = () => {
                       Sub Attribute<span>*</span>
                     </legend>
                     <select
-                      // @ts-ignore
+                     
                       required=""
                       className="mt-1 mb-1"
                       style={{ fontSize: "12px", fontWeight: "400" }}
@@ -793,12 +817,8 @@ const RuleEngine = () => {
                       </option>
 
                       {subAttributes.map((subAttr) => (
-                        <option key={subAttr.
-// @ts-ignore
-                        id} value={subAttr.attribute_name}>
-                          {subAttr.
-// @ts-ignore
-                          display_name}
+                        <option key={subAttr.id} value={subAttr.attribute_name}>
+                          {subAttr.display_name}
                         </option>
                       ))}
                     </select>

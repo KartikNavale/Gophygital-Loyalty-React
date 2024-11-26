@@ -16,6 +16,7 @@ const Members = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]); //filter
   const [suggestions, setSuggestions] = useState([]); // To store the search suggestions
+  const [selectedIndex, setSelectedIndex] = useState(-1); // Track the selected suggestion index
 
 
   const formatDate = (dateString) => {
@@ -73,14 +74,6 @@ const Members = () => {
     }
   }, []); // Run only once on component mount
 
-  // const handleSearch = () => {
-  //   const filtered = members.filter(member =>
-  //     `${member.firstname} ${member.lastname}`.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  //   setFilteredItems(filtered);
-  //   setCurrentPage(1); // Reset to first page after search
-  // };
-
   const handleReset = () => {
     setSearchTerm("");
     setFilteredItems(members);
@@ -90,10 +83,10 @@ const Members = () => {
   // Handle search submission (e.g., when pressing 'Go!')
   const handleSearch = () => {
     const filtered = members.filter((member) =>
-      // @ts-ignore
+
       `${member.firstname} ${member.lasttname}`.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    // @ts-ignore
+
     setFilteredItems(filtered);
     setCurrentPage(1); // Reset to the first page of results
     setSuggestions([]); // Clear suggestions after searching
@@ -109,17 +102,38 @@ const Members = () => {
     if (term) {
       const filteredSuggestions = members.filter(
         (member) =>
-          // @ts-ignore
+          
           `${member.firstname} ${member.lasttname}`
             .toLowerCase()
             .includes(term.toLowerCase())
       );
-      // @ts-ignore
+      
       setSuggestions(filteredSuggestions); // Update suggestions list
+      setSelectedIndex(-1); // Reset the selected index
     } else {
       setSuggestions([]); // Clear suggestions when input is empty
     }
   };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      // Move down in the suggestion list
+      setSelectedIndex((prev) =>
+        prev < suggestions.length - 1 ? prev + 1 : prev
+      );
+    } else if (e.key === "ArrowUp") {
+      // Move up in the suggestion list
+      setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+    } else if (e.key === "Enter" && selectedIndex >= 0) {
+      // Select the current suggestion
+      const selectedItem = suggestions[selectedIndex];
+      // handleSuggestionClick(selectedMember);
+      setSearchTerm(`${selectedItem.firstname} ${selectedItem.lasttname}`); // Update search term
+      setFilteredItems([selectedItem]); // Filter items
+      setSuggestions([]); // Clear suggestions
+    }
+  };
+
 
   const handleSuggestionClick = (member) => {
     setSearchTerm(`${member.firstname} ${member.lasttname}`);
@@ -129,14 +143,6 @@ const Members = () => {
   };
 
 
-  // Pagination logic
-
-
-  // const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  // const currentItems = filteredItems.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
 
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
@@ -203,7 +209,6 @@ const Members = () => {
       }
     };
 
-    // @ts-ignore
     const handleJumpBackward = () => {
       if (currentPage - 5 >= 1) {
         onPageChange(currentPage - 5);
@@ -342,6 +347,7 @@ const Members = () => {
                     aria-label="Search"
                     value={searchTerm}
                     onChange={handleSearchInputChange}
+                    onKeyDown={handleKeyDown}
                   />
                   <div
                     className="position-absolute"
@@ -374,7 +380,7 @@ const Members = () => {
                         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
                       }}
                     >
-                      {suggestions.map((member) => (
+                      {suggestions.map((member, index) => (
                         <li
                           // @ts-ignore
                           key={member.id}
@@ -382,11 +388,10 @@ const Members = () => {
                             padding: "8px",
                             cursor: "pointer",
                           }}
+                          className={selectedIndex === index ? "highlight" : ""}
                           onClick={() => handleSuggestionClick(member)}
                         >
-                          {member.
-// @ts-ignore
-                          firstname} {member.lasttname}
+                          {member.firstname} {member.lasttname}
                         </li>
                       ))}
                     </ul>
@@ -475,9 +480,6 @@ const Members = () => {
                     ))}
                   </tbody>
                 </table>
-
-                {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} /> */}
-
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
