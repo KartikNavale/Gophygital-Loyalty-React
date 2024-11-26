@@ -318,9 +318,9 @@ const EditSegment = () => {
       <ToastContainer />
       <form onSubmit={handleSubmit}>
         <div className="module-data-section mt-2 ms-3 ">
-          <p className="pointer ">
+          <p className="pointer">
             <Link to="/segment">
-              <span>Segment</span>
+              <span className=" text-dark font-weight-bold ">Segment</span>
             </Link>{" "}
             &gt; Edit Segment
           </p>

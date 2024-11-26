@@ -650,7 +650,7 @@ const NewSegment = () => {
         <div className="module-data-section mt-2">
           <p className="pointer ">
             <Link to="/segment">
-              <span>Segment</span>
+              <span className=" text-dark font-weight-bold ">Segment</span>
             </Link>{" "}
             &gt; New Segment
           </p>
