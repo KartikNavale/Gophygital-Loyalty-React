@@ -6,6 +6,7 @@ import SubHeader from "../components/SubHeader";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from "../Confi/baseurl";
 
 const Segment = () => {
   const [segments, setSegments] = useState([]);
@@ -127,7 +128,7 @@ const handleEditClick = (segment) => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         // `https://staging.lockated.com/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&page=${page}&per_page=${itemsPerPage}&&q[loyalty_type_id_eq]=${storedValue}`
       );
 

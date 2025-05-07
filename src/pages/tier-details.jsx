@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
+import BASE_URL from "../Confi/baseurl";
 
 export default function TierDetails() {
   const { id } = useParams();
@@ -24,7 +25,7 @@ export default function TierDetails() {
   const getMemberDetails = async (id) => {
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/tiers/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/tiers/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       const formattedMember = {

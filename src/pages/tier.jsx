@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
+import BASE_URL from "../Confi/baseurl";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Tier Name is required"),
@@ -43,7 +44,7 @@ const Tiers = () => {
   const fetchTiers = async () => {
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
       if (response && response.data) {
         setTiers(response.data);
@@ -71,7 +72,7 @@ const Tiers = () => {
       try {
         const response = await axios.put(
           // @ts-ignore
-          `https://staging.lockated.com/loyalty/tiers/${selectedTier.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+          `${BASE_URL}/loyalty/tiers/${selectedTier.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
           { loyalty_tier: values },
           { headers: { "Content-Type": "application/json" } }
         );

@@ -15,6 +15,7 @@ import {
 } from "../Confi/ruleEngineApi";
 
 import { masterOperators } from './operatorsData'; // Import your data
+import BASE_URL from "../Confi/baseurl";
 
 const EditRuleEngine = () => {
     const { id } = useParams(); // Get the member ID from the URL
@@ -111,7 +112,7 @@ const EditRuleEngine = () => {
         const storedValue = sessionStorage.getItem("selectedId");
         try {
             const response = await axios.get(
-                `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+                `${BASE_URL}/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
             );
             console.log("data for id", response.data)
             return response.data;
@@ -610,7 +611,7 @@ const EditRuleEngine = () => {
             // @ts-ignore
             if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && conditions !== null) {
                 const response = await fetch(
-                    `https://staging.lockated.com/rule_engine/rules/loyalty_re_update.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+                    `${BASE_URL}/rule_engine/rules/loyalty_re_update.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
                     {
                         method: "PUT", // Specify the request method
                         headers: {

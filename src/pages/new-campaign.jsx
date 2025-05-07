@@ -244,6 +244,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import BASE_URL from "../Confi/baseurl";
 
 const NewCampaign = () => {
   const navigate = useNavigate();
@@ -265,7 +266,7 @@ const NewCampaign = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `https://staging.lockated.com/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setTierLevels(response.data);
       } catch (error) {
@@ -378,7 +379,7 @@ const NewCampaign = () => {
 
     try {
       const response = await axios.post(
-        "https://staging.lockated.com/loyalty/campaigns.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+        `${BASE_URL}/loyalty/campaigns.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
         data
       );
       if (response.status === 201) {

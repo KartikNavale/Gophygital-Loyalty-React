@@ -12,6 +12,7 @@ import {
   fetchMasterRewardOutcomes,
   fetchSubRewardOutcomes,
 } from "../Confi/ruleEngineApi";
+import BASE_URL from "../Confi/baseurl";
 
 import { masterOperators } from './operatorsData'; // Import your data
 
@@ -353,7 +354,7 @@ const CreateRuleEngine = () => {
       // @ts-ignore
       if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && conditions !== null) {
         const response = await fetch(
-          "https://staging.lockated.com/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414",
+          `${BASE_URL}/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
           {
             method: "POST", // Specify the request method
             headers: {

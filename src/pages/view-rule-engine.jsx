@@ -4,6 +4,7 @@ import { useParams,Link } from "react-router-dom";
 import axios from "axios";
 // @ts-ignore
 import { fetchMasterRewardOutcomes, fetchSubRewardOutcomes } from "../Confi/ruleEngineApi";
+import BASE_URL from "../Confi/baseurl";
 
 const ViewRuleEngine = () => {
   const { id } = useParams(); // Get the member ID from the URL
@@ -417,7 +418,7 @@ const ViewRuleEngine = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
       console.log("data for id", response.data)
       return response.data;

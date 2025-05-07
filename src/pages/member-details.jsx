@@ -9,6 +9,7 @@ import "../styles/style.css";
 import SubHeader from "../components/SubHeader";
 import { useParams,Link } from "react-router-dom";
 import axios from "axios";
+import BASE_URL from "../Confi/baseurl";
 // @ts-ignore
 import Members from "./members";
 
@@ -32,7 +33,7 @@ const MemberDetails = () => {
     console.log("Stored ID in session after selection:", storedValue, id);
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       const formattedMember = {
@@ -68,7 +69,7 @@ const MemberDetails = () => {
     console.log("Stored ID in session after selection:", storedValue);
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/members.json?q[id_eq]=${id}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/members.json?q[id_eq]=${id}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       // Extract member_transactions from each member and map over them

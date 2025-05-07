@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginModal from "../components/LoginModal";
+import BASE_URL from "../Confi/baseurl";
 
 
 const SignIn = () => {
@@ -32,7 +33,7 @@ const SignIn = () => {
     try {
       // Example POST request for login
       const response = await axios.post(
-        "https://staging.lockated.com/api/users/sign_in", // Replace with your login API endpoint
+        `${BASE_URL}/api/users/sign_in`, // Replace with your login API endpoint
         {
           user: {
             email,
@@ -232,7 +233,7 @@ input {
       <div className="login-box text-center">
       <form onSubmit={handleSubmit}>
         <div className="logo">
-  <img src="https://snagging.lockated.com/assets/logo-87235e425cea36e6c4c9386959ec756051a0331c3a77aa6826425c1d9fabf82e.png" />
+  <img src="https://piramal-loyalty-dev.lockated.com/assets/logo-87235e425cea36e6c4c9386959ec756051a0331c3a77aa6826425c1d9fabf82e.png" />
 </div>
 
           <div className="form-group">

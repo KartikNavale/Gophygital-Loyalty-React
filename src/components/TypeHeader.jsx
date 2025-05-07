@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
+import BASE_URL from "../Confi/baseurl";
 
 const TypeHeader = () => {
 
@@ -10,7 +11,7 @@ const TypeHeader = () => {
   
     useEffect(() => {
       fetch(
-        "https://staging.lockated.com/loyalty/types.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"
+        `${BASE_URL}/loyalty/types.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
       )
         .then((response) => response.json())
         .then((data) => {

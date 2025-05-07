@@ -180,6 +180,7 @@ import { useParams,Link } from "react-router-dom";
 import "../styles/style.css";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
+import BASE_URL from "../Confi/baseurl";
 
 
 const ViewSegment = () => {
@@ -197,7 +198,7 @@ const ViewSegment = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
       setMembers(response.data.loyalty_members);
       setTotalMembers(response.data.loyalty_members.length); // Set total member count

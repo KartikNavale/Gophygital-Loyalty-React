@@ -9,6 +9,7 @@ import {
 } from "../Confi/ruleEngineApi";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import BASE_URL from "../Confi/baseurl";
 
 const RuleEngine = () => {
   const [RuleEngine, setRuleEngine] = useState([]);
@@ -43,7 +44,7 @@ const RuleEngine = () => {
     const fetchRuleEngine = async () => {
       try {
         const response = await axios.get(
-          `https://staging.lockated.com/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setRuleEngine(response.data);
         setFilteredItems(response.data);
@@ -148,7 +149,7 @@ const RuleEngine = () => {
 
     try {
       const response = await axios.get(
-        `https://staging.lockated.com/rule_engine/rules.json?${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/rule_engine/rules.json?${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
       );
       if (response) {
         setFilteredItems(response.data);
@@ -384,7 +385,7 @@ const RuleEngine = () => {
       // Make an API call to update the rule's active state
       // @ts-ignore
       const response = await axios.patch(
-        `https://staging.lockated.com/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+        `${BASE_URL}/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
         { rule_engine_rule: { active: isActive } }
       );
 

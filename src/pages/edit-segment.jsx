@@ -8,6 +8,7 @@ import SubHeader from "../components/SubHeader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import BASE_URL from "../Confi/baseurl";
 
 const EditSegment = () => {
   const { id } = useParams(); // Get the segment ID from the URL
@@ -85,7 +86,7 @@ const EditSegment = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setSegment(response.data);
         // setFormData({
@@ -160,7 +161,7 @@ const EditSegment = () => {
 
     try {
       const response = await axios.put(
-        `https://staging.lockated.com/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+        `${BASE_URL}/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
         {
           loyalty_segment: {
             ...formData, // includes name and
