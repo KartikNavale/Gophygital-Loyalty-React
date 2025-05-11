@@ -1,3 +1,3 @@
-const BASE_URL = "https://staging.lockated.com";
+const BASE_URL = "https://piramal-loyalty-dev.lockated.com";
 
 export default BASE_URL;

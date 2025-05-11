@@ -17,11 +17,74 @@ const SignIn = () => {
 
 
 
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setError(""); // Reset error state
+//     setLoading(true); // Start loading state
+
+//     // Simple email validation
+//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//     if (!emailRegex.test(email)) {
+//       setError("Please enter a valid email address.");
+//       setLoading(false);
+//       return;
+//     }
+// console.log("email:",email)
+//     try {
+//       // Example POST request for login
+//       const response = await axios.post(
+//         `https://piramal-loyalty-dev.lockated.com/api/users/sign_in`, // Replace with your login API endpoint
+//         {
+//           user: {
+//             email,
+//             password,
+//           },
+//         },
+//         // {
+//         //   headers: {
+//         //     "Content-Type": "application/json",
+//         //   },
+//         // }
+//       );
+//       console.log("responce:",response)
+//      if (response.data.code === 401) {
+//         setError("Email or Password not valid.");
+//         console.log("responce:",response)
+//       }
+//       // Handling response and storing session details
+//       if (response.data.spree_api_key) {
+//         sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
+//               localStorage.setItem("spree_api_key", response.data.spree_api_key);
+
+//         sessionStorage.setItem("email", response.data.email);
+//         sessionStorage.setItem("firstname", response.data.firstname);
+        
+//         // Redirect user to the members page after successful login
+//         navigate("/");
+
+
+//         setTimeout(() => {
+//           setShowModal(true);
+//         }, 2000); // Adjust timing as necessary
+      
+
+//       } else {
+//         setError("Login failed. Please check your credentials.");
+//       }
+//     } catch (err) {
+//       console.error("Error during login:", err);
+//       setError("Login failed. Please try again.");
+//     } finally {
+//       setLoading(false); // End loading state
+//     }
+//   };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset error state
     setLoading(true); // Start loading state
-
+  
     // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -29,45 +92,48 @@ const SignIn = () => {
       setLoading(false);
       return;
     }
-
+    console.log("email:", email);
     try {
       // Example POST request for login
-      const response = await axios.post(
-        `${BASE_URL}/api/users/sign_in`, // Replace with your login API endpoint
-        {
-          user: {
-            email,
-            password,
-          },
+      // const response = await axios.post(
+      //   `https://piramal-loyalty-dev.lockated.com/api/users/sign_in`, // Replace with your login API endpoint
+      //   {
+      //     user: {
+      //       email,
+      //       password,
+      //     },
+      //   }
+      // );
+
+      const response = await axios.post('https://piramal-loyalty-dev.lockated.com/api/users/sign_in', {
+        user: {
+          email,
+          password,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+      });  
+      console.log("response:", response);
+  
+      if (response.status === 200) {
+        // Handling response and storing session details
+        if (response.data.spree_api_key) {
+          sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
+          localStorage.setItem("spree_api_key", response.data.spree_api_key);
+  
+          sessionStorage.setItem("email", response.data.email);
+          sessionStorage.setItem("firstname", response.data.firstname);
+  
+          // Redirect user to the members page after successful login
+          navigate("/");
+  
+          setTimeout(() => {
+            setShowModal(true);
+          }, 2000); // Adjust timing as necessary
+        } else {
+          setError("Login failed. Please check your credentials.");
         }
-      );
-     if (response.data.code === 401) {
+      } else if (response.data.code === 401) {
         setError("Email or Password not valid.");
-      }
-      // Handling response and storing session details
-      if (response.data.spree_api_key) {
-        sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
-              localStorage.setItem("spree_api_key", response.data.spree_api_key);
-
-        sessionStorage.setItem("email", response.data.email);
-        sessionStorage.setItem("firstname", response.data.firstname);
-        
-        // Redirect user to the members page after successful login
-        navigate("/");
-
-
-        setTimeout(() => {
-          setShowModal(true);
-        }, 2000); // Adjust timing as necessary
-      
-
-      } else {
-        setError("Login failed. Please check your credentials.");
+        console.log("response:", response);
       }
     } catch (err) {
       console.error("Error during login:", err);
