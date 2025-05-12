@@ -33,7 +33,7 @@ const MemberDetails = () => {
     console.log("Stored ID in session after selection:", storedValue, id);
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
       );
 
       const formattedMember = {
@@ -69,24 +69,54 @@ const MemberDetails = () => {
     console.log("Stored ID in session after selection:", storedValue);
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members.json?q[id_eq]=${id}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/members/${id}.json?&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
       );
 
-      // Extract member_transactions from each member and map over them
-      const transactions = response.data.flatMap((member) => {
-        return member.member_transactions.map((transaction) => {
-          const formattedDate = new Intl.DateTimeFormat("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          }).format(new Date(member.created_at));
+      console.log("Response data:", response.data);
 
-          return {
-            ...transaction,
-            created_at: formattedDate,
-          };
-        });
+      // Extract member_transactions from each member and map over them
+      // const transactions = response.data.flatMap((member) => {
+      //   return member.member_transactions.map((transaction) => {
+      //     const formattedDate = new Intl.DateTimeFormat("en-GB", {
+      //       day: "2-digit",
+      //       month: "2-digit",
+      //       year: "numeric",
+      //     }).format(new Date(member.created_at));
+
+      //     return {
+      //       ...transaction,
+      //       created_at: formattedDate,
+      //     };
+      //   });
+      // });
+
+      const transactions = response?.data?.member?.member_transactions.map((transaction) => {
+        const formattedDate = new Intl.DateTimeFormat("en-GB", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }).format(new Date(response.data.member.created_at));
+      
+        return {
+          ...transaction,
+          created_at: formattedDate,
+        };
       });
+
+      // const transactions = response.data.members.flatMap((member) => {
+      //   return member.member_transactions.map((transaction) => {
+      //     const formattedDate = new Intl.DateTimeFormat("en-GB", {
+      //       day: "2-digit",
+      //       month: "2-digit",
+      //       year: "numeric",
+      //     }).format(new Date(member.created_at));
+      
+      //     return {
+      //       ...transaction,
+      //       created_at: formattedDate,
+      //     };
+      //   });
+      // });
 
       console.log("transaction data", transactions, response.data);
       setTransactionData(transactions);
@@ -145,7 +175,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.firstname} {member.lasttname}
+                      member?.firstname} {member?.lasttname}
                     </div>
                   </div>
                   <div 
@@ -161,7 +191,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.email}
+                      member?.email}
                     </div>
                   </div>
                   <div 
@@ -177,7 +207,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.mobile}
+                      member?.mobile}
                     </div>
                   </div>
                   <div 
@@ -193,7 +223,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.address.address1} {member.address.address2}
+                      member?.address?.address1} {member?.address?.address2}
                     </div>
                   </div>
                 </div>
@@ -226,7 +256,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.current_loyalty_points}
+                      member?.current_loyalty_points}
                     </div>
                   </div>
                   <div 
@@ -242,7 +272,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.member_status.tier_progression}
+                      member?.member_status.tier_progression}
                     </div>
                   </div>
                   <div 
@@ -258,7 +288,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.duration}
+                      member?.duration}
                     </div>
                     {/* this attribute is not there in  json*/}
                   </div>
@@ -287,7 +317,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.created_at}
+                      member?.created_at}
                     </div>
                   </div>
                   <div 
@@ -303,7 +333,7 @@ const MemberDetails = () => {
                     class="col-6 p-1 member-detail-color">
                       : {
 // @ts-ignore
-                      member.member_status.tier_level}
+                      member?.member_status.tier_level}
                     </div>
                   </div>
                   <div 
@@ -342,7 +372,7 @@ const MemberDetails = () => {
                         <p className="content-box-sub fw-light">
                           {
 // @ts-ignore
-                          member.earned_percentage}%{" "}
+                          member?.earned_percentage}%{" "}
                         </p>
                         <h6
                           className="content-box-title"
@@ -354,7 +384,7 @@ const MemberDetails = () => {
                         <h6 className="content-box-title">
                           {
 // @ts-ignore
-                          member.earned_points}
+                          member?.earned_points}
                         </h6>
                       </div>
                     </div>
@@ -371,7 +401,7 @@ const MemberDetails = () => {
                         <p className="content-box-sub fw-light">
                           {
 // @ts-ignore
-                          member.reedem_percentage}%{" "}
+                          member?.reedem_percentage}%{" "}
                         </p>
                         <h6
                           className="content-box-title"
@@ -383,7 +413,7 @@ const MemberDetails = () => {
                         <h6 className="content-box-title">
                           {
 // @ts-ignore
-                          member.reedem_points}
+                          member?.reedem_points}
                         </h6>
                       </div>
                     </div>
@@ -400,7 +430,7 @@ const MemberDetails = () => {
                         <h6 className="content-box-title">
                           {
 // @ts-ignore
-                          member.current_loyalty_points}
+                          member?.current_loyalty_points}
                         </h6>
                         <h6
                           className="content-box-title"
@@ -434,7 +464,7 @@ const MemberDetails = () => {
                     <tbody>
                       {transactionData &&
                         // @ts-ignore
-                        transactionData.map((item, index) => (
+                        transactionData?.map((item, index) => (
                           <tr key={index}>
                             <td
                               className="text-center"
