@@ -19,19 +19,18 @@ const Header = ({ noTier }) => {
   const signout = () => {
     console.log("Signing out...");
     sessionStorage.clear(); // Clear session storage
-    localStorage.removeItem("spree_api_key");
+    localStorage.clear();
 
     setShowModal(false);
-  
+
     // Remove any existing modal backdrop elements
     const modalBackdrop = document.querySelector(".modal-backdrop");
     if (modalBackdrop) {
       modalBackdrop.remove();
     }
-  
+
     navigate("/login");
   };
-  
 
   return (
     <>
@@ -98,7 +97,10 @@ const Header = ({ noTier }) => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active rounded-2" href="./31Dashboard_Daily.html">
+                <a
+                  className="nav-link active rounded-2"
+                  href="./31Dashboard_Daily.html"
+                >
                   Setup
                 </a>
               </li>
@@ -117,15 +119,13 @@ const Header = ({ noTier }) => {
               </div>
             )}
           </div>
-
           <TypeHeader /> {/* Dropdown inside the header */}
-
           <div
             className="avatar"
             role="button"
             tabIndex="0"
             onClick={handleOpen} // Open the modal on click
-            onKeyPress={(e) => e.key === 'Enter' && handleOpen()} // Open on Enter key press
+            onKeyPress={(e) => e.key === "Enter" && handleOpen()} // Open on Enter key press
             data-bs-toggle="modal" // Optional if you want Bootstrap's behavior too
             data-bs-target="#userInfo"
           >

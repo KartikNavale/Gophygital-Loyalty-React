@@ -27,12 +27,19 @@ const Members = () => {
     const year = String(date.getFullYear()); // Get last two digits of the year
     return `${day}-${month}-${year}`;
   };
+  const token = localStorage.getItem("access_token");
 
   const getMembers = async () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
+        `${BASE_URL}/loyalty/members.json`, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
       );
 
       ; // Initialize filteredItems

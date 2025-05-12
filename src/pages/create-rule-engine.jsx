@@ -32,7 +32,8 @@ const CreateRuleEngine = () => {
     },
   ]);
 
-
+  const token 
+=localStorage.getItem("access_token")
 
   const [ruleName, setRuleName] = useState("");
   const [masterAttributes, setMasterAttributes] = useState([]);
@@ -354,7 +355,7 @@ const CreateRuleEngine = () => {
       // @ts-ignore
       if (ruleName !== "" && parameter !== "" && selectedMasterRewardOutcomes !== "" && conditions !== null) {
         const response = await fetch(
-          `${BASE_URL}/rule_engine/rules/loyalty_re?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+          `${BASE_URL}/rule_engine/rules/loyalty_re?token=${token}`,
           {
             method: "POST", // Specify the request method
             headers: {

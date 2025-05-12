@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LoginModal from "../components/LoginModal";
 import BASE_URL from "../Confi/baseurl";
 
-
 const SignIn = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -15,76 +14,71 @@ const SignIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+  //     setError(""); // Reset error state
+  //     setLoading(true); // Start loading state
 
+  //     // Simple email validation
+  //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //     if (!emailRegex.test(email)) {
+  //       setError("Please enter a valid email address.");
+  //       setLoading(false);
+  //       return;
+  //     }
+  // console.log("email:",email)
+  //     try {
+  //       // Example POST request for login
+  //       const response = await axios.post(
+  //         `https://piramal-loyalty-dev.lockated.com/api/users/sign_in`, // Replace with your login API endpoint
+  //         {
+  //           user: {
+  //             email,
+  //             password,
+  //           },
+  //         },
+  //         // {
+  //         //   headers: {
+  //         //     "Content-Type": "application/json",
+  //         //   },
+  //         // }
+  //       );
+  //       console.log("responce:",response)
+  //      if (response.data.code === 401) {
+  //         setError("Email or Password not valid.");
+  //         console.log("responce:",response)
+  //       }
+  //       // Handling response and storing session details
+  //       if (response.data.spree_api_key) {
+  //         sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
+  //               localStorage.setItem("spree_api_key", response.data.spree_api_key);
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setError(""); // Reset error state
-//     setLoading(true); // Start loading state
+  //         sessionStorage.setItem("email", response.data.email);
+  //         sessionStorage.setItem("firstname", response.data.firstname);
 
-//     // Simple email validation
-//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     if (!emailRegex.test(email)) {
-//       setError("Please enter a valid email address.");
-//       setLoading(false);
-//       return;
-//     }
-// console.log("email:",email)
-//     try {
-//       // Example POST request for login
-//       const response = await axios.post(
-//         `https://piramal-loyalty-dev.lockated.com/api/users/sign_in`, // Replace with your login API endpoint
-//         {
-//           user: {
-//             email,
-//             password,
-//           },
-//         },
-//         // {
-//         //   headers: {
-//         //     "Content-Type": "application/json",
-//         //   },
-//         // }
-//       );
-//       console.log("responce:",response)
-//      if (response.data.code === 401) {
-//         setError("Email or Password not valid.");
-//         console.log("responce:",response)
-//       }
-//       // Handling response and storing session details
-//       if (response.data.spree_api_key) {
-//         sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
-//               localStorage.setItem("spree_api_key", response.data.spree_api_key);
+  //         // Redirect user to the members page after successful login
+  //         navigate("/");
 
-//         sessionStorage.setItem("email", response.data.email);
-//         sessionStorage.setItem("firstname", response.data.firstname);
-        
-//         // Redirect user to the members page after successful login
-//         navigate("/");
+  //         setTimeout(() => {
+  //           setShowModal(true);
+  //         }, 2000); // Adjust timing as necessary
 
-
-//         setTimeout(() => {
-//           setShowModal(true);
-//         }, 2000); // Adjust timing as necessary
-      
-
-//       } else {
-//         setError("Login failed. Please check your credentials.");
-//       }
-//     } catch (err) {
-//       console.error("Error during login:", err);
-//       setError("Login failed. Please try again.");
-//     } finally {
-//       setLoading(false); // End loading state
-//     }
-//   };
-
+  //       } else {
+  //         setError("Login failed. Please check your credentials.");
+  //       }
+  //     } catch (err) {
+  //       console.error("Error during login:", err);
+  //       setError("Login failed. Please try again.");
+  //     } finally {
+  //       setLoading(false); // End loading state
+  //     }
+  //   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Reset error state
     setLoading(true); // Start loading state
-  
+
     // Simple email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -105,26 +99,26 @@ const SignIn = () => {
       //   }
       // );
 
-      const response = await axios.post('https://piramal-loyalty-dev.lockated.com/api/users/sign_in', {
+      const response = await axios.post(`${BASE_URL}/api/users/sign_in`, {
         user: {
           email,
           password,
         },
-      });  
+      });
       console.log("response:", response);
-  
+
       if (response.status === 200) {
         // Handling response and storing session details
-        if (response.data.spree_api_key) {
-          sessionStorage.setItem("spree_api_key", response.data.spree_api_key);
-          localStorage.setItem("spree_api_key", response.data.spree_api_key);
-  
+        if (response.data.access_token) {
+          sessionStorage.setItem("access_token", response.data.access_token);
+          localStorage.setItem("access_token", response.data.access_token);
+
           sessionStorage.setItem("email", response.data.email);
           sessionStorage.setItem("firstname", response.data.firstname);
-  
+
           // Redirect user to the members page after successful login
           navigate("/");
-  
+
           setTimeout(() => {
             setShowModal(true);
           }, 2000); // Adjust timing as necessary
@@ -142,12 +136,10 @@ const SignIn = () => {
       setLoading(false); // End loading state
     }
   };
-
   return (
     <>
       <style>
         {`
-
    .logo {
     margin-bottom: 20px;
 } .logo img {
@@ -294,52 +286,52 @@ input {
 }
         `}
       </style>
-   <div className="login-container">
-    
-      <div className="login-box text-center">
-      <form onSubmit={handleSubmit}>
-        <div className="logo">
-  <img src="https://piramal-loyalty-dev.lockated.com/assets/logo-87235e425cea36e6c4c9386959ec756051a0331c3a77aa6826425c1d9fabf82e.png" />
-</div>
+      <div className="login-container">
+        <div className="login-box text-center">
+          <form onSubmit={handleSubmit}>
+            <div className="logo">
+              <img src="https://piramal-loyalty-dev.lockated.com/assets/logo-87235e425cea36e6c4c9386959ec756051a0331c3a77aa6826425c1d9fabf82e.png" />
+            </div>
 
-          <div className="form-group">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-              required className="form-control"
-              placeholder="Email "
-          />
+            <div className="form-group">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="form-control"
+                placeholder="Email "
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="form-control"
+                placeholder="Password"
+              />
+            </div>
+            <h5>
+              By clicking Log in you are accepting our{" "}
+              <a href="https://www.lockated.com/cms/privacy_policy.html">
+                <strong>Privacy Policy</strong>
+              </a>{" "}
+              &amp; agree to the{" "}
+              <a href="https://www.lockated.com/cms/terms.html">
+                <strong>Terms &amp; Conditions.</strong>
+              </a>
+            </h5>
+
+            <button type="submit" className="btn-success" disabled={loading}>
+              {loading ? "Signing In..." : "Sign In"}
+            </button>
+            {error && <p className="error-text">{error}</p>}
+          </form>
         </div>
-          <div  className="form-group">
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-              required className="form-control"placeholder="Password"
-          />
-        </div>
-          <h5>
-  By clicking Log in you are accepting our{" "}
-  <a href="https://www.lockated.com/cms/privacy_policy.html">
-    <strong>Privacy Policy</strong>
-  </a>{" "}
-  &amp; agree to the{" "}
-  <a href="https://www.lockated.com/cms/terms.html">
-    <strong>Terms &amp; Conditions.</strong>
-  </a>
-</h5>
-
-          <button type="submit" className="btn-success" disabled={loading}>
-            {loading ? "Signing In..." : "Sign In"}
-        </button>
-          {error && <p className="error-text">{error}</p>}
-      </form>
-
-    </div>
-    </div>
+      </div>
     </>
-  
   );
 };
 

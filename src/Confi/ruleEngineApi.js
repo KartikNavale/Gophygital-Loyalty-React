@@ -1,7 +1,9 @@
 import axios from 'axios';
 import BASE_URL from './baseurl';
 
-const BASE_URL2 = `${BASE_URL}/rule_engine/applicable_models/loyalty_re.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&company_id=44&active=true`;
+const token = localStorage.getItem('access_token');
+
+const BASE_URL2 = `${BASE_URL}/rule_engine/applicable_models/loyalty_re.json?token=${token}&company_id=44&active=true`;
 
   const api = axios.create({
     baseURL: BASE_URL2,

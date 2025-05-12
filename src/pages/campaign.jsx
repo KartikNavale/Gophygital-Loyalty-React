@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "../styles/style.css";
 import Header from "../components/Header";
@@ -21,25 +20,26 @@ const Campaign = () => {
     target_audiance: "",
   });
   const [showModal, setShowModal] = useState(false);
-  
+
   const [showModalView, setShowModalView] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 15;
- 
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState([]); //filter
   const [suggestions, setSuggestions] = useState([]); // To store the search suggestions
 
-
   const [selectedIndex, setSelectedIndex] = useState(-1); // Track the selected suggestion index
+  const token = localStorage.getItem("access_token");
 
   useEffect(() => {
     const fetchCampaigns = async () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
-        const response = await axios.get(`${BASE_URL}/loyalty/campaigns.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`);
+        const response = await axios.get(
+          `${BASE_URL}/loyalty/campaigns.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
+        );
         setCampaigns(response.data);
         setFilteredItems(response.data); // Initialize filteredItems with campaigns
       } catch (err) {
@@ -72,8 +72,6 @@ const Campaign = () => {
     setShowModalView(true);
   };
 
-
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -87,12 +85,10 @@ const Campaign = () => {
     if (selectedCampaign) {
       try {
         const response = await axios.put(
-          
           `${BASE_URL}/loyalty/campaigns/${selectedCampaign.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
           { loyalty_campaign: formData }
         );
         if (response) {
-        
           setCampaigns((prevCampaigns) =>
             prevCampaigns.map((campaign) =>
               campaign.id === selectedCampaign.id
@@ -100,7 +96,7 @@ const Campaign = () => {
                 : campaign
             )
           );
-          
+
           setFilteredItems((prevFiltered) =>
             prevFiltered.map((campaign) =>
               campaign.id === selectedCampaign.id
@@ -126,7 +122,6 @@ const Campaign = () => {
     });
   };
 
-  
   const handleCloseModalView = () => {
     setShowModalView(false);
     // setSelectedCampaign(null);
@@ -137,13 +132,11 @@ const Campaign = () => {
     // });
   };
 
-
   const handleReset = () => {
     setSearchTerm(""); // Clear search term
     setFilteredItems(campaigns); // Reset filtered items to the original data
     setCurrentPage(1); // Reset to first page
   };
-
 
   // Handle search submission (e.g., when pressing 'Go!')
   const handleSearch = () => {
@@ -164,12 +157,9 @@ const Campaign = () => {
 
     // If there's a search term, filter the members and show suggestions
     if (term) {
-      const filteredSuggestions = campaigns.filter(
-        (member) =>
-          // @ts-ignore
-          `${member.name}`
-            .toLowerCase()
-            .includes(term.toLowerCase())
+      const filteredSuggestions = campaigns.filter((member) =>
+        // @ts-ignore
+        `${member.name}`.toLowerCase().includes(term.toLowerCase())
       );
       // @ts-ignore
       setSuggestions(filteredSuggestions); // Update suggestions list
@@ -178,7 +168,6 @@ const Campaign = () => {
       setSuggestions([]); // Clear suggestions when input is empty
     }
   };
-
 
   const handleKeyDown = (e) => {
     if (e.key === "ArrowDown") {
@@ -194,8 +183,8 @@ const Campaign = () => {
       const selectedItem = suggestions[selectedIndex];
       // handleSuggestionClick(selectedMember);
       setSearchTerm(selectedItem.name); // Update search term
-        setFilteredItems([selectedItem]); // Filter items
-        setSuggestions([]); // Clear suggestions
+      setFilteredItems([selectedItem]); // Filter items
+      setSuggestions([]); // Clear suggestions
     }
   };
 
@@ -205,7 +194,6 @@ const Campaign = () => {
     // @ts-ignore
     setFilteredItems([member]); // Optionally, filter to show the selected member
   };
-
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const currentItems = filteredItems.slice(
@@ -329,8 +317,9 @@ const Campaign = () => {
           ))}
 
           <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             <button
               className="page-link"
@@ -342,8 +331,9 @@ const Campaign = () => {
             </button>
           </li>
           <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             <button
               className="page-link"
@@ -362,7 +352,6 @@ const Campaign = () => {
     );
   };
 
-
   return (
     <>
       <div className="w-100">
@@ -373,10 +362,9 @@ const Campaign = () => {
           </p>
           <h5>Campaign</h5>
 
-
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/new-campaign">
-              <button className="purple-btn1" style={{ borderRadius: '5px' }}>
+              <button className="purple-btn1" style={{ borderRadius: "5px" }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -391,9 +379,11 @@ const Campaign = () => {
               </button>
             </Link>
             <div className="d-flex align-items-center">
-
               <div className="d-flex align-items-center position-relative">
-                <div className="position-relative me-3" style={{ width: "100%" }}>
+                <div
+                  className="position-relative me-3"
+                  style={{ width: "100%" }}
+                >
                   <input
                     className="form-control"
                     style={{
@@ -406,7 +396,7 @@ const Campaign = () => {
                     aria-label="Search"
                     value={searchTerm}
                     onChange={handleSearchInputChange}
-                    onKeyDown={handleKeyDown} 
+                    onKeyDown={handleKeyDown}
                   />
                   <div
                     className="position-absolute"
@@ -433,13 +423,13 @@ const Campaign = () => {
                         border: "1px solid #ddd",
                         maxHeight: "200px",
                         overflowY: "auto",
-                        width: "100%",        // Match width of input field
-                        zIndex: 1,             // Ensure it appears on top of other elements
+                        width: "100%", // Match width of input field
+                        zIndex: 1, // Ensure it appears on top of other elements
                         backgroundColor: "#fff", // Set solid background color
                         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
                       }}
                     >
-                      {suggestions.map((member,index) => (
+                      {suggestions.map((member, index) => (
                         <li
                           // @ts-ignore
                           key={member.id}
@@ -450,8 +440,7 @@ const Campaign = () => {
                           className={selectedIndex === index ? "highlight" : ""}
                           onClick={() => handleSuggestionClick(member)}
                         >
-                          {member.
-                          name}
+                          {member.name}
                         </li>
                       ))}
                     </ul>
@@ -473,7 +462,8 @@ const Campaign = () => {
             </div>
           </div>
 
-          <div className="tbl-container mx-3 mt-4"
+          <div
+            className="tbl-container mx-3 mt-4"
             // style={{ height: "100%", overflowY: "hidden", margin: "0 100px" }}
             style={{
               height: "100%",
@@ -491,7 +481,10 @@ const Campaign = () => {
               <p className="text-danger">{error}</p>
             ) : (
               <>
-                <table className="w-100" style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
+                <table
+                  className="w-100"
+                  style={{ color: "#000", fontWeight: "400", fontSize: "13px" }}
+                >
                   <thead>
                     <tr>
                       <th>Campaign Name</th>
@@ -501,21 +494,45 @@ const Campaign = () => {
                       <th>View</th>
                     </tr>
                   </thead>
-                  <tbody style={{ color: '#000', fontWeight: '400', fontSize: '13px', textAlign: "center" }}>
+                  <tbody
+                    style={{
+                      color: "#000",
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      textAlign: "center",
+                    }}
+                  >
                     {currentItems.map((campaign) => (
                       <tr key={campaign.id}>
-                        <td style={{ width: '20%' }}>{campaign.name}</td>
-                        <td style={{ width: '20%' }}>{campaign.campaign_tag}</td>
-                        <td style={{ width: '20%' }}>{campaign.target_audiance}</td>
-                        <td style={{ width: '20%' }}>
-                          <button className="btn btn-link" onClick={() => handleEditClick(campaign)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#5e2750" className="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <td style={{ width: "20%" }}>{campaign.name}</td>
+                        <td style={{ width: "20%" }}>
+                          {campaign.campaign_tag}
+                        </td>
+                        <td style={{ width: "20%" }}>
+                          {campaign.target_audiance}
+                        </td>
+                        <td style={{ width: "20%" }}>
+                          <button
+                            className="btn btn-link"
+                            onClick={() => handleEditClick(campaign)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="#5e2750"
+                              className="bi bi-pencil-square"
+                              viewBox="0 0 16 16"
+                            >
                               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                              <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                              <path
+                                fillRule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                              />
                             </svg>
                           </button>
                         </td>
-                        <td style={{ width: '20%' }}>
+                        <td style={{ width: "20%" }}>
                           <Link to={`/campaign-details/${campaign.id}`}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -552,7 +569,9 @@ const Campaign = () => {
               <Modal.Body>
                 <form onSubmit={handleFormSubmit}>
                   <div className="mb-3">
-                    <label htmlFor="tierName" className="form-label">Campaign Name</label>
+                    <label htmlFor="tierName" className="form-label">
+                      Campaign Name
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -564,7 +583,9 @@ const Campaign = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="campaignTag" className="form-label">Campaign Tag</label>
+                    <label htmlFor="campaignTag" className="form-label">
+                      Campaign Tag
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -576,7 +597,9 @@ const Campaign = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="target_audience" className="form-label">Target Audience</label>
+                    <label htmlFor="target_audience" className="form-label">
+                      Target Audience
+                    </label>
                     <select
                       className="form-select"
                       id="target_audiance"
@@ -594,25 +617,24 @@ const Campaign = () => {
                   </div>
                   {/* <button type="submit" className="purple-btn1">Save Changes</button> */}
                   <div className="row mt-2 justify-content-center align-items-center">
-                          <div className="col-4">
-                            <button type="submit" className="purple-btn1 w-100">
-                              Submit
-                            </button>
-                          </div>
-                          <div className="col-4">
-                            <button
-                              type="reset"
-                              className="purple-btn2 w-100"
-                              onClick={handleCloseModal}
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
+                    <div className="col-4">
+                      <button type="submit" className="purple-btn1 w-100">
+                        Submit
+                      </button>
+                    </div>
+                    <div className="col-4">
+                      <button
+                        type="reset"
+                        className="purple-btn2 w-100"
+                        onClick={handleCloseModal}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
                 </form>
               </Modal.Body>
             </Modal>
-
 
             {/* for view */}
 
@@ -678,5 +700,3 @@ const Campaign = () => {
 };
 
 export default Campaign;
-
-

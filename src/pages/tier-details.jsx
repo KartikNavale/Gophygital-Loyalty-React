@@ -8,6 +8,8 @@ import BASE_URL from "../Confi/baseurl";
 export default function TierDetails() {
   const { id } = useParams();
   const storedValue = sessionStorage.getItem("selectedId");
+  const token = localStorage.getItem("access_token");
+  
   const [tierDetails, setTierDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,7 +27,7 @@ export default function TierDetails() {
   const getMemberDetails = async (id) => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/tiers/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/tiers/${id}.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       const formattedMember = {

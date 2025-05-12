@@ -41,10 +41,11 @@ const Tiers = () => {
 
   const navigate = useNavigate();
   const storedValue = sessionStorage.getItem("selectedId");
+  const token = localStorage.getItem("access_token");
   const fetchTiers = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/tiers.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
       if (response && response.data) {
         setTiers(response.data);
@@ -72,7 +73,7 @@ const Tiers = () => {
       try {
         const response = await axios.put(
           // @ts-ignore
-          `${BASE_URL}/loyalty/tiers/${selectedTier.id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+          `${BASE_URL}/loyalty/tiers/${selectedTier.id}.json?token=${token}`,
           { loyalty_tier: values },
           { headers: { "Content-Type": "application/json" } }
         );
@@ -320,12 +321,8 @@ const Tiers = () => {
           style={{ color: "#000" }}
         >
           <p className="pointer">
-            <span
-              style={{ fontSize: "16px !important" }}
-            >
-              Tiers
-            </span>{" "}
-            &gt; Tier List
+            <span style={{ fontSize: "16px !important" }}>Tiers</span> &gt; Tier
+            List
           </p>
           <h5 style={{ fontSize: "22px" }}>Tier List</h5>
           <div className="loyalty-header">
@@ -408,9 +405,10 @@ const Tiers = () => {
                             }}
                             onClick={() => handleSuggestionClick(member)}
                           >
-                            {member.
-// @ts-ignore
-                            name}
+                            {
+                              // @ts-ignore
+                              member.name
+                            }
                           </li>
                         ))}
                       </ul>
@@ -436,15 +434,24 @@ const Tiers = () => {
               className="d-flex justify-content-start gap-3 mt-2 mx-3 mt-4"
               style={{ color: "#fff", flexWrap: "nowrap" }}
             >
-              <div className="flex-grow-1 violet-red p-1 px-2" style={{borderRadius:'8px'}}>
+              <div
+                className="flex-grow-1 violet-red p-1 px-2"
+                style={{ borderRadius: "8px" }}
+              >
                 <p>{tiers.length}</p>
                 <p>Total Tiers</p>
               </div>
-              <div className="flex-grow-1 green p-1 px-2" style={{borderRadius:'8px'}}>
+              <div
+                className="flex-grow-1 green p-1 px-2"
+                style={{ borderRadius: "8px" }}
+              >
                 <p>{yearlyTier}</p>
                 <p>Rolling Year Tiers</p>
               </div>
-              <div className="flex-grow-1 pink p-1 px-2" style={{borderRadius:'8px'}}>
+              <div
+                className="flex-grow-1 pink p-1 px-2"
+                style={{ borderRadius: "8px" }}
+              >
                 <p>{lifeTimeTier}</p>
                 <p>Life Time Tiers</p>
               </div>

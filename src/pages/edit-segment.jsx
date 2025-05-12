@@ -13,6 +13,7 @@ import BASE_URL from "../Confi/baseurl";
 const EditSegment = () => {
   const { id } = useParams(); // Get the segment ID from the URL
   const [segment, setSegment] = useState(null);
+  const token = localStorage.getItem("access_token");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -86,7 +87,7 @@ const EditSegment = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `${BASE_URL}/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}/loyalty/segments/${id}.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setSegment(response.data);
         // setFormData({
@@ -161,7 +162,7 @@ const EditSegment = () => {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/loyalty/segments/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+        `${BASE_URL}/loyalty/segments/${id}.json?token=${token}`,
         {
           loyalty_segment: {
             ...formData, // includes name and
@@ -186,7 +187,6 @@ const EditSegment = () => {
     return <p className="text-danger">{error}</p>;
   }
 
-
   const Pagination = ({
     currentPage,
     totalPages,
@@ -196,13 +196,13 @@ const EditSegment = () => {
     const itemsPerPage = 10; // Items per page should match the main component
     const startEntry = (currentPage - 1) * itemsPerPage + 1;
     const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
-  
+
     const getPageNumbers = () => {
       const pages = [];
       const maxVisiblePages = 5;
       const halfVisible = Math.floor(maxVisiblePages / 2);
       let startPage, endPage;
-  
+
       if (totalPages <= maxVisiblePages) {
         startPage = 1;
         endPage = totalPages;
@@ -218,16 +218,16 @@ const EditSegment = () => {
           endPage = currentPage + halfVisible;
         }
       }
-  
+
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
-  
+
       return pages;
     };
-  
+
     const pageNumbers = getPageNumbers();
-  
+
     return (
       <nav className="d-flex justify-content-between align-items-center">
         <ul
@@ -254,7 +254,7 @@ const EditSegment = () => {
               ‹
             </button>
           </li>
-  
+
           {pageNumbers.map((page) => (
             <li
               key={page}
@@ -275,7 +275,7 @@ const EditSegment = () => {
               </button>
             </li>
           ))}
-  
+
           <li
             className={`page-item ${
               currentPage === totalPages ? "disabled" : ""
@@ -297,7 +297,9 @@ const EditSegment = () => {
           >
             <button
               className="page-link"
-              onClick={() => onPageChange(Math.min(currentPage + 10, totalPages))}
+              onClick={() =>
+                onPageChange(Math.min(currentPage + 10, totalPages))
+              }
               disabled={currentPage === totalPages}
               style={{ padding: "8px 12px", color: "#5e2750" }}
             >
@@ -311,7 +313,6 @@ const EditSegment = () => {
       </nav>
     );
   };
-  
 
   return (
     <div className="w-100">
@@ -542,9 +543,11 @@ const EditSegment = () => {
                   ))
                 ) : (
                   <tr>
-                    <td 
-// @ts-ignore
-                    colSpan="6" style={{ textAlign: "center" }}>
+                    <td
+                      // @ts-ignore
+                      colSpan="6"
+                      style={{ textAlign: "center" }}
+                    >
                       No members found for this segment.
                     </td>
                   </tr>
@@ -566,7 +569,6 @@ const EditSegment = () => {
               Submit
             </button>
           </div>
-          
 
           <div className="col-md-2">
             <button
@@ -590,4 +592,3 @@ const EditSegment = () => {
 };
 
 export default EditSegment;
-

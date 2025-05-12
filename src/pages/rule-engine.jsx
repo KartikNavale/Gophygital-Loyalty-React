@@ -39,12 +39,13 @@ const RuleEngine = () => {
   };
 
   const storedValue = sessionStorage.getItem("selectedId");
+  const token = localStorage.getItem("access_token");
 
   useEffect(() => {
     const fetchRuleEngine = async () => {
       try {
         const response = await axios.get(
-          `${BASE_URL}/rule_engine/rules.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}/rule_engine/rules.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setRuleEngine(response.data);
         setFilteredItems(response.data);
@@ -61,8 +62,8 @@ const RuleEngine = () => {
   //transform
   const formatFieldName = (fieldName) => {
     return fieldName
-      .replace(/_/g, ' ')           // Replace underscores with spaces
-      .replace(/::/g, ' ')          // Replace :: with spaces
+      .replace(/_/g, " ") // Replace underscores with spaces
+      .replace(/::/g, " ") // Replace :: with spaces
       .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
   };
 
@@ -149,7 +150,7 @@ const RuleEngine = () => {
 
     try {
       const response = await axios.get(
-        `${BASE_URL}/rule_engine/rules.json?${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/rule_engine/rules.json?${queryString}&token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
       if (response) {
         setFilteredItems(response.data);
@@ -189,10 +190,9 @@ const RuleEngine = () => {
     // If there's a search term, filter the members and show suggestions
     if (term) {
       const filteredSuggestions = RuleEngine.filter((member) =>
-        
         `${member.name}`.toLowerCase().includes(term.toLowerCase())
       );
-     
+
       setSuggestions(filteredSuggestions); // Update suggestions list
       setSelectedIndex(-1); // Reset the selected index
     } else {
@@ -214,8 +214,8 @@ const RuleEngine = () => {
       const selectedItem = suggestions[selectedIndex];
       // handleSuggestionClick(selectedMember);
       setSearchTerm(selectedItem.name); // Update search term
-        setFilteredItems([selectedItem]); // Filter items
-        setSuggestions([]); // Clear suggestions
+      setFilteredItems([selectedItem]); // Filter items
+      setSuggestions([]); // Clear suggestions
     }
   };
 
@@ -347,8 +347,9 @@ const RuleEngine = () => {
           ))}
 
           <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             <button
               className="page-link"
@@ -360,8 +361,9 @@ const RuleEngine = () => {
             </button>
           </li>
           <li
-            className={`page-item ${currentPage === totalPages ? "disabled" : ""
-              }`}
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
           >
             <button
               className="page-link"
@@ -385,7 +387,7 @@ const RuleEngine = () => {
       // Make an API call to update the rule's active state
       // @ts-ignore
       const response = await axios.patch(
-        `${BASE_URL}/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+        `${BASE_URL}/rule_engine/rules/${id}.json?token=${token}`,
         { rule_engine_rule: { active: isActive } }
       );
 
@@ -423,7 +425,10 @@ const RuleEngine = () => {
 
           <div className="d-flex justify-content-between align-items-center">
             <Link to="/create-rule-engine">
-              <button className="purple-btn1" style={{ borderRadius: "5px", paddingRight: "50px" }}>
+              <button
+                className="purple-btn1"
+                style={{ borderRadius: "5px", paddingRight: "50px" }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="19"
@@ -536,7 +541,7 @@ const RuleEngine = () => {
                           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Optional shadow for visibility
                         }}
                       >
-                        {suggestions.map((member,index) => (
+                        {suggestions.map((member, index) => (
                           <li
                             // @ts-ignore
                             key={member.id}
@@ -544,7 +549,9 @@ const RuleEngine = () => {
                               padding: "8px",
                               cursor: "pointer",
                             }}
-                            className={selectedIndex === index ? "highlight" : ""}
+                            className={
+                              selectedIndex === index ? "highlight" : ""
+                            }
                             onClick={() => handleSuggestionClick(member)}
                           >
                             {member.name}
@@ -639,24 +646,28 @@ const RuleEngine = () => {
                           <td style={{ width: "10%" }}>
                             {/* {condition.condition_attribute} */}
                             {formatFieldName(condition.condition_attribute)}
-
                           </td>
                           <td style={{ width: "10%" }}>
                             {/* Common Operatives */}
                             {condition.master_operator}
-
                           </td>
-                          <td style={{ width: "10%" }}>{formatFieldName(condition.operator)}</td>
+                          <td style={{ width: "10%" }}>
+                            {formatFieldName(condition.operator)}
+                          </td>
                           {actions.length > 0 ? (
                             actions.map((act, actIndex) => (
                               <React.Fragment key={act.id || actIndex}>
                                 <td style={{ width: "10%" }}>
-                                  {formatFieldName(act.lock_model_name
-                                    ? act.lock_model_name
-                                    : "")}
+                                  {formatFieldName(
+                                    act.lock_model_name
+                                      ? act.lock_model_name
+                                      : ""
+                                  )}
                                 </td>
                                 <td style={{ width: "10%" }}>
-                                  {formatFieldName(act.action_method ? act.action_method : "")}
+                                  {formatFieldName(
+                                    act.action_method ? act.action_method : ""
+                                  )}
                                 </td>
                               </React.Fragment>
                             ))
@@ -685,7 +696,7 @@ const RuleEngine = () => {
                                 checked={active}
                                 onChange={(e) =>
                                   handleToggle(id, e.target.checked)
-                                }  //Handle toggle change
+                                } //Handle toggle change
                               />
                             </div>
                           </td>
@@ -805,7 +816,6 @@ const RuleEngine = () => {
                       Sub Attribute<span>*</span>
                     </legend>
                     <select
-                     
                       required=""
                       className="mt-1 mb-1"
                       style={{ fontSize: "12px", fontWeight: "400" }}

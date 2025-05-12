@@ -21,6 +21,7 @@ const NewSegment = () => {
   const navigate = useNavigate(); // For navigation after success
   const storedValue = sessionStorage.getItem("selectedId");
   console.log("Stored ID in session after selection:", storedValue);
+  const token = localStorage.getItem("access_token");
 
   const [segment_members, setSelectedMemberIds] = useState([]);
 
@@ -40,12 +41,12 @@ const NewSegment = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const tierResponse = await axios.get(
-          `${BASE_URL}/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}/loyalty/tiers.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setTierLevels(tierResponse.data);
 
         const memberResponse = await axios.get(
-          `${BASE_URL}/loyalty/members.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}/loyalty/members.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setInitialData(memberResponse.data);
         setFilteredData(memberResponse.data);
@@ -63,7 +64,7 @@ const NewSegment = () => {
       const storedValue = sessionStorage.getItem("selectedId");
       try {
         const response = await axios.get(
-          `${BASE_URL}/loyalty/tiers.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+          `${BASE_URL}/loyalty/tiers.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
         );
         setTierLevels(response.data);
         // Store API data in state
@@ -76,7 +77,7 @@ const NewSegment = () => {
     fetchTierLevels();
   }, []);
 
-    //   const handleSubmit = async (e) => {
+  //   const handleSubmit = async (e) => {
   //   e.preventDefault();
 
   //   if (
@@ -242,7 +243,7 @@ const NewSegment = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/loyalty/segments.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`,
+        `${BASE_URL}/loyalty/segments.json?token=${token}`,
         data
       );
 
@@ -443,7 +444,7 @@ const NewSegment = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members.json${queryString}&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/loyalty/members.json${queryString}&token=${token}&q[loyalty_type_id_eq]=${storedValue}`
       );
 
       // setFilteredData(response.data);
@@ -885,17 +886,26 @@ const NewSegment = () => {
                         Select Tier Level
                       </option> */}
                     <option value=""> Select Tier Level</option>
-                    {tierLevels?.map((tier, 
-// @ts-ignore
-                    index) => (
-                      <option key={tier.
-// @ts-ignore
-                      name} value={tier.name}>
-                        {tier.
-// @ts-ignore
-                        display_name}
-                      </option>
-                    ))}
+                    {tierLevels?.map(
+                      (
+                        tier,
+                        // @ts-ignore
+                        index
+                      ) => (
+                        <option
+                          key={
+                            // @ts-ignore
+                            tier.name
+                          }
+                          value={tier.name}
+                        >
+                          {
+                            // @ts-ignore
+                            tier.display_name
+                          }
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
                 {/* Apply Filter Button */}

@@ -7,7 +7,7 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import "../styles/style.css";
 import SubHeader from "../components/SubHeader";
-import { useParams,Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../Confi/baseurl";
 // @ts-ignore
@@ -19,6 +19,7 @@ const MemberDetails = () => {
   const [transactionData, setTransactionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = localStorage.getItem("access_token");
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -33,7 +34,7 @@ const MemberDetails = () => {
     console.log("Stored ID in session after selection:", storedValue, id);
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
+        `${BASE_URL}/loyalty/members/${id}.json?token=${token}`
       );
 
       const formattedMember = {
@@ -90,18 +91,20 @@ const MemberDetails = () => {
       //   });
       // });
 
-      const transactions = response?.data?.member?.member_transactions.map((transaction) => {
-        const formattedDate = new Intl.DateTimeFormat("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }).format(new Date(response.data.member.created_at));
-      
-        return {
-          ...transaction,
-          created_at: formattedDate,
-        };
-      });
+      const transactions = response?.data?.member?.member_transactions.map(
+        (transaction) => {
+          const formattedDate = new Intl.DateTimeFormat("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }).format(new Date(response.data.member.created_at));
+
+          return {
+            ...transaction,
+            created_at: formattedDate,
+          };
+        }
+      );
 
       // const transactions = response.data.members.flatMap((member) => {
       //   return member.member_transactions.map((transaction) => {
@@ -110,7 +113,7 @@ const MemberDetails = () => {
       //       month: "2-digit",
       //       year: "numeric",
       //     }).format(new Date(member.created_at));
-      
+
       //     return {
       //       ...transaction,
       //       created_at: formattedDate,
@@ -136,10 +139,10 @@ const MemberDetails = () => {
         <SubHeader />
         <div className="module-data-section mt-2 mb-2">
           <p className="pointer">
-          <Link to='/members' >
-            <span>Members</span>
+            <Link to="/members">
+              <span>Members</span>
             </Link>
-             &gt; Member Details
+            &gt; Member Details
           </p>
 
           {/* personal details */}
@@ -149,204 +152,285 @@ const MemberDetails = () => {
             <p className="text-danger">{error}</p>
           ) : (
             <>
-              <div 
-// @ts-ignore
-              class="go-shadow mx-3 no-top-left-shadow ">
-                <h5 
-// @ts-ignore
-                class="d-flex">
-                  <span 
-// @ts-ignore
-                  class="title mt-3" style={{ fontSize: '20px', fontWeight: '600' }}>PERSONAL DETAILS</span>
+              <div
+                // @ts-ignore
+                class="go-shadow mx-3 no-top-left-shadow "
+              >
+                <h5
+                  // @ts-ignore
+                  class="d-flex"
+                >
+                  <span
+                    // @ts-ignore
+                    class="title mt-3"
+                    style={{ fontSize: "20px", fontWeight: "600" }}
+                  >
+                    PERSONAL DETAILS
+                  </span>
                 </h5>
-                <div 
-// @ts-ignore
-                class="row px-3" style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-12 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                <div
+                  // @ts-ignore
+                  class="row px-3"
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    color: "#6C757D",
+                  }}
+                >
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-12 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Full name
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.firstname} {member?.lasttname}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.firstname
+                      }{" "}
+                      {member?.lasttname}
                     </div>
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Email Address
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.email}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.email
+                      }
                     </div>
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Phone No.
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.mobile}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.mobile
+                      }
                     </div>
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Home Address
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.address?.address1} {member?.address?.address2}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.address?.address1
+                      }{" "}
+                      {member?.address?.address2}
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Membership Status */}
-              <div 
-// @ts-ignore
-              class="go-shadow mx-3 no-top-left-shadow " style={{ fontSize: '14px', fontWeight: '400', color: '#6C757D' }}>
-                <h5 
-// @ts-ignore
-                class="d-flex">
-                  <span 
-// @ts-ignore
-                  class="title mt-3" style={{ fontSize: '20px', fontWeight: '600' }}>MEMBERSHIP STATUS</span>
+              <div
+                // @ts-ignore
+                class="go-shadow mx-3 no-top-left-shadow "
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  color: "#6C757D",
+                }}
+              >
+                <h5
+                  // @ts-ignore
+                  class="d-flex"
+                >
+                  <span
+                    // @ts-ignore
+                    class="title mt-3"
+                    style={{ fontSize: "20px", fontWeight: "600" }}
+                  >
+                    MEMBERSHIP STATUS
+                  </span>
                 </h5>
-                <div 
-// @ts-ignore
-                class="row px-3">
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-12 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                <div
+                  // @ts-ignore
+                  class="row px-3"
+                >
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-12 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Current Loyalty Points
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.current_loyalty_points}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.current_loyalty_points
+                      }
                     </div>
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Tier Progress
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.member_status.tier_progression}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.member_status.tier_progression
+                      }
                     </div>
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Membership Duration
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.duration}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.duration
+                      }
                     </div>
                     {/* this attribute is not there in  json*/}
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Account Status
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">: Active</div>
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      : Active
+                    </div>
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Enrolled Date
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.created_at}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.created_at
+                      }
                     </div>
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Tier Level
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">
-                      : {
-// @ts-ignore
-                      member?.member_status.tier_level}
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :{" "}
+                      {
+                        // @ts-ignore
+                        member?.member_status.tier_level
+                      }
                     </div>
                   </div>
-                  <div 
-// @ts-ignore
-                  class="col-lg-8 col-md-6 col-sm-12 row px-3">
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 text-muted member-detail-color">
+                  <div
+                    // @ts-ignore
+                    class="col-lg-8 col-md-6 col-sm-12 row px-3"
+                  >
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 text-muted member-detail-color"
+                    >
                       Expiry Points
                     </div>
-                    <div 
-// @ts-ignore
-                    class="col-6 p-1 member-detail-color">:</div>
+                    <div
+                      // @ts-ignore
+                      class="col-6 p-1 member-detail-color"
+                    >
+                      :
+                    </div>
                     {/* this attribute is not there in  json*/}
                   </div>
                 </div>
@@ -371,8 +455,10 @@ const MemberDetails = () => {
                       >
                         <p className="content-box-sub fw-light">
                           {
-// @ts-ignore
-                          member?.earned_percentage}%{" "}
+                            // @ts-ignore
+                            member?.earned_percentage
+                          }
+                          %{" "}
                         </p>
                         <h6
                           className="content-box-title"
@@ -383,8 +469,9 @@ const MemberDetails = () => {
                         </h6>
                         <h6 className="content-box-title">
                           {
-// @ts-ignore
-                          member?.earned_points}
+                            // @ts-ignore
+                            member?.earned_points
+                          }
                         </h6>
                       </div>
                     </div>
@@ -400,8 +487,10 @@ const MemberDetails = () => {
                       >
                         <p className="content-box-sub fw-light">
                           {
-// @ts-ignore
-                          member?.reedem_percentage}%{" "}
+                            // @ts-ignore
+                            member?.reedem_percentage
+                          }
+                          %{" "}
                         </p>
                         <h6
                           className="content-box-title"
@@ -412,8 +501,9 @@ const MemberDetails = () => {
                         </h6>
                         <h6 className="content-box-title">
                           {
-// @ts-ignore
-                          member?.reedem_points}
+                            // @ts-ignore
+                            member?.reedem_points
+                          }
                         </h6>
                       </div>
                     </div>
@@ -429,8 +519,9 @@ const MemberDetails = () => {
                       >
                         <h6 className="content-box-title">
                           {
-// @ts-ignore
-                          member?.current_loyalty_points}
+                            // @ts-ignore
+                            member?.current_loyalty_points
+                          }
                         </h6>
                         <h6
                           className="content-box-title"

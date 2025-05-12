@@ -43,6 +43,7 @@ const NewTier = () => {
   const navigate = useNavigate();
 
   const storedValue = sessionStorage.getItem("selectedId");
+  const token = localStorage.getItem("access_token");
 
   const handleTimeframeChange = (value) => {
     setTimeframe(value);
@@ -57,7 +58,7 @@ const NewTier = () => {
     }
   };
 
-    const cancelStep = () => {
+  const cancelStep = () => {
     setStep(1);
     setTimeframe("");
     setTimeframeError("");
@@ -91,7 +92,7 @@ const NewTier = () => {
     };
 
     try {
-      const token = "bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"; // Ensure to replace with your token
+      // const token = "bfa5004e7b0175622be8f7e69b37d01290b737f82e078414"; // Ensure to replace with your token
       const url =
         formattedTiers?.length > 0
           ? `${BASE_URL}/loyalty/tiers/bulk_create?token=${token}`
@@ -134,14 +135,19 @@ const NewTier = () => {
           style={{ position: "relative", height: "100%" }}
         >
           <p className="pointer">
-            <Link to={'/tiers'}>
-            <span>Tiers</span>
+            <Link to={"/tiers"}>
+              <span>Tiers</span>
             </Link>{" "}
-             &gt; Tier Setting
+            &gt; Tier Setting
           </p>
-          <div className="mx-3 border-bottom" style={{fontSize:'16px',paddingBottom:'20px'}}>
+          <div
+            className="mx-3 border-bottom"
+            style={{ fontSize: "16px", paddingBottom: "20px" }}
+          >
             <h5 className="d-flex">
-              <span className="title mt-3" style={{fontSize:'22px'}}>TIER SETTING</span>
+              <span className="title mt-3" style={{ fontSize: "22px" }}>
+                TIER SETTING
+              </span>
             </h5>
             <p className="mt-5 ms-4 fw-semibold">
               Point Accumulation Timeframe
@@ -367,7 +373,8 @@ const NewTier = () => {
                               <div className="col-md-12 text-end">
                                 <button
                                   type="button"
-                                  className="btn btn-danger" style={{ padding: '10px'}}
+                                  className="btn btn-danger"
+                                  style={{ padding: "10px" }}
                                   onClick={() => remove(index)}
                                 >
                                   <svg
@@ -420,8 +427,7 @@ const NewTier = () => {
                       onClick={() => {
                         setTiers([]);
                         cancelStep();
-                        console.log("step :---",step);
-                        
+                        console.log("step :---", step);
                       }}
                     >
                       Cancel

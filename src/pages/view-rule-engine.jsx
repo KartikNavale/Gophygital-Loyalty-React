@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react";
 import SubHeader from "../components/SubHeader";
-import { useParams,Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 // @ts-ignore
-import { fetchMasterRewardOutcomes, fetchSubRewardOutcomes } from "../Confi/ruleEngineApi";
+import {
+  fetchMasterRewardOutcomes,
+  fetchSubRewardOutcomes,
+} from "../Confi/ruleEngineApi";
 import BASE_URL from "../Confi/baseurl";
 
 const ViewRuleEngine = () => {
   const { id } = useParams(); // Get the member ID from the URL
   // const [ruleName, setRuleName] = useState("");
-
+  const token = localStorage.getItem("access_token");
 
   const [rule, setRule] = useState({
-    name: '',
+    name: "",
     conditions: [],
     actions: [],
-  })
-  console.log(id)
+  });
+  console.log(id);
 
- //transform
+  //transform
   const formatFieldName = (fieldName) => {
     if (!fieldName) {
       // Return an empty string or a default value if fieldName is invalid
-      return '';
-  }
+      return "";
+    }
     return fieldName
-      .replace(/_/g, ' ')           // Replace underscores with spaces
-      .replace(/::/g, ' ')          // Replace :: with spaces
+      .replace(/_/g, " ") // Replace underscores with spaces
+      .replace(/::/g, " ") // Replace :: with spaces
       .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word
   };
 
@@ -38,16 +41,15 @@ const ViewRuleEngine = () => {
       masterOperator: "",
       subOperator: "",
       condition_type: "",
-      value: ''
+      value: "",
     },
   ]);
 
   const [actions, setactions] = useState([
     {
-
       fetchMasterRewardOutcome: "",
       fetchSubRewardOutcome: "",
-      parameters: ''
+      parameters: "",
     },
   ]);
 
@@ -61,7 +63,7 @@ const ViewRuleEngine = () => {
         masterOperator: "",
         subOperator: "",
         condition_type: "",
-        value: ''
+        value: "",
       },
     ]);
   };
@@ -70,7 +72,6 @@ const ViewRuleEngine = () => {
   //   const updatedConditions = conditions.filter(condition => condition.id !== id);
   //   setConditions(updatedConditions);
   // };
-
 
   const renderCondition = (condition, index) => (
     <div key={condition.id} className="SetRuleCard">
@@ -204,7 +205,7 @@ const ViewRuleEngine = () => {
         </ul>
       )} */}
 
-       {console.log("condition:",condition)}
+      {console.log("condition:", condition)}
 
       {index > 0 && condition && (
         <ul className="nav nav-tabs border-0 mt-3">
@@ -251,9 +252,6 @@ const ViewRuleEngine = () => {
         </ul>
       )}
 
-
-
-
       <div className="border-btm pb-2 mt-2">
         {/* If section */}
         <div>
@@ -282,7 +280,11 @@ const ViewRuleEngine = () => {
                 // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  appearance: "none",
+                }}
                 disabled
               >
                 <option value="">{condition.model_name}</option>
@@ -302,15 +304,20 @@ const ViewRuleEngine = () => {
                 // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  appearance: "none",
+                }}
                 disabled
               >
-                <option value="">{ formatFieldName(condition.condition_attribute)}</option>
+                <option value="">
+                  {formatFieldName(condition.condition_attribute)}
+                </option>
               </select>
             </fieldset>
           </div>
         </div>
-
 
         {/* Operator Section */}
         <div className="mt-3">
@@ -339,7 +346,11 @@ const ViewRuleEngine = () => {
                 // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  appearance: "none",
+                }}
                 disabled
               >
                 <option value="">{condition.master_operator}</option>
@@ -359,7 +370,11 @@ const ViewRuleEngine = () => {
                 // @ts-ignore
                 required=""
                 className="p-1 mt-1 mb-1"
-                style={{ fontSize: "12px", fontWeight: "400", appearance: "none" }}
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  appearance: "none",
+                }}
                 disabled
               >
                 <option value="">{formatFieldName(condition.operator)}</option>
@@ -367,7 +382,6 @@ const ViewRuleEngine = () => {
             </fieldset>
           </div>
         </div>
-
 
         {/* Value section */}
         <div className="mt-3">
@@ -411,16 +425,15 @@ const ViewRuleEngine = () => {
     </div>
   );
 
-
   // const storedValue = sessionStorage.getItem("selectedId");
   const getRuleEngine = async (id) => {
     // console.log("Stored ID in session after selection:", storedValue, id);
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}/rule_engine/rules/${id}.json?token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414&&q[loyalty_type_id_eq]=${storedValue}`
+        `${BASE_URL}/rule_engine/rules/${id}.json?token=${token}&&q[loyalty_type_id_eq]=${storedValue}`
       );
-      console.log("data for id", response.data)
+      console.log("data for id", response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching Rule Engine:", error);
@@ -432,15 +445,15 @@ const ViewRuleEngine = () => {
     const fetchRule = async () => {
       try {
         const data = await getRuleEngine(id);
-        console.log(data)
+        console.log(data);
         setRule(data);
         if (data.conditions) {
-          console.log(data.conditions)
+          console.log(data.conditions);
           setConditions(data.conditions);
         }
         if (data.actions) {
-          console.log(data.actions)
-          setactions(data.actions)
+          console.log(data.actions);
+          setactions(data.actions);
         }
       } catch (err) {
         // setError(err.message);
@@ -452,20 +465,24 @@ const ViewRuleEngine = () => {
     fetchRule();
   }, [id]);
 
-
   return (
     <>
       <div className="w-100">
         <SubHeader />
         <div className="module-data-section mt-2">
           <p className="pointer">
-          <Link to='/rule-engine' >
-            <span>Rule Engine</span> 
+            <Link to="/rule-engine">
+              <span>Rule Engine</span>
             </Link>
             &gt; View Rule
           </p>
           <h5 className="mb-3">
-            <span className="title" style={{ fontSize: '20px', fontWeight: '600' }}>View Rule</span>
+            <span
+              className="title"
+              style={{ fontSize: "20px", fontWeight: "600" }}
+            >
+              View Rule
+            </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="19"
@@ -484,22 +501,29 @@ const ViewRuleEngine = () => {
           <div className="go-shadow me-3">
             <div className="row ms-1">
               <fieldset className="border col-md-11 m-2 col-sm-11">
-                <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                <legend
+                  className="float-none"
+                  style={{ fontSize: "14px", fontWeight: "400" }}
+                >
                   New Rule<span>*</span>
                 </legend>
-                <input type="text" disabled placeholder="Enter Name" name={rule?.name} value={rule.name} style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" />
+                <input
+                  type="text"
+                  disabled
+                  placeholder="Enter Name"
+                  name={rule?.name}
+                  value={rule.name}
+                  style={{ fontSize: "12px", fontWeight: "400" }}
+                  className="mt-1 mb-1"
+                />
               </fieldset>
             </div>
           </div>
           <div className="SetRuleCard">
             <div>
               <h5 className="title mt-3">Set Rule Conditions</h5>
-
             </div>
-
           </div>
-
-
 
           <div className="main-rule">
             {conditions.map(renderCondition)}
@@ -507,8 +531,7 @@ const ViewRuleEngine = () => {
             <button
               className="setRuleCard2 mt-2"
               onClick={addCondition}
-              style={{ color: "black", fontSize: '16px', fontWeight: "500" }}
-
+              style={{ color: "black", fontSize: "16px", fontWeight: "500" }}
             >
               <span>
                 <svg
@@ -528,11 +551,24 @@ const ViewRuleEngine = () => {
             {/* THEN section */}
             <div className="mt-3">
               <h4>
-                <span className="badge setRuleCard" style={{ fontSize: '16px', fontWeight: '600', color: '#E95420', backgroundColor: '#E954202E' }}>THEN</span>
+                <span
+                  className="badge setRuleCard"
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    color: "#E95420",
+                    backgroundColor: "#E954202E",
+                  }}
+                >
+                  THEN
+                </span>
               </h4>
               <div className="row ms-1 mt-2">
                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                  <legend
+                    className="float-none"
+                    style={{ fontSize: "14px", fontWeight: "400" }}
+                  >
                     Master Reward Outcome<span>*</span>
                   </legend>
 
@@ -540,35 +576,47 @@ const ViewRuleEngine = () => {
                     // @ts-ignore
                     required=""
                     className="p-1 mt-1 mb-1"
-                    style={{ fontSize: '12px', fontWeight: '400', appearance: "none" }}
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "400",
+                      appearance: "none",
+                    }}
                     disabled
                   >
                     {actions.map((master) => (
-                      <option value="" >{formatFieldName(master.lock_model_name)}</option>
-
+                      <option value="">
+                        {formatFieldName(master.lock_model_name)}
+                      </option>
                     ))}
                     {/* // <option value="">Select Master Reward Outcome</option> */}
                     {/* // <option value=""></option> */}
                   </select>
-
                 </fieldset>
                 <div className="col-md-1 d-flex justify-content-center align-items-center">
                   <h4>&</h4>
                 </div>
                 <fieldset className="border  col-md-3 m-2 col-sm-11">
-                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                  <legend
+                    className="float-none"
+                    style={{ fontSize: "14px", fontWeight: "400" }}
+                  >
                     Sub Reward Outcome<span>*</span>
                   </legend>
                   <select
                     // @ts-ignore
                     required=""
                     className="p-1 mt-1 mb-1"
-                    style={{ fontSize: '12px', fontWeight: '400', appearance: "none" }}
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: "400",
+                      appearance: "none",
+                    }}
                     disabled
                   >
                     {actions.map((master) => (
-                      <option value="" >{formatFieldName(master.action_method)}</option>
-
+                      <option value="">
+                        {formatFieldName(master.action_method)}
+                      </option>
                     ))}
                     {/* <option value="">Select Sub Reward Outcome</option>
 
@@ -579,12 +627,21 @@ const ViewRuleEngine = () => {
                     <h4>=</h4>
                   </div> */}
                 <fieldset className="border col-md-3 m-2 col-sm-11 ">
-                  <legend className="float-none" style={{ fontSize: '14px', fontWeight: '400' }}>
+                  <legend
+                    className="float-none"
+                    style={{ fontSize: "14px", fontWeight: "400" }}
+                  >
                     Parameter {/* <span>*</span> */}
                   </legend>
                   {actions.map((master) => (
-                    <input type="text" placeholder="Enter Point Value" value={master.parameters} style={{ fontSize: '12px', fontWeight: '400' }} className="mt-1 mb-1" disabled />
-
+                    <input
+                      type="text"
+                      placeholder="Enter Point Value"
+                      value={master.parameters}
+                      style={{ fontSize: "12px", fontWeight: "400" }}
+                      className="mt-1 mb-1"
+                      disabled
+                    />
                   ))}
                   {/* <input type="text" placeholder="Enter Point Value" value={} /> */}
                 </fieldset>
@@ -611,9 +668,6 @@ const ViewRuleEngine = () => {
 };
 
 export default ViewRuleEngine;
-
-
-
 
 //another
 
@@ -838,7 +892,6 @@ export default ViewRuleEngine;
 //   //   },
 //   // };
 
-
 //   const handleSubmit = async () => {
 //     // Validate required fields
 //     if (!ruleName || conditions.some(cond =>
@@ -876,7 +929,6 @@ export default ViewRuleEngine;
 //     // Update previousValue to the current value before proceeding
 //     const newValue = conditions.map(cond => cond.value);
 //     setPreviousValue(newValue); // Store the latest value(s) as the previous value
-
 
 //     const data = {
 //       rule_engine_rule: {
@@ -934,7 +986,6 @@ export default ViewRuleEngine;
 //       console.error("Submission error:", error);
 //     }
 //   };
-
 
 //   const renderCondition = (condition, index) => (
 //     <div key={condition.id} className="SetRuleCard">
