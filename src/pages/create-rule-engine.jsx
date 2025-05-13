@@ -666,7 +666,7 @@ const CreateRuleEngine = () => {
   return (
     <>
       <div className="w-100">
-        <SubHeader />
+        {/* <SubHeader /> */}
         <div className="module-data-section mt-2">
           <p className="pointer">
             <Link to='/rule-engine' >

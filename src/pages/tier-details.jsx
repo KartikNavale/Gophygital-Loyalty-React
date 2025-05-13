@@ -59,7 +59,7 @@ export default function TierDetails() {
 
   return (
     <div className="w-100">
-      <SubHeader />
+      {/* <SubHeader /> */}
       <div className="module-data-section mt-2 mb-2">
         <p className="pointer">
           <span>Tiers</span> &gt; Tier Details

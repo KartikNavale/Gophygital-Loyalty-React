@@ -128,7 +128,7 @@ const NewTier = () => {
 
   return (
     <div className="w-100" style={{ height: "90%" }}>
-      <SubHeader />
+      {/* <SubHeader /> */}
       {step === 1 && (
         <div
           className="module-data-section mt-2 flex-grow-1"

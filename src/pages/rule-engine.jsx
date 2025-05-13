@@ -416,7 +416,7 @@ const RuleEngine = () => {
   return (
     <>
       <div className="w-100">
-        <SubHeader />
+        {/* <SubHeader /> */}
         <div className="module-data-section mt-2">
           <p className="pointer">
             <span>Rule Engine</span> &gt; Rule List

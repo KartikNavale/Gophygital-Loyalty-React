@@ -315,7 +315,7 @@ const Tiers = () => {
   return (
     <>
       <div className="w-100">
-        <SubHeader />
+        {/* <SubHeader /> */}
         <div
           className="module-data-section mt-2 px-3"
           style={{ color: "#000" }}
