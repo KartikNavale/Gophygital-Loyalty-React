@@ -91,13 +91,13 @@ const CreateRuleEngine = () => {
           companyId,
           activeStatus
         );
-        setMasterAttributes(masterAttrs.master_attributes);
+        setMasterAttributes(masterAttrs.master_attributes || []);
 
         const rewardOutcomes = await fetchMasterRewardOutcomes(
           companyId,
           activeStatus
         );
-        setMasterRewardOutcomes(rewardOutcomes.master_reward_outcome);
+        setMasterRewardOutcomes(rewardOutcomes.master_reward_outcome || []);
       } catch (error) {
         console.error("Error loading data:", error);
       }
