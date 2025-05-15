@@ -41,6 +41,9 @@ const RuleEngine = () => {
   const storedValue = sessionStorage.getItem("selectedId");
   const token = localStorage.getItem("access_token");
 
+
+// console.log("masterAttributes", masterAttributes);
+
   useEffect(() => {
     const fetchRuleEngine = async () => {
       try {
@@ -76,7 +79,9 @@ const RuleEngine = () => {
           companyId,
           activeStatus
         );
-        setMasterAttributes(masterAttrs.master_attributes);
+
+        console.log("masterAttrs", masterAttrs);
+        setMasterAttributes(masterAttrs.master_attributes || []);
       } catch (error) {
         console.error("Error loading data:", error);
       }
