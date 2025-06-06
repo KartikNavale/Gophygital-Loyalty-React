@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/style.css";
 import GophygitalLogo1 from "/GophygitalLogo1.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import TypeHeader from "./TypeHeader";
 
-const Header = ({ noTier }) => {
+const Header = ({ noTier, onNavChange }) => {
   const [showModal, setShowModal] = useState(false);
+  const [activeNav, setActiveNav] = useState("home"); // Track active nav
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Notify parent when activeNav changes
+  useEffect(() => {
+    if (onNavChange) {
+      onNavChange(activeNav);
+    }
+  }, [activeNav, onNavChange]);
 
   const handleClose = () => {
     setShowModal(false);
@@ -87,19 +96,46 @@ const Header = ({ noTier }) => {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="./1CF_Main.html">
+                <a
+                  className={`nav-link${
+                    activeNav === "home" ? " active rounded-2" : ""
+                  }`}
+                  href="./1CF_Main.html"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveNav("home");
+                    navigate("/"); // or your actual home route
+                  }}
+                >
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="./31Dashboard_Daily.html">
+                <a
+                  className={`nav-link${
+                    activeNav === "dashboard" ? " active rounded-2" : ""
+                  }`}
+                  href="./31Dashboard_Daily.html"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveNav("dashboard");
+                    navigate("/dashboard"); // or your actual dashboard route
+                  }}
+                >
                   Dashboard
                 </a>
               </li>
               <li className="nav-item">
                 <a
-                  className="nav-link active rounded-2"
+                  className={`nav-link${
+                    activeNav === "setup" ? " active rounded-2" : ""
+                  }`}
                   href="./31Dashboard_Daily.html"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveNav("setup");
+                    navigate("/setup"); // or your actual setup route
+                  }}
                 >
                   Setup
                 </a>
