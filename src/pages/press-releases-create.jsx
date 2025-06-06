@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../mor.css";
+
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import BASE_URL from "../Confi/baseurl"; 

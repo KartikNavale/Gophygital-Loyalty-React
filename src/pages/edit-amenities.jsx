@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import "../mor.css";
+
 import { toast } from "react-hot-toast";
 import SelectBox from "../components/base/SelectBox";
 import BASE_URL from "../Confi/baseurl"; 

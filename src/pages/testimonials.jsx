@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import SelectBox from "../components/base/SelectBox";
-import "../mor.css";
+
 import BASE_URL from "../Confi/baseurl"; 
 
 const Testimonials = () => {

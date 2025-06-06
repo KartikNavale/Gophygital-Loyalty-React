@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import BASE_URL from "../Confi/baseurl"; 
-import "../mor.css";
+
 import toast from "react-hot-toast";
 
 const Specification = () => {

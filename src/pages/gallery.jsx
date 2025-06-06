@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";  // Import Axios
-import "../mor.css";
+
 import BASE_URL from "../Confi/baseurl"; 
 
 const GalleryDetails = () => {

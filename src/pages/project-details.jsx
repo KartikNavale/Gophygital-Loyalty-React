@@ -4,7 +4,7 @@ import Select from "react-select";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
-import "../mor.css";
+
 import { useParams } from "react-router-dom";
 import BASE_URL from "../Confi/baseurl"; 
 

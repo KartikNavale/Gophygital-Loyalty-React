@@ -1,5 +1,4 @@
-import "./App.css";
-import "./styles/style.css";
+import React from "react";
 
 import Members from "./pages/members";
 import Tiers from "./pages/tier";

@@ -4,7 +4,7 @@ import Select from "react-select";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
-import "../mor.css";
+
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import MultiSelectBox from "../components/base/MultiSelectBox";

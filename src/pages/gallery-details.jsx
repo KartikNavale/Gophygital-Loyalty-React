@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../mor.css";
+
 import BASE_URL from "../Confi/baseurl"; 
 
 const GalleryDetails = () => {

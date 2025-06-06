@@ -3,7 +3,7 @@ import axios from "axios";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import "../mor.css";
+
 import BASE_URL from "../Confi/baseurl"; 
 
 const TestimonialList = () => {

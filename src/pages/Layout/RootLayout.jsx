@@ -12,6 +12,32 @@ export default function RootLayout() {
   // Determine if the current path includes "tiers"
   const noTier = location.pathname.includes('/tiers'); // Adjust this condition as needed
 
+  // Dynamically import CSS based on selectedNav, but do not remove after switching
+  // React.useEffect(() => {
+  //   // Remove any previously injected dynamic style
+  //   const prevLink = document.getElementById('dynamic-css');
+  //   if (prevLink) {
+  //     prevLink.parentNode.removeChild(prevLink);
+  //   }
+
+  //   // Create new link element for the selected CSS
+  //   const link = document.createElement('link');
+  //   link.rel = 'stylesheet';
+  //   link.id = 'dynamic-css';
+  //   link.href = selectedNav === "setup"
+  //     ? '/styles/mor.css'
+  //     : '/styles/style.css';
+  //   document.head.appendChild(link);
+
+  //   // Cleanup on unmount or nav change
+  //   return () => {
+  //     const link = document.getElementById('dynamic-css');
+  //     if (link && link.parentNode) {
+  //       link.parentNode.removeChild(link);
+  //     }
+  //   };
+  // }, [selectedNav]);
+
   return (
     <main className="h-100 w-100">
       <Header noTier={noTier} onNavChange={setSelectedNav} />

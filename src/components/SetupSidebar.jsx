@@ -11,7 +11,7 @@ export default function SetupSidebar() {
         style={{ flexDirection: "column" }}
       >
         <li className="menu-item d-flex">
-          <a
+        <a
             className="d-flex"
             style={{ flexDirection: "column" }}
             href="#"

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../styles/style.css";
 import GophygitalLogo1 from "/GophygitalLogo1.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import TypeHeader from "./TypeHeader";
