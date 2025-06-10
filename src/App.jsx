@@ -98,6 +98,7 @@ import CategoryTypes from "./pages/category-types";
 import CategoryTypesList from "./pages/category-types-list";
 import CategoryTypesEdit from "./pages/category-types-edit";
 import TagAdd from "./pages/tag-add";
+import ReferralCreate from "./pages/referral-create";
 
 
 function App() {
@@ -169,7 +170,7 @@ function App() {
           <Route path="/edit-gallery/:id" element={<EditGallery />} />
           <Route path="/banner-edit/:id" element={<BannerEdit />} />
           <Route path="/event-create" element={<EventCreate />} />
-          <Route path="/referral-create" element={<Referralcreate />} />
+          <Route path="/referral-create" element={<ReferralCreate />} />
           <Route path="/referral-list" element={<Referrallist />} />
           <Route path="/event-list" element={<Eventlist />} />
           <Route path="/event-details/:id" element={<EventDetails />} />

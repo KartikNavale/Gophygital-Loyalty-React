@@ -29,14 +29,16 @@ const SitevisitList = () => {
       try {
         const response = await axios.get(
           `${BASE_URL}/site_schedule_requests/all_site.json`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
+          // {
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          //   },
+          // }
         );
-        const data = response.data.site_visits;
+        const data = response.data;
+        console.log("Fetched site visits:", response.data);
+        
         setSiteVisits(data);
         // setFilteredSiteVisits;
         setPagination({
@@ -76,12 +78,14 @@ const SitevisitList = () => {
     setSearchQuery(e.target.value);
     setPagination((prevState) => ({ ...prevState, current_page: 1 }));
   };
-  const filteredData = siteVisits.filter(
-    (visit) =>
-      !searchQuery ||
-      (visit.project_name &&
-        visit.project_name.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  console.log("siteVisits:-",siteVisits);
+  
+  const filteredData = (siteVisits || []).filter(
+  (visit) =>
+    !searchQuery ||
+    (visit.project_name &&
+      visit.project_name.toLowerCase().includes(searchQuery.toLowerCase()))
+);
 
   const totalFiltered = filteredData.length;
   const totalPages = Math.ceil(totalFiltered / pageSize);

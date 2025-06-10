@@ -201,7 +201,7 @@ const ProjectDetailsList = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="tbl-container mt-3 ">
+                    <div className="tbl-container mt-3 " style={{ overflowX: "auto", width: "100%" }}>
                       <table className="w-110" style={{ width: "max-content" }}>
                         <thead>
                           <tr>

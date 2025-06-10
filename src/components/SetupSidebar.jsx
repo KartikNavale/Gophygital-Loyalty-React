@@ -8,12 +8,13 @@ export default function SetupSidebar() {
     <aside className="sidebar setup-sidebar">
       <ul
         className="menu-list px-2 d-flex pt-2"
-        style={{ flexDirection: "column" }}
+        style={{
+          flexDirection: "column",}}
       >
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
         <a
-            className="d-flex"
-            style={{ flexDirection: "column" }}
+            className="d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -33,13 +34,13 @@ export default function SetupSidebar() {
                 fill="#DD7007"
               ></path>
             </svg>
-            <span className="menu-link-text">Project</span>
+            <p className="menu-link-text">Project</p>
           </a>
         </li>
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="d-flex"
-            style={{ flexDirection: "column" }}
+            className="d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -69,13 +70,13 @@ export default function SetupSidebar() {
                 strokeLinejoin="round"
               ></path>
             </svg>
-            <span className="menu-link-text">Banner</span>
+            <p className="menu-link-text">Banner</p>
           </a>
         </li>
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -93,14 +94,14 @@ export default function SetupSidebar() {
               <path d="M55.387 7.36133H8.613C4.967 7.36133 2 10.3283 2 13.9743V40.9863C2 44.6323 4.966 47.5993 8.613 47.5993H12.724V55.6373C12.724 56.0413 12.968 56.4063 13.341 56.5613C13.465 56.6123 13.595 56.6373 13.724 56.6373C13.984 56.6373 14.24 56.5353 14.431 56.3443L23.176 47.5993H55.387C59.033 47.5993 62 44.6333 62 40.9863V13.9743C62 10.3283 59.034 7.36133 55.387 7.36133ZM60 40.9863C60 43.5293 57.931 45.5993 55.387 45.5993H22.762C22.497 45.5993 22.242 45.7043 22.055 45.8923L14.724 53.2233V46.5993C14.724 46.0473 14.276 45.5993 13.724 45.5993H8.613C6.07 45.5993 4 43.5303 4 40.9863V13.9743C4 11.4303 6.069 9.36133 8.613 9.36133H55.387C57.93 9.36133 60 11.4303 60 13.9743V40.9863Z" fill="#DD7007"/>
               <path d="M10.8375 23.2224C10.7315 23.8384 10.9795 24.4484 11.4845 24.8154C11.7695 25.0234 12.1035 25.1284 12.4405 25.1284C12.6995 25.1284 12.9595 25.0664 13.1995 24.9394L15.7495 23.5994L18.2985 24.9394C18.8525 25.2314 19.5095 25.1834 20.0135 24.8164C20.5195 24.4494 20.7675 23.8394 20.6625 23.2234L20.1755 20.3834L22.2375 18.3734C22.6845 17.9374 22.8425 17.2984 22.6495 16.7044C22.4565 16.1104 21.9535 15.6854 21.3355 15.5964L18.4845 15.1824L17.2105 12.5994C16.9345 12.0394 16.3745 11.6914 15.7505 11.6914C15.1265 11.6914 14.5665 12.0394 14.2905 12.5994L13.0165 15.1824L10.1655 15.5964C9.54746 15.6864 9.04346 16.1114 8.85046 16.7044C8.65746 17.2984 8.81546 17.9384 9.26246 18.3734L11.3255 20.3844L10.8375 23.2224ZM11.1965 17.4664L13.4955 17.1324C14.0255 17.0554 14.4835 16.7224 14.7215 16.2414L15.7495 14.1584L16.7775 16.2424C17.0155 16.7224 17.4735 17.0554 18.0035 17.1324L20.3025 17.4664L18.6395 19.0874C18.2555 19.4614 18.0795 20.0014 18.1705 20.5294L18.5635 22.8194L16.5065 21.7384C16.2695 21.6134 16.0095 21.5514 15.7495 21.5514C15.4895 21.5514 15.2285 21.6134 14.9915 21.7384L12.9355 22.8194L13.3285 20.5284C13.4185 20.0004 13.2435 19.4614 12.8595 19.0884L11.1955 17.4674L11.1965 17.4664Z" fill="#DD7007"/>
             </svg>
-            <span className="menu-link-text">Testimonial</span>
+            <p className="menu-link-text">Testimonial</p>
           </a>
         </li>
         {/* Referral */}
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -131,14 +132,14 @@ export default function SetupSidebar() {
                         stroke="#DD7007"
                       ></path>
                     </svg>
-                     <span className="menu-link-text">Referral</span>
+                     <p className="menu-link-text">Referral</p>
           </a>
         </li>
         {/* Enquiry */}
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -170,14 +171,14 @@ export default function SetupSidebar() {
                         stroke="#DD7007"
                       ></path>
                     </svg>
-            <span className="menu-link-text">Enquiry</span>
+            <p className="menu-link-text">Enquiry</p>
           </a>
         </li>
         {/* Event */}
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -243,14 +244,14 @@ export default function SetupSidebar() {
                         fill="#DD7007"
                       />
                     </svg>
-            <span className="menu-link-text">Event</span>
+            <p className="menu-link-text">Event</p>
           </a>
         </li>
         {/* Specification */}
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -270,14 +271,14 @@ export default function SetupSidebar() {
                         fill="#DD7007"
                       />
                     </svg>
-            <span className="menu-link-text">Specification</span>
+            <p className="menu-link-text">Specification</p>
           </a>
         </li>
         {/* Site visit */}
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -305,14 +306,14 @@ export default function SetupSidebar() {
                       />
                     </g>
                   </svg>
-            <span className="menu-link-text">Site visit</span>
+            <p className="menu-link-text">Site visit</p>
           </a>
         </li>
         {/* Organization */}
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -332,14 +333,14 @@ export default function SetupSidebar() {
                         fill="#F58220"
                       />
                     </svg>
-            <span className="menu-link-text">Organization</span>
+            <p className="menu-link-text">Organization</p>
           </a>
         </li>
         {/* Company */}
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -359,14 +360,14 @@ export default function SetupSidebar() {
                       fill="#F58220"
                     />
                   </svg>
-            <span className="menu-link-text">Company</span>
+            <p className="menu-link-text">Company</p>
           </a>
         </li>
         {/* Support Service */}
-        <li className="menu-item d-flex">
+        <li className="menu-item d-flex w-100">
           <a
-            className="menu-link d-flex"
-            style={{ flexDirection: "column" }}
+            className="menu-link d-flex gap-4"
+            
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -407,15 +408,14 @@ export default function SetupSidebar() {
                       ></path>
                     </g>
                   </svg>
-          <span className="menu-link-text">Support <br /> Service</span>
+          <p className="menu-link-text">Support Service</p>
         </a>
       </li>
       {/* Press Releases */}
-      <li className="menu-item d-flex">
+      <li className="menu-item d-flex w-100">
         <a
-          className="menu-link d-flex"
+          className="menu-link d-flex gap-4"
           style={{
-            flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -438,7 +438,7 @@ export default function SetupSidebar() {
                       fill="#DD7007"
                     />
                   </svg>
-          <span className="menu-link-text text-center">Press <br /> Releases</span>
+          <span className="menu-link-text text-center">Press Releases</span>
         </a>
       </li>
     </ul>

@@ -71,9 +71,12 @@ const Referrallist = () => {
     localStorage.setItem("referral_list_currentPage", pageNumber);
   };
 
-  const filteredReferrals = referrals.filter((referral) =>
-    referral.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredReferrals = referrals.filter(
+  (referral) =>
+    (referral.name || "")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+);
 
   const totalFiltered = filteredReferrals.length;
   const totalPages = Math.ceil(totalFiltered / pageSize);
