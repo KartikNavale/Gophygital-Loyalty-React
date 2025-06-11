@@ -97,44 +97,6 @@ export default function SetupSidebar() {
             <p className="menu-link-text">Testimonial</p>
           </a>
         </li>
-        {/* Referral */}
-        <li className="menu-item d-flex w-100">
-          <a
-            className="menu-link d-flex gap-4"
-            
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/referral-list");
-            }}
-            data-section="security"
-          >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M6.9168 21.6804H22.2314V1.261H1.812V8.4078"
-                        stroke="#DD7007"
-                      ></path>
-                      <path d="M9.9797 16.5755H18.1475" stroke="#DD7007"></path>
-                      <path d="M5.8959 6.3658H18.1475" stroke="#DD7007"></path>
-                      <path d="M9.9797 11.4707H18.1475" stroke="#DD7007"></path>
-                      <path
-                        d="M6.9024 16.6194L6.9024 11.4856H1.7686"
-                        stroke="#DD7007"
-                      ></path>
-                      <path
-                        d="M6.9094 11.4707L3.6146 14.7656C1.7106 16.6695 1.7106 19.7565 3.6146 21.6605L4.6932 22.739"
-                        stroke="#DD7007"
-                      ></path>
-                    </svg>
-                     <p className="menu-link-text">Referral</p>
-          </a>
-        </li>
         {/* Enquiry */}
         <li className="menu-item d-flex w-100">
           <a

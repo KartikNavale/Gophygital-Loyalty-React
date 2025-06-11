@@ -149,6 +149,30 @@ const Sidebar = () => {
             </span>
           </NavLink>
         </li>
+        {/* Referral */}
+        <li className="nav-item">
+          <NavLink
+            to="/referral-list"
+            // className="menu-link d-flex gap-4"
+            className={`nav-link d-flex justify-content-between ${activeItem === "/referral-list" ? "active" : ""}`}
+            onClick={() => handleNavLinkClick("/referral-list")}
+            data-section="security"
+          >
+            <span className="text">Referral</span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-caret-right-fill"
+                viewBox="0 0 16 16"
+              >
+                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+              </svg>
+            </span>
+          </NavLink>
+        </li>
         {/* <li className="nav-item">
           <a
             className="text nav-link d-flex justify-content-between"
