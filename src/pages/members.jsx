@@ -171,8 +171,9 @@ const Members = () => {
     totalEntries,
     onPageChange, // Pass the onPageChange function as a prop
   }) => {
-    const startEntry = (currentPage - 1) * itemsPerPage + 1;
-    const endEntry = Math.min(currentPage * itemsPerPage, totalEntries);
+    // Calculate for descending order
+    const startEntry = totalEntries - (currentPage - 1) * itemsPerPage;
+    const endEntry = Math.max(startEntry - itemsPerPage + 1, 1);
 
     // Function to get the range of page numbers to display
     const getPageNumbers = () => {

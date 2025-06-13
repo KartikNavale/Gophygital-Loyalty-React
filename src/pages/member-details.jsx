@@ -133,6 +133,10 @@ const MemberDetails = () => {
     getTransactionData(id);
   }, [id]);
 
+  console.log("Member Details:", member);
+  console.log("Transaction Data:", transactionData);
+  
+
   return (
     <>
       <div className="w-100">

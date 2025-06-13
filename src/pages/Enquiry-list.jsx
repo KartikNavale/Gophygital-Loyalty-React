@@ -24,7 +24,7 @@ const EnquiryList = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASE_URL}/enquiry_forms.json`,
+          `${BASE_URL}/enquiry_forms/get_all_enquiry.json`,
           {
             headers: {
               "Content-Type": "application/json",

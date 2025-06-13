@@ -72,18 +72,7 @@ const Sidebar = () => {
             onClick={() => handleNavLinkClick("/")}
           >
             <span className="text">Dashboard</span>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-caret-right-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-              </svg>
-            </span>
+            
           </NavLink>
         </li>
         <li className="nav-item">
@@ -93,18 +82,7 @@ const Sidebar = () => {
             onClick={() => handleNavLinkClick("/members")}
           >
             <span className="text">Members</span>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-caret-right-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-              </svg>
-            </span>
+            
           </NavLink>
         </li>
         <li className="nav-item">
@@ -114,18 +92,7 @@ const Sidebar = () => {
             onClick={() => handleNavLinkClick("/tiers")}
           >
             <span className="text">Tiers</span>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-caret-right-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-              </svg>
-            </span>
+            
           </NavLink>
         </li>
         <li className="nav-item">
@@ -135,18 +102,7 @@ const Sidebar = () => {
             onClick={() => handleNavLinkClick("/rule-engine")}
           >
             <span className="text">Rule Engine</span>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-caret-right-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-              </svg>
-            </span>
+            
           </NavLink>
         </li>
         {/* Referral */}
@@ -159,18 +115,43 @@ const Sidebar = () => {
             data-section="security"
           >
             <span className="text">Referral</span>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-caret-right-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-              </svg>
-            </span>
+            
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            to="/enquiry-list"
+            // className="menu-link d-flex gap-4"
+            className={`nav-link d-flex justify-content-between ${activeItem === "/enquiry-list" ? "active" : ""}`}
+            onClick={() => handleNavLinkClick("/enquiry-list")}
+            data-section="security"
+          >
+            <span className="text">Enquiry List</span>
+            
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            to="/demand-notes"
+            // className="menu-link d-flex gap-4"
+            className={`nav-link d-flex justify-content-between ${activeItem === "/demand-notes" ? "active" : ""}`}
+            onClick={() => handleNavLinkClick("/demand-notes")}
+            data-section="security"
+          >
+            <span className="text">Demand Notes</span>
+            
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink
+            to="/home-loan-request"
+            // className="menu-link d-flex gap-4"
+            className={`nav-link d-flex justify-content-between ${activeItem === "/home-loan-request" ? "active" : ""}`}
+            onClick={() => handleNavLinkClick("/home-loan-request")}
+            data-section="security"
+          >
+            <span className="text">Home Loan Request</span>
+            
           </NavLink>
         </li>
         {/* <li className="nav-item">
@@ -285,18 +266,7 @@ const Sidebar = () => {
             onClick={() => handleNavLinkClick("/services")}
           >
             <span className="text">Reports</span>
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                className="bi bi-caret-right-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-              </svg>
-            </span>
+            
           </NavLink>
         </li>
       </ul>
