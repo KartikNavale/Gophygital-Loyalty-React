@@ -99,6 +99,8 @@ import CategoryTypesList from "./pages/category-types-list";
 import CategoryTypesEdit from "./pages/category-types-edit";
 import TagAdd from "./pages/tag-add";
 import ReferralCreate from "./pages/referral-create";
+import DemandNotes from "./pages/demand-notes";
+import HomeLoanRequest from "./pages/home-loan-request";
 
 
 function App() {
@@ -172,6 +174,8 @@ function App() {
           <Route path="/event-create" element={<EventCreate />} />
           <Route path="/referral-create" element={<ReferralCreate />} />
           <Route path="/referral-list" element={<Referrallist />} />
+          <Route path="/demand-notes" element={<DemandNotes />} />
+          <Route path="/home-loan-request" element={<HomeLoanRequest />} />
           <Route path="/event-list" element={<Eventlist />} />
           <Route path="/event-details/:id" element={<EventDetails />} />
           <Route path="/event-details" element={<EventDetails />} />

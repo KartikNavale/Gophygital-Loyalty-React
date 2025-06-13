@@ -85,8 +85,6 @@ const MemberDetails = () => {
   }, [id]);
 
 
-
-
   return (
     <>
       <div className="w-100">

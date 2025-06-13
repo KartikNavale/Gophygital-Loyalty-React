@@ -489,7 +489,7 @@ const Members = () => {
                       <th
                         onClick={() => requestSort('id')}
                         className="cursor-pointer"
-                        style={{cursor: 'pointer'}}
+                        style={{ cursor: 'pointer' }}
                       >
                         Member ID {sortConfig.key === 'id' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                       </th>
