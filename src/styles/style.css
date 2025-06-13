@@ -3591,3 +3591,11 @@ input[type="number"] {
   cursor: pointer;
 }
 
+
+.tbl-container table td.override-center {
+  text-align: center !important;
+}
+
+
+
+

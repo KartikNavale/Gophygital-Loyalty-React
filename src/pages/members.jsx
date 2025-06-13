@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import axios from "axios";
@@ -18,6 +18,8 @@ const Members = () => {
   const [filteredItems, setFilteredItems] = useState([]); //filter
   const [suggestions, setSuggestions] = useState([]); // To store the search suggestions
   const [selectedIndex, setSelectedIndex] = useState(-1); // Track the selected suggestion index
+  const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'asc' });
+
 
 
   const formatDate = (dateString) => {
@@ -33,7 +35,7 @@ const Members = () => {
     const storedValue = sessionStorage.getItem("selectedId");
     try {
       const response = await axios.get(
-        `${BASE_URL}/loyalty/members.json`, 
+        `${BASE_URL}/loyalty/members.json`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -110,12 +112,12 @@ const Members = () => {
     if (term) {
       const filteredSuggestions = members.filter(
         (member) =>
-          
+
           `${member.firstname} ${member.lasttname}`
             .toLowerCase()
             .includes(term.toLowerCase())
       );
-      
+
       setSuggestions(filteredSuggestions); // Update suggestions list
       setSelectedIndex(-1); // Reset the selected index
     } else {
@@ -158,11 +160,43 @@ const Members = () => {
     }
   };
 
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const currentItems = filteredItems.slice(
+  // const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  // const currentItems = filteredItems.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage
+  // );
+
+  const requestSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedItems = useMemo(() => {
+    let sortableItems = [...filteredItems];
+    if (sortConfig.key) {
+      sortableItems.sort((a, b) => {
+        const aVal = sortConfig.key === 'id' ? Number(a[sortConfig.key]) : a[sortConfig.key];
+        const bVal = sortConfig.key === 'id' ? Number(b[sortConfig.key]) : b[sortConfig.key];
+
+        if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [filteredItems, sortConfig]);
+
+  const totalPages = Math.ceil(sortedItems.length / itemsPerPage);
+  const currentItems = sortedItems.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+
+
 
 
   const Pagination = ({
@@ -224,6 +258,9 @@ const Members = () => {
         onPageChange(1); // Go to first page if jump goes below 1
       }
     };
+
+
+
 
     return (
       <nav className="d-flex justify-content-between align-items-center">
@@ -449,7 +486,13 @@ const Members = () => {
                 <table className="w-100" style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
                   <thead>
                     <tr>
-                      <th>Member ID</th>
+                      <th
+                        onClick={() => requestSort('id')}
+                        className="cursor-pointer"
+                        style={{cursor: 'pointer'}}
+                      >
+                        Member ID {sortConfig.key === 'id' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                      </th>
                       <th>Member Name</th>
                       <th>Tier Level</th>
                       <th>Current Balance</th>
@@ -488,11 +531,12 @@ const Members = () => {
                     ))}
                   </tbody>
                 </table>
+
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={handlePageChange}
-                  totalEntries={filteredItems.length}
+                  totalEntries={sortedItems.length}
                 />
               </>
             )}

@@ -73,56 +73,7 @@ const MemberDetails = () => {
         `${BASE_URL}/loyalty/members/${id}.json?&token=bfa5004e7b0175622be8f7e69b37d01290b737f82e078414`
       );
 
-      console.log("Response data:", response.data);
-
-      // Extract member_transactions from each member and map over them
-      // const transactions = response.data.flatMap((member) => {
-      //   return member.member_transactions.map((transaction) => {
-      //     const formattedDate = new Intl.DateTimeFormat("en-GB", {
-      //       day: "2-digit",
-      //       month: "2-digit",
-      //       year: "numeric",
-      //     }).format(new Date(member.created_at));
-
-      //     return {
-      //       ...transaction,
-      //       created_at: formattedDate,
-      //     };
-      //   });
-      // });
-
-      const transactions = response?.data?.member?.member_transactions.map(
-        (transaction) => {
-          const formattedDate = new Intl.DateTimeFormat("en-GB", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          }).format(new Date(response.data.member.created_at));
-
-          return {
-            ...transaction,
-            created_at: formattedDate,
-          };
-        }
-      );
-
-      // const transactions = response.data.members.flatMap((member) => {
-      //   return member.member_transactions.map((transaction) => {
-      //     const formattedDate = new Intl.DateTimeFormat("en-GB", {
-      //       day: "2-digit",
-      //       month: "2-digit",
-      //       year: "numeric",
-      //     }).format(new Date(member.created_at));
-
-      //     return {
-      //       ...transaction,
-      //       created_at: formattedDate,
-      //     };
-      //   });
-      // });
-
-      console.log("transaction data", transactions, response.data);
-      setTransactionData(transactions);
+      setTransactionData(response.data);
     } catch (error) {
       console.error("Error fetching member details:", error);
       throw error;
@@ -133,17 +84,23 @@ const MemberDetails = () => {
     getTransactionData(id);
   }, [id]);
 
+
+
+
   return (
     <>
       <div className="w-100">
         {/* <SubHeader /> */}
         <div className="module-data-section mt-2 mb-2">
-          <p className="pointer">
+          <p className="pointer flex items-center">
             <Link to="/members">
               <span>Members</span>
             </Link>
-            &gt; Member Details
+            <span className="mx-2" style={{ color: "#667080" }}>{'>'}</span>
+            <span>Member Details</span>
           </p>
+
+
 
           {/* personal details */}
           {loading ? (
@@ -465,7 +422,7 @@ const MemberDetails = () => {
                           // @ts-ignore
                           style={{ heigth: "20px", width: "221px" }}
                         >
-                          ALL THE POINTS EARNED
+                          TOTAL POINTS EARNED
                         </h6>
                         <h6 className="content-box-title">
                           {
@@ -497,7 +454,7 @@ const MemberDetails = () => {
                           // @ts-ignore
                           style={{ heigth: "20px", width: "221px" }}
                         >
-                          ALL THE POINTS REDEEMED
+                          TOTAL POINTS REDEEMED
                         </h6>
                         <h6 className="content-box-title">
                           {
@@ -508,33 +465,24 @@ const MemberDetails = () => {
                       </div>
                     </div>
 
-                    <div className="col-md-2 col-sm-11 d-flex justify-content-center align-item-center">
+                    <div className="col-md-2 col-sm-11 d-flex justify-content-center align-items-center">
                       <div
-                        className="content-box text-center tab-button border pt-4"
+                        className="content-box text-center tab-button border d-flex flex-column justify-content-center align-items-center"
                         style={{
                           height: "135px",
                           width: "246px",
                           borderRadius: "20px",
                         }}
                       >
+                        <h6 className="content-box-title" style={{ height: "20px", width: "221px" }}>
+                          CURRENT POINTS
+                        </h6>
                         <h6 className="content-box-title">
-                          {
-                            // @ts-ignore
-                            member?.current_loyalty_points
-                          }
+                          {member.current_loyalty_points}
                         </h6>
-                        <h6
-                          className="content-box-title"
-                          // @ts-ignore
-                          style={{ heigth: "20px", width: "221px" }}
-                        >
-                          BALANCED POINTS
-                        </h6>
-                        {/* <h6 className="content-box-title">
-                          {member.current_loyalty_points}{" "}
-                        </h6> */}
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -542,45 +490,46 @@ const MemberDetails = () => {
               {/* table */}
 
               <div>
-                <h5 className="m-3 title ps-2 ">TRANSACTION STATUS</h5>
-                <div className="tbl-container mx-5">
-                  <table className="w-100">
-                    <thead>
+                <h5 className="m-3 title ps-2">TRANSACTION STATUS</h5>
+                <div className="tbl-container mx-5 ">
+                  <table className="w-100 border border-gray-300">
+                    <thead className="bg-gray-100">
                       <tr>
-                        <td className="text-center"> Date</td>
-                        <td className="text-center"> Transaction Type</td>
-                        <td className="text-center"> Points</td>
+                        <th className="text-center py-2 px-3 border">Date</th>
+                        <th className="text-center py-2 px-3 border">Transaction Type</th>
+                        <th className="text-center py-2 px-3 border">Balanced Points</th>
+                        <th className="text-center py-2 px-3 border">Earned Points</th>
+                        <th className="text-center py-2 px-3 border">Redeem Points</th>
+
                       </tr>
                     </thead>
                     <tbody>
-                      {transactionData &&
-                        // @ts-ignore
-                        transactionData?.map((item, index) => (
-                          <tr key={index}>
-                            <td
-                              className="text-center"
-                              style={{ width: "33%" }}
-                            >
-                              {item.created_at}
-                            </td>
-                            <td
-                              className="text-center"
-                              style={{ width: "33%" }}
-                            >
-                              {item.transaction_type}
-                            </td>
-                            <td
-                              className="text-center"
-                              style={{ width: "33%" }}
-                            >
-                              {item.points}
-                            </td>
-                          </tr>
-                        ))}
+                      {transactionData?.member_transactions?.map((item, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="override-center py-2 px-3 border">
+                            {new Date(item.created_at).toLocaleDateString()}
+                          </td>
+                          <td className="override-center py-2 px-3 border capitalize">
+                            {item.transaction_type}
+                          </td>
+                          <td className="override-center py-2 px-3 border">
+                            {item.balanced_points}
+                          </td>
+                          <td className="override-center py-2 px-3 border">
+                            {item.earned_points || "-"}
+                          </td>
+                          <td className="override-center py-2 px-3 border">
+                            {item.redeem || "-"}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
+
+
                   </table>
                 </div>
               </div>
+
             </>
           )}
         </div>
