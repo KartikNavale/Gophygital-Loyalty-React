@@ -86,176 +86,197 @@ export default function HomeLoanRequest() {
   const displayedLoans = filteredData.slice(startIndex, startIndex + pageSize);
 
   return (
-    <div className="main-content">
-      <div className="website-content overflow-auto">
-        <div className="module-data-section container-fluid">
-          <div className="d-flex justify-content-end px-4 pt-2 mt-3">
-            <div className="col-md-4 pe-2 pt-2">
-              <form onSubmit={handleSearchSubmit}>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    name="search"
-                    className="form-control tbl-search table_search"
-                    placeholder="Search by Booking Number, Customer Code, or Bank Name"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                  />
-                  <div className="input-group-append">
-                    <button type="submit" className="btn btn-md btn-default">
-                      <svg width={16} height={16} viewBox="0 0 16 16" fill="none">
-                        <path
-                          d="M7.66927 13.939C3.9026 13.939 0.835938 11.064 0.835938 7.53271C0.835938 4.00146 3.9026 1.12646 7.66927 1.12646C11.4359 1.12646 14.5026 4.00146 14.5026 7.53271C14.5026 11.064 11.4359 13.939 7.66927 13.939ZM7.66927 2.06396C4.44927 2.06396 1.83594 4.52021 1.83594 7.53271C1.83594 10.5452 4.44927 13.0015 7.66927 13.0015C10.8893 13.0015 13.5026 10.5452 13.5026 7.53271C13.5026 4.52021 10.8893 2.06396 7.66927 2.06396Z"
-                          fill="#8B0203"
-                        />
-                        <path
-                          d="M14.6676 14.5644C14.5409 14.5644 14.4143 14.5206 14.3143 14.4269L12.9809 13.1769C12.7876 12.9956 12.7876 12.6956 12.9809 12.5144C13.1743 12.3331 13.4943 12.3331 13.6876 12.5144L15.0209 13.7644C15.2143 13.9456 15.2143 14.2456 15.0209 14.4269C14.9209 14.5206 14.7943 14.5644 14.6676 14.5644Z"
-                          fill="#8B0203"
-                        />
-                      </svg>
-                    </button>
-                  </div>
+    <div className="w-100">
+      <div className="module-data-section mt-2">
+        <p className="pointer">
+          <span>Home Loan Requests</span> &gt; Manage Home Loan Requests
+        </p>
+        <h5>Manage Home Loan Requests</h5>
+        <div className="d-flex justify-content-between align-items-center">
+          <div />
+          <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center position-relative">
+              <div className="position-relative me-3" style={{ width: "100%" }}>
+                <input
+                  className="form-control"
+                  style={{
+                    height: "35px",
+                    paddingLeft: "30px",
+                    textAlign: "left",
+                  }}
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+                <div
+                  className="position-absolute"
+                  style={{ top: "7px", left: "10px" }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    className="bi bi-search"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                  </svg>
                 </div>
-              </form>
-            </div>
-          </div>
-          <div className="module-data-section container-fluid">
-            <div className="card mt-4 pb-4 mx-3">
-              <div className="card-header">
-                <h3 className="card-title">Home Loan Requests</h3>
               </div>
-              <div className="card-body mt-3 pb-4 pt-0">
-                {loading ? (
-                  <div className="text-center">
-                    <div className="spinner-border" role="status" style={{ color: "var(--red)" }}>
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="tbl-container mt-3">
-                    <table className="w-100">
-                      <thead>
-                        <tr>
-                          <th>Sr No</th>
-                          <th>Loan Type</th>
-                          <th>Employment Type</th>
-                          <th>Monthly Income</th>
-                          <th>Birth Date</th>
-                          <th>Preferred Time</th>
-                          <th>Bank Name</th>
-                          <th>Amount</th>
-                          <th>Tenure</th>
-                          <th>Customer Code</th>
-                          <th>Booking Number</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {displayedLoans.length > 0 ? (
-                          displayedLoans.map((loan, idx) => (
-                            <tr key={loan.id}>
-                              <td>{startIndex + idx + 1}</td>
-                              <td>{loan.loan_type ?? ""}</td>
-                              <td>{loan.employment_type ?? ""}</td>
-                              <td>{loan.monthly_income ?? ""}</td>
-                              <td>{loan.birth_date ?? loan.dob ?? ""}</td>
-                              <td>{loan.preferred_time ?? loan.preffered_time ?? ""}</td>
-                              <td>{loan.bank_name ?? ""}</td>
-                              <td>{loan.amount ?? loan.required_loan_amt ?? ""}</td>
-                              <td>{loan.tenure ?? ""}</td>
-                              <td>{loan.customer_code ?? ""}</td>
-                              <td>{loan.booking_number ?? ""}</td>
-                              <td>{loan.status ?? ""}</td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="12" className="text-center">
-                              No home loan requests found.
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-
-                {/* Pagination Controls */}
-                {!loading && totalFiltered > 0 && (
-                  <div className="d-flex align-items-center justify-content-between px-3 pagination-section">
-                    <ul className="pagination" role="navigation" aria-label="pager">
-                      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(1)}
-                          disabled={currentPage === 1}
-                        >
-                          First
-                        </button>
-                      </li>
-                      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        >
-                          Prev
-                        </button>
-                      </li>
-                      {Array.from(
-                        { length: Math.min(5, totalPages) },
-                        (_, i) => {
-                          let pageToShow;
-                          if (totalPages <= 5) {
-                            pageToShow = i + 1;
-                          } else {
-                            const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
-                            pageToShow = startPage + i;
-                          }
-                          return pageToShow;
+            </div>
+            <button
+              className="purple-btn1 rounded-3 px-3"
+              onClick={handleSearchSubmit}
+            >
+              Go!
+            </button>
+            <button
+              className="purple-btn2 rounded-3 mt-2"
+              onClick={() => {
+                setSearchQuery("");
+                localStorage.setItem("home_loan_request_currentPage", 1);
+                navigate(location.pathname, { replace: true });
+              }}
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+        <div
+          className="tbl-container mx-3 mt-4"
+          style={{
+            height: "100%",
+            overflowX: "hidden",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              <table className="w-100" style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
+                <thead>
+                  <tr>
+                    <th style={{ width: '8%' }}>Sr No</th>
+                    <th style={{ width: '8%' }}>Loan Type</th>
+                    <th style={{ width: '8%' }}>Employment Type</th>
+                    <th style={{ width: '8%' }}>Monthly Income</th>
+                    <th style={{ width: '8%' }}>Birth Date</th>
+                    <th style={{ width: '8%' }}>Preferred Time</th>
+                    <th style={{ width: '8%' }}>Bank Name</th>
+                    <th style={{ width: '8%' }}>Amount</th>
+                    <th style={{ width: '8%' }}>Tenure</th>
+                    <th style={{ width: '8%' }}>Customer Code</th>
+                    <th style={{ width: '8%' }}>Booking Number</th>
+                    <th style={{ width: '8%' }}>Status</th>
+                  </tr>
+                </thead>
+                <tbody style={{ color: '#000', fontWeight: '400', fontSize: '13px' }}>
+                  {displayedLoans.length > 0 ? (
+                    displayedLoans.map((loan, idx) => (
+                      <tr key={loan.id}>
+                        <td>{startIndex + idx + 1}</td>
+                        <td>{loan.loan_type ?? ""}</td>
+                        <td>{loan.employment_type ?? ""}</td>
+                        <td>{loan.monthly_income ?? ""}</td>
+                        <td>{loan.birth_date ?? loan.dob ?? ""}</td>
+                        <td>{loan.preferred_time ?? loan.preffered_time ?? ""}</td>
+                        <td>{loan.bank_name ?? ""}</td>
+                        <td>{loan.amount ?? loan.required_loan_amt ?? ""}</td>
+                        <td>{loan.tenure ?? ""}</td>
+                        <td>{loan.customer_code ?? ""}</td>
+                        <td>{loan.booking_number ?? ""}</td>
+                        <td>{loan.status ?? ""}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="12" className="text-center">
+                        No home loan requests found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+              {/* Pagination Controls */}
+              {!loading && totalFiltered > 0 && (
+                <div className="d-flex align-items-center justify-content-between px-3 pagination-section">
+                  <ul className="pagination" role="navigation" aria-label="pager">
+                    <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(1)}
+                        disabled={currentPage === 1}
+                      >
+                        First
+                      </button>
+                    </li>
+                    <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        Prev
+                      </button>
+                    </li>
+                    {Array.from(
+                      { length: Math.min(5, totalPages) },
+                      (_, i) => {
+                        let pageToShow;
+                        if (totalPages <= 5) {
+                          pageToShow = i + 1;
+                        } else {
+                          const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
+                          pageToShow = startPage + i;
                         }
-                      ).map((pageNumber) => (
-                        <li
-                          key={pageNumber}
-                          className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
-                        >
-                          <button
-                            className="page-link"
-                            onClick={() => handlePageChange(pageNumber)}
-                          >
-                            {pageNumber}
-                          </button>
-                        </li>
-                      ))}
-                      <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                        return pageToShow;
+                      }
+                    ).map((pageNumber) => (
+                      <li
+                        key={pageNumber}
+                        className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
+                      >
                         <button
                           className="page-link"
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === totalPages}
+                          onClick={() => handlePageChange(pageNumber)}
                         >
-                          Next
+                          {pageNumber}
                         </button>
                       </li>
-                      <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(totalPages)}
-                          disabled={currentPage === totalPages}
-                        >
-                          Last
-                        </button>
-                      </li>
-                    </ul>
-                    <p>
-                      Showing {totalFiltered > 0 ? startIndex + 1 : 0} to{" "}
-                      {Math.min(startIndex + pageSize, totalFiltered)} of{" "}
-                      {totalFiltered} entries
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+                    ))}
+                    <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        Next
+                      </button>
+                    </li>
+                    <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                      <button
+                        className="page-link"
+                        onClick={() => handlePageChange(totalPages)}
+                        disabled={currentPage === totalPages}
+                      >
+                        Last
+                      </button>
+                    </li>
+                  </ul>
+                  <p>
+                    Showing {totalFiltered > 0 ? startIndex + 1 : 0} to{" "}
+                    {Math.min(startIndex + pageSize, totalFiltered)} of{" "}
+                    {totalFiltered} entries
+                  </p>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

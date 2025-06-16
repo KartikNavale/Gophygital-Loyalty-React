@@ -92,14 +92,25 @@ const Members = () => {
 
   // Handle search submission (e.g., when pressing 'Go!')
   const handleSearch = () => {
-    const filtered = members.filter((member) =>
-
-      `${member.firstname} ${member.lasttname}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filtered = members.filter((member) => {
+      if (!searchTerm) return true;
+      const q = searchTerm.toLowerCase();
+      // Check all displayed columns for a match
+      return [
+        member.id,
+        `${member.firstname} ${member.lasttname}`,
+        member.member_status?.tier_level,
+        member.current_loyalty_points,
+        member.last_sign_in,
+        member.tier_validity,
+      ]
+        .map((v) => (v !== null && v !== undefined ? String(v).toLowerCase() : ""))
+        .some((v) => v.includes(q));
+    });
 
     setFilteredItems(filtered);
-    setCurrentPage(1); // Reset to the first page of results
-    setSuggestions([]); // Clear suggestions after searching
+    setCurrentPage(1);
+    setSuggestions([]);
   };
 
 
@@ -108,20 +119,25 @@ const Members = () => {
     const term = e.target.value;
     setSearchTerm(term);
 
-    // If there's a search term, filter the members and show suggestions
     if (term) {
-      const filteredSuggestions = members.filter(
-        (member) =>
+      const filteredSuggestions = members.filter((member) => {
+        const q = term.toLowerCase();
+        return [
+          member.id,
+          `${member.firstname} ${member.lasttname}`,
+          member.member_status?.tier_level,
+          member.current_loyalty_points,
+          member.last_sign_in,
+          member.tier_validity,
+        ]
+          .map((v) => (v !== null && v !== undefined ? String(v).toLowerCase() : ""))
+          .some((v) => v.includes(q));
+      });
 
-          `${member.firstname} ${member.lasttname}`
-            .toLowerCase()
-            .includes(term.toLowerCase())
-      );
-
-      setSuggestions(filteredSuggestions); // Update suggestions list
-      setSelectedIndex(-1); // Reset the selected index
+      setSuggestions(filteredSuggestions);
+      setSelectedIndex(-1);
     } else {
-      setSuggestions([]); // Clear suggestions when input is empty
+      setSuggestions([]);
     }
   };
 

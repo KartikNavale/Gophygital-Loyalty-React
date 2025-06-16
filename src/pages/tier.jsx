@@ -114,14 +114,28 @@ const Tiers = () => {
 
   // Handle search submission (e.g., when pressing 'Go!')
   const handleSearch = () => {
-    const filtered = tiers.filter((member) =>
-      // @ts-ignore
-      `${member.name}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    // @ts-ignore
+    const filtered = tiers.filter((member) => {
+      if (!searchTerm) return true;
+      const q = searchTerm.toLowerCase();
+      // Special handling for multipliers to match "5x" style search
+      const multipliersStr =
+        member.multipliers !== undefined && member.multipliers !== null
+          ? String(member.multipliers) + "x"
+          : "";
+      return [
+        member.name,
+        member.exit_points,
+        multipliersStr, // include "5x" style
+        member.multipliers, // also allow searching just the number
+        member.welcome_bonus,
+        member.point_type,
+      ]
+        .map((v) => (v !== null && v !== undefined ? String(v).toLowerCase() : ""))
+        .some((v) => v.includes(q));
+    });
     setFilteredItems(filtered);
-    setCurrentPage(1); // Reset to the first page of results
-    setSuggestions([]); // Clear suggestions after searching
+    setCurrentPage(1);
+    setSuggestions([]);
   };
 
   // Handle search input change
@@ -129,16 +143,27 @@ const Tiers = () => {
     const term = e.target.value;
     setSearchTerm(term);
 
-    // If there's a search term, filter the members and show suggestions
     if (term) {
-      const filteredSuggestions = tiers.filter((member) =>
-        // @ts-ignore
-        `${member.name}`.toLowerCase().includes(term.toLowerCase())
-      );
-      // @ts-ignore
-      setSuggestions(filteredSuggestions); // Update suggestions list
+      const filteredSuggestions = tiers.filter((member) => {
+        const q = term.toLowerCase();
+        const multipliersStr =
+          member.multipliers !== undefined && member.multipliers !== null
+            ? String(member.multipliers) + "x"
+            : "";
+        return [
+          member.name,
+          member.exit_points,
+          multipliersStr,
+          member.multipliers,
+          member.welcome_bonus,
+          member.point_type,
+        ]
+          .map((v) => (v !== null && v !== undefined ? String(v).toLowerCase() : ""))
+          .some((v) => v.includes(q));
+      });
+      setSuggestions(filteredSuggestions);
     } else {
-      setSuggestions([]); // Clear suggestions when input is empty
+      setSuggestions([]);
     }
   };
 
