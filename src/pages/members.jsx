@@ -526,8 +526,8 @@ const Members = () => {
                         </td>
                         <td style={{ width: '14.2%' }}>{member.member_status.tier_level}</td>
                         <td style={{ width: '14.2%' }}>{member.current_loyalty_points}</td>
-                        <td style={{ width: '14.2%' }}>{member.last_sign_in}</td>
-                        <td style={{ width: '14.2%' }}>{member.tier_validity}</td>
+                        <td style={{ width: '14.2%' }}>{member.member_status.last_activity_date}</td>
+                        <td style={{ width: '14.2%' }}>{member.member_status.tier_validity}</td>
                         <td style={{ width: '14.2%' }}>
                           <Link to={`/member-details/${member.id}`}>
                             <svg
